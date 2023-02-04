@@ -1,5 +1,5 @@
 const express = require('express');
-//const authRoutes = require('./routes/authRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
@@ -8,7 +8,7 @@ app.use(express.json());
 
 // routes
 app.get('/', (req, res) => {});
-//app.use(authRoutes);
+app.use(authRoutes);
 
 
 module.exports = app;
