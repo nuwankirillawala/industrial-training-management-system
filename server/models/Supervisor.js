@@ -16,7 +16,11 @@ const supervisorSchema = new mongoose.Schema({
     contactNo: {
         type: String
     },
-    staffId: {
+    company: {
+        type: String,
+        required: [true, 'Please enter the company']
+    },
+    jobRole:{
         type: String
     },
     password: {

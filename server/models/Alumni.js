@@ -18,8 +18,11 @@ const alumniSchema = new mongoose.Schema({
     },
     regNo: {
         type: String,
-        required: [true, 'Please enter the student registration number'];
+        required: [true, 'Please enter the student registration number']
 
+    },
+    graduatedYear: {
+        type: String
     },
     password: {
         type: String,
