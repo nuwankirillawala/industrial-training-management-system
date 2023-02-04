@@ -40,7 +40,7 @@ adminSchema.pre('save', async function (next) {
 
 // fire confirmation function after storing
 adminSchema.post('save', function (doc, next) {
-    console.log(`New ${doc.adminRole} user was created`, doc);
+    console.log(`New ${doc.adminRole}: ${doc.name} was created`, doc);
     next();
 });
 
