@@ -51,9 +51,9 @@ adminSchema.statics.login = async function (email, password) {
         if (auth) {
             return admin;
         }
-        throw Error('Incorrect password');
+        throw Error('incorrect password');
     }
-    throw Error('Incorrect email');
+    throw Error('incorrect email');
 }
 
 const Admin = mongoose.model('admin', adminSchema);
