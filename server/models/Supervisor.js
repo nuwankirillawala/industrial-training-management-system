@@ -32,14 +32,15 @@ const supervisorSchema = new mongoose.Schema({
 
 // encrypt user password
 supervisorSchema.pre('save', async function (next) {
-    const salt = bcrypt.genSalt();
-    this.password = bcrypt.hash(this.password, salt);
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(this.password, salt);
     next();
 });
 
 // confirm user creation
 supervisorSchema.post('save', function (doc, next) {
     console.log(`Supervisor: ${doc.name} was created`);
+    next();
 });
 
 supervisorSchema.statics.login = async function(email, password){
