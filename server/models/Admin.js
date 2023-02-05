@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const adminSchema = new mongoose.Schema({
     adminRole: {
         type: String,
-        required: true,
+        required: [true, 'Please select or enter the admin role'],
         enum: ["system-admin", "department-coordinator"]
     },
     name: {
@@ -15,6 +15,7 @@ const adminSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, 'Please enter an email'],
+        unique: true,
         lowercase: true,
         validate: [isEmail, 'Please enter valid email']
     },

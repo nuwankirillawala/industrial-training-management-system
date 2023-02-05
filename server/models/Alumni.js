@@ -10,6 +10,7 @@ const alumniSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, 'Please enter an email'],
+        unique: true,
         lowercase: true,
         validate: [isEmail, 'Please enter valid email']
     },
@@ -18,7 +19,8 @@ const alumniSchema = new mongoose.Schema({
     },
     regNo: {
         type: String,
-        required: [true, 'Please enter the student registration number']
+        required: [true, 'Please enter the student registration number'],
+        unique: true
 
     },
     graduatedYear: {

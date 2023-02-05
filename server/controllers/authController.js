@@ -8,7 +8,7 @@ const Supervisor = require('../models/Supervisor');
 // handle errors
 const handleErrors = (err) => {
     console.log(err.message, err.code);
-    let errors = { email: '', password: '', name: '', adminRole: '' };
+    let errors = { email: '', password: '', name: '', adminRole: '', regNo: ''};
 
     //handle login errors
     //incorrect email
@@ -19,6 +19,23 @@ const handleErrors = (err) => {
     //incorrect password
     if (err.message === 'incorrect password') {
         errors.password = 'This password is incorrect';
+    }
+
+    //duplicate email error
+    if(err.code === 11000 && err.keyPattern.email === 1){
+        errors.email = 'This email already registered';
+    }
+
+    //duplicate regNo error
+    if(err.code === 11000 && err.keyPattern.regNo === 1){
+        errors.regNo = 'This registration number already registered';
+    }
+
+    //empty adminRole error
+    if(err.message.includes('admin validation failed')){
+        Object.values(err.errors).forEach(({properties}) => {
+            errors[properties.path] = properties.message;
+        });
     }
 
     return errors;
@@ -93,7 +110,7 @@ module.exports.create_user_post = async (req, res) => {
 
         try {
             const admin = await Admin.create({ adminRole, name, email, contactNo, staffId, password });
-            res.status(400).json({ admin: admin._id });
+            res.status(201).json({ admin: admin._id });
 
         } catch (err) {
             const errors = handleErrors(err);
@@ -106,7 +123,7 @@ module.exports.create_user_post = async (req, res) => {
 
         try {
             const undergraduate = await Undergraduate.create({name, regNo, email, contactNo, password, gpa});
-            res.status(400).json({ undergraduate: undergraduate._id });
+            res.status(201).json({ undergraduate: undergraduate._id });
         } catch (err) {
             const errors = handleErrors(err);
             console.log({ errors });
@@ -118,7 +135,7 @@ module.exports.create_user_post = async (req, res) => {
 
         try {
             const supervisor = await Supervisor.create({name, email, contactNo, company, jobRole, password});
-            res.status(400).json({ supervisor: supervisor._id });
+            res.status(201).json({ supervisor: supervisor._id });
         } catch (err) {
             const errors = handleErrors(err);
             console.log({ errors });
@@ -130,7 +147,7 @@ module.exports.create_user_post = async (req, res) => {
 
         try {
             const alumni = await Alumni.create({name, email, contactNo, regNo, graduatedYear, password});
-            res.status(400).json({ alumni: alumni._id });
+            res.status(201).json({ alumni: alumni._id });
         } catch (err) {
             const errors = handleErrors(err);
             console.log({ errors });

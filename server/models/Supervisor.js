@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {isEmail} = require('validator');
+const { isEmail } = require('validator');
 const bcrypt = require('bcrypt');
 
 const supervisorSchema = new mongoose.Schema({
@@ -10,6 +10,7 @@ const supervisorSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, 'Please enter an email'],
+        unique: true,
         lowercase: true,
         validate: [isEmail, 'Please enter valid email']
     },
@@ -20,7 +21,7 @@ const supervisorSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please enter the company']
     },
-    jobRole:{
+    jobRole: {
         type: String
     },
     password: {
@@ -43,11 +44,11 @@ supervisorSchema.post('save', function (doc, next) {
     next();
 });
 
-supervisorSchema.statics.login = async function(email, password){
-    const supervisor = await this.findOne({email});
-    if(supervisor){
+supervisorSchema.statics.login = async function (email, password) {
+    const supervisor = await this.findOne({ email });
+    if (supervisor) {
         const auth = await bcrypt.compare(password, supervisor.password);
-        if(auth){
+        if (auth) {
             return supervisor;
         }
         throw Error('incorrect password');
