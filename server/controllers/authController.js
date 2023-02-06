@@ -26,7 +26,7 @@ const handleErrors = (err) => {
 
 const maxAge = 12 * 60 * 60;
 const createToken = (id) => {
-    return jwt.sign({ id }, 'project itms', {
+    return jwt.sign({ id }, JWT_SECRET, {
         expiresIn: maxAge
     });
 }
@@ -77,4 +77,52 @@ module.exports.login_post = async (req, res) => {
 module.exports.logout_get = (req, res) => {
     res.cookie('jwt', '', { maxAge: 1 });
     res.redirect('/login');
+}
+
+module.exports.resetPassword_post = async (req, res) => {
+    try {
+        let user = await Admin.findOne({email: req.body.email});
+        if(!user){
+            user = await Undergraduate.findOne({email: req.body.email});
+            if(!user){
+                user = await Alumni.findOne({email: req.body.email});
+                if(!user){
+                     user = await Supervisor.findOne({email: req.body.email});
+                     if(!user){
+                        return res.status(400).json({message: 'Email not found!'});
+                     }
+                }
+            }
+        }
+
+        const token = jwt.sign({_id: user}, process.env.JWT_SECRET, {expiresIn: 1000*60*30});
+        const resetLink = `http://localhost:5000/reset-password/${token}`;
+
+        //send email to the user with the reset link
+
+    } catch (err) {
+        res.status(500).json({message: 'Server error'});
+    }
+}
+
+module.exports.resetPasswordToken_get = async (req, res) =>{
+    try {
+        const decoded = jwt.verify(req.params.token, process.env.JWT_SECRET);
+        let user = await Admin.findById(decoded._id);
+        if(!user){
+            user = await Undergraduate.findById(decoded._id);
+            if(!user){
+                user = await Alumni.findById(decoded._id);
+                if(!user){
+                     user = await Supervisor.findById(decoded._id);
+                     if(!user){
+                        return res.status(400).json({message: 'Token is invalid'});
+                     }
+                }
+            }
+        }
+        //render the password reset form
+    } catch (err) {
+        res.status(500).json({message: 'Server error'});
+    }
 }
