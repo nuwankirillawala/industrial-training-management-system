@@ -99,6 +99,7 @@ module.exports.resetPassword_post = async (req, res) => {
         const resetLink = `http://localhost:5000/reset-password/${token}`;
 
         console.log(resetLink);
+        res.status(200).json({message: 'Password reset link sent to your email'});
         //send email to the user with the reset link
 
     } catch (err) {
@@ -123,12 +124,13 @@ module.exports.resetPasswordToken_get = async (req, res) =>{
             }
         }
         //render the password reset form
+        res.status(200).json({message: `password update form for user: ${user._id}`});
     } catch (err) {
         res.status(500).json({message: 'Server error'});
     }
 }
 
-module.exports.updatePassword_post = async (req, res) => {
+module.exports.updatePassword_patch = async (req, res) => {
     try {
         let user = await Admin.findById(req.body.userId);
         if(!user){
