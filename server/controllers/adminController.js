@@ -3,33 +3,7 @@ const Admin = require('../models/Admin');
 const Undergraduate = require('../models/Undergraduate');
 const Alumni = require('../models/Alumni');
 const Supervisor = require('../models/Supervisor');
-
-
-// handle errors
-const handleErrors = (err) => {
-    console.log(err.message, err.code);
-    let errors = { email: '', name: '', adminRole: '', regNo: '' };
-
-    //duplicate email error
-    if (err.code === 11000 && err.keyPattern.email === 1) {
-        errors.email = 'This email already registered';
-    }
-
-    //duplicate regNo error
-    if (err.code === 11000 && err.keyPattern.regNo === 1) {
-        errors.regNo = 'This registration number already registered';
-    }
-
-    //empty adminRole error
-    if (err.message.includes('admin validation failed')) {
-        Object.values(err.errors).forEach(({ properties }) => {
-            errors[properties.path] = properties.message;
-        });
-    }
-
-    return errors;
-}
-
+const handleErrors = require('../utils/appErrors');
 
 //route handlers
 module.exports.createUser_get = (req, res) => {
