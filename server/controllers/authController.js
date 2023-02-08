@@ -3,6 +3,7 @@ const Admin = require('../models/Admin');
 const Undergraduate = require('../models/Undergraduate');
 const Alumni = require('../models/Alumni');
 const Supervisor = require('../models/Supervisor');
+const sendEmail = require('../utils/email');
 
 
 // handle errors
@@ -80,6 +81,7 @@ module.exports.logout_get = (req, res) => {
 }
 
 module.exports.resetPassword_post = async (req, res) => {
+    // get user by email
     try {
         let user = await Admin.findOne({email: req.body.email});
         if(!user){
@@ -94,15 +96,25 @@ module.exports.resetPassword_post = async (req, res) => {
                 }
             }
         }
-
+        // create password reset token
         const token = jwt.sign({_id: user}, process.env.JWT_SECRET, {expiresIn: 1000*60*30});
         const resetLink = `http://localhost:5000/reset-password/${token}`;
+        // reset button for attach to email
+        const resetButton = `<a href="${resetLink}" style="background-color: #4CAF50; color: white; padding: 16px 20px; text-align: center; text-decoration: none; display: inline-block;">Reset Password</a>`
+        // message body of email
+        const message = `<p>Please click the button below to reset your password(only valid for 15 mins):</p><p>${resetButton}</p>`;
+
+        // send email
+        const email = await sendEmail({
+            email: user.email,
+            subject: `Password reset of ITMS`,
+            message
+        });
 
         console.log(resetLink);
         res.status(200).json({message: 'Password reset link sent to your email'});
-        //send email to the user with the reset link
-
     } catch (err) {
+        console.log(err);
         res.status(500).json({message: 'Server error'});
     }
 }
