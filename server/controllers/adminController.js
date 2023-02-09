@@ -75,6 +75,8 @@ module.exports.viewAllUsers_get = async (req, res) => {
     try {
         const userType = req.params.userType;
         let users = "";
+        const User = User(userType);
+        console.log(User);
 
         switch (userType) {
             case "admin":
@@ -97,6 +99,58 @@ module.exports.viewAllUsers_get = async (req, res) => {
         res.status(200).json({ users });
     } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Server error"});
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
+// search users
+module.exports.searchUsers_get = async (req, res) => {
+    try {
+        const userType = req.params.userType;
+        const searchTerm = req.query.q;
+        const searchBy = req.query.searchBy;
+        let users;
+        if (searchBy === "name") {
+            switch (userType) {
+                case "admin":
+                    users = await Admin.find({ name: { $regex: searchTerm, $options: 'i' } });
+                    break;
+                case "undergraduate":
+                    users = await Undergraduate.find({ name: { $regex: searchTerm, $options: 'i' } });
+                    break;
+                case "supervisor":
+                    users = await Supervisor.find({ name: { $regex: searchTerm, $options: 'i' } });
+                    break;
+                case "alumni":
+                    users = await Alumni.find({ name: { $regex: searchTerm, $options: 'i' } });
+                    break;
+                default:
+                    users = { message: 'No any search results' };
+            }
+        }
+        else if (searchBy === "regNo") {
+            switch (userType) {
+                case "admin":
+                    users = await Admin.find({ regNo: { $regex: searchTerm, $options: 'i' } });
+                    break;
+                case "undergraduate":
+                    users = await Undergraduate.find({ regNo: { $regex: searchTerm, $options: 'i' } });
+                    break;
+                case "supervisor":
+                    users = await Supervisor.find({ regNo: { $regex: searchTerm, $options: 'i' } });
+                    break;
+                case "alumni":
+                    users = await Alumni.find({ regNo: { $regex: searchTerm, $options: 'i' } });
+                    break;
+                default:
+                    users = { message: 'No any search results' };
+            }
+        }
+
+        res.status(200).json(users);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
     }
 }

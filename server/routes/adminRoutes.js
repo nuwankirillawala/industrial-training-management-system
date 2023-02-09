@@ -9,6 +9,8 @@ router.route('/create-user/:userType')
 
 router.route('/view-all-users/:userType')
     .get(adminController.viewAllUsers_get)
-    
+
+router.route('/search-users/:userType')
+    .get(adminController.searchUsers_get)
 
 module.exports = router;
