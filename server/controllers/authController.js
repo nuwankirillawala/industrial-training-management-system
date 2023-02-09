@@ -15,11 +15,7 @@ const createToken = (id) => {
     });
 }
 
-module.exports.login_get = (req, res) => {
-    res.send('--Login Form--');
-}
-
-module.exports.login_post = async (req, res) => {
+module.exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -58,12 +54,12 @@ module.exports.login_post = async (req, res) => {
     }
 }
 
-module.exports.logout_get = (req, res) => {
+module.exports.logout = (req, res) => {
     res.cookie('jwt', '', { maxAge: 1 });
     res.redirect('/login');
 }
 
-module.exports.resetPassword_post = async (req, res) => {
+module.exports.resetPassword = async (req, res) => {
     // get user by email
     try {
         let user = await Admin.findOne({email: req.body.email});
@@ -102,7 +98,7 @@ module.exports.resetPassword_post = async (req, res) => {
     }
 }
 
-module.exports.resetPasswordToken_get = async (req, res) =>{
+module.exports.resetPasswordToken = async (req, res) =>{
     try {
         const decoded = jwt.verify(req.params.token, process.env.JWT_SECRET);
         let user = await Admin.findById(decoded._id);
@@ -125,7 +121,7 @@ module.exports.resetPasswordToken_get = async (req, res) =>{
     }
 }
 
-module.exports.updatePassword_patch = async (req, res) => {
+module.exports.updatePassword = async (req, res) => {
     try {
         let user = await Admin.findById(req.body.userId);
         if(!user){

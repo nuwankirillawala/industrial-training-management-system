@@ -4,19 +4,18 @@ const authController = require('../controllers/authController.js');
 const router = Router();
 
 router.route('/login')
-    .get(authController.login_get)
-    .post(authController.login_post)
+    .post(authController.login)
 
 router.route('/logout')
-    .get(authController.logout_get);
+    .get(authController.logout)
 
 router.route('/reset-password')
-    .post(authController.resetPassword_post)
+    .post(authController.resetPassword)
 
 router.route('/reset-password/:token')
-    .get(authController.resetPasswordToken_get)
+    .get(authController.resetPasswordToken)
 
 router.route('/update-password')
-    .patch(authController.updatePassword_patch)
+    .patch(authController.updatePassword)
 
 module.exports = router;
