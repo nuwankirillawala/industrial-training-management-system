@@ -4,13 +4,15 @@ const adminController = require('../controllers/adminController');
 const router = Router();
 
 router.route('/create-user/:userType')
-    .get(adminController.createUser_get)
-    .post(adminController.createUser_post)
+    .post(adminController.createUser)
 
 router.route('/view-all-users/:userType')
-    .get(adminController.viewAllUsers_get)
+    .get(adminController.viewAllUsers)
 
 router.route('/search-users/:userType')
-    .get(adminController.searchUsers_get)
+    .get(adminController.searchUsers)
+
+router.route('/create-company')
+    .post(adminController.createCompany)
 
 module.exports = router;

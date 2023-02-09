@@ -3,16 +3,11 @@ const Admin = require('../models/Admin');
 const Undergraduate = require('../models/Undergraduate');
 const Alumni = require('../models/Alumni');
 const Supervisor = require('../models/Supervisor');
+const Company = require('../models/Company');
 const handleErrors = require('../utils/appErrors');
 
-//route handlers
-module.exports.createUser_get = (req, res) => {
-    const userType = req.params.userType;
-    res.send(`Create ${userType} form`);
-}
-
 //create users - all types
-module.exports.createUser_post = async (req, res) => {
+module.exports.createUser = async (req, res) => {
     const userType = req.params.userType;
     if (userType === 'admin') {
         const { adminRole, name, email, contactNo, staffId, password } = req.body;
@@ -71,7 +66,7 @@ module.exports.createUser_post = async (req, res) => {
 }
 
 //View all users by user type
-module.exports.viewAllUsers_get = async (req, res) => {
+module.exports.viewAllUsers = async (req, res) => {
     try {
         const userType = req.params.userType;
         let users = "";
@@ -104,7 +99,7 @@ module.exports.viewAllUsers_get = async (req, res) => {
 }
 
 // search users
-module.exports.searchUsers_get = async (req, res) => {
+module.exports.searchUsers = async (req, res) => {
     try {
         const userType = req.params.userType;
         const searchTerm = req.query.q;
@@ -152,5 +147,20 @@ module.exports.searchUsers_get = async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
+    }
+}
+
+// create a company
+module.exports.createCompany = async (req, res) => {
+    try {
+        const { name, email, contactNo, address, internSeats, description } = req.body;
+        //const {contactPersonName, contactPersonContactNo, contactPersonEmail, contactPersonPosition} = req.body.contactPerson;
+        //const {criteria01} = req.body.rating;
+        const company = await Company.create({ name, email, contactNo, address, internSeats, description });
+        res.status(201).json({ company: company._id });
+    } catch (err) {
+        const errors = handleErrors(err);
+        console.log(errors);
+        res.status(400).json({errors});
     }
 }

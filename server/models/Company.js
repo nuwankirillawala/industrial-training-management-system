@@ -26,19 +26,18 @@ const companySchema = new mongoose.Schema({
         type: String
     },
     contactPerson: [{
-        name: {
+        contactPersonName: {
             type: String,
-            required: [true, 'Please enter the name']
         },
-        contactNo: {
+        contactPersonContactNo: {
             type: String
         },
-        email: {
+        contactPersonEmail: {
             type: String,
             lowercase: true,
             validate: [isEmail, 'Please enter a valid email']
         },
-        position: {
+        contactPersonPosition: {
             type: String
         }
     }],
