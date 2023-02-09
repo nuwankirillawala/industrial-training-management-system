@@ -11,12 +11,6 @@ module.exports.createUser_get = (req, res) => {
     res.send(`Create ${userType} form`);
 }
 
-// const catchErrors = (err) => {
-//     const errors = handleErrors(err);
-//     console.log({ errors });
-//     res.status(400).json({ errors });
-// }
-
 //create users - all types
 module.exports.createUser_post = async (req, res) => {
     const userType = req.params.userType;
@@ -74,4 +68,35 @@ module.exports.createUser_post = async (req, res) => {
         res.status(400).send('invalid user type');
     }
 
+}
+
+//View all users by user type
+module.exports.viewAllUsers_get = async (req, res) => {
+    try {
+        const userType = req.params.userType;
+        let users = "";
+
+        switch (userType) {
+            case "admin":
+                users = await Admin.find();
+                break;
+            case "undergraduate":
+                users = await Undergraduate.find();
+                break;
+            case "supervisor":
+                users = await Supervisor.find();
+                break;
+            case "alumni":
+                users = await Alumni.find();
+                break;
+            default:
+                users = undefined;
+                break;
+        }
+        console.log(users);
+        res.status(200).json({ users });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({message: "Server error"});
+    }
 }
