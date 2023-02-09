@@ -5,6 +5,7 @@ const Alumni = require('../models/Alumni');
 const Supervisor = require('../models/Supervisor');
 const Company = require('../models/Company');
 const handleErrors = require('../utils/appErrors');
+const { default: mongoose } = require('mongoose');
 
 //create users - all types
 module.exports.createUser = async (req, res) => {
@@ -60,7 +61,7 @@ module.exports.createUser = async (req, res) => {
     }
     else {
         console.log('invalid user type');
-        res.status(400).send('invalid user type');
+        res.status(400).json({ error: 'invalid user type' });
     }
 
 }
@@ -94,7 +95,7 @@ module.exports.viewAllUsers = async (req, res) => {
         res.status(200).json({ users });
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "Server error" });
+        res.status(500).json({ error: "Server error" });
     }
 }
 
@@ -154,13 +155,49 @@ module.exports.searchUsers = async (req, res) => {
 module.exports.createCompany = async (req, res) => {
     try {
         const { name, email, contactNo, address, internSeats, description } = req.body;
-        //const {contactPersonName, contactPersonContactNo, contactPersonEmail, contactPersonPosition} = req.body.contactPerson;
         //const {criteria01} = req.body.rating;
         const company = await Company.create({ name, email, contactNo, address, internSeats, description });
         res.status(201).json({ company: company._id });
     } catch (err) {
         const errors = handleErrors(err);
         console.log(errors);
-        res.status(400).json({errors});
+        res.status(400).json({ errors });
+    }
+}
+
+// add a contact person for a company
+module.exports.addContactPerson = async (req, res) => {
+    try {
+        const contactPersonData = req.body;
+        // Convert the request parameter "companyID" to a MongoDB ObjectID
+        const id = mongoose.Types.ObjectId(req.params.companyID);
+
+        Company.findById(id, (err, company) => {
+            if (err) {
+                console.log(err);
+                res.status(500).json({ error: 'An error occurred while finding the company' });
+                return;
+            }
+
+            if (!company) {
+                res.status(404).json({ error: 'The company was not found' });
+                return;
+            }
+
+            company.contactPerson.push(contactPersonData);
+
+            company.save((err) => {
+                if (err) {
+                    console.log(err);
+                    res.status(500).json({ error: 'An error occurred while saving the updated company' });
+                    return;
+                }
+
+                res.status(200).json({ message: 'The contact person was added successfully' });
+            });
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ err });
     }
 }

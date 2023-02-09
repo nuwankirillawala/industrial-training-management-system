@@ -15,4 +15,7 @@ router.route('/search-users/:userType')
 router.route('/create-company')
     .post(adminController.createCompany)
 
+router.route('/:companyID/add-contact-person')
+    .post(adminController.addContactPerson)
+
 module.exports = router;
