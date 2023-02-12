@@ -38,7 +38,7 @@ export const Login = () => {
         <Stack direction={'column'} backgroundColor={'#EAF0FF'} height={'100vh'} spacing={3} justifyContent={'space-evenly'}>
             <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} spacing={4}>
                 <Stack>
-                    <Unilogo/>
+                    <Unilogo width={'75px'} height={'150px'}/>
                 </Stack>
                 <Stack alignItems={'center'}>
                     <Typography variant={'h3'} color={'#7F3A41'} fontWeight={'bold'} fontStyle={'inter'}>UNIVERSITY OF RUHUNA</Typography>
