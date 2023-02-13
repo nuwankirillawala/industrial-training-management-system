@@ -37,3 +37,5 @@ Contribution Guidelines
 License
 
 This project is licensed under the MIT license.
+
+All right reservrd by Functionate Team
