@@ -3,7 +3,7 @@ import reactLogo from './assets/react.svg'
 import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { Login } from './components/user/Login'
-import Navbar from './components/Navbar';
+import Navbar from './components/card/basicCard/Navbar';
 
 
 function App() {
