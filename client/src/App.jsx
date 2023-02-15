@@ -4,6 +4,7 @@ import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { Login } from './components/user/Login'
 import Navbar from './components/Navbar';
+import Sidebar from './components/card/basicCard/Sidebar'
 
 
 function App() {
