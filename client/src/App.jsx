@@ -2,9 +2,10 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import { Login } from './components/user/Login'
-import Navbar from './components/card/basicCard/Navbar';
-import Sidebar from './components/card/basicCard/Sidebar'
+import { Login } from './components/Login/Login'
+import Navbar from './components/Navbar/Navbar';
+import Sidebar from './components/Sidebar/Sidebar'
+import CreateUser from './components/shared/CreateUser/CreateUser'
 
 
 function App() {
@@ -15,7 +16,8 @@ function App() {
       <Routes>
         <Route exact path='/' element={<Login/>}/>
         <Route exact path='/navbar' element={<Navbar/>}/> 
-        <Route exact path='/sidebar' element={<Sidebar/>}/> 
+        <Route exact path='/sidebar' element={<Sidebar/>}/>
+        <Route exact path='/create-user' element={<CreateUser/>}/> 
       </Routes>
     </Router>
   )
