@@ -1,7 +1,7 @@
 import React from 'react'
 import { Stack,Box,Toolbar } from '@mui/material'
-import Navbar from './Navbar'
-import { Sidebar } from './Sidebar'
+import Navbar from '../../Navbar/Navbar'
+import Sidebar from '../../Sidebar/Sidebar'
 
 export const BasicCard = ({children}) => {
   return (
