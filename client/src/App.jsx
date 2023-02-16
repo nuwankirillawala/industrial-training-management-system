@@ -6,6 +6,7 @@ import { Login } from './components/Login/Login'
 import Navbar from './components/Navbar/Navbar';
 import Sidebar from './components/Sidebar/Sidebar'
 import CreateUser from './components/shared/CreateUser/CreateUser'
+import { BasicCard } from './components/card/basicCard/BasicCard'
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route exact path='/navbar' element={<Navbar/>}/> 
         <Route exact path='/sidebar' element={<Sidebar/>}/>
         <Route exact path='/create-user' element={<CreateUser/>}/> 
+        <Route exact path='/basiccard' element={<BasicCard/>}/> 
       </Routes>
     </Router>
   )
