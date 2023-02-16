@@ -23,31 +23,29 @@ export default function Navbar () {
     //     .then(data => setPage(data.Page))
     //     .catch(error => console.error(error));
     // }, []);
-  
+//sx={{ width: `calc(100% - ${200}px)`}  
 
   return (
-    <Box sx={{ flexGrow: 1, borderRadius: "0px 0px 10px 10px" }}>
-      <AppBar position="fixed" sx={{ width: `calc(100% - ${200}px)`}}>
+      <AppBar position="fixed" elevation= {0} >
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="body2" component="div" sx={{ flexGrow: 1 }}>
             {/* <li key={products.id}> {Page}</li>  */}
             {Page}
           </Typography>
         <Stack direction="row">
-           <IconButton color="#EAFOFF" >
+           <IconButton  >
             <NotificationsActiveOutlinedIcon fontSize="large"/>
           </IconButton>       
-          <IconButton color="#EAFOFF" >
+          <IconButton>
             <AccountCircleIcon fontSize="large"/>
           </IconButton>
-          <Typography sx={{padding : "8px"}}>
+          <Typography variant="body2" sx={{padding : "8px"}}>
               {Name}
           </Typography>
         </Stack>
 
         </Toolbar>
       </AppBar>
-    </Box>
   );
 }
 
