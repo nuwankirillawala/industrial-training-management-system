@@ -7,13 +7,16 @@ import Navbar from './components/Navbar/Navbar';
 import Sidebar from './components/Sidebar/Sidebar'
 import CreateUser from './components/shared/CreateUser/CreateUser'
 import { BasicCard } from './components/card/basicCard/BasicCard'
+import theme from './components/shared/theme'
+import { ThemeProvider } from '@mui/material/styles'
 
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <Router>
+    <ThemeProvider theme = {theme}>
+      <Router>
       <Routes>
         <Route exact path='/' element={<Login/>}/>
         <Route exact path='/navbar' element={<Navbar/>}/> 
@@ -21,7 +24,9 @@ function App() {
         <Route exact path='/create-user' element={<CreateUser/>}/> 
         <Route exact path='/basiccard' element={<BasicCard/>}/> 
       </Routes>
-    </Router>
+      </Router>
+    </ThemeProvider>
+    
   )
 }
 
