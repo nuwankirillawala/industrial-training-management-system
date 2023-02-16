@@ -8,18 +8,18 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { Unilogo } from '../shared/Images/Unilogo';
 import { Grid } from '@mui/material';
-import { Padding } from '@mui/icons-material';
-import { styled } from '@mui/system';
-import { alignProperty } from '@mui/material/styles/cssUtils';
+// import { Padding } from '@mui/icons-material';
+// import { styled } from '@mui/system';
+// import { alignProperty } from '@mui/material/styles/cssUtils';
 
-const drawerWidth = 240;
+const drawerWidth = 180;
 // const listItemButtonWidth = 145;
 
 // const listItemButtonWidth = styled(ListItemButton)({
 //   width: 150,
 // });
 
-export default function PermanentDrawerLeft() {
+export default function Sidebar() {
 
   const menuItems = ['Dashboard', 'CV', 'Daily Report', 'Company', 'Notice'];
 
@@ -59,6 +59,7 @@ export default function PermanentDrawerLeft() {
           <Typography
             variant={'h6'}
             fontWeight={'bold'}
+            letterSpacing={5}
             sx={{
               position:'relative',
               top:30,
@@ -103,7 +104,7 @@ export default function PermanentDrawerLeft() {
                       bgcolor: '#f4f6fc',
                       color: 'black'
                     },
-                    borderRadius:'10px 10px 10px 10px'
+                    borderRadius:'0px 10px 10px 0px'
                   }}>                 
                   <ListItemText primary={text} />
                 </ListItemButton>                
