@@ -24,7 +24,7 @@ export default function Sidebar() {
   const menuItems = ['Dashboard', 'CV', 'Daily Report', 'Company', 'Notice'];
 
    return (
-    <Box sx={{ display: 'flex' , backgroundColor:'#757ce8'}}>
+    <Box sx={{ display: 'flex'}}>
       <CssBaseline />
       
       <Drawer
@@ -72,7 +72,7 @@ export default function Sidebar() {
         <Stack sx={{position:'relative', top:150, alignItems:'center' ,justifyContent:'center'}} style={{ alignContent:'center', justifyContent:'center'}}>
           {menuItems.map((text, index) => (
             <ListItem key={text} disablePadding >
-            <Grid /*container*/ direction={'column'} justifyContent="center"  />
+            <Grid /*container*/ justifyContent="center"  />
               <Box sx={{ width:10, alignItems:'center' ,justifyContent:'center' }}/>
                 <ListItemButton
                   sx={{
