@@ -26,9 +26,9 @@ export default function Navbar () {
 //sx={{ width: `calc(100% - ${200}px)`}  
 
   return (
-      <AppBar elevation= {0} >
+      <AppBar position="static" elevation= {0} >
         <Toolbar>
-          <Typography variant="body2" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="body2" component="div" sx={{flexGrow: 1}}>
             {/* <li key={products.id}> {Page}</li>  */}
             {Page}
           </Typography>
@@ -46,6 +46,7 @@ export default function Navbar () {
 
         </Toolbar>
       </AppBar>
+    
   );
 }
 
