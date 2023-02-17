@@ -18,6 +18,10 @@ const theme = createTheme ({
         primary: {
             main: baseColor,
         },
+        text: {
+            primary: baseFontColor,
+            secondary: '#ffff'
+        }
 
     },
     shape: {
@@ -75,7 +79,7 @@ const theme = createTheme ({
             styleOverrides: {
                 colorPrimary: '#EAFOFF'
             }
-        }
+        },
     },
 });
 
