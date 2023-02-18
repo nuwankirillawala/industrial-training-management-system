@@ -8,23 +8,23 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { Unilogo } from '../shared/Images/Unilogo';
 import { Grid } from '@mui/material';
-import { Padding } from '@mui/icons-material';
-import { styled } from '@mui/system';
-import { alignProperty } from '@mui/material/styles/cssUtils';
+// import { Padding } from '@mui/icons-material';
+// import { styled } from '@mui/system';
+// import { alignProperty } from '@mui/material/styles/cssUtils';
 
-const drawerWidth = 240;
+const drawerWidth = 180;
 // const listItemButtonWidth = 145;
 
 // const listItemButtonWidth = styled(ListItemButton)({
 //   width: 150,
 // });
 
-export default function PermanentDrawerLeft() {
+export default function Sidebar() {
 
   const menuItems = ['Dashboard', 'CV', 'Daily Report', 'Company', 'Notice'];
 
    return (
-    <Box sx={{ display: 'flex' , backgroundColor:'#757ce8'}}>
+    <Box sx={{ display: 'flex'}}>
       <CssBaseline />
       
       <Drawer
@@ -59,6 +59,7 @@ export default function PermanentDrawerLeft() {
           <Typography
             variant={'h6'}
             fontWeight={'bold'}
+            letterSpacing={5}
             sx={{
               position:'relative',
               top:30,
@@ -71,7 +72,7 @@ export default function PermanentDrawerLeft() {
         <Stack sx={{position:'relative', top:150, alignItems:'center' ,justifyContent:'center'}} style={{ alignContent:'center', justifyContent:'center'}}>
           {menuItems.map((text, index) => (
             <ListItem key={text} disablePadding >
-            <Grid /*container*/ direction={'column'} justifyContent="center"  />
+            <Grid /*container*/ justifyContent="center"  />
               <Box sx={{ width:10, alignItems:'center' ,justifyContent:'center' }}/>
                 <ListItemButton
                   sx={{
@@ -103,7 +104,7 @@ export default function PermanentDrawerLeft() {
                       bgcolor: '#f4f6fc',
                       color: 'black'
                     },
-                    borderRadius:'10px 10px 10px 10px'
+                    borderRadius:'0px 10px 10px 0px'
                   }}>                 
                   <ListItemText primary={text} />
                 </ListItemButton>                
