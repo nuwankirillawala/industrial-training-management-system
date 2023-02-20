@@ -22,4 +22,7 @@ router.route('/create-company')
 router.route('/:companyID/add-contact-person')
     .post(adminController.addContactPerson)
 
+router.route('/admin-profile')
+    .get(adminController.adminProfile)
+
 module.exports = router;
