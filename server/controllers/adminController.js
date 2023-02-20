@@ -11,10 +11,10 @@ const { default: mongoose } = require('mongoose');
 module.exports.createUser = async (req, res) => {
     const userType = req.params.userType;
     if (userType === 'admin') {
-        const { adminRole, name, email, contactNo, staffId, password } = req.body;
+        const { role, name, email, contactNo, staffId, password } = req.body;
 
         try {
-            const admin = await Admin.create({ adminRole, name, email, contactNo, staffId, password });
+            const admin = await Admin.create({ role, name, email, contactNo, staffId, password });
             res.status(201).json({ admin: admin._id });
 
         } catch (err) {
@@ -199,5 +199,14 @@ module.exports.addContactPerson = async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).json({ err });
+    }
+}
+
+//view profile
+module.exports.adminProfile = async (req, res) => {
+    try {
+        
+    } catch (err) {
+        
     }
 }
