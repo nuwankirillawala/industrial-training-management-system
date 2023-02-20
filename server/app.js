@@ -10,7 +10,7 @@ app.use(express.json());
 
 // routes
 app.get('/', (req, res) => {});
-app.get("/test", requireAuth, (req, res) => {
+app.get("/test",  (req, res) => {
     res.send("Success");
 })
 app.use(authRoutes);
