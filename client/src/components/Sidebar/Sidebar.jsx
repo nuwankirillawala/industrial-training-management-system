@@ -13,7 +13,7 @@ const drawerWidth = 180;
 
 const buttonStyles = {
   height:35,
-  textAlign: 'center',
+  textAlign: 'flex-start',
   '&:hover': {
       bgcolor: '#f4f6fc',
       color: 'black'
@@ -56,7 +56,6 @@ const users = [
 
 export default function Sidebar() {
 
-  // const menuItems = ['Dashboard', 'CV', 'Daily Report', 'Company', 'Notice'];
   const controlItems = ['Settings', 'Back', 'Logout']
 
     const [currentUser, setCurrentUser] = useState(users[0]);
@@ -78,7 +77,7 @@ export default function Sidebar() {
             width: drawerWidth,
             boxSizing: 'border-box',
             bgcolor: '#4665d2',
-            borderRadius: '0px 20px 20px 0px',
+            borderRadius: '0px 10px 10px 0px',
             color: '#f4f6fc',            
           },
         }}
@@ -110,17 +109,7 @@ export default function Sidebar() {
           
           {users.map((user) => (            
             <ListItem key={user.name} disablePadding >
-                      {/* <ListItemButton key={user.name} onClick={() => handleUserChange(user)}
-                        sx={buttonStyles}>                  
-                        <ListItemText primary={user.name} />
-                      </ListItemButton> */}
-                      {/* {currentUser.items.map((item) => (
-                        <ListItemButton key={item.primaryText} sx={buttonStyles}>
-                          <ListItemText primary={item.primaryText} />
-                        </ListItemButton>
-                      ))} */}
-            </ListItem>
-              
+            </ListItem>              
           ))}
           {currentUser.items.map((item) => (
             <ListItemButton key={item.primaryText} sx={buttonStyles}>
