@@ -22,6 +22,9 @@ router.route('/create-company')
 router.route('/:companyID/add-contact-person')
     .post(adminController.addContactPerson)
 
+router.route('/:companyID/edit-rating')
+    .post(adminController.editCompanyRating)
+
 router.route('/admin-profile')
     .get(adminController.adminProfile)
 
