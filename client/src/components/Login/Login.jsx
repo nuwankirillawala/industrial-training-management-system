@@ -35,7 +35,7 @@ export const Login = () => {
 
     }
     return(
-        <Stack direction={'column'} backgroundColor={'#EAF0FF'} height={'100vh'} spacing={3} justifyContent={'space-evenly'}>
+        <Stack direction={'column'} backgroundColor={'#EAF0FF'} height={'100vh'} spacing={3} justifyContent={'space-evenly'} width={'100vw'}>
             <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} spacing={4}>
                 <Stack>
                     <Unilogo width={'75px'} height={'150px'}/>

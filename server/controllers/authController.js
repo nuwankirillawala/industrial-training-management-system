@@ -5,12 +5,15 @@ const Alumni = require('../models/Alumni');
 const Supervisor = require('../models/Supervisor');
 const sendEmail = require('../utils/email');
 const handleErrors = require('../utils/appErrors');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 
 // create a json web token
 const maxAge = 12 * 60 * 60;
 const createToken = (id) => {
-    return jwt.sign({ id }, JWT_SECRET, {
+    return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: maxAge
     });
 }
