@@ -10,7 +10,6 @@ import { BasicCard } from './components/card/basicCard/BasicCard'
 import theme from './components/shared/theme'
 import { ThemeProvider } from '@mui/material/styles'
 
-
 function App() {
   const [count, setCount] = useState(0)
 
