@@ -20,30 +20,23 @@ const theme = createTheme ({
         },
         text: {
             primary: baseFontColor,
-            secondary: '#ffff'
         }
 
-    },
-    shape: {
-        borderRadius: 100,
     },
 
     typography:{
         body2: {
             color: baseFontColor
         },
-        body1: {
-            color: '#EFF4FF'
-        }
     },
     
     components: {
         MuiButton: {
-            styleOverrides: {
-                contained: {
-                    color: baseColor,
-                },
-            },
+            // styleOverrides: {
+            //     contained: {
+            //         color: baseColor,
+            //     },
+            // },
             defaltProps: {
                 disableRipple: true
             },
@@ -51,7 +44,7 @@ const theme = createTheme ({
         MuiPopover: {
             styleOverrides: {
                 paper: {
-                    borderRadius: '20px'
+                    // borderRadius: '20px'
                 }
             }
         },

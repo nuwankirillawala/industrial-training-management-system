@@ -1,7 +1,11 @@
 const { Router } = require('express');
 const adminController = require('../controllers/adminController');
+const {requireAuth} = require('../middleware/authMiddleware');
 
 const router = Router();
+
+// router.route('/create-user/:userType')
+//     .post(requireAuth, adminController.createUser)
 
 router.route('/create-user/:userType')
     .post(adminController.createUser)
@@ -17,5 +21,8 @@ router.route('/create-company')
 
 router.route('/:companyID/add-contact-person')
     .post(adminController.addContactPerson)
+
+router.route('/admin-profile')
+    .get(adminController.adminProfile)
 
 module.exports = router;
