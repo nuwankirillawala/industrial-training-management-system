@@ -7,7 +7,10 @@ const Company = require('../models/Company');
 const handleErrors = require('../utils/appErrors');
 const { default: mongoose } = require('mongoose');
 
-//create users - all types
+// Method = POST
+// Endpoint = "/create-user/:userType"
+// Function = create users - all types
+
 module.exports.createUser = async (req, res) => {
     const userType = req.params.userType;
     if (userType === 'admin') {
@@ -66,13 +69,15 @@ module.exports.createUser = async (req, res) => {
 
 }
 
-//View all users by user type
+// Method = GET
+// Endpoint = "/view-all-users/:userType"
+// Function = View all users by user type
 module.exports.viewAllUsers = async (req, res) => {
     try {
         const userType = req.params.userType;
         let users = "";
-        const User = User(userType);
-        console.log(User);
+        // const User = User(userType);
+        // console.log(User);
 
         switch (userType) {
             case "admin":
@@ -99,7 +104,9 @@ module.exports.viewAllUsers = async (req, res) => {
     }
 }
 
-// search users
+// Method = GET
+// Endpoint = "/search-users/:userType"
+// Function = search user by RegNo, Email, Name
 module.exports.searchUsers = async (req, res) => {
     try {
         const userType = req.params.userType;
@@ -151,7 +158,9 @@ module.exports.searchUsers = async (req, res) => {
     }
 }
 
-// create a company
+// Method = POST
+// Endpoint = "/create-company"
+// Function = create a company
 module.exports.createCompany = async (req, res) => {
     try {
         const { name, email, contactNo, address, internSeats, description } = req.body;
@@ -165,7 +174,9 @@ module.exports.createCompany = async (req, res) => {
     }
 }
 
-// add a contact person for a company
+// Method = POST
+// Endpoint = "//:companyID/add-contact-person"
+// Function = add a contact person for a company
 module.exports.addContactPerson = async (req, res) => {
     try {
         const contactPersonData = req.body;
@@ -202,11 +213,71 @@ module.exports.addContactPerson = async (req, res) => {
     }
 }
 
-//view profile
+// Method = PATCH
+// Endpoint = "/:companyID/edit-rating"
+// Function = edit company ratings
+module.exports.editCompanyRating = (req, res) => {
+    try {
+        const companyID = req.params.companyID;
+        console.log(companyID);
+        const c = Company.find();
+        console.log(c)
+        // Company.findById(companyID, (err, foundCompany) => {
+        //     if(err){
+        //         console.log(err);
+        //     } else {
+        //         console.log(foundCompany);
+        //     } 
+        // }) 
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// Method = GET
+// Endpoint = "/admin profile"
+// Function = view admin profile
 module.exports.adminProfile = async (req, res) => {
     try {
-        
+        const userId = req.body.id;
+        const user = await Admin.findById(userId);
+
+        if (!user) {
+            res.status(400).json({ "error": "User not found!" })
+        }
+        res.status(200).json({ user });
     } catch (err) {
-        
+        console.log(err);
+        res.status(500).json({ err })
+    }
+}
+
+// Method = PATCH
+// Endpoint = "/update-admin-profile"
+// Function = Update admin profile
+module.exports.updateAdminProfile = async (req, res) => {
+    try {
+        const userId = req.body.id;
+        const {role, name, email, contactNo, staffId} = req.body;
+
+        const filter = { _id: userId};
+        const update = {$set: {role, name, email, contactNo, staffId}};
+        const options = {new : true};
+
+        await Admin.updateOne(filter, update, options)
+        .then(async ()=> {
+            const user = await Admin.findOne(filter);
+            if(!user){
+                res.status(200).json({message: "user not exists"});
+            }
+            res.status(200).json(user);
+        })
+        .catch((error) => {
+            console.log(error.message);
+            res.status(400).json(error);
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
     }
 }
