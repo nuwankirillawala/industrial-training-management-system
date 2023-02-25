@@ -70,7 +70,7 @@ const theme = createTheme ({
         },
         MuiIconButton: {
             styleOverrides: {
-                colorPrimary: '#EAFOFF'
+                colorPrimary: "#EAFOFF"
             }
         },
     },
