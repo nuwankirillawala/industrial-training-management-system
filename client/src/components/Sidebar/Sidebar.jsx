@@ -1,32 +1,73 @@
 import * as React from 'react';
-import { Box , ListItemButton, Stack } from '@mui/material';
+import { Box , List, ListItemButton, Stack } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import ListItem from '@mui/material/ListItem';
-// import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { Unilogo } from '../shared/Images/Unilogo';
 import { Grid } from '@mui/material';
-// import { Padding } from '@mui/icons-material';
-// import { styled } from '@mui/system';
-// import { alignProperty } from '@mui/material/styles/cssUtils';
+import { useState } from 'react';
 
 const drawerWidth = 180;
-// const listItemButtonWidth = 145;
 
-// const listItemButtonWidth = styled(ListItemButton)({
-//   width: 150,
-// });
+const buttonStyles = {
+  height:35,
+  textAlign: 'flex-start',
+  '&:hover': {
+      bgcolor: '#f4f6fc',
+      color: 'black'
+  },
+  borderRadius:'10px 10px 10px 10px',
+};
+
+const users = [
+  {
+    name: 'Company',
+    items: [
+      {primaryText: 'Dashboard'},
+      {primaryText: 'CV'},
+      {primaryText: 'Daily Report'}, 
+      {primaryText: 'Company'},
+      {primaryText: 'Notice'}
+    ]
+  },
+  {
+    name: 'CV',
+    items: [
+      {primaryText: 'Dashboard'},
+      {primaryText: 'CV'},
+      {primaryText: 'Company Choice'},
+      {primaryText: 'Daily Report'},
+      {primaryText: 'Notice'}
+    ]
+  },
+  {
+    name: 'Student',
+    items: [
+      {primaryText: 'Dashboard'},
+      {primaryText: 'Intern Application'},
+      {primaryText: 'Comapany Choice'},
+      {primaryText: 'Daily Report'},
+      {primaryText: 'Notice'}
+    ]
+  }
+];
 
 export default function Sidebar() {
 
-  const menuItems = ['Dashboard', 'CV', 'Daily Report', 'Company', 'Notice'];
+  const controlItems = ['Settings', 'Back', 'Logout']
+
+    const [currentUser, setCurrentUser] = useState(users[0]);
+  
+    const handleUserChange = (user) => {
+      setCurrentUser(user);
+    };
 
    return (
     <Box sx={{ display: 'flex'}}>
       <CssBaseline />
-      
+
       <Drawer
         sx={{
           textAlign: 'center',        
@@ -36,13 +77,9 @@ export default function Sidebar() {
             width: drawerWidth,
             boxSizing: 'border-box',
             bgcolor: '#4665d2',
-            borderRadius: '0px 20px 20px 0px',
+            borderRadius: '0px 10px 10px 0px',
             color: '#f4f6fc',            
           },
-          // alignContent:'center',
-          // alignItems:'center',
-          // justifyContent:'center',
-          // justifyItems:'center'
         }}
         
         variant="permanent"
@@ -53,7 +90,6 @@ export default function Sidebar() {
             <Unilogo width='50px' height='100px'/>
           </Stack>
         </Grid>
-        
 
         <Stack>
           <Typography
@@ -69,51 +105,34 @@ export default function Sidebar() {
           </Typography>
         </Stack>
         
-        <Stack sx={{position:'relative', top:150, alignItems:'center' ,justifyContent:'center'}} style={{ alignContent:'center', justifyContent:'center'}}>
-          {menuItems.map((text, index) => (
-            <ListItem key={text} disablePadding >
-            <Grid /*container*/ justifyContent="center"  />
-              <Box sx={{ width:10, alignItems:'center' ,justifyContent:'center' }}/>
-                <ListItemButton
-                  sx={{
-                    height: 35,
-                    // width: 10,
-                    textAlign:'center',                  
-                    '&:hover': {
-                        bgcolor: '#f4f6fc',
-                        color: 'black'
-                      },
-                    borderRadius:'10px 10px 10px 10px',
-                    // Padding:'0px 10px 0px 10px'
-                    // width:10                    
-                  }}>                  
-                  <ListItemText primary={text} />
-                </ListItemButton>
-            </ListItem>
+        <Stack sx={{position:'relative', top:150}}>
+          
+          {users.map((user) => (            
+            <ListItem key={user.name} disablePadding >
+            </ListItem>              
           ))}
+          {currentUser.items.map((item) => (
+            <ListItemButton key={item.primaryText} sx={buttonStyles}>
+              <ListItemText primary={item.primaryText} />
+            </ListItemButton>
+          ))}
+
         </Stack>       
         
         <Stack sx={{position:'relative', top:250}}>
-          {['Settings', 'Back', 'Logout'].map((text, index) => (
-            <ListItem key={text} disablePadding>                
+          {controlItems.map((text, index) => (
+            <ListItem key={text} disablePadding>              
                 <ListItemButton
-                  sx={{
-                    height: 35,
-                    textAlign:'center',                    
-                    '&:hover': {
-                      bgcolor: '#f4f6fc',
-                      color: 'black'
-                    },
-                    borderRadius:'0px 10px 10px 0px'
-                  }}>                 
+                  sx={buttonStyles}>                 
                   <ListItemText primary={text} />
                 </ListItemButton>                
               </ListItem>
-            ))}        
+            ))}       
         </Stack>        
 
       </Drawer>
       
     </Box>
   );
+
 }
