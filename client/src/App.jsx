@@ -11,9 +11,10 @@ import theme from './components/shared/theme'
 import { ThemeProvider } from '@mui/material/styles'
 import UserProfile from './components/shared/UserProfile/UserProfile'
 import { StdDashboard } from './components/user/Undergraduate/Pages/StdDashboard'
+import { Layout } from './components/Layout/Layout'
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
 
   return (
     <ThemeProvider theme = {theme}>
@@ -26,6 +27,7 @@ function App() {
         <Route exact path='/basiccard' element={<BasicCard/>}/> 
         <Route exact path='/user-profile' element={<UserProfile />} />
         <Route exact path='/stddash' element={<StdDashboard />} />
+        <Route exact path='/layout' element={<Layout />} />
 
 
       </Routes>

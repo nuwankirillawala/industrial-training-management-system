@@ -3,7 +3,7 @@ import { Box } from '@mui/material'
 import Navbar from '../Navbar/Navbar'
 import Sidebar from '../Sidebar/Sidebar'
 
-export const BasicCard = ({children}) => {
+export const Layout = ({children}) => {
   return (
     <Box sx={{display: 'flex', gap: '10px', width: '100%'}}>
       <Box sx={{flex: 'initial'}}>
