@@ -37,14 +37,14 @@ const theme = createTheme ({
                 {
                     props: {variant: "itms"},
                     style: {
-                        fontWeight: "bold",
                         background: baseColor,
                         color: '#F5F8FF',
                         '&:hover': {
                             background: baseFontColor,
                             
                         },
-                        borderRadius: '10px'
+                        borderRadius: '10px',
+                        margin: '2px'
                     },
                 }
             ],
