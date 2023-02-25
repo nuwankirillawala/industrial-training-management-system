@@ -5,7 +5,7 @@ const router = Router();
 
 router.route('/view-undergraduate-profile')
     .get(undergraduateController.viewUndergraduateProfile)
-// router.route('/update-profile')
-//     .patch(undergraduateController.updateProfile)
+router.route('/update-undergraduate-profile')
+    .patch(undergraduateController.updateUndergraduateProfile)
 
 module.exports = router;
