@@ -234,15 +234,50 @@ module.exports.editCompanyRating = (req, res) => {
     }
 }
 
-
-
 // Method = GET
 // Endpoint = "/admin profile"
 // Function = view admin profile
 module.exports.adminProfile = async (req, res) => {
     try {
-        
+        const userId = req.body.id;
+        const user = await Admin.findById(userId);
+
+        if (!user) {
+            res.status(400).json({ "error": "User not found!" })
+        }
+        res.status(200).json({ user });
     } catch (err) {
-        
+        console.log(err);
+        res.status(500).json({ err })
+    }
+}
+
+// Method = PATCH
+// Endpoint = "/update-admin-profile"
+// Function = Update admin profile
+module.exports.updateAdminProfile = async (req, res) => {
+    try {
+        const userId = req.body.id;
+        const {role, name, email, contactNo, staffId} = req.body;
+
+        const filter = { _id: userId};
+        const update = {$set: {role, name, email, contactNo, staffId}};
+        const options = {new : true};
+
+        await Admin.updateOne(filter, update, options)
+        .then(async ()=> {
+            const user = await Admin.findOne(filter);
+            if(!user){
+                res.status(200).json({message: "user not exists"});
+            }
+            res.status(200).json(user);
+        })
+        .catch((error) => {
+            console.log(error.message);
+            res.status(400).json(error);
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
     }
 }

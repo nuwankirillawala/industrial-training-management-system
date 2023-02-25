@@ -28,4 +28,7 @@ router.route('/:companyID/edit-rating')
 router.route('/admin-profile')
     .get(adminController.adminProfile)
 
+router.route('/update-admin-profile')
+    .patch(adminController.updateAdminProfile)
+
 module.exports = router;
