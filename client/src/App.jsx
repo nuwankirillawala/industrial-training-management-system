@@ -33,8 +33,7 @@ function App() {
           <Route exact path='/stddash' element={<StdDashboard />} />
           {/* <Route exact path='/stdcompany' element={<StdCompnay />} /> */}
           <Route exact path='/layout' element={<Layout />} />
-          <Route exact path='/cvupdate' element={<CvUpdate
-          />} />
+          <Route exact path='/cvupdate' element={<CvUpdate />} />
           <Route exact path='/manageuser' element={<Manageuser />} />
 
         </Routes>
