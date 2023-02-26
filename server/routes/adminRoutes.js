@@ -31,4 +31,9 @@ router.route('/admin-profile')
 router.route('/update-admin-profile')
     .patch(adminController.updateAdminProfile)
 
+router.route('/add-result')
+    .post(adminController.addResult)
+
+// router.route('update-result-schema')
+
 module.exports = router;

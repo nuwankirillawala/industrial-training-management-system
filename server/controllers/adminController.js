@@ -4,8 +4,11 @@ const Undergraduate = require('../models/Undergraduate');
 const Alumni = require('../models/Alumni');
 const Supervisor = require('../models/Supervisor');
 const Company = require('../models/Company');
+const Result = require('../models/Result');
 const handleErrors = require('../utils/appErrors');
 const { default: mongoose } = require('mongoose');
+const xlsx = require('xlsx');
+const path = require('path');
 
 // Method = POST
 // Endpoint = "/create-user/:userType"
@@ -281,3 +284,32 @@ module.exports.updateAdminProfile = async (req, res) => {
         res.status(500).json(err);
     }
 }
+
+
+//Method: POST
+//Endpoint: "/add-result"
+//Function: Add results of undergraduate
+
+module.exports.addResult = async (req, res) => {
+    try {
+        const resultbook = await xlsx.readFile(path.join(__dirname, '../files/resultdata.xlsx'));
+        const resultSheet = resultbook.Sheets[resultbook.SheetNames[0]];
+
+        const resultDoc = xlsx.utils.sheet_to_json(resultSheet);
+        console.log(resultDoc);
+
+        for(const result of resultDoc){
+            const doc = new Result(result);
+            doc.save((err, createdResult) => {
+                if(err){
+                    console.log(err.message);
+                }
+                console.log("Saved document", createdResult);
+                res.status(200).json(createdResult);
+            })
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
