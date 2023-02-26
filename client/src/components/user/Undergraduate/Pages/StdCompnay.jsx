@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Layout } from '../../../Layout/Layout'
 import { Tile } from '../../../card/Tile'
-import { Grid, Box, Stack, Typography, TextField } from '@mui/material'
+import { Grid, Box, Stack, Typography, TextField, FormControl, Select, InputLabel, MenuItem, Button } from '@mui/material'
+
 
 const Choice = {
     company : '', jobRole : ''
@@ -16,10 +17,10 @@ const CompanyChoice = {
 
 export const StdCompnay = () => {
 
-    const[company,setCompany] = useState({CompanyChoice})
-    const[choice,setChoice] = useState({Choice})
-    const[choice2,setChoice2] = useState({Choice})
-    const[choice3,setChoice3] = useState({Choice})
+    const[choice,setChoice] = useState(CompanyChoice)
+    const[choice1,setChoice1] = useState(Choice)
+    const[choice2,setChoice2] = useState(Choice)
+    const[choice3,setChoice3] = useState(Choice)
 
 
   return (
@@ -30,39 +31,53 @@ export const StdCompnay = () => {
                     <Grid container spacing={1}>
                         <Grid item md={12}>
                             <Tile>
-                                <Typography variant='body1' fontWeight={'bold'}>Company Selection</Typography>
-                                <Typography variant='body2'>Select 3 companies you wish to apply Internship</Typography><br />
-                                <Stack direction={'row'} justifyContent={'space-evenly'}>
-                                <Stack direction={'column'} spacing={3.5}>
+                                <Typography fontSize={'1.25rem'} fontWeight={'bold'}>Company Selection</Typography>
+                                <Typography fontSize={'1rem'}>Select 3 companies you wish to apply Internship</Typography><br />
 
-                                    {['First Choice','Second Choice','Third Choice'].map((text, index)=>(
-                                        <Typography variant='body1' fontWeight={'bold'}
-                                        >{text}</Typography>
-                                    ))}
-                                </Stack>
-                                <Stack direction={'column'} spacing={1}>
+                                <Grid container>
+                                    <Grid item md={12}>
+                                        <Grid container spacing={1}>
 
-                                    {['firstChoice','secondChoice','thirdChoice'].map((text, index)=>(
-                                        <TextField
-                                            variant='outlined'
-                                            onChange={(e)=>set({...CompanyChoice,[{text}.Company]:e.target.value})}
-                                            key={text}
-                                            size='small'
-                                        ></TextField>
-                                    ))}
-                                </Stack>
-                                <Stack direction={'column'} spacing={1}>
+                                        {['First Choice','Second Choice','Third Choice'].map((text, index)=>(
+                                        <Grid item md={12}>
+                                        <Grid container columnSpacing={2}>
+                                            
+                                            <Grid item md={2.5}>
+                                                <Typography fontSize={'1rem'}>
+                                                    {text}
+                                                </Typography>
+                                            </Grid>
 
-                                    {['firstChoice','secondChoice','thirdChoice'].map((text, index)=>(
-                                        <TextField
-                                            variant='outlined'
-                                            onChange={(e)=>set({...CompanyChoice,[{text}.Company]:e.target.value})}
-                                            key={text}
-                                            size='small'
-                                        ></TextField>
-                                    ))}
-                                </Stack>
-                                </Stack>
+                                            <Grid item md={5}>
+                                                <FormControl fullWidth size='small'>
+                                                    <InputLabel> Company </InputLabel>
+                                                    <Select value={Choice.company}>
+                                                        <MenuItem value={'wso2'}>WSO2</MenuItem>
+                                                        <MenuItem value={'99x'}>99X</MenuItem>
+                                                        <MenuItem value={'creative'}>Ceative</MenuItem>
+                                                    </Select>
+                                                </FormControl>
+                                            </Grid>
+
+                                            <Grid item md={4}>
+                                                <FormControl fullWidth size='small'>
+                                                    <InputLabel>Job Role</InputLabel>
+                                                    <Select value={Choice.jobRole}>
+                                                        <MenuItem value={'se'}>Software eng</MenuItem>
+                                                        <MenuItem value={'ba'}>Business Aanlyst</MenuItem>
+                                                        <MenuItem value={'qa'}>Quality Achueance</MenuItem>
+                                                    </Select>
+                                                </FormControl>
+                                            </Grid>
+
+                                        </Grid>
+                                        </Grid>
+                                        ))}
+
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                <Grid><Button variant='itms'>Save</Button></Grid>
                             </Tile>
                         </Grid>
                         <Grid item md={12}><Tile></Tile></Grid>
