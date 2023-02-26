@@ -9,6 +9,7 @@ const handleErrors = require('../utils/appErrors');
 const { default: mongoose } = require('mongoose');
 const xlsx = require('xlsx');
 const path = require('path');
+const multer = require('multer');
 
 // Method = POST
 // Endpoint = "/create-user/:userType"
@@ -78,27 +79,21 @@ module.exports.createUser = async (req, res) => {
 module.exports.viewAllUsers = async (req, res) => {
     try {
         const userType = req.params.userType;
-        let users = "";
-        // const User = User(userType);
-        // console.log(User);
+        let users = [];
 
-        switch (userType) {
-            case "admin":
-                users = await Admin.find();
-                break;
-            case "undergraduate":
-                users = await Undergraduate.find();
-                break;
-            case "supervisor":
-                users = await Supervisor.find();
-                break;
-            case "alumni":
-                users = await Alumni.find();
-                break;
-            default:
-                users = undefined;
-                break;
+        if(userType === "admin"){
+            users = await Admin.find();
+        } 
+        else if(userType === "undergraduate"){
+            users = await Undergraduate.find();
         }
+        else if(userType === "supervisor"){
+            users = await Supervisor.find();
+        }
+        else if(userType === "alumni"){
+            users = await Alumni.find();
+        }
+
         console.log(users);
         res.status(200).json({ users });
     } catch (err) {
@@ -246,7 +241,7 @@ module.exports.adminProfile = async (req, res) => {
         const user = await Admin.findById(userId);
 
         if (!user) {
-            res.status(400).json({ "error": "User not found!" })
+            res.status(404).json({ "error": "User not found!" })
         }
         res.status(200).json({ user });
     } catch (err) {
@@ -261,24 +256,26 @@ module.exports.adminProfile = async (req, res) => {
 module.exports.updateAdminProfile = async (req, res) => {
     try {
         const userId = req.body.id;
-        const {role, name, email, contactNo, staffId} = req.body;
+        const { role, name, email, contactNo, staffId } = req.body;
 
-        const filter = { _id: userId};
-        const update = {$set: {role, name, email, contactNo, staffId}};
-        const options = {new : true};
+        const filter = { _id: userId };
+        const update = { $set: { role, name, email, contactNo, staffId } };
+        const options = { new: true };
+
+        // findbyIdAndUpdate mongoose⚡
 
         await Admin.updateOne(filter, update, options)
-        .then(async ()=> {
-            const user = await Admin.findOne(filter);
-            if(!user){
-                res.status(200).json({message: "user not exists"});
-            }
-            res.status(200).json(user);
-        })
-        .catch((error) => {
-            console.log(error.message);
-            res.status(400).json(error);
-        });
+            .then(async () => {
+                const user = await Admin.findOne(filter);
+                if (!user) {
+                    res.status(400).json({ message: "user not exists" });
+                }
+                res.status(200).json(user);
+            })
+            .catch((error) => {
+                console.log(error.message);
+                res.status(400).json(error);
+            });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -292,22 +289,97 @@ module.exports.updateAdminProfile = async (req, res) => {
 
 module.exports.addResult = async (req, res) => {
     try {
-        const resultbook = await xlsx.readFile(path.join(__dirname, '../files/resultdata.xlsx'));
+        // //set the storage engine for multer
+        // const storage = multer.diskStorage({
+        //     destination: (req, res, cb) => {
+        //         cb(null, '../files/');
+        //     },
+        //     filename: (req, file, cb) => {
+        //         // cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+        //         cb(null, file.fieldname + '-' + Date.now() + ".xlsx");
+
+        //     }
+        // });
+
+        // //initialize multer middleware with storage engine and filter
+        // const upload = multer({
+        //     storage: storage,
+        //     // fileFilter: (req, file, cb) => {
+        //     //     const filetypes = /xlsx/;
+        //     //     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+        //     //     const mimetype = filetypes.test(file.mimetype);
+        //     //     if (extname && mimetype) {
+        //     //         return cb(null, true);
+        //     //     } else {
+        //     //         console.log(file);
+        //     //         cb('Error! Please upload a valid .xlsx file');
+        //     //     }
+        //     // }
+        // });
+
+        // // handle file uploads
+        // let filePath;
+        // upload.single('file')(req, res, (err) => {
+        //     console.log(req.file);
+        //     if (err) {
+        //         console.log(err);
+        //         return res.status(500).json(err);
+        //     }
+        //     filePath = req.file.path;
+        //     console.log("File uploaded successfully");
+        //     console.log(filePath);
+
+        //     // convert xlsx file into a json file
+        //     const resultbook = xlsx.readFile(path.join(__dirname, filePath));
+        //     const resultSheet = resultbook.Sheets[resultbook.SheetNames[0]];
+
+        //     const resultDoc = xlsx.utils.sheet_to_json(resultSheet);
+        //     console.log(resultDoc);
+
+        //     for (const result of resultDoc) {
+        //         const doc = new Result(result);
+        //         doc.save((err, createdResult) => {
+        //             if (err) {
+        //                 console.log(err.message);
+        //             }
+        //             console.log("Saved document", createdResult);
+        //             res.status(200).json(createdResult);
+        //         })
+        //     }
+        // })
+
+        // convert xlsx file into a json file
+        const resultbook = xlsx.readFile(path.join(__dirname, '../files/resultdata.xlsx'));
         const resultSheet = resultbook.Sheets[resultbook.SheetNames[0]];
 
         const resultDoc = xlsx.utils.sheet_to_json(resultSheet);
         console.log(resultDoc);
 
-        for(const result of resultDoc){
+        // need to consider handling multiple documents saving in DB. like transaction ⚡
+
+        for (const result of resultDoc) {
+            
             const doc = new Result(result);
-            doc.save((err, createdResult) => {
-                if(err){
+            doc.save(async (err, createdResult) => {
+                if (err) {
                     console.log(err.message);
                 }
+
+                console.log(createdResult.regNo);
+                const filter = {regNo: createdResult.regNo};
+                const updates = {$set: {results: createdResult._id}};
+                const user = await Undergraduate.findOneAndUpdate({regNo: createdResult.regNo}, updates);
+                console.log(user);
+                
+
                 console.log("Saved document", createdResult);
                 res.status(200).json(createdResult);
             })
         }
+
+
+
+
     } catch (err) {
         console.log(err);
     }
