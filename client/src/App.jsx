@@ -11,25 +11,27 @@ import theme from './components/shared/theme'
 import { ThemeProvider } from '@mui/material/styles'
 import UserProfile from './components/shared/UserProfile/UserProfile'
 import { StdDashboard } from './components/user/Undergraduate/Pages/StdDashboard'
+import Manageuser from './components/user/Admin/Manageuser'
+
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <ThemeProvider theme = {theme}>
+    <ThemeProvider theme={theme}>
       <Router>
-      <Routes>
-        <Route exact path='/' element={<Login/>}/>
-        <Route exact path='/navbar' element={<Navbar/>}/> 
-        <Route exact path='/sidebar' element={<Sidebar/>}/>
-        <Route exact path='/create-user' element={<CreateUser/>}/> 
-        <Route exact path='/basiccard' element={<BasicCard/>}/> 
-        <Route exact path='/user-profile' element={<UserProfile />} />
-        <Route exact path='/stddash' element={<StdDashboard />} />
+        <Routes>
+          <Route exact path='/' element={<Login />} />
+          <Route exact path='/navbar' element={<Navbar />} />
+          <Route exact path='/sidebar' element={<Sidebar />} />
+          <Route exact path='/create-user' element={<CreateUser />} />
+          <Route exact path='/basiccard' element={<BasicCard />} />
+          <Route exact path='/user-profile' element={<UserProfile />} />
+          <Route exact path='/stddash' element={<StdDashboard />} />
+          <Route exact path='/manageuser' element={<Manageuser />} />
 
-
-      </Routes>
-    </Router>
+        </Routes>
+      </Router>
     </ThemeProvider>
   )
 }
