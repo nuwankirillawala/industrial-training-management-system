@@ -1,11 +1,11 @@
 import React from "react";
 import { Typography, Container, TextField } from "@mui/material";
-import Layout from "../../Layout/Layout"
+import { Layout } from "../../Layout/Layout"
 
 export default function CreateUser(){
     return (
         <Container>
-            <Layout />
+            <Layout>
             <Typography>
                 Create a new user
             </Typography>
@@ -14,6 +14,7 @@ export default function CreateUser(){
                     <TextField></TextField>
                 </div>
             </form>
+            </Layout>
         </Container>
     );
 }

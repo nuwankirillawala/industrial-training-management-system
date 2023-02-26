@@ -1,6 +1,7 @@
 const express = require('express');
 const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const undergraduateRoutes = require('./routes/undergraduateRoutes');
 const { requireAuth } = require('./middleware/authMiddleware');
 
 const app = express();
@@ -15,6 +16,7 @@ app.get("/test",  (req, res) => {
 })
 app.use(authRoutes);
 app.use(adminRoutes);
+app.use(undergraduateRoutes);
 
 
 module.exports = app;

@@ -32,13 +32,26 @@ const theme = createTheme ({
     
     components: {
         MuiButton: {
-            // styleOverrides: {
-            //     contained: {
-            //         color: baseColor,
-            //     },
-            // },
-            defaltProps: {
-                disableRipple: true
+            //new button varient itms
+            variants: [
+                {
+                    props: {variant: "itms"},
+                    style: {
+                        background: baseColor,
+                        color: '#F5F8FF',
+                        '&:hover': {
+                            background: baseFontColor,
+                            
+                        },
+                        borderRadius: '10px',
+                        margin: '2px'
+                    },
+                }
+            ],
+
+            defaultProps: {
+                disableRipple: true,
+                disableElevation: true,
             },
         },
         MuiPopover: {
@@ -70,7 +83,7 @@ const theme = createTheme ({
         },
         MuiIconButton: {
             styleOverrides: {
-                colorPrimary: '#EAFOFF'
+                colorPrimary: "#EAFOFF"
             }
         },
     },

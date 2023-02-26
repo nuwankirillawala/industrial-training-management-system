@@ -22,7 +22,18 @@ router.route('/create-company')
 router.route('/:companyID/add-contact-person')
     .post(adminController.addContactPerson)
 
+router.route('/:companyID/edit-rating')
+    .post(adminController.editCompanyRating)
+
 router.route('/admin-profile')
     .get(adminController.adminProfile)
+
+router.route('/update-admin-profile')
+    .patch(adminController.updateAdminProfile)
+
+router.route('/add-result')
+    .post(adminController.addResult)
+
+// router.route('update-result-schema')
 
 module.exports = router;

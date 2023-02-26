@@ -11,11 +11,14 @@ import theme from './components/shared/theme'
 import { ThemeProvider } from '@mui/material/styles'
 import UserProfile from './components/shared/UserProfile/UserProfile'
 import { StdDashboard } from './components/user/Undergraduate/Pages/StdDashboard'
+import { Layout } from './components/Layout/Layout'
+// import { StdCompnay } from './components/user/Undergraduate/Pages/StdCompnay'
+import { CvUpdate } from './components/user/Undergraduate/Pages/CvUpdate'
 import Manageuser from './components/user/Admin/Manageuser'
 
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
 
   return (
     <ThemeProvider theme={theme}>
@@ -28,6 +31,10 @@ function App() {
           <Route exact path='/basiccard' element={<BasicCard />} />
           <Route exact path='/user-profile' element={<UserProfile />} />
           <Route exact path='/stddash' element={<StdDashboard />} />
+          {/* <Route exact path='/stdcompany' element={<StdCompnay />} /> */}
+          <Route exact path='/layout' element={<Layout />} />
+          <Route exact path='/cvupdate' element={<CvUpdate
+          />} />
           <Route exact path='/manageuser' element={<Manageuser />} />
 
         </Routes>
