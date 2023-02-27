@@ -152,30 +152,26 @@ module.exports.addContactPerson = async (req, res) => {
         // Convert the request parameter "companyID" to a MongoDB ObjectID
         const id = mongoose.Types.ObjectId(req.params.companyID);
 
-        Company.findById(id, (err, company) => {
-            if (err) {
+        Company.findByIdAndUpdate(
+            id,
+            { $push: { contactPerson: contactPersonData } },
+            { new: true },
+            (err, updatedCompany) => {
+              if (err) {
                 console.log(err);
-                res.status(500).json({ error: 'An error occurred while finding the company' });
+                res.status(500).json({ error: 'An error occurred while updating the company' });
                 return;
-            }
-
-            if (!company) {
+              }
+          
+              if (!updatedCompany) {
                 res.status(404).json({ error: 'The company was not found' });
                 return;
+              }
+          
+              res.status(200).json({ message: 'The contact person was added successfully' });
             }
-
-            company.contactPerson.push(contactPersonData);
-
-            company.save((err) => {
-                if (err) {
-                    console.log(err);
-                    res.status(500).json({ error: 'An error occurred while saving the updated company' });
-                    return;
-                }
-
-                res.status(200).json({ message: 'The contact person was added successfully' });
-            });
-        });
+          );
+          
     } catch (err) {
         console.log(err);
         res.status(500).json({ err });
@@ -325,10 +321,10 @@ module.exports.addResult = async (req, res) => {
         const resultbook = xlsx.readFile(path.join(__dirname, '../files/resultdata.xlsx'));
         const resultSheet = resultbook.Sheets[resultbook.SheetNames[0]];
 
-        const resultDoc = xlsx.utils.sheet_to_json(resultSheet);
-        console.log(resultDoc);
+        const resultJson = xlsx.utils.sheet_to_json(resultSheet);
+        console.log(resultJson);
 
-        const results = await Result.create(resultDoc, { session });
+        const results = await Result.create(resultJson, { session });
 
         // need to consider handling multiple documents saving in DB. like transaction ⚡
 
