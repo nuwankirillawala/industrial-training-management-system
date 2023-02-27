@@ -21,6 +21,26 @@ const createToken = (id) => {
 module.exports.login = async (req, res) => {
     const { email, password } = req.body;
 
+    // let admin = await Admin.findOne({email});
+    // let sup = await Admin.findOne({email});
+    // let alumni = await Admin.findOne({email});
+    // let und = await Admin.findOne({email});
+
+    // if(!admin && !sup&&!alumni&&!und){
+    //         res.status(404).json({msg:'no user found'});
+    // }
+
+    // if(admin){
+    //     try {
+            
+    //     } catch (err) {
+            
+    //     }
+    // }
+
+
+
+
     try {
         let user, userID, userType;
         try {
@@ -50,6 +70,7 @@ module.exports.login = async (req, res) => {
         }
         const token = createToken(userID);
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+        // ⚡ cookie.secure must be enables in production.⚡
         res.status(200).json({ [userType]: userID });
     } catch (err) {
         const errors = handleErrors(err);
@@ -81,6 +102,9 @@ module.exports.resetPassword = async (req, res) => {
         // create password reset token
         const token = jwt.sign({_id: user}, process.env.JWT_SECRET, {expiresIn: 1000*60*30});
         const resetLink = `http://localhost:5000/reset-password/${token}`;
+
+        // const url = `${req.protocol}://${req.get('host')}/reset-password/${token}`;⚡
+
         // reset button for attach to email
         const resetButton = `<a href="${resetLink}" style="background-color: #4CAF50; color: white; padding: 16px 20px; text-align: center; text-decoration: none; display: inline-block;">Reset Password</a>`
         // message body of email
