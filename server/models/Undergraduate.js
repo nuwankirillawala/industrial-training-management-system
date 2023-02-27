@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const {isEmail} = require('validator');
 const bcrypt = require('bcrypt');
+const Result = require('./Result');
 
 const undergraduateSchema = new mongoose.Schema({
     role: {
@@ -49,6 +50,10 @@ const undergraduateSchema = new mongoose.Schema({
     },
     cvURL:{
         type: String
+    },
+    results: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Result
     }
 });
 
