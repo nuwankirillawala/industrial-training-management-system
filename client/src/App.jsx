@@ -15,6 +15,8 @@ import { Layout } from './components/Layout/Layout'
 // import { StdCompnay } from './components/user/Undergraduate/Pages/StdCompnay'
 import { CvUpdate } from './components/user/Undergraduate/Pages/CvUpdate'
 import Manageuser from './components/user/Admin/Manageuser'
+import { AddAdmin } from './components/user/Admin/AddAdmin'
+import { ViewAdmin } from './components/user/Admin/ViewAdmin'
 
 
 function App() {
@@ -35,6 +37,8 @@ function App() {
           <Route exact path='/layout' element={<Layout />} />
           <Route exact path='/cvupdate' element={<CvUpdate />} />
           <Route exact path='/manageuser' element={<Manageuser />} />
+          <Route exact path='/addadmin' element={<AddAdmin />} />
+          <Route exact path='/view-admin-details' element={<ViewAdmin />} />
 
         </Routes>
       </Router>
