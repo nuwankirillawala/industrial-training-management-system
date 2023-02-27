@@ -5,10 +5,8 @@ import { Tile } from '../../../card/Tile'
 
 export const StdDashboard = () => {
   return (
-    <BasicCard>
       <Tile>
         <Typography> hi</Typography>
       </Tile>
-    </BasicCard>
   )
 }

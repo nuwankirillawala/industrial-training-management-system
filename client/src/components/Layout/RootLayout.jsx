@@ -1,9 +1,11 @@
-import { createTheme } from "@mui/material"
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material"
+import { Outlet } from "react-router-dom";
+// import theme from "../shared/theme";
 
 const baseColor = "#4665D2"
 const baseFontColor = "#363853"
 
-const theme = createTheme ({
+const getTheme = (theme) => ({
 
     background: {
         default: "#F5F8FF",
@@ -104,4 +106,14 @@ const theme = createTheme ({
     },
 });
 
-export default theme;
+export const RootLayout = () => {
+    const defaultTheme = createTheme();
+    let theme = createTheme(getTheme(defaultTheme))
+
+    return(
+        <ThemeProvider theme={theme}>
+            <CssBaseline/>
+            <Outlet/>
+        </ThemeProvider>
+    )
+}

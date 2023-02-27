@@ -34,7 +34,6 @@ const Manageuser = () => {
     const navigate = useNavigate()
 
     return (
-        <Layout>
             <Grid container spacing={2}>
                 {['Administrator', 'Department Supervisor', 'Undergraduate', 'Company Supervisor', 'Alumini person'].map((text) => (
                     <Grid item md={2.4} sm={6}>
@@ -50,7 +49,6 @@ const Manageuser = () => {
                     </Grid>
                 ))}
             </Grid>
-        </Layout>
     )
 }
 
