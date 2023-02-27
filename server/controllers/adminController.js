@@ -10,6 +10,10 @@ const { default: mongoose } = require('mongoose');
 const xlsx = require('xlsx');
 const path = require('path');
 const multer = require('multer');
+const searchUsers = require('../utils/searchUsers');
+
+
+
 
 // Method = POST
 // Endpoint = "/create-user/:userType"
@@ -81,16 +85,16 @@ module.exports.viewAllUsers = async (req, res) => {
         const userType = req.params.userType;
         let users = [];
 
-        if(userType === "admin"){
+        if (userType === "admin") {
             users = await Admin.find();
-        } 
-        else if(userType === "undergraduate"){
+        }
+        else if (userType === "undergraduate") {
             users = await Undergraduate.find();
         }
-        else if(userType === "supervisor"){
+        else if (userType === "supervisor") {
             users = await Supervisor.find();
         }
-        else if(userType === "alumni"){
+        else if (userType === "alumni") {
             users = await Alumni.find();
         }
 
@@ -104,49 +108,14 @@ module.exports.viewAllUsers = async (req, res) => {
 
 // Method = GET
 // Endpoint = "/search-users/:userType"
-// Function = search user by RegNo, Email, Name
+// Function = search user by name, regno, email
 module.exports.searchUsers = async (req, res) => {
     try {
         const userType = req.params.userType;
         const searchTerm = req.query.q;
         const searchBy = req.query.searchBy;
-        let users;
-        if (searchBy === "name") {
-            switch (userType) {
-                case "admin":
-                    users = await Admin.find({ name: { $regex: searchTerm, $options: 'i' } });
-                    break;
-                case "undergraduate":
-                    users = await Undergraduate.find({ name: { $regex: searchTerm, $options: 'i' } });
-                    break;
-                case "supervisor":
-                    users = await Supervisor.find({ name: { $regex: searchTerm, $options: 'i' } });
-                    break;
-                case "alumni":
-                    users = await Alumni.find({ name: { $regex: searchTerm, $options: 'i' } });
-                    break;
-                default:
-                    users = { message: 'No any search results' };
-            }
-        }
-        else if (searchBy === "regNo") {
-            switch (userType) {
-                case "admin":
-                    users = await Admin.find({ regNo: { $regex: searchTerm, $options: 'i' } });
-                    break;
-                case "undergraduate":
-                    users = await Undergraduate.find({ regNo: { $regex: searchTerm, $options: 'i' } });
-                    break;
-                case "supervisor":
-                    users = await Supervisor.find({ regNo: { $regex: searchTerm, $options: 'i' } });
-                    break;
-                case "alumni":
-                    users = await Alumni.find({ regNo: { $regex: searchTerm, $options: 'i' } });
-                    break;
-                default:
-                    users = { message: 'No any search results' };
-            }
-        }
+
+        let users = await searchUsers(searchBy, userType, searchTerm);
 
         res.status(200).json(users);
 
@@ -155,6 +124,8 @@ module.exports.searchUsers = async (req, res) => {
         res.status(500).json(err);
     }
 }
+
+
 
 // Method = POST
 // Endpoint = "/create-company"
@@ -288,6 +259,8 @@ module.exports.updateAdminProfile = async (req, res) => {
 //Function: Add results of undergraduate
 
 module.exports.addResult = async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
         // //set the storage engine for multer
         // const storage = multer.diskStorage({
@@ -355,33 +328,31 @@ module.exports.addResult = async (req, res) => {
         const resultDoc = xlsx.utils.sheet_to_json(resultSheet);
         console.log(resultDoc);
 
+        const results = await Result.create(resultDoc, { session });
+
         // need to consider handling multiple documents saving in DB. like transaction ⚡
 
-        for (const result of resultDoc) {
+        for (const result of results) {
+            const filter = { regNo: result.regNo };
+            const updates = { $set: { results: result._id } };
+            const user = await Undergraduate.findOneAndUpdate(filter, updates, { session });
+            console.log(user);
+            if(!user){
+                throw new Error(`Undergraduate with regNo ${result.regNo} not found!`);
+            }
+
+            console.log(`Result ${result._id} saved for student ${user._id}`);
             
-            const doc = new Result(result);
-            doc.save(async (err, createdResult) => {
-                if (err) {
-                    console.log(err.message);
-                }
-
-                console.log(createdResult.regNo);
-                const filter = {regNo: createdResult.regNo};
-                const updates = {$set: {results: createdResult._id}};
-                const user = await Undergraduate.findOneAndUpdate({regNo: createdResult.regNo}, updates);
-                console.log(user);
-                
-
-                console.log("Saved document", createdResult);
-                res.status(200).json(createdResult);
-            })
         }
 
-
-
+        await session.commitTransaction();
+        res.status(200).json(results);
 
     } catch (err) {
+        await session.abortTransaction();
         console.log(err);
+    } finally {
+        session.endSession();
     }
-}
+};
 
