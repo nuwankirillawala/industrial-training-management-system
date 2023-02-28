@@ -15,10 +15,14 @@ export const CvUpdate = () => {
                     {/* content here */}
                     <Tile>
                         <Box sx={{display: 'flex'}}>
-                            <Typography>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint ducimus alias iusto fuga libero natus quas earum, molestiae error voluptatem labore culpa, quia quaerat at aspernatur nemo magnam enim ratione? Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae praesentium natus, placeat repellat quasi, atque architecto illum maxime dolorem aperiam modi iure eligendi? Voluptas ipsum repellendus mollitia, nisi excepturi cum.
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas explicabo illum deleniti, ratione porro quas, praesentium similique incidunt cum laboriosam culpa voluptatum dolorem qui distinctio accusamus nulla facere ullam commodi. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit ullam blanditiis, enim recusandae officiis nobis nulla, doloribus minima deleniti beatae, possimus velit quisquam vero culpa est numquam error natus iusto.
-                            </Typography>
+                            <Box>
+                                <Typography 
+                                    variant='h4'
+                                    align='center'
+                                >
+                                    Curriculum Vitae
+                                </Typography>
+                            </Box>
                         </Box>
                     </Tile>
                 </Grid>
