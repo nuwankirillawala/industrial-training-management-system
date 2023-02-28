@@ -21,26 +21,6 @@ const createToken = (id) => {
 module.exports.login = async (req, res) => {
     const { email, password } = req.body;
 
-    // let admin = await Admin.findOne({email});
-    // let sup = await Admin.findOne({email});
-    // let alumni = await Admin.findOne({email});
-    // let und = await Admin.findOne({email});
-
-    // if(!admin && !sup&&!alumni&&!und){
-    //         res.status(404).json({msg:'no user found'});
-    // }
-
-    // if(admin){
-    //     try {
-            
-    //     } catch (err) {
-            
-    //     }
-    // }
-
-
-
-
     try {
         let user, userID, userType;
         try {
@@ -86,21 +66,21 @@ module.exports.logout = (req, res) => {
 module.exports.resetPassword = async (req, res) => {
     // get user by email
     try {
-        let user = await Admin.findOne({email: req.body.email});
-        if(!user){
-            user = await Undergraduate.findOne({email: req.body.email});
-            if(!user){
-                user = await Alumni.findOne({email: req.body.email});
-                if(!user){
-                     user = await Supervisor.findOne({email: req.body.email});
-                     if(!user){
-                        return res.status(400).json({message: 'Email not found!'});
-                     }
+        let user = await Admin.findOne({ email: req.body.email });
+        if (!user) {
+            user = await Undergraduate.findOne({ email: req.body.email });
+            if (!user) {
+                user = await Alumni.findOne({ email: req.body.email });
+                if (!user) {
+                    user = await Supervisor.findOne({ email: req.body.email });
+                    if (!user) {
+                        return res.status(400).json({ message: 'Email not found!' });
+                    }
                 }
             }
         }
         // create password reset token
-        const token = jwt.sign({_id: user}, process.env.JWT_SECRET, {expiresIn: 1000*60*30});
+        const token = jwt.sign({ _id: user }, process.env.JWT_SECRET, { expiresIn: 1000 * 60 * 30 });
         const resetLink = `http://localhost:5000/reset-password/${token}`;
 
         // const url = `${req.protocol}://${req.get('host')}/reset-password/${token}`;⚡
@@ -118,48 +98,48 @@ module.exports.resetPassword = async (req, res) => {
         });
 
         console.log(resetLink);
-        res.status(200).json({message: 'Password reset link sent to your email'});
+        res.status(200).json({ message: 'Password reset link sent to your email' });
     } catch (err) {
         console.log(err);
-        res.status(500).json({message: 'Server error'});
+        res.status(500).json({ message: 'Server error' });
     }
 }
 
-module.exports.resetPasswordToken = async (req, res) =>{
+module.exports.resetPasswordToken = async (req, res) => {
     try {
         const decoded = jwt.verify(req.params.token, process.env.JWT_SECRET);
         let user = await Admin.findById(decoded._id);
-        if(!user){
+        if (!user) {
             user = await Undergraduate.findById(decoded._id);
-            if(!user){
+            if (!user) {
                 user = await Alumni.findById(decoded._id);
-                if(!user){
-                     user = await Supervisor.findById(decoded._id);
-                     if(!user){
-                        return res.status(400).json({message: 'Token is invalid'});
-                     }
+                if (!user) {
+                    user = await Supervisor.findById(decoded._id);
+                    if (!user) {
+                        return res.status(400).json({ message: 'Token is invalid' });
+                    }
                 }
             }
         }
         //render the password reset form
-        res.status(200).json({message: `password update form for user: ${user._id}`});
+        res.status(200).json({ message: `password update form for user: ${user._id}` });
     } catch (err) {
-        res.status(500).json({message: 'Server error'});
+        res.status(500).json({ message: 'Server error' });
     }
 }
 
 module.exports.updatePassword = async (req, res) => {
     try {
         let user = await Admin.findById(req.body.userId);
-        if(!user){
+        if (!user) {
             user = await Undergraduate.findById(req.body.userId);
-            if(!user){
+            if (!user) {
                 user = await Alumni.findById(req.body.userId);
-                if(!user){
-                     user = await Supervisor.findById(req.body.userId);
-                     if(!user){
-                        return res.status(400).json({message: 'Token is invalid'});
-                     }
+                if (!user) {
+                    user = await Supervisor.findById(req.body.userId);
+                    if (!user) {
+                        return res.status(400).json({ message: 'Token is invalid' });
+                    }
                 }
             }
         }
@@ -169,8 +149,8 @@ module.exports.updatePassword = async (req, res) => {
 
         //send confirmation email to the user
 
-        res.status(200).json({message: 'Password updated successfully'});
+        res.status(200).json({ message: 'Password updated successfully' });
     } catch (err) {
-        res.status(500).json({message: 'Server error'});
+        res.status(500).json({ message: 'Server error' });
     }
 }

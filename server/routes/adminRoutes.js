@@ -34,6 +34,9 @@ router.route('/update-admin-profile')
 router.route('/add-result')
     .post(adminController.addResult)
 
+router.route('/set-w-gpa')
+    .post(adminController.setWeightedGPA);
+
 // router.route('update-result-schema')
 
 module.exports = router;
