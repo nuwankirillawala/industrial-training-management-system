@@ -354,7 +354,7 @@ module.exports.addResult = async (req, res) => {
     }
 };
 
-module.exports.setGPA = async (req, res) => {
+module.exports.setWeightedGPA = async (req, res) => {
     try {
         const users = await Undergraduate.find({ results: { $exists: true } }, { results: 1 }).populate('results');
 
