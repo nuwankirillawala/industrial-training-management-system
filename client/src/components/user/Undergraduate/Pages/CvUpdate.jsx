@@ -8,6 +8,7 @@ import {
     CssBaseline,
 } from '@mui/material'
 import { Tile } from '../../../card/Tile'
+import { Company } from '../../../shared/CreateUser/forms/Company'
 
 export const CvUpdate = () => {
     return (
@@ -23,6 +24,7 @@ export const CvUpdate = () => {
                             >
                                 Curriculum Vitae
                             </Typography>
+                            <Company/>
                             <Box display='flex' justifyContent='flex-end'>
                                 <Stack direction='row'>
                                     <Button
@@ -68,8 +70,8 @@ export const CvUpdate = () => {
                             <Box>
                                 <Tile>
                                     <Typography variant='body2'>
-                                        Upload your CV;
-                                    </Typography>
+                                        Upload your CV:
+                                    </Typography><br/>
                                     <Typography variant='body2'>Choose file:</Typography>
                                     <Stack direction='row'>
                                         <TextField

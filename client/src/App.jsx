@@ -47,9 +47,14 @@ function App() {
       <Route path='/' element= { <Layout/> }>
         <Route path='cvupdate' element= { <CvUpdate/> }></Route>
         <Route path='manageuser' element={ <Manageuser/> }></Route>
+        <Route path='createuser' element={ <CreateUser/> }></Route>
+        <Route path='stddash' element={<StdDashboard/>}></Route>
       </Route>
       <Route path='/'>
         <Route path='login' element={ <Login/> }></Route>
+      </Route>
+      <Route path='/'>
+        <Route path='test' element={ <BasicCard/> }></Route>
       </Route>
 
     </Route>
