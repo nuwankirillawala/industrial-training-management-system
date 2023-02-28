@@ -11,6 +11,8 @@ const xlsx = require('xlsx');
 const path = require('path');
 const multer = require('multer');
 const searchUsers = require('../utils/searchUsers');
+const setCreditValue = require('../utils/setCreditValue');
+const gradeValue = require('../utils/gradeValue');
 
 
 
@@ -157,21 +159,21 @@ module.exports.addContactPerson = async (req, res) => {
             { $push: { contactPerson: contactPersonData } },
             { new: true },
             (err, updatedCompany) => {
-              if (err) {
-                console.log(err);
-                res.status(500).json({ error: 'An error occurred while updating the company' });
-                return;
-              }
-          
-              if (!updatedCompany) {
-                res.status(404).json({ error: 'The company was not found' });
-                return;
-              }
-          
-              res.status(200).json({ message: 'The contact person was added successfully' });
+                if (err) {
+                    console.log(err);
+                    res.status(500).json({ error: 'An error occurred while updating the company' });
+                    return;
+                }
+
+                if (!updatedCompany) {
+                    res.status(404).json({ error: 'The company was not found' });
+                    return;
+                }
+
+                res.status(200).json({ message: 'The contact person was added successfully' });
             }
-          );
-          
+        );
+
     } catch (err) {
         console.log(err);
         res.status(500).json({ err });
@@ -333,12 +335,12 @@ module.exports.addResult = async (req, res) => {
             const updates = { $set: { results: result._id } };
             const user = await Undergraduate.findOneAndUpdate(filter, updates, { session });
             console.log(user);
-            if(!user){
+            if (!user) {
                 throw new Error(`Undergraduate with regNo ${result.regNo} not found!`);
             }
 
             console.log(`Result ${result._id} saved for student ${user._id}`);
-            
+
         }
 
         await session.commitTransaction();
@@ -352,3 +354,29 @@ module.exports.addResult = async (req, res) => {
     }
 };
 
+module.exports.setGPA = async (req, res) => {
+    try {
+        const users = await Undergraduate.find({ results: { $exists: true } }, { results: 1 }).populate('results');
+
+        for (const user of users) {
+            const results = Object.entries(user.results)
+            .filter(([prop]) => prop.includes('CSC'))
+            .map(([prop, grade]) => ({
+                courseUnit: prop,
+                creditValue: setCreditValue(prop),
+                gpv: gradeValue(grade)
+            }))
+            .filter(({gpv}) => gpv !== null);
+
+            const totalCredits = results.reduce((sum, {creditValue}) => sum + creditValue, 0);
+            const gpvByCredit = results.reduce((sum, { creditValue, gpv }) => sum + creditValue * gpv, 0);
+            const weightedGPA = gpvByCredit / totalCredits;
+
+            await Undergraduate.findByIdAndUpdate(user._id, { weightedGPA});
+        }
+        res.status(200).json({message: 'GPA calculation completed'});
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({message: 'An error occurred while calculating GPAs.'});
+    }
+}
