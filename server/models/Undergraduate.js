@@ -67,8 +67,19 @@ const undergraduateSchema = new mongoose.Schema({
     companySelection03: {
         type: mongoose.Schema.Types.ObjectId,
         ref: Company
-    }
+    },
+    notes: [noteSchema]
 });
+
+const noteSchema = new mongoose.Schema({
+    title: {
+        type: String,
+    },
+    content: {
+        type: String,
+        required: [true, 'Note content is empty!']
+    }
+})
 
 // encrypt user password
 undergraduateSchema.pre('save', async function (next) {
