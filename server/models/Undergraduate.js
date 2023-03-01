@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const {isEmail} = require('validator');
 const bcrypt = require('bcrypt');
 const Result = require('./Result');
+const Company = require('./Company');
 
 const undergraduateSchema = new mongoose.Schema({
     role: {
@@ -54,6 +55,18 @@ const undergraduateSchema = new mongoose.Schema({
     results: {
         type: mongoose.Schema.Types.ObjectId,
         ref: Result
+    },
+    companySelection01: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Company
+    },
+    companySelection02: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Company
+    },
+    companySelection03: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Company
     }
 });
 

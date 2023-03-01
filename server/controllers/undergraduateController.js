@@ -27,26 +27,46 @@ module.exports.viewUndergraduateProfile = async (req, res) => {
 module.exports.updateUndergraduateProfile = async (req, res) => {
     try {
         const userId = req.body.id;
-        const {email, contactNo, linkdinURL, githubURL, internStatus } = req.body;
+        const { email, contactNo, linkdinURL, githubURL, internStatus } = req.body;
 
-        const filter = { _id: userId};
-        const update = {$set: {email, contactNo, linkdinURL, githubURL, internStatus }};
-        const options = {new : true};
+        const filter = { _id: userId };
+        const update = { $set: { email, contactNo, linkdinURL, githubURL, internStatus } };
+        const options = { new: true };
 
         await Undergraduate.updateOne(filter, update, options)
-        .then(async ()=> {
-            const user = await Undergraduate.findOne(filter);
-            if(!user){
-                res.status(200).json({message: "user not exists"});
-            }
-            res.status(200).json(user);
-        })
-        .catch((error) => {
-            console.log(error.message);
-            res.status(400).json(error);
-        });
+            .then(async () => {
+                const user = await Undergraduate.findOne(filter);
+                if (!user) {
+                    res.status(200).json({ message: "user not exists" });
+                }
+                res.status(200).json(user);
+            })
+            .catch((error) => {
+                console.log(error.message);
+                res.status(400).json(error);
+            });
     } catch (err) {
         console.log(err);
+        res.status(500).json(err);
+    }
+}
+
+// Method = PATCH
+// Endpoint = "/company-selection"
+// Function = Select companies for internship
+module.exports.companySelection = async (req, res) => {
+    try {
+        const { companySelection01, companySelection02, companySelection03 } = req.body;
+        const id = req.body.id;
+
+        if (companySelection01 === '' || companySelection02 === '' || companySelection03 === '') {
+            res.status(400).json({message: "Error! null field in the input"});
+        }
+
+        const updatedUser = await Undergraduate.findByIdAndUpdate(id, { companySelection01, companySelection02, companySelection03 }, { new: true });
+        console.log(updatedUser);
+        res.status(200).json({ message: "Company Selection Completed" });
+    } catch (err) {
         res.status(500).json(err);
     }
 }
