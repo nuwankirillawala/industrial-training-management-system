@@ -356,10 +356,11 @@ module.exports.addResult = async (req, res) => {
 
 module.exports.setWeightedGPA = async (req, res) => {
     try {
-        const users = await Undergraduate.find({ results: { $exists: true } }, { results: 1 }).populate('results');
+        const users = await Undergraduate.find({ results: { $exists: true } }, { results: 1 })
+        .populate('results');
 
         for (const user of users) {
-            const results = Object.entries(user.results)
+            const results = Object.entries(user.results._doc)
             .filter(([prop]) => prop.includes('CSC'))
             .map(([prop, grade]) => ({
                 courseUnit: prop,
@@ -369,13 +370,16 @@ module.exports.setWeightedGPA = async (req, res) => {
             .filter(({gpv}) => gpv !== null);
 
             const totalCredits = results.reduce((sum, {creditValue}) => sum + creditValue, 0);
+            console.log(totalCredits);
             const gpvByCredit = results.reduce((sum, { creditValue, gpv }) => sum + creditValue * gpv, 0);
             const weightedGPA = gpvByCredit / totalCredits;
 
+            console.log(weightedGPA);
             await Undergraduate.findByIdAndUpdate(user._id, { weightedGPA});
         }
         res.status(200).json({message: 'GPA calculation completed'});
     } catch (err) {
+        console.log(err);
         console.log(err);
         res.status(500).json({message: 'An error occurred while calculating GPAs.'});
     }
