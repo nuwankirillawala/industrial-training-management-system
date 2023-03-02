@@ -182,7 +182,6 @@ module.exports.viewNote = async (req, res) => {
             } else {
                 res.status(200).json(note);
             }
-
         }
     } catch (err) {
         console.log(err);
@@ -195,21 +194,39 @@ module.exports.viewNote = async (req, res) => {
 // Method = GET
 // Endpoint = "/edit-note"
 // Function = Edit a note
-module.exports.editNotes = async (req, res) => {
+module.exports.editNote = async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
-        const { noteId, title, content } = req.body;
+        const { noteId, newTitle, newContent } = req.body;
 
-        const note = await Undergraduate.findById(userId).select('-password');
+        const user = await Undergraduate.findById(userId).select('-password');
 
+        if (!user) {
+            res.status(404).json({ message: "user not found" });
+        }
+        else {
+            const updatedUser = await Undergraduate.findOneAndUpdate(
+                { _id: userId, "notes._id": noteId },
+                {
+                    $set:
+                    {
+                        "notes.$.title": newTitle,
+                        "notes.$.content": newContent
+                    }
+                }, { new: true });
 
+            if (!user) {
+                res.status(404).json({ message: "error in updating note" });
+            } else {
+                res.status(200).json(updatedUser.notes);
+            }
+        }
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 
 }
-
 
 // Method = POST
 // Endpoint = "/edit-intern-status"

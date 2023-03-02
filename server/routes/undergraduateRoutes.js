@@ -24,6 +24,9 @@ router.route('/view-notes')
 router.route('/view-note')
     .get(undergraduateController.viewNote)
 
+router.route('/edit-note')
+    .patch(undergraduateController.editNote)
+
 router.route('/edit-intern-status')
     .patch(undergraduateController.editInternStatus)
 
