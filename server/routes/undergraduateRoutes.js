@@ -27,6 +27,10 @@ router.route('/view-note')
 router.route('/edit-note')
     .patch(undergraduateController.editNote)
 
+// 🛑 This is a tempory route controller. just for checking 🛑
+router.route('/add-intern-status')
+    .patch(undergraduateController.addInternStatus)
+
 router.route('/edit-intern-status')
     .patch(undergraduateController.editInternStatus)
 

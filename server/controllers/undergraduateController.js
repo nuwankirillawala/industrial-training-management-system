@@ -228,18 +228,98 @@ module.exports.editNote = async (req, res) => {
 
 }
 
-// Method = POST
+// 🛑 This is a tempory route controller. just for checking 🛑
+// Method = PATCH
+// Endpoint = "/add-intern-status"
+// Function = add intern status
+module.exports.addInternStatus = async (req, res) => {
+    try {
+        const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
+        const { companyId, newStatus } = req.body;
+        console.log(companyId, newStatus);
+        const user = await Undergraduate.findById(userId);
+        console.log(user);
+        if (!user) {
+            res.status(404).json({ message: "user not found!" });
+        }
+        else {
+            const company = await Company.findById(companyId);
+            if (!company) {
+                res.status(404).json({ message: "company not found" });
+            }
+            else {
+                // console.log(user.internStatus);
+                const existingInternStatus = user.internStatus.filter((status) => { return status.company.equals(companyId) });
+                console.log(existingInternStatus);
+                if (existingInternStatus) {
+                    res.status(400).json({ message: "Error! User already listed on that company" });
+                } else {
+                    const newInternSatatus = { company: companyId, status: newStatus };
+                    const updatedUser = await Undergraduate.findByIdAndUpdate(
+                        userId,
+                        { $push: { internStatus: newInternSatatus } },
+                        { new: true }
+                    );
+                    if (updatedUser) {
+                        res.status(200).json(updatedUser.internStatus);
+                    }
+                    else {
+                        res.status(400).json("error");
+                    }
+                }
+
+            }
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+
+    }
+}
+
+// Method = PATCH
 // Endpoint = "/edit-intern-status"
 // Function = Edit intern status
 module.exports.editInternStatus = async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
         const { companyId, newStatus } = req.body;
+        // console.log(companyId, newStatus);
+        const user = await Undergraduate.findById(userId);
+        // console.log(user);
+        if (!user) {
+            res.status(404).json({ message: "user not found!" });
+        }
+        else {
+            const company = await Company.findById(companyId);
+            if (!company) {
+                res.status(404).json({ message: "company not found" });
+            }
+            else {
+                // console.log(user.internStatus);
+                const existingInternStatus = user.internStatus.filter((status) => { return status.company.equals(companyId) });
+                console.log(existingInternStatus);
+                if (!existingInternStatus) {
+                    res.status(400).json({ message: "Error! User hasn't listed on that company" });
+                } else {
+                    // const newInternSatatus = {status: newStatus };
+                    const updatedUser = await Undergraduate.findOneAndUpdate(
+                        { _id: userId, "internStatus._id": existingInternStatus[0]._id },
+                        { $set: { "internStatus.$.status": newStatus } },
+                        { new: true }
+                    );
+                    if (updatedUser) {
+                        res.status(200).json(updatedUser.internStatus);
+                    }
+                    else {
+                        res.status(400).json("error");
+                    }
+                }
 
-        // const com == 
-        //await Undergraduate.findByIdAndUpdate(userId, { $set: { internStatus: newStatus } }, { new: true });
-        console.log("Intern status update successfully!");
+            }
+        }
     } catch (err) {
         console.log(err);
+        res.status(500).json(err);
     }
 }

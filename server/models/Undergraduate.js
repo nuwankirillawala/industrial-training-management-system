@@ -90,7 +90,15 @@ const undergraduateSchema = new mongoose.Schema({
     }, 
     //for update the status of intern application process
     // about companies that sent cv by department
-    internStatus:[internStatusSchema],
+    internStatus:[{
+        company: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: Company
+        },
+        status: {
+            type: String
+        }
+    }],
     // upadate if you select for internship outside
     externalInternStatus: {
         type: mongoose.Schema.Types.ObjectId,
