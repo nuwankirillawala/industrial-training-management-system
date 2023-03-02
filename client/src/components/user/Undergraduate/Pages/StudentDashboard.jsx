@@ -1,13 +1,12 @@
 import React from 'react'
-// import { BasicCard } from '../../../card/basicCard/BasicCard'
 import { Box,Typography,Stack,Grid,TextField } from '@mui/material'
 import { Tile } from '../../../card/Tile'
 import { Avatar } from '../../../shared/Images/Avatar'
 import { Layout } from '../../../Layout/Layout'
 import { TableContainer, Table, TableRow, TableHead, TableCell, TableBody } from '@mui/material'
-import { NoticeBoard } from '../../../Noice/NoticeBoard'
+import { NoticeBoard } from '../../../Notice/NoticeBoard'
 
-export const StdDashboard = () => {
+export const StudentDashboard = () => {
   return (
     <Layout>
     <Box sx={{display:'flex'}}>
@@ -71,7 +70,7 @@ export const StdDashboard = () => {
         <Grid>
           <Tile>
             <TableContainer>
-              <Table sx={{borderRadius:'2'}}>
+              <Table>
                 <TableHead sx={{bgcolor:'#FFFFFF'}}>
                   <TableRow>
                     <TableCell>Subject Name</TableCell>
