@@ -63,10 +63,18 @@ module.exports.companySelection = async (req, res) => {
         if (companySelection01 === '' || companySelection02 === '' || companySelection03 === '') {
             res.status(400).json({ message: "Error! null field in the input" });
         }
+        else {
+            const user = await Undergraduate.findByIdAndUpdate(userId, { companySelection01, companySelection02, companySelection03 }, { new: true });
+            if (user) {
+                res.status(200).json({ message: "Company Selection Completed" });
+            }
+            else {
+                res.status(404).json({ message: "user not found!" });
+            }
 
-        const updatedUser = await Undergraduate.findByIdAndUpdate(userId, { companySelection01, companySelection02, companySelection03 }, { new: true });
-        console.log(updatedUser);
-        res.status(200).json({ message: "Company Selection Completed" });
+        }
+
+
     } catch (err) {
         res.status(500).json(err);
     }
