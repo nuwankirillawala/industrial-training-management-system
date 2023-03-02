@@ -12,9 +12,11 @@ module.exports.viewUndergraduateProfile = async (req, res) => {
         const user = await Undergraduate.findById(userId);
 
         if (!user) {
-            res.status(400).json({ message: "User not found!" })
+            res.status(400).json({ message: "user not found!" })
         }
-        res.status(200).json({ user });
+        else {
+            res.status(200).json({ user });
+        }
     } catch (err) {
         console.log(err);
         res.status(500).json({ err })
@@ -37,9 +39,11 @@ module.exports.updateUndergraduateProfile = async (req, res) => {
             .then(async () => {
                 const user = await Undergraduate.findOne(filter);
                 if (!user) {
-                    res.status(200).json({ message: "user not exists" });
+                    res.status(200).json({ message: "user not found!" });
                 }
-                res.status(200).json(user);
+                else {
+                    res.status(200).json(user);
+                }
             })
             .catch((error) => {
                 console.log(error.message);
