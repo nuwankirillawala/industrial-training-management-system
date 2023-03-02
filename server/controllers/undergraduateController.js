@@ -82,14 +82,14 @@ module.exports.undergraduateDashboard = async (req, res) => {
         // get all data exept password
         const user = await Undergraduate.findById(userId).select('-password');
 
-        if (!user) {
+        if (user) {
+            //get all companies
+            const companies = await Company.find();
+
+            res.status(200).json({ user, companies });
+        } else {
             res.status(404).json({ message: "user not found!" });
         }
-
-        //get all companies
-        const companies = await Company.find();
-
-        res.status(200).json({ user, companies });
     } catch (err) {
         res.status(500).json({ message: "server error!" });
     }
@@ -130,7 +130,7 @@ module.exports.viewNotes = async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
 
         if (!user) {
             res.status(404).json({ message: "user not found" });
@@ -158,7 +158,7 @@ module.exports.viewNote = async (req, res) => {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
         const noteId = req.body.noteId // 🛑 noteId can also parse and get from req.params 🛑
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
 
         if (!user) {
             res.status(404).json({ message: "user not found" });
@@ -188,7 +188,7 @@ module.exports.editNotes = async (req, res) => {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
         const { noteId, title, content } = req.body;
 
-        const note = await Undergraduate.findById(userId);
+        const note = await Undergraduate.findById(userId).select('-password');
 
 
     } catch (err) {
