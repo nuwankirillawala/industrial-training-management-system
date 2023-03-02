@@ -2,8 +2,8 @@ import { Stack } from "@mui/system";
 import React from "react";
 import { useState, useEffect } from "react";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { Tile } from "../../card/Tile";
-import { Layout } from "../../Layout/Layout";
+import { Layout } from "../../components/Layout/Layout";
+import { Tile } from "../../components/card/Tile";
 
 export const ViewAdmin = () => {
     const [Column, setColumn] = useState([])
