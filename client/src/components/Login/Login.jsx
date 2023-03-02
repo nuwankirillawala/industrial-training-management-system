@@ -48,12 +48,12 @@ export const Login = () => {
 
             {/* login form */}
             <Stack alignItems={'center'} justifyContent={'center'}>
-                <Box backgroundColor={'#EAFFFF'} padding={'30px 10px 30px 10px'} borderRadius={'30px'} boxShadow={5} width={'350px'}>
+                <Box backgroundColor={'#EAFFFF'} padding={'30px 10px 30px 10px'} borderRadius={'30px'} boxShadow={5} width={'400px'} height={'350px'}>
                     <Stack direction={'column'} alignItems={'center'} spacing={3}>
                         <Stack>
                             <Typography variant={'h5'} fontWeight={'bold'} fontStyle={'inter'} color={'#4665D1'}>LOGIN</Typography>
                         </Stack>
-                        <Stack minWidth={'300px'}>
+                        <Stack minWidth={'350px'}>
                             <form onSubmit={onSubmit}>
                                 <Stack direction={'column'} spacing={3} alignItems={'center'}>
                                     <TextField
