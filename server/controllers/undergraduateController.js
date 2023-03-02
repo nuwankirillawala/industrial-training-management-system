@@ -122,9 +122,20 @@ module.exports.viewNotes = async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
 
-        const notesCollection = await Undergraduate.findById(userId).select('notes');
+        const user = await Undergraduate.findById(userId);
 
-        res.status(200).json(notesCollection.notes);
+        if (!user) {
+            res.status(404).json({ message: "user not found" });
+        }
+        else {
+            const notes = user.notes;
+            if (!notes) {
+                res.status(404).json({ message: "notes not found" });
+            } else {
+                res.status(200).json(notes);
+            }
+            
+        }  
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
