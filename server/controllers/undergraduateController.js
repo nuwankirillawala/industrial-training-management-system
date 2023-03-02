@@ -97,19 +97,27 @@ module.exports.undergraduateDashboard = async (req, res) => {
 
 // Method = PATCH
 // Endpoint = "/add-note"
-// Function = Add a private note
+// Function = Add a note
 module.exports.addNote = async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
+
         const { title, content } = req.body;
+
         if (!content) {
             res.status(400).json({ message: "Please add some content" });
         }
+        else {
+            const newNote = { title, content };
+            const user = await Undergraduate.findByIdAndUpdate(userId, { $push: { notes: newNote } }, { new: true });
 
-        const newNote = { title, content };
-        const user = await Undergraduate.findByIdAndUpdate(userId, { $push: { notes: newNote } }, { new: true });
-
-        res.status(200).json(user.notes)
+            if (!user) {
+                res.status(404).json({ message: "user not found!" });
+            }
+            else {
+                res.status(200).json(user.notes);
+            }
+        }
     } catch (err) {
         res.status(500).json(err);
     }
@@ -134,8 +142,7 @@ module.exports.viewNotes = async (req, res) => {
             } else {
                 res.status(200).json(notes);
             }
-            
-        }  
+        }
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -163,7 +170,7 @@ module.exports.viewNote = async (req, res) => {
             } else {
                 res.status(200).json(note);
             }
-            
+
         }
     } catch (err) {
         console.log(err);
