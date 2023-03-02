@@ -15,8 +15,20 @@ import { Layout } from './components/Layout/Layout'
 // import { StdCompnay } from './components/user/Undergraduate/Pages/StdCompnay'
 import { CvUpdate } from './components/user/Undergraduate/Pages/CvUpdate'
 import Manageuser from './components/user/Admin/Manageuser'
-import { AddAdmin } from './components/user/Admin/AddAdmin'
-import { ViewAdmin } from './components/user/Admin/ViewAdmin'
+import { AddAdmin } from './components/user/Admin/addusers/AddAdmin'
+import { ViewAdmin } from './components/user/Admin/viewusers/ViewAdmin'
+import { AddSuperv } from './components/user/Admin/addusers/AddSuperv'
+import { ViewSuperv } from './components/user/Admin/viewusers/ViewSuperv'
+import { AddUndg } from './components/user/Admin/addusers/AddUndg'
+import { ViewUndg } from './components/user/Admin/viewusers/ViewUndg'
+import { AddCompany } from './components/user/Admin/addusers/AddCompany'
+import { ViewCompany } from './components/user/Admin/viewusers/ViewCompany'
+import { AddAlumini } from './components/user/Admin/addusers/AddAlumini'
+import { ViewAlumini } from './components/user/Admin/viewusers/ViewAlumini'
+import { Dialogbox } from './components/Dialogbox/Dialogbox'
+import { Admin } from './components/shared/CreateUser/forms/Admin'
+
+
 
 
 function App() {
@@ -39,6 +51,15 @@ function App() {
           <Route exact path='/manageuser' element={<Manageuser />} />
           <Route exact path='/addadmin' element={<AddAdmin />} />
           <Route exact path='/view-admin-details' element={<ViewAdmin />} />
+          <Route exact path='/add-superv-details' element={<AddSuperv />} />
+          <Route exact path='/view-superv-details' element={<ViewSuperv />} />
+          <Route exact path='/add-undg-details' element={<AddUndg />} />
+          <Route exact path='/view-undg-details' element={<ViewUndg />} />
+          <Route exact path='/add-comp-details' element={<AddCompany />} />
+          <Route exact path='/view-comp-details' element={<ViewCompany />} />
+          <Route exact path='/add-alumini-details' element={<AddAlumini />} />
+          <Route exact path='/view-alumini-details' element={<ViewAlumini />} />
+          <Route exact path='/dialogbox' element={<Dialogbox title="Update Administrator"><Admin /></Dialogbox>} />
 
         </Routes>
       </Router>

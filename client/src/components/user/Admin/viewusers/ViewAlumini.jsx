@@ -2,10 +2,10 @@ import { Stack } from "@mui/system";
 import React from "react";
 import { useState, useEffect } from "react";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { Tile } from "../../card/Tile";
-import { Layout } from "../../Layout/Layout";
+import { Tile } from "../../../card/Tile";
+import { Layout } from "../../../Layout/Layout";
 
-export const ViewAdmin = () => {
+export const ViewAlumini = () => {
     const [Column, setColumn] = useState([])
     const [Records, setRecords] = useState([])
 
