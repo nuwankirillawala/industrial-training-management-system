@@ -6,8 +6,8 @@ import {
     TextField,
     Stack,
 } from '@mui/material'
-import { Tile } from '../../../card/Tile'
-import { Company } from '../../../shared/CreateUser/forms/Company'
+import { Tile } from '../../components/card/Tile'
+import { StudentAddCompany } from '../../components/user/Undergraduate/StudentAddCompany'
 
 export const StudentCvUpdate = () => {
     return (
@@ -23,7 +23,7 @@ export const StudentCvUpdate = () => {
                             >
                                 Curriculum Vitae
                             </Typography>
-                            <Company/>
+                            <StudentAddCompany/>
                             <Box display='flex' justifyContent='flex-end'>
                                 <Stack direction='row'>
                                     <Button

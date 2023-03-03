@@ -1,39 +1,10 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
-import { BrowserRouter as Router, Route, RouterProvider, Routes, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import { Login } from './components/Login/Login'
-import Navbar from './components/Navbar/Navbar';
-import Sidebar from './components/Sidebar/Sidebar'
-import CreateUser from './components/shared/CreateUser/CreateUser'
-import { BasicCard } from './components/card/basicCard/BasicCard'
-import theme from './components/shared/theme'
-import { ThemeProvider } from '@mui/material/styles'
-import UserProfile from './components/shared/UserProfile/UserProfile'
-import { StudentDashboard } from './components/user/Undergraduate/Pages/StudentDashboard'
 import { Layout } from './components/Layout/Layout'
-// import { StdCompnay } from './components/user/Undergraduate/Pages/StdCompnay'
-import { CvUpdate } from './components/user/Undergraduate/Pages/CvUpdate'
-import { AddAdmin } from './components/user/Admin/addusers/AddAdmin'
-import { ViewAdmin } from './components/user/Admin/viewusers/ViewAdmin'
-import { AddSuperv } from './components/user/Admin/addusers/AddSuperv'
-import { ViewSuperv } from './components/user/Admin/viewusers/ViewSuperv'
-import { AddUndg } from './components/user/Admin/addusers/AddUndg'
-import { ViewUndg } from './components/user/Admin/viewusers/ViewUndg'
-import { AddCompany } from './components/user/Admin/addusers/AddCompany'
-import { ViewCompany } from './components/user/Admin/viewusers/ViewCompany'
-import { AddAlumini } from './components/user/Admin/addusers/AddAlumini'
-import { ViewAlumini } from './components/user/Admin/viewusers/ViewAlumini'
-import { Dialogbox } from './components/Dialogbox/Dialogbox'
-import { Admin } from './components/shared/CreateUser/forms/Admin'
-import Manageuser from './components/user/Admin/Manageuser'
 import { RootLayout } from './components/Layout/RootLayout'
-import Notice from './components/shared/Notice/Notice'
-
-
-
-
-import { StudentCompnay } from './Pages/Undergraduate/StudentCompnay'
+import { StudentCvUpdate } from './Pages/Undergraduate/StudentCvUpdate'
+import { Manageuser } from './Pages/Admin/Manageuser'
 
 function App() {
 
@@ -43,11 +14,12 @@ function App() {
       {/*add main pages hete use path variable */}
 
       <Route path='/' element= { <Layout/> }>
-        <Route path='cvupdate' element= { <CvUpdate/> }></Route>
+        <Route path='cvupdate' element= { <StudentCvUpdate/> }></Route>
         <Route path='manageuser' element={ <Manageuser/> }></Route>
-        <Route path='createuser' element={ <CreateUser/> }></Route>
-        <Route path='stddash' element={<StdDashboard/>}></Route>
       </Route>
+
+      {/*login page*/}
+
       <Route path='/'>
         <Route path='login' element={ <Login/> }></Route>
       </Route>
@@ -55,7 +27,7 @@ function App() {
       {/*test your components here*/}
 
       <Route path='/'>
-        <Route path='testcvupdate' element={ <CvUpdate/> }></Route>
+        <Route path='testcvupdate' element={ <StudentCvUpdate/> }></Route>
       </Route>
 
     </Route>
