@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { Tile } from '../../../card/Tile'
 
-export const CvUpdate = () => {
+export const StudentCvUpdate = () => {
     return (
         <Box sx={{display: 'flex', height: '100%'}}>
             <Grid container spacing={1}>

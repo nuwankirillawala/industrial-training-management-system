@@ -10,7 +10,7 @@ import { BasicCard } from './components/card/basicCard/BasicCard'
 import theme from './components/shared/theme'
 import { ThemeProvider } from '@mui/material/styles'
 import UserProfile from './components/shared/UserProfile/UserProfile'
-import { StdDashboard } from './components/user/Undergraduate/Pages/StdDashboard'
+import { StudentDashboard } from './components/user/Undergraduate/Pages/StudentDashboard'
 import { Layout } from './components/Layout/Layout'
 // import { StdCompnay } from './components/user/Undergraduate/Pages/StdCompnay'
 import { CvUpdate } from './components/user/Undergraduate/Pages/CvUpdate'
@@ -30,6 +30,7 @@ import { Admin } from './components/shared/CreateUser/forms/Admin'
 
 
 
+import { StudentCompnay } from './components/user/Undergraduate/Pages/StudentCompnay'
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -60,6 +61,15 @@ function App() {
           <Route exact path='/add-alumini-details' element={<AddAlumini />} />
           <Route exact path='/view-alumini-details' element={<ViewAlumini />} />
           <Route exact path='/dialogbox' element={<Dialogbox title="Update Administrator"><Admin /></Dialogbox>} />
+          <Route exact path='/' element={<Login/>}/>
+          <Route exact path='/navbar' element={<Navbar/>}/> 
+          <Route exact path='/sidebar' element={<Sidebar/>}/>
+          <Route exact path='/create-user' element={<CreateUser/>}/> 
+          <Route exact path='/basiccard' element={<BasicCard/>}/> 
+          <Route exact path='/user-profile' element={<UserProfile />} />
+          <Route exact path='/stddash' element={<StudentDashboard />} />
+          <Route exact path='/stdcompany' element={<StudentCompnay />} />
+          <Route exact path='/layout' element={<Layout />} />
 
         </Routes>
       </Router>
