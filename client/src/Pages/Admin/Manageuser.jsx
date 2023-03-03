@@ -1,11 +1,8 @@
-import { Stack } from '@mui/system';
-import React, { useState } from 'react'
-import { Tile } from '../../card/Tile';
-import { Grid, Typography } from '@mui/material';
-import { Button } from '@mui/material';
-//import { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
+import { Button, Grid, Stack, Typography } from '@mui/material';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Layout } from '../../Layout/Layout';
+import { Tile } from '../../components/card/Tile';
+import { Layout } from '../../components/Layout/Layout';
 
 function RedirectAdduser(text) {
     switch (text) {

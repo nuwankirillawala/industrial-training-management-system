@@ -4,6 +4,28 @@ const bcrypt = require('bcrypt');
 const Result = require('./Result');
 const Company = require('./Company');
 
+
+const noteSchema = new mongoose.Schema({
+    title: {
+        type: String,
+    },
+    content: {
+        type: String,
+        required: [true, 'Note content is empty!']
+    }
+});
+
+const internStatusSchema = new mongoose.Schema({
+    company: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Company
+    },
+    status: {
+        type: String
+    }
+});
+
+
 const undergraduateSchema = new mongoose.Schema({
     role: {
         type: String,
@@ -40,13 +62,11 @@ const undergraduateSchema = new mongoose.Schema({
     githubURL:{
         type: String
     },
+    notes: [noteSchema],
     gpa:{
         type: String
     },
     weightedGPA:{
-        type: String
-    },
-    internStatus:{
         type: String
     },
     cvURL:{
@@ -67,6 +87,22 @@ const undergraduateSchema = new mongoose.Schema({
     companySelection03: {
         type: mongoose.Schema.Types.ObjectId,
         ref: Company
+    }, 
+    //for update the status of intern application process
+    // about companies that sent cv by department
+    internStatus:[{
+        company: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: Company
+        },
+        status: {
+            type: String
+        }
+    }],
+    // upadate if you select for internship outside
+    externalInternStatus: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Company 
     }
 });
 

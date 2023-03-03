@@ -14,7 +14,6 @@ import { StudentDashboard } from './components/user/Undergraduate/Pages/StudentD
 import { Layout } from './components/Layout/Layout'
 // import { StdCompnay } from './components/user/Undergraduate/Pages/StdCompnay'
 import { CvUpdate } from './components/user/Undergraduate/Pages/CvUpdate'
-import Manageuser from './components/user/Admin/Manageuser'
 import { AddAdmin } from './components/user/Admin/addusers/AddAdmin'
 import { ViewAdmin } from './components/user/Admin/viewusers/ViewAdmin'
 import { AddSuperv } from './components/user/Admin/addusers/AddSuperv'
@@ -27,6 +26,7 @@ import { AddAlumini } from './components/user/Admin/addusers/AddAlumini'
 import { ViewAlumini } from './components/user/Admin/viewusers/ViewAlumini'
 import { Dialogbox } from './components/Dialogbox/Dialogbox'
 import { Admin } from './components/shared/CreateUser/forms/Admin'
+import Manageuser from './components/user/Admin/Manageuser'
 
 
 
@@ -71,6 +71,11 @@ function App() {
           <Route exact path='/stdcompany' element={<StudentCompnay />} />
           <Route exact path='/layout' element={<Layout />} />
 
+          <Route exact path='/adminform' element={<Admin />} />
+          <Route exact path='/aluminiform' element={<Alumini />} />
+          <Route exact path='/companyform' element={<Company />} />
+          <Route exact path='/supervisorform' element={<Supervisor />} />
+          <Route exact path='/undergraduateform' element={<Undergraduate />} />
         </Routes>
       </Router>
     </ThemeProvider>
