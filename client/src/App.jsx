@@ -39,6 +39,9 @@ function App() {
 
   const router = createBrowserRouter(createRoutesFromElements(
     <Route path='/' element= { <RootLayout/> }>
+
+      {/*add main pages hete use path variable */}
+      
       <Route path='/' element= { <Layout/> }>
         <Route path='cvupdate' element= { <CvUpdate/> }></Route>
         <Route path='manageuser' element={ <Manageuser/> }></Route>
@@ -48,8 +51,11 @@ function App() {
       <Route path='/'>
         <Route path='login' element={ <Login/> }></Route>
       </Route>
+      
+      {/*test your components here*/}
+
       <Route path='/'>
-        <Route path='test' element={ <CvUpdate/> }></Route>
+        <Route path='testcvupdate' element={ <CvUpdate/> }></Route>
       </Route>
 
     </Route>
