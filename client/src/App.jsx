@@ -41,7 +41,7 @@ function App() {
     <Route path='/' element= { <RootLayout/> }>
 
       {/*add main pages hete use path variable */}
-      
+
       <Route path='/' element= { <Layout/> }>
         <Route path='cvupdate' element= { <CvUpdate/> }></Route>
         <Route path='manageuser' element={ <Manageuser/> }></Route>
@@ -113,6 +113,6 @@ function App() {
 //       </Router>
 //     </ThemeProvider>
 //   )
-// }
+ }
 
 export default App
