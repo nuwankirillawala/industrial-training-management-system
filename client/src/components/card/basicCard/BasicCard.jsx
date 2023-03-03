@@ -2,7 +2,7 @@ import React from 'react'
 import { Box } from '@mui/material'
 import Navbar from '../../Navbar/Navbar'
 import Sidebar from '../../Sidebar/Sidebar'
-import { CvUpdate } from '../../user/Undergraduate/Pages/CvUpdate'
+// import { Tile } from '../Tile'
 
 export const BasicCard = ({children}) => {
   return (
@@ -12,7 +12,7 @@ export const BasicCard = ({children}) => {
       </Box>
       <Box sx={{display: 'flex', gap: '10px', flexDirection: 'column', flex: 'auto'}}>
         <Navbar/>
-        <CvUpdate/>
+        {/* componets here */}
       </Box>
     </Box>    
   )

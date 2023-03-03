@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Tile } from '../../components/card/Tile';
-import { Layout } from '../../components/Layout/Layout';
 
 function RedirectAdduser(text) {
     switch (text) {
@@ -72,12 +71,11 @@ function RedirectUpdateuser(text) {
 
 
 
-const Manageuser = () => {
+export const Manageuser = () => {
 
     const navigate = useNavigate()
 
     return (
-        <Layout>
             <Grid container spacing={2}>
                 {['Administrator', 'Department Supervisor', 'Undergraduate', 'Company Supervisor', 'Alumini person'].map((text) => (
                     <Grid item md={2.4} sm={6}>
@@ -94,9 +92,6 @@ const Manageuser = () => {
                     </Grid>
                 ))}
             </Grid>
-        </Layout>
     )
 }
-
-export default Manageuser
 
