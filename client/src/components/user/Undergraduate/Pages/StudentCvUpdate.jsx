@@ -4,26 +4,56 @@ import {
     Typography,
     Button,
     TextField,
+    Stack,
+    CssBaseline,
 } from '@mui/material'
 import { Tile } from '../../../card/Tile'
+import { Company } from '../../../shared/CreateUser/forms/Company'
 
 export const StudentCvUpdate = () => {
     return (
-        <Box sx={{display: 'flex', height: '100%'}}>
+        <Box>
             <Grid container spacing={1}>
                 <Grid item xs={9}>
                     {/* content here */}
                     <Tile>
-                        <Box sx={{display: 'flex'}}>
-                            <Box>
-                                <Typography 
-                                    variant='h4'
-                                    align='center'
-                                >
-                                    Curriculum Vitae
-                                </Typography>
+                        <Stack direction='column'>
+                            <Typography 
+                                variant='h5'
+                                align='center'
+                            >
+                                Curriculum Vitae
+                            </Typography>
+                            <Company/>
+                            <Box display='flex' justifyContent='flex-end'>
+                                <Stack direction='row'>
+                                    <Button
+                                        variant='itms'
+                                        size='itms-small'
+                                    >
+                                        edit
+                                    </Button>
+                                    <Button
+                                        variant='itms'
+                                        size='itms-small'
+                                    >
+                                        Download
+                                    </Button>
+                                    <Button
+                                        variant='itms'
+                                        size='itms-small'
+                                    >
+                                        previous
+                                    </Button>
+                                    <Button
+                                        variant='itms'
+                                        size='itms-small'
+                                    >
+                                        next
+                                    </Button>
+                                </Stack>
                             </Box>
-                        </Box>
+                        </Stack>
                     </Tile>
                 </Grid>
                 <Grid item xs={3}>
@@ -39,23 +69,27 @@ export const StudentCvUpdate = () => {
                             {/* left bottom content here */}
                             <Box>
                                 <Tile>
-                                    <Typography>
-                                        Upload your CV;
-                                    </Typography>
-                                    <Typography>Choose file:</Typography>
-                                    <TextField
-                                        id='outlined-basic'
-                                        label= 'Select your file'
-                                        variant='outlined'
-                                    /><br/>
+                                    <Typography variant='body2'>
+                                        Upload your CV:
+                                    </Typography><br/>
+                                    <Typography variant='body2'>Choose file:</Typography>
+                                    <Stack direction='row'>
+                                        <TextField
+                                            id='outlined-basic'
+                                            label= 'Select your file'
+                                            variant='outlined'
+                                            size='small'
+                                        />
+                                        <Button
+                                            variant='itms'
+                                            size='itms-small'
+                                        >
+                                            Browse
+                                        </Button>
+                                    </Stack>
                                     <Button
                                         variant='itms'
-                                        size='large'
-                                    >
-                                        Browse
-                                    </Button><br/>
-                                    <Button
-                                        variant='itms'
+                                        size='itms-small'
                                     >
                                         Upload
                                     </Button>

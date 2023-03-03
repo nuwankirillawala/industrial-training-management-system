@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, RouterProvider, Routes, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import { Login } from './components/Login/Login'
 import Navbar from './components/Navbar/Navbar';
 import Sidebar from './components/Sidebar/Sidebar'
@@ -27,6 +27,7 @@ import { ViewAlumini } from './components/user/Admin/viewusers/ViewAlumini'
 import { Dialogbox } from './components/Dialogbox/Dialogbox'
 import { Admin } from './components/shared/CreateUser/forms/Admin'
 import Manageuser from './components/user/Admin/Manageuser'
+import { RootLayout } from './components/Layout/RootLayout'
 import Notice from './components/shared/Notice/Notice'
 
 
@@ -35,8 +36,30 @@ import Notice from './components/shared/Notice/Notice'
 import { StudentCompnay } from './components/user/Undergraduate/Pages/StudentCompnay'
 
 function App() {
-  // const [count, setCount] = useState(0)
 
+  // const router = createBrowserRouter(createRoutesFromElements(
+  //   <Route path='/' element= { <RootLayout/> }>
+  //     <Route path='/' element= { <Layout/> }>
+  //       <Route path='cvupdate' element= { <CvUpdate/> }></Route>
+  //       <Route path='manageuser' element={ <Manageuser/> }></Route>
+  //       <Route path='createuser' element={ <CreateUser/> }></Route>
+  //       <Route path='stddash' element={<StdDashboard/>}></Route>
+  //     </Route>
+  //     <Route path='/'>
+  //       <Route path='login' element={ <Login/> }></Route>
+  //     </Route>
+  //     <Route path='/'>
+  //       <Route path='test' element={ <CvUpdate/> }></Route>
+  //     </Route>
+
+  //   </Route>
+  // ))
+
+  //   return (
+  //     <>
+  //       <RouterProvider router={router}/>
+  //     </>
+  //   )
   return (
     <ThemeProvider theme={theme}>
       <Router>
