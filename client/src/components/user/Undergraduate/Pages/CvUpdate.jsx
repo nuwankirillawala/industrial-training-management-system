@@ -12,7 +12,7 @@ import { Company } from '../../../shared/CreateUser/forms/Company'
 
 export const CvUpdate = () => {
     return (
-        <Box sx={{display: 'flex', height: 'auto', width: 'auto'}}>
+        <Box>
             <Grid container spacing={1}>
                 <Grid item xs={9}>
                     {/* content here */}

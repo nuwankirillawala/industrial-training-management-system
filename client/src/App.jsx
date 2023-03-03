@@ -54,7 +54,7 @@ function App() {
         <Route path='login' element={ <Login/> }></Route>
       </Route>
       <Route path='/'>
-        <Route path='test' element={ <BasicCard/> }></Route>
+        <Route path='test' element={ <CvUpdate/> }></Route>
       </Route>
 
     </Route>
