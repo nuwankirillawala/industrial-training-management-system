@@ -27,8 +27,8 @@ module.exports.createUser = async (req, res) => {
         const { role, name, email, contactNo, staffId, password } = req.body;
 
         try {
-            const admin = await Admin.create({ role, name, email, contactNo, staffId, password });
-            res.status(201).json({ admin: admin._id });
+            const user = await Admin.create({ role, name, email, contactNo, staffId, password });
+            res.status(201).json({ messadmin: user._id });
 
         } catch (err) {
             const errors = handleErrors(err);
@@ -40,8 +40,12 @@ module.exports.createUser = async (req, res) => {
         const { name, regNo, email, contactNo, password, gpa } = req.body;
 
         try {
-            const undergraduate = await Undergraduate.create({ name, regNo, email, contactNo, password, gpa });
-            res.status(201).json({ undergraduate: undergraduate._id });
+            const user = await Undergraduate.create({ name, regNo, email, contactNo, password, gpa });
+            res.status(201).json({ 
+                user: user._id,
+                type: user.role,
+                message: "user created successfullly"
+             });
         } catch (err) {
             const errors = handleErrors(err);
             console.log({ errors });
@@ -52,8 +56,12 @@ module.exports.createUser = async (req, res) => {
         const { name, email, contactNo, company, jobRole, password } = req.body;
 
         try {
-            const supervisor = await Supervisor.create({ name, email, contactNo, company, jobRole, password });
-            res.status(201).json({ supervisor: supervisor._id });
+            const user = await Supervisor.create({ name, email, contactNo, company, jobRole, password });
+            res.status(201).json({ 
+                user: user._id,
+                type: user.role,
+                message: "user created successfullly"
+             });
         } catch (err) {
             const errors = handleErrors(err);
             console.log({ errors });
@@ -64,8 +72,12 @@ module.exports.createUser = async (req, res) => {
         const { name, email, contactNo, regNo, graduatedYear, password } = req.body;
 
         try {
-            const alumni = await Alumni.create({ name, email, contactNo, regNo, graduatedYear, password });
-            res.status(201).json({ alumni: alumni._id });
+            const user = await Alumni.create({ name, email, contactNo, regNo, graduatedYear, password });
+            res.status(201).json({ 
+                user: user._id,
+                type: user.role,
+                message: "user created successfullly"
+             });
         } catch (err) {
             const errors = handleErrors(err);
             console.log({ errors });
@@ -161,13 +173,11 @@ module.exports.addContactPerson = async (req, res) => {
             (err, updatedCompany) => {
                 if (err) {
                     console.log(err);
-                    res.status(500).json({ error: 'An error occurred while updating the company' });
-                    return;
+                    return res.status(500).json({ error: 'An error occurred while updating the company' });
                 }
 
                 if (!updatedCompany) {
-                    res.status(404).json({ error: 'The company was not found' });
-                    return;
+                    return res.status(404).json({ error: 'The company was not found' });
                 }
 
                 res.status(200).json({ message: 'The contact person was added successfully' });
@@ -210,7 +220,7 @@ module.exports.adminProfile = async (req, res) => {
         const user = await Admin.findById(userId);
 
         if (!user) {
-            res.status(404).json({ "error": "User not found!" })
+            return res.status(404).json({ "error": "User not found!" })
         }
         res.status(200).json({ user });
     } catch (err) {
@@ -237,7 +247,7 @@ module.exports.updateAdminProfile = async (req, res) => {
             .then(async () => {
                 const user = await Admin.findOne(filter);
                 if (!user) {
-                    res.status(400).json({ message: "user not exists" });
+                    return res.status(400).json({ message: "user not exists" });
                 }
                 res.status(200).json(user);
             })
@@ -354,6 +364,9 @@ module.exports.addResult = async (req, res) => {
     }
 };
 
+//Method: PATCH
+//Endpoint: "/set-weigted-gpa"
+//Function: Set wiighted gpa for undergraduate
 module.exports.setWeightedGPA = async (req, res) => {
     try {
         const users = await Undergraduate.find({ results: { $exists: true } }, { results: 1 })
@@ -384,3 +397,8 @@ module.exports.setWeightedGPA = async (req, res) => {
         res.status(500).json({message: 'An error occurred while calculating GPAs.'});
     }
 }
+
+//Method: PATCH
+//Endpoint: "/add-supervisor"
+//Function: Add supervisor for undergraduate
+// module.exports.assignSupervisor
