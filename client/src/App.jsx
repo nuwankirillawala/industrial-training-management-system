@@ -28,6 +28,8 @@ import { Dialogbox } from './components/Dialogbox/Dialogbox'
 import { Admin } from './components/shared/CreateUser/forms/Admin'
 import Manageuser from './components/user/Admin/Manageuser'
 import { RootLayout } from './components/Layout/RootLayout'
+import Notice from './components/shared/Notice/Notice'
+
 
 
 
@@ -99,6 +101,8 @@ function App() {
           <Route exact path='/companyform' element={<Company />} />
           <Route exact path='/supervisorform' element={<Supervisor />} />
           <Route exact path='/undergraduateform' element={<Undergraduate />} />
+        <Route exact path='/notice' element={<Notice />} />
+
         </Routes>
       </Router>
     </ThemeProvider>
