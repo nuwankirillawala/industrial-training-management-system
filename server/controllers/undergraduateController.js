@@ -61,24 +61,50 @@ module.exports.updateUndergraduateProfile = async (req, res) => {
 module.exports.companySelection = async (req, res) => {
     try {
         const userId = req.body.id; // 🛑 user id must get from jwt in future 🛑
-        const { companySelection01, companySelection02, companySelection03 } = req.body;
+        const { priority, companyId, jobRole } = req.body;
 
-        // if selection is '' / empty then return an error
-        if (companySelection01 === '' || companySelection02 === '' || companySelection03 === '') {
-            res.status(400).json({ message: "Error! null field in the input" });
+        // check user is exist
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "user not found!" });
+        }
+
+        // check company is exist
+        const company = await Company.findById(companyId);
+        if (!company) {
+            return res.status(404).json({ message: "company not found" });
+        }
+
+        // check that user already apply for that company
+        const existCompany = user.companySelection.filter((selection) => {
+            return selection.companyId.equals(companyId);
+        });
+        if(existCompany){
+            return res.status(400).json({message: "user already apply for that company"});
+        }
+
+        // check that user already add a company for that priority
+        const existPriority = user.companySelection.filter((selection) => {
+            return selection.priority.equals(priority);
+        });
+
+        if(existPriority){
+            return res.status(400).json({message: "priority already exists"});
+        };
+
+        const newCompanySelection = {priority, companyId, jobRole};
+        const updatedUser = await Undergraduate.findByIdAndUpdate(
+            userId,
+            {$push: {companySelection: newCompanySelection}},
+            {new: true}
+        );
+
+        if (updatedUser) {
+            res.status(200).json(updatedUser.companySelection);
         }
         else {
-            const user = await Undergraduate.findByIdAndUpdate(userId, { companySelection01, companySelection02, companySelection03 }, { new: true });
-            if (user) {
-                res.status(200).json({ message: "Company Selection Completed" });
-            }
-            else {
-                res.status(404).json({ message: "user not found!" });
-            }
-
+            res.status(400).json("error");
         }
-
-
     } catch (err) {
         res.status(500).json(err);
     }
@@ -236,30 +262,34 @@ module.exports.addInternStatus = async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
         const { companyId, newStatus } = req.body;
-        console.log(companyId, newStatus);
+
         const user = await Undergraduate.findById(userId);
-        console.log(user);
+
         if (!user) {
             res.status(404).json({ message: "user not found!" });
         }
         else {
             const company = await Company.findById(companyId);
+
             if (!company) {
                 res.status(404).json({ message: "company not found" });
             }
             else {
-                // console.log(user.internStatus);
-                const existingInternStatus = user.internStatus.filter((status) => { return status.company.equals(companyId) });
-                console.log(existingInternStatus);
+                const existingInternStatus = user.internStatus.filter((status) => {
+                    return status.company.equals(companyId);
+                });
+
                 if (existingInternStatus) {
                     res.status(400).json({ message: "Error! User already listed on that company" });
                 } else {
                     const newInternSatatus = { company: companyId, status: newStatus };
+
                     const updatedUser = await Undergraduate.findByIdAndUpdate(
                         userId,
                         { $push: { internStatus: newInternSatatus } },
                         { new: true }
                     );
+
                     if (updatedUser) {
                         res.status(200).json(updatedUser.internStatus);
                     }
@@ -323,3 +353,4 @@ module.exports.editInternStatus = async (req, res) => {
         res.status(500).json(err);
     }
 }
+

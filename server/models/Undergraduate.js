@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
-const {isEmail} = require('validator');
+const { isEmail } = require('validator');
 const bcrypt = require('bcrypt');
 const Result = require('./Result');
 const Company = require('./Company');
+const Supervisor = require('./Supervisor');
 
 
 const noteSchema = new mongoose.Schema({
@@ -56,53 +57,66 @@ const undergraduateSchema = new mongoose.Schema({
         require: [true, 'Please enter a password'],
         minlength: [6, 'Minimum password length is 6']
     },
-    linkdinURL:{
+    linkdinURL: {
         type: String
     },
-    githubURL:{
+    githubURL: {
         type: String
     },
     notes: [noteSchema],
-    gpa:{
+    gpa: {
         type: String
     },
-    weightedGPA:{
+    weightedGPA: {
         type: String
     },
-    cvURL:{
+    cvURL: {
         type: String
     },
     results: {
         type: mongoose.Schema.Types.ObjectId,
         ref: Result
     },
-    companySelection01: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Company
-    },
-    companySelection02: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Company
-    },
-    companySelection03: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Company
-    }, 
+    companySelection: [{
+        priority: {
+            type: Number,
+            required: true
+        },
+        companyId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: Company
+        },
+        jobRole: {
+            type: String
+        }
+    }],
     //for update the status of intern application process
     // about companies that sent cv by department
-    internStatus:[{
+    internStatus: [{
         company: {
             type: mongoose.Schema.Types.ObjectId,
             ref: Company
+        },
+        jobRole: {
+            type: String
         },
         status: {
             type: String
         }
     }],
-    // upadate if you select for internship outside
-    externalInternStatus: {
+    // update if undergaduate select for internship through department
+    internalInternShip: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: Company 
+        ref: Company
+    },
+    // upadate if undergraduate select for internship outside
+    externalInternship: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Company
+    },
+    supervisor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Supervisor
     }
 });
 

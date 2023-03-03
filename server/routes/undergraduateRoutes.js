@@ -34,5 +34,8 @@ router.route('/add-intern-status')
 router.route('/edit-intern-status')
     .patch(undergraduateController.editInternStatus)
 
+router.route('/company-selection')
+    .patch(undergraduateController.companySelection)
+
 
 module.exports = router;
