@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { Layout } from '../../../Layout/Layout'
-import { Tile } from '../../../card/Tile'
+import { Layout } from '../../components/Layout/Layout'
+import { Tile } from '../../components/card/Tile'
 import { Grid, Box, Typography} from '@mui/material'
 import { Table, TableBody, TableCell, TableHead, TableRow, TableContainer } from '@mui/material'
-import { StudentCompanyStatus } from '../PageComponent/StudentCompanyStatus'
-import { StudentAddCompany } from '../PageComponent/StudentAddCompany'
-import { StudentInternPeriod } from '../PageComponent/StudentInternPeriod'
-import { StudentCompanyChoice } from '../PageComponent/StudentCompanyChoice'
+import { StudentCompanyStatus } from '../../components/user/Undergraduate/PageComponent/StudentCompanyStatus'
+import { StudentAddCompany } from '../../components/user/Undergraduate/StudentAddCompany'
+import { StudentInternPeriod } from '../../components/user/Undergraduate/PageComponent/StudentInternPeriod'
+import { StudentCompanyChoice } from '../../components/user/Undergraduate/PageComponent/StudentCompanyChoice'
 import { Formik } from 'formik'
 
 

@@ -31,7 +31,7 @@ import { RootLayout } from './components/Layout/RootLayout'
 
 
 
-import { StudentCompnay } from './components/user/Undergraduate/Pages/StudentCompnay'
+import { StudentCompnay } from './Pages/Undergraduate/StudentCompnay'
 
 function App() {
 

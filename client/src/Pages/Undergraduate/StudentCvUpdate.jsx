@@ -5,7 +5,6 @@ import {
     Button,
     TextField,
     Stack,
-    CssBaseline,
 } from '@mui/material'
 import { Tile } from '../../../card/Tile'
 import { Company } from '../../../shared/CreateUser/forms/Company'
