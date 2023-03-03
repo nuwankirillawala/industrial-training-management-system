@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const adminController = require('../controllers/adminController');
-const {requireAuth} = require('../middleware/authMiddleware');
+const { requireAuth } = require('../middleware/authMiddleware');
 
 const router = Router();
 
@@ -30,5 +30,13 @@ router.route('/admin-profile')
 
 router.route('/update-admin-profile')
     .patch(adminController.updateAdminProfile)
+
+router.route('/add-result')
+    .post(adminController.addResult)
+
+router.route('/set-w-gpa')
+    .post(adminController.setWeightedGPA);
+
+// router.route('update-result-schema')
 
 module.exports = router;

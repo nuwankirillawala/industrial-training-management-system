@@ -23,22 +23,44 @@ const theme = createTheme ({
         }
 
     },
-
-    typography:{
-        body2: {
-            color: baseFontColor
-        },
-    },
     
     components: {
         MuiButton: {
-            // styleOverrides: {
-            //     contained: {
-            //         color: baseColor,
-            //     },
-            // },
-            defaltProps: {
-                disableRipple: true
+            //new button varient itms
+            variants: [
+                {
+                    props: {variant: "itms"},
+                    style: {
+                        background: baseColor,
+                        color: '#F5F8FF',
+                        '&:hover': {
+                            background: baseFontColor,
+                            
+                        },
+                        borderRadius: '10px',
+                        margin: '2px',
+                        padding: '6px 14px',
+                    },
+                },
+                {
+                    props: {size: "itms-large"},
+                    style: {
+                        padding: '8px 22px',
+                        fontSize: '0.9rem'
+                    },
+                },
+                {
+                    props: {size: "itms-small"},
+                    style: {
+                        padding: '4px 10px',
+                        fontSize: '0.7rem',
+                    },
+                }
+            ],
+
+            defaultProps: {
+                disableRipple: true,
+                disableElevation: true,
             },
         },
         MuiPopover: {

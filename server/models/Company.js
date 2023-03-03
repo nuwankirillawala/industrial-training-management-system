@@ -19,6 +19,10 @@ const companySchema = new mongoose.Schema({
     address: {
         type: String
     },
+    connectedForIntern:{
+        type: Boolean,
+        default: true
+    },
     internSeats: {
         type: String
     },
