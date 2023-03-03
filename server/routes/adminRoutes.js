@@ -34,8 +34,12 @@ router.route('/update-admin-profile')
 router.route('/add-result')
     .post(adminController.addResult)
 
-router.route('/set-w-gpa')
+router.route('/set-weighted-gpa')
     .post(adminController.setWeightedGPA);
+
+router.route('/assign-supervisor')
+    .get(adminController.assignSupervisorGET)
+    .patch(adminController.assignSupervisorPATCH)
 
 // router.route('update-result-schema')
 

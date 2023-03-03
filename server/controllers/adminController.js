@@ -22,71 +22,79 @@ const gradeValue = require('../utils/gradeValue');
 // Function = create users - all types
 
 module.exports.createUser = async (req, res) => {
-    const userType = req.params.userType;
-    if (userType === 'admin') {
-        const { role, name, email, contactNo, staffId, password } = req.body;
+    try {
+        const userType = req.params.userType;
+        if (userType === 'admin') {
+            const { role, name, email, contactNo, staffId, password } = req.body;
 
-        try {
-            const user = await Admin.create({ role, name, email, contactNo, staffId, password });
-            res.status(201).json({ messadmin: user._id });
+            try {
+                const user = await Admin.create({ role, name, email, contactNo, staffId, password });
+                res.status(201).json({
+                    user: user._id,
+                    type: user.role,
+                    message: "user created successfullly"
+                });
 
-        } catch (err) {
-            const errors = handleErrors(err);
-            console.log({ errors });
-            res.status(400).json({ errors });
+            } catch (err) {
+                const errors = handleErrors(err);
+                console.log({ errors });
+                res.status(400).json({ errors });
+            }
         }
-    }
-    else if (userType === 'undergraduate') {
-        const { name, regNo, email, contactNo, password, gpa } = req.body;
+        else if (userType === 'undergraduate') {
+            const { name, regNo, email, contactNo, password, gpa } = req.body;
 
-        try {
-            const user = await Undergraduate.create({ name, regNo, email, contactNo, password, gpa });
-            res.status(201).json({ 
-                user: user._id,
-                type: user.role,
-                message: "user created successfullly"
-             });
-        } catch (err) {
-            const errors = handleErrors(err);
-            console.log({ errors });
-            res.status(400).json({ errors });
+            try {
+                const user = await Undergraduate.create({ name, regNo, email, contactNo, password, gpa });
+                res.status(201).json({
+                    user: user._id,
+                    type: user.role,
+                    message: "user created successfullly"
+                });
+            } catch (err) {
+                const errors = handleErrors(err);
+                console.log({ errors });
+                res.status(400).json({ errors });
+            }
         }
-    }
-    else if (userType === 'supervisor') {
-        const { name, email, contactNo, company, jobRole, password } = req.body;
+        else if (userType === 'supervisor') {
+            const { name, email, contactNo, company, jobRole, password } = req.body;
 
-        try {
-            const user = await Supervisor.create({ name, email, contactNo, company, jobRole, password });
-            res.status(201).json({ 
-                user: user._id,
-                type: user.role,
-                message: "user created successfullly"
-             });
-        } catch (err) {
-            const errors = handleErrors(err);
-            console.log({ errors });
-            res.status(400).json({ errors });
+            try {
+                const user = await Supervisor.create({ name, email, contactNo, company, jobRole, password });
+                res.status(201).json({
+                    user: user._id,
+                    type: user.role,
+                    message: "user created successfullly"
+                });
+            } catch (err) {
+                const errors = handleErrors(err);
+                console.log({ errors });
+                res.status(400).json({ errors });
+            }
         }
-    }
-    else if (userType === 'alumni') {
-        const { name, email, contactNo, regNo, graduatedYear, password } = req.body;
+        else if (userType === 'alumni') {
+            const { name, email, contactNo, regNo, graduatedYear, password } = req.body;
 
-        try {
-            const user = await Alumni.create({ name, email, contactNo, regNo, graduatedYear, password });
-            res.status(201).json({ 
-                user: user._id,
-                type: user.role,
-                message: "user created successfullly"
-             });
-        } catch (err) {
-            const errors = handleErrors(err);
-            console.log({ errors });
-            res.status(400).json({ errors });
+            try {
+                const user = await Alumni.create({ name, email, contactNo, regNo, graduatedYear, password });
+                res.status(201).json({
+                    user: user._id,
+                    type: user.role,
+                    message: "user created successfullly"
+                });
+            } catch (err) {
+                const errors = handleErrors(err);
+                console.log({ errors });
+                res.status(400).json({ errors });
+            }
         }
-    }
-    else {
-        console.log('invalid user type');
-        res.status(400).json({ error: 'invalid user type' });
+        else {
+            console.log('invalid user type');
+            res.status(400).json({ error: 'invalid user type' });
+        }
+    } catch (err) {
+        res.status(500).json(err);
     }
 
 }
@@ -370,35 +378,87 @@ module.exports.addResult = async (req, res) => {
 module.exports.setWeightedGPA = async (req, res) => {
     try {
         const users = await Undergraduate.find({ results: { $exists: true } }, { results: 1 })
-        .populate('results');
+            .populate('results');
 
         for (const user of users) {
             const results = Object.entries(user.results._doc)
-            .filter(([prop]) => prop.includes('CSC'))
-            .map(([prop, grade]) => ({
-                courseUnit: prop,
-                creditValue: setCreditValue(prop),
-                gpv: gradeValue(grade)
-            }))
-            .filter(({gpv}) => gpv !== null);
+                .filter(([prop]) => prop.includes('CSC'))
+                .map(([prop, grade]) => ({
+                    courseUnit: prop,
+                    creditValue: setCreditValue(prop),
+                    gpv: gradeValue(grade)
+                }))
+                .filter(({ gpv }) => gpv !== null);
 
-            const totalCredits = results.reduce((sum, {creditValue}) => sum + creditValue, 0);
+            const totalCredits = results.reduce((sum, { creditValue }) => sum + creditValue, 0);
             console.log(totalCredits);
             const gpvByCredit = results.reduce((sum, { creditValue, gpv }) => sum + creditValue * gpv, 0);
             const weightedGPA = gpvByCredit / totalCredits;
 
             console.log(weightedGPA);
-            await Undergraduate.findByIdAndUpdate(user._id, { weightedGPA});
+            await Undergraduate.findByIdAndUpdate(user._id, { weightedGPA });
         }
-        res.status(200).json({message: 'GPA calculation completed'});
+        res.status(200).json({ message: 'GPA calculation completed' });
     } catch (err) {
         console.log(err);
         console.log(err);
-        res.status(500).json({message: 'An error occurred while calculating GPAs.'});
+        res.status(500).json({ message: 'An error occurred while calculating GPAs.' });
+    }
+}
+
+//Method: GET
+//Endpoint: "/assign-supervisor"
+//Function: Send companies and supervisors for assign-supervisor form
+module.exports.assignSupervisorGET = async (req, res) => {
+    try {
+        const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
+        // const { companyId, supervisorId } = req.body;
+
+        const user = await Undergraduate.findById(userId).select("-password");
+        const companies = await Company.find();
+        const supervisors = await Supervisor.find();
+        if (!user) {
+            return res.status(404).json({ message: "user not found!" });
+        }
+        console.log(companies, supervisors);
+        res.status(200).json({ companies, supervisors });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
     }
 }
 
 //Method: PATCH
-//Endpoint: "/add-supervisor"
-//Function: Add supervisor for undergraduate
-// module.exports.assignSupervisor
+//Endpoint: "/assign-supervisor"
+//Function: Assign a supervisor for undergraduate
+module.exports.assignSupervisorPATCH = async (req, res) => {
+    try {
+        const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
+        const { supervisorId } = req.body;
+
+        const user = await Undergraduate.findById(userId).select("-password");
+        if (!user) {
+            return res.status(404).json({ message: "user not found!" });
+        }
+
+        if(user.supervisor){
+            return res.status(400).json({message: "User already assigned to a sipervisor", supervisor: user.supervisor});
+        }
+
+        const supervisor = await Supervisor.findById(supervisorId);
+        if(!supervisor){
+            return res.status(404).json({message: "supervisor not found"});
+        }
+        
+        const assignment = await user.updateOne({supervisor}, {new: true});
+        if(!assignment){
+            return res.status(400).json({message: "error happen when updating user"})
+        }
+
+        console.log(user);
+        res.status(200).json({ message:"assigned supervisor successfully", user });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+}
