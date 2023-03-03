@@ -10,7 +10,7 @@ import {
 import { Tile } from '../../../card/Tile'
 import { Company } from '../../../shared/CreateUser/forms/Company'
 
-export const CvUpdate = () => {
+export const StudentCvUpdate = () => {
     return (
         <Box>
             <Grid container spacing={1}>
