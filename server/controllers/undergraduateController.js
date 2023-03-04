@@ -2,12 +2,14 @@ const Undergraduate = require('../models/Undergraduate');
 const Company = require('../models/Company');
 const handleErrors = require('../utils/appErrors');
 const { default: mongoose } = require('mongoose');
+const catchAsync = require('../utils/catchAsync');
+const Supervisor = require('../models/Supervisor');
 
 
 // Method = POST
 // Endpoint = "/create-undergraduate"
 // Function = create undergraduate user
-module.exports.createUndergraduate = async (req, res) => {
+module.exports.createUndergraduate = catchAsync(async (req, res) => {
 
     try {
         const { name, regNo, email, contactNo, password, gpa } = req.body;
@@ -28,12 +30,12 @@ module.exports.createUndergraduate = async (req, res) => {
         console.log({ errors });
         res.status(500).json({ errors });
     }
-}
+});
 
 // Method: GET
 //Endpoint: "/view-undergraduate-profile"
 // Function: View Undegraduate Profile
-module.exports.viewUndergraduateProfile = async (req, res) => {
+module.exports.viewUndergraduateProfile = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id; // 🛑 user id must get from jwt in future 🛑
         const user = await Undergraduate.findById(userId);
@@ -48,12 +50,12 @@ module.exports.viewUndergraduateProfile = async (req, res) => {
         console.log(err);
         res.status(500).json({ err })
     }
-}
+});
 
 // Method = PATCH
 // Endpoint = "/update-undergraduate-profile"
 // Function = Update undergraduate profile
-module.exports.updateUndergraduateProfile = async (req, res) => {
+module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id; // 🛑 user id must get from jwt in future 🛑
         const { email, contactNo, linkdinURL, githubURL, internStatus } = req.body;
@@ -80,12 +82,12 @@ module.exports.updateUndergraduateProfile = async (req, res) => {
         console.log(err);
         res.status(500).json(err);
     }
-}
+});
 
 // Method = PATCH
 // Endpoint = "/company-selection"
 // Function = Select companies for internship
-module.exports.companySelection = async (req, res) => {
+module.exports.companySelection = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id; // 🛑 user id must get from jwt in future 🛑
         const { priority, companyId, jobRole } = req.body;
@@ -135,12 +137,12 @@ module.exports.companySelection = async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-}
+});
 
 // Method = GET
 // Endpoint = "/undergraduate-dashboard"
 // Function = Undergraduate Dashboard
-module.exports.undergraduateDashboard = async (req, res) => {
+module.exports.undergraduateDashboard = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
 
@@ -158,12 +160,12 @@ module.exports.undergraduateDashboard = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: "server error!" });
     }
-}
+});
 
 // Method = PATCH
 // Endpoint = "/add-note"
 // Function = Add a note
-module.exports.addNote = async (req, res) => {
+module.exports.addNote = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
 
@@ -186,12 +188,11 @@ module.exports.addNote = async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-}
-
+});
 // Method = GET
 // Endpoint = "/view-notes"
 // Function = View notes
-module.exports.viewNotes = async (req, res) => {
+module.exports.viewNotes = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
 
@@ -213,12 +214,12 @@ module.exports.viewNotes = async (req, res) => {
         res.status(500).json(err);
     }
 
-}
+});
 
 // Method: GET
 // Endpoint = "/view-note"
 // Function = View a note
-module.exports.viewNote = async (req, res) => {
+module.exports.viewNote = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
         const noteId = req.body.noteId // 🛑 noteId can also parse and get from req.params 🛑
@@ -241,12 +242,12 @@ module.exports.viewNote = async (req, res) => {
         res.status(500).json(err);
     }
 
-}
+});
 
 // Method = GET
 // Endpoint = "/edit-note"
 // Function = Edit a note
-module.exports.editNote = async (req, res) => {
+module.exports.editNote = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
         const { noteId, newTitle, newContent } = req.body;
@@ -277,12 +278,12 @@ module.exports.editNote = async (req, res) => {
         console.log(err);
         res.status(500).json(err);
     }
-}
+});
 
 //Method: POST
 //Endpoint: "/add-result"
 //Function: Add results of undergraduate
-module.exports.addResult = async (req, res) => {
+module.exports.addResult = catchAsync(async (req, res) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -378,12 +379,12 @@ module.exports.addResult = async (req, res) => {
     } finally {
         session.endSession();
     }
-};
+});
 
 //Method: PATCH
 //Endpoint: "/set-weigted-gpa"
 //Function: Set wiighted gpa for undergraduate
-module.exports.setWeightedGPA = async (req, res) => {
+module.exports.setWeightedGPA = catchAsync(async (req, res) => {
     try {
         const users = await Undergraduate.find({ results: { $exists: true } }, { results: 1 })
             .populate('results');
@@ -412,13 +413,13 @@ module.exports.setWeightedGPA = async (req, res) => {
         console.log(err);
         res.status(500).json({ message: 'An error occurred while calculating GPAs.' });
     }
-}
+});
 
 // 🛑 This is a tempory route controller. just for checking 🛑
 // Method = PATCH
 // Endpoint = "/add-intern-status"
 // Function = add intern status
-module.exports.addInternStatus = async (req, res) => {
+module.exports.addInternStatus = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
         const { companyId, newStatus } = req.body;
@@ -465,12 +466,12 @@ module.exports.addInternStatus = async (req, res) => {
         res.status(500).json(err);
 
     }
-}
+});
 
 // Method = PATCH
 // Endpoint = "/edit-intern-status"
 // Function = Edit intern status
-module.exports.editInternStatus = async (req, res) => {
+module.exports.editInternStatus = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
         const { companyId, newStatus } = req.body;
@@ -512,12 +513,12 @@ module.exports.editInternStatus = async (req, res) => {
         console.log(err);
         res.status(500).json(err);
     }
-}
+});
 
 //Method: GET
 //Endpoint: "/assign-supervisor"
 //Function: Send companies and supervisors for assign-supervisor form
-module.exports.assignSupervisorGET = async (req, res) => {
+module.exports.assignSupervisorGET = catchAsync(async (req, res) => {
     try {
         const { userId } = req.body;
 
@@ -533,12 +534,12 @@ module.exports.assignSupervisorGET = async (req, res) => {
         console.log(err);
         res.status(500).json(err);
     }
-}
+});
 
 //Method: PATCH
 //Endpoint: "/assign-supervisor"
 //Function: Assign a supervisor for undergraduate
-module.exports.assignSupervisorPATCH = async (req, res) => {
+module.exports.assignSupervisorPATCH = catchAsync(async (req, res) => {
     try {
         const { userId, supervisorId } = req.body;
 
@@ -567,5 +568,5 @@ module.exports.assignSupervisorPATCH = async (req, res) => {
         console.log(err);
         res.status(500).json(err);
     }
-}
+});
 

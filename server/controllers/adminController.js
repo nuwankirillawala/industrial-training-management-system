@@ -6,6 +6,7 @@ const Supervisor = require('../models/Supervisor');
 const Company = require('../models/Company');
 const Result = require('../models/Result');
 const handleErrors = require('../utils/appErrors');
+const catchAsync = require('../utils/catchAsync');
 const { default: mongoose } = require('mongoose');
 const xlsx = require('xlsx');
 const path = require('path');
@@ -14,10 +15,11 @@ const searchUsers = require('../utils/searchUsers');
 const setCreditValue = require('../utils/setCreditValue');
 const gradeValue = require('../utils/gradeValue');
 
+
 // Method = POST
 // Endpoint = "/create-admin"
 // Function = create admin-user
-module.exports.createAdmin = async (req, res) => {
+module.exports.createAdmin = catchAsync(async (req, res) => {
     try {
         const { role, name, email, contactNo, staffId, password } = req.body;
         const user = await Admin.create({ role, name, email, contactNo, staffId, password });
@@ -36,12 +38,12 @@ module.exports.createAdmin = async (req, res) => {
         console.log({ errors });
         res.status(500).json({ errors });
     }
-}
+});
 
 // Method = GET
 // Endpoint = "/view-all-users/:userType"
 // Function = View all users by user type
-module.exports.viewAllUsers = async (req, res) => {
+module.exports.viewAllUsers = catchAsync(async (req, res) => {
     try {
         const userType = req.params.userType;
         let users = [];
@@ -65,12 +67,12 @@ module.exports.viewAllUsers = async (req, res) => {
         console.log(err);
         res.status(500).json({ error: "Server error" });
     }
-}
+});
 
 // Method = GET
 // Endpoint = "/search-users/:userType"
 // Function = search user by name, regno, email
-module.exports.searchUsers = async (req, res) => {
+module.exports.searchUsers = catchAsync(async (req, res) => {
     try {
         const userType = req.params.userType;
         const searchTerm = req.query.q;
@@ -84,12 +86,12 @@ module.exports.searchUsers = async (req, res) => {
         console.log(err);
         res.status(500).json(err);
     }
-}
+});
 
 // Method = GET
 // Endpoint = "/admin profile"
 // Function = view admin profile
-module.exports.adminProfile = async (req, res) => {
+module.exports.adminProfile = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id;
         const user = await Admin.findById(userId);
@@ -102,12 +104,12 @@ module.exports.adminProfile = async (req, res) => {
         console.log(err);
         res.status(500).json({ err })
     }
-}
+})
 
 // Method = PATCH
 // Endpoint = "/update-admin-profile"
 // Function = Update admin profile
-module.exports.updateAdminProfile = async (req, res) => {
+module.exports.updateAdminProfile = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id;
         const { role, name, email, contactNo, staffId } = req.body;
@@ -134,7 +136,7 @@ module.exports.updateAdminProfile = async (req, res) => {
         console.log(err);
         res.status(500).json(err);
     }
-}
+});
 
 
 

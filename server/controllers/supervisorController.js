@@ -1,10 +1,11 @@
 const Supervisor = require("../models/Supervisor");
 const handleErrors = require("../utils/appErrors");
+const catchAsync = require("../utils/catchAsync");
 
 // Method = POST
 // Endpoint = "/create-supervisor"
 // Function = create supervisor-user
-module.exports.createSupervisor = async (req, res) => {
+module.exports.createSupervisor = catchAsync(async (req, res) => {
     try {
         const { name, email, contactNo, company, jobRole, password } = req.body;
         const user = await Supervisor.create({ name, email, contactNo, company, jobRole, password });
@@ -23,4 +24,4 @@ module.exports.createSupervisor = async (req, res) => {
         console.log({ errors });
         res.status(500).json({ errors });
     }
-}
+});

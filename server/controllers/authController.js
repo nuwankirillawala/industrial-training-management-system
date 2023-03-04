@@ -5,6 +5,7 @@ const Alumni = require('../models/Alumni');
 const Supervisor = require('../models/Supervisor');
 const sendEmail = require('../utils/email');
 const handleErrors = require('../utils/appErrors');
+const catchAsync = require('../utils/catchAsync');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -18,7 +19,7 @@ const createToken = (id) => {
     });
 }
 
-module.exports.login = async (req, res) => {
+module.exports.login = catchAsync(async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -56,14 +57,14 @@ module.exports.login = async (req, res) => {
         const errors = handleErrors(err);
         res.status(400).json({ errors });
     }
-}
+});
 
-module.exports.logout = (req, res) => {
+module.exports.logout = catchAsync((req, res) => {
     res.cookie('jwt', '', { maxAge: 1 });
     res.redirect('/login');
-}
+});
 
-module.exports.resetPassword = async (req, res) => {
+module.exports.resetPassword = catchAsync(async (req, res) => {
     // get user by email
     try {
         let user = await Admin.findOne({ email: req.body.email });
@@ -103,9 +104,9 @@ module.exports.resetPassword = async (req, res) => {
         console.log(err);
         res.status(500).json({ message: 'Server error' });
     }
-}
+});
 
-module.exports.resetPasswordToken = async (req, res) => {
+module.exports.resetPasswordToken = catchAsync(async (req, res) => {
     try {
         const decoded = jwt.verify(req.params.token, process.env.JWT_SECRET);
         let user = await Admin.findById(decoded._id);
@@ -126,9 +127,9 @@ module.exports.resetPasswordToken = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
-}
+});
 
-module.exports.updatePassword = async (req, res) => {
+module.exports.updatePassword = catchAsync(async (req, res) => {
     try {
         let user = await Admin.findById(req.body.userId);
         if (!user) {
@@ -153,4 +154,4 @@ module.exports.updatePassword = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
-}
+});
