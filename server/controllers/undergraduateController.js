@@ -21,7 +21,7 @@ module.exports.createUndergraduate = async (req, res) => {
         res.status(201).json({
             user: user._id,
             type: user.role,
-            message: "user created successfullly"
+            message: "undergraduate created successfullly"
         });
     } catch (err) {
         const errors = handleErrors(err);

@@ -86,60 +86,6 @@ module.exports.searchUsers = async (req, res) => {
     }
 }
 
-// Method = POST
-// Endpoint = "//:companyID/add-contact-person"
-// Function = add a contact person for a company
-module.exports.addContactPerson = async (req, res) => {
-    try {
-        const contactPersonData = req.body;
-        // Convert the request parameter "companyID" to a MongoDB ObjectID
-        const id = mongoose.Types.ObjectId(req.params.companyID);
-
-        Company.findByIdAndUpdate(
-            id,
-            { $push: { contactPerson: contactPersonData } },
-            { new: true },
-            (err, updatedCompany) => {
-                if (err) {
-                    console.log(err);
-                    return res.status(500).json({ error: 'An error occurred while updating the company' });
-                }
-
-                if (!updatedCompany) {
-                    return res.status(404).json({ error: 'The company was not found' });
-                }
-
-                res.status(200).json({ message: 'The contact person was added successfully' });
-            }
-        );
-
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ err });
-    }
-}
-
-// Method = PATCH
-// Endpoint = "/:companyID/edit-rating"
-// Function = edit company ratings
-module.exports.editCompanyRating = (req, res) => {
-    try {
-        const companyID = req.params.companyID;
-        console.log(companyID);
-        const c = Company.find();
-        console.log(c)
-        // Company.findById(companyID, (err, foundCompany) => {
-        //     if(err){
-        //         console.log(err);
-        //     } else {
-        //         console.log(foundCompany);
-        //     } 
-        // }) 
-    } catch (err) {
-        console.log(err);
-    }
-}
-
 // Method = GET
 // Endpoint = "/admin profile"
 // Function = view admin profile

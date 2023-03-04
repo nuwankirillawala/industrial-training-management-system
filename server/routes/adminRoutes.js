@@ -16,12 +16,6 @@ router.route('/view-all-users/:userType')
 router.route('/search-users/:userType')
     .get(adminController.searchUsers)
 
-router.route('/:companyID/add-contact-person')
-    .post(adminController.addContactPerson)
-
-router.route('/:companyID/edit-rating')
-    .post(adminController.editCompanyRating)
-
 router.route('/admin-profile')
     .get(adminController.adminProfile)
 
