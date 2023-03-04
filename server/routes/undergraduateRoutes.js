@@ -30,6 +30,12 @@ router.route('/view-note')
 router.route('/edit-note')
     .patch(undergraduateController.editNote)
 
+router.route('/add-result')
+    .post(adminController.addResult)
+
+router.route('/set-weighted-gpa')
+    .post(adminController.setWeightedGPA)
+
 // 🛑 This is a tempory route controller. just for checking 🛑
 router.route('/add-intern-status')
     .patch(undergraduateController.addInternStatus)
@@ -39,6 +45,10 @@ router.route('/edit-intern-status')
 
 router.route('/company-selection')
     .patch(undergraduateController.companySelection)
+
+router.route('/assign-supervisor')
+    .get(adminController.assignSupervisorGET)
+    .patch(adminController.assignSupervisorPATCH)
 
 
 module.exports = router;

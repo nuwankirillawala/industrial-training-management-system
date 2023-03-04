@@ -12,4 +12,7 @@ router.route('/:companyID/add-contact-person')
 router.route('/:companyID/edit-rating')
     .post(adminController.editCompanyRating)
 
+router.route('/intern-process-company-list')
+    .get(adminController.internProcessCompanyList)
+
 module.exports = router;

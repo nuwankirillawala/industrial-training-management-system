@@ -22,19 +22,6 @@ router.route('/admin-profile')
 router.route('/update-admin-profile')
     .patch(adminController.updateAdminProfile)
 
-router.route('/add-result')
-    .post(adminController.addResult)
-
-router.route('/set-weighted-gpa')
-    .post(adminController.setWeightedGPA);
-
-router.route('/assign-supervisor')
-    .get(adminController.assignSupervisorGET)
-    .patch(adminController.assignSupervisorPATCH)
-
-router.route('/intern-process-company-list')
-    .get(adminController.internProcessCompanyList)
-
 // router.route('update-result-schema')
 
 module.exports = router;

@@ -69,3 +69,20 @@ module.exports.editCompanyRating = (req, res) => {
         console.log(err);
     }
 }
+
+//Method: GET
+//Endpoint: "/intern-process-company-list"
+//Function: View companies that select for intern application process
+module.exports.internProcessCompanyList = async (req, res) => {
+    try {
+        const companyList = await Company.find({ connectedForIntern: false });
+
+        if (companyList.length === 0) {
+            return res.status(404).json({ message: "No any company for intern process" });
+        }
+
+        res.status(200).json(companyList);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+}
