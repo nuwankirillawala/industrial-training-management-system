@@ -32,8 +32,14 @@ const handleErrors = (err) => {
         });
     }
 
-    if(err.message.includes('undergraduate validation failed')){
+    // password length error
+    if(err.message.includes('password: Minimum password length is 6')){
         errors.password = 'Minimum password length is 6';
+    }
+
+    // empty company error  supervisor 
+    if(err.message.includes('company: Please enter the company')){
+        errors.company = 'Company field is required'
     }
 
     return errors;
