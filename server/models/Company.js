@@ -20,8 +20,8 @@ const companySchema = new mongoose.Schema({
         type: String
     },
     connectedForIntern:{
-        type: Boolean,
-        default: true
+        type: Boolean
+        // default: true
     },
     internSeats: {
         type: String

@@ -2,6 +2,7 @@ const express = require('express');
 const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const undergraduateRoutes = require('./routes/undergraduateRoutes');
+const supervisorRoutes = require('./routes/supervisorRoutes');
 const { requireAuth } = require('./middleware/authMiddleware');
 const cors = require('cors');
 
@@ -19,6 +20,7 @@ app.get("/test",  (req, res) => {
 app.use(authRoutes);
 app.use(adminRoutes);
 app.use(undergraduateRoutes);
+app.use(supervisorRoutes);
 
 
 module.exports = app;

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { isEmail } = require('validator');
 const bcrypt = require('bcrypt');
+const Company = require('./Company');
 
 const supervisorSchema = new mongoose.Schema({
     role: {
@@ -22,7 +23,8 @@ const supervisorSchema = new mongoose.Schema({
         type: String
     },
     company: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Company,
         required: [true, 'Please enter the company']
     },
     jobRole: {
