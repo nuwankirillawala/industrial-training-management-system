@@ -7,17 +7,14 @@ const router = Router();
 // router.route('/create-user/:userType')
 //     .post(requireAuth, adminController.createUser)
 
-router.route('/create-user/:userType')
-    .post(adminController.createUser)
+router.route('/create-admin')
+    .post(adminController.createAdmin)
 
 router.route('/view-all-users/:userType')
     .get(adminController.viewAllUsers)
 
 router.route('/search-users/:userType')
     .get(adminController.searchUsers)
-
-router.route('/create-company')
-    .post(adminController.createCompany)
 
 router.route('/:companyID/add-contact-person')
     .post(adminController.addContactPerson)
@@ -40,6 +37,9 @@ router.route('/set-weighted-gpa')
 router.route('/assign-supervisor')
     .get(adminController.assignSupervisorGET)
     .patch(adminController.assignSupervisorPATCH)
+
+router.route('/intern-process-company-list')
+    .get(adminController.internProcessCompanyList)
 
 // router.route('update-result-schema')
 

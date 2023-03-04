@@ -2,8 +2,8 @@ const Supervisor = require("../models/Supervisor");
 const handleErrors = require("../utils/appErrors");
 
 // Method = POST
-// Endpoint = "/create-undergraduate"
-// Function = create undergraduate user
+// Endpoint = "/create-supervisor"
+// Function = create supervisor-user
 module.exports.createSupervisor = async (req, res) => {
     try {
         const { name, email, contactNo, company, jobRole, password } = req.body;
