@@ -3,6 +3,7 @@ const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const undergraduateRoutes = require('./routes/undergraduateRoutes');
 const supervisorRoutes = require('./routes/supervisorRoutes');
+const alumniRoutes = require('./routes/alumniRoutes');
 const { requireAuth } = require('./middleware/authMiddleware');
 const cors = require('cors');
 
@@ -21,6 +22,8 @@ app.use(authRoutes);
 app.use(adminRoutes);
 app.use(undergraduateRoutes);
 app.use(supervisorRoutes);
+app.use(alumniRoutes);
+
 
 
 module.exports = app;
