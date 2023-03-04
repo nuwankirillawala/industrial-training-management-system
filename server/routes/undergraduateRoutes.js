@@ -3,6 +3,9 @@ const undergraduateController = require('../controllers/undergraduateController'
 
 const router = Router();
 
+router.route('/create-undergraduate')
+    .post(undergraduateController.createUndergraduate)
+
 router.route('/view-undergraduate-profile')
     .get(undergraduateController.viewUndergraduateProfile)
 

@@ -3,6 +3,38 @@ const Company = require('../models/Company');
 const handleErrors = require('../utils/appErrors');
 const { default: mongoose } = require('mongoose');
 
+
+// Method = POST
+// Endpoint = "/create-undergraduate"
+// Function = create undergraduate user
+module.exports.createUndergraduate = async (req, res) => {
+
+    try {
+        const { name, regNo, email, contactNo, password, gpa } = req.body;
+        console.log(name);
+
+        const user = await Undergraduate.create({ name, regNo, email, contactNo, password, gpa });
+
+        if(!user){
+            return res.status(400).json({message: "error! can't create the user!"});
+        }
+        res.status(201).json({
+            user: user._id,
+            type: user.role,
+            message: "user created successfullly"
+        });
+    } catch (err) {
+        const errors = handleErrors(err);
+        console.log({ errors });
+        res.status(500).json({ errors });
+    }
+}
+
+
+
+
+
+
 // Method: GET
 //Endpoint: "/view-undergraduate-profile"
 // Function: View Undegraduate Profile
@@ -79,8 +111,8 @@ module.exports.companySelection = async (req, res) => {
         const existCompany = user.companySelection.filter((selection) => {
             return selection.companyId.equals(companyId);
         });
-        if(existCompany){
-            return res.status(400).json({message: "user already apply for that company"});
+        if (existCompany) {
+            return res.status(400).json({ message: "user already apply for that company" });
         }
 
         // check that user already add a company for that priority
@@ -88,15 +120,15 @@ module.exports.companySelection = async (req, res) => {
             return selection.priority.equals(priority);
         });
 
-        if(existPriority){
-            return res.status(400).json({message: "priority already exists"});
+        if (existPriority) {
+            return res.status(400).json({ message: "priority already exists" });
         };
 
-        const newCompanySelection = {priority, companyId, jobRole};
+        const newCompanySelection = { priority, companyId, jobRole };
         const updatedUser = await Undergraduate.findByIdAndUpdate(
             userId,
-            {$push: {companySelection: newCompanySelection}},
-            {new: true}
+            { $push: { companySelection: newCompanySelection } },
+            { new: true }
         );
 
         if (updatedUser) {
