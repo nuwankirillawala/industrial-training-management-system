@@ -16,87 +16,28 @@ const gradeValue = require('../utils/gradeValue');
 
 
 
-
 // Method = POST
-// Endpoint = "/create-user/:userType"
-// Function = create users - all types
-
-module.exports.createUser = async (req, res) => {
+// Endpoint = "/create-admin"
+// Function = create admin-user
+module.exports.createAdmin = async (req, res) => {
     try {
-        const userType = req.params.userType;
-        if (userType === 'admin') {
-            const { role, name, email, contactNo, staffId, password } = req.body;
+        const { role, name, email, contactNo, staffId, password } = req.body;
+        const user = await Admin.create({ role, name, email, contactNo, staffId, password });
 
-            try {
-                const user = await Admin.create({ role, name, email, contactNo, staffId, password });
-                res.status(201).json({
-                    user: user._id,
-                    type: user.role,
-                    message: "user created successfullly"
-                });
+        if(!user){
+            return res.status(400).json({message: "error! can't create the user!"});
+        }
 
-            } catch (err) {
-                const errors = handleErrors(err);
-                console.log({ errors });
-                res.status(400).json({ errors });
-            }
-        }
-        else if (userType === 'undergraduate') {
-            const { name, regNo, email, contactNo, password, gpa } = req.body;
-
-            try {
-                const user = await Undergraduate.create({ name, regNo, email, contactNo, password, gpa });
-                res.status(201).json({
-                    user: user._id,
-                    type: user.role,
-                    message: "user created successfullly"
-                });
-            } catch (err) {
-                const errors = handleErrors(err);
-                console.log({ errors });
-                res.status(400).json({ errors });
-            }
-        }
-        else if (userType === 'supervisor') {
-            const { name, email, contactNo, company, jobRole, password } = req.body;
-
-            try {
-                const user = await Supervisor.create({ name, email, contactNo, company, jobRole, password });
-                res.status(201).json({
-                    user: user._id,
-                    type: user.role,
-                    message: "user created successfullly"
-                });
-            } catch (err) {
-                const errors = handleErrors(err);
-                console.log({ errors });
-                res.status(400).json({ errors });
-            }
-        }
-        else if (userType === 'alumni') {
-            const { name, email, contactNo, regNo, graduatedYear, password } = req.body;
-
-            try {
-                const user = await Alumni.create({ name, email, contactNo, regNo, graduatedYear, password });
-                res.status(201).json({
-                    user: user._id,
-                    type: user.role,
-                    message: "user created successfullly"
-                });
-            } catch (err) {
-                const errors = handleErrors(err);
-                console.log({ errors });
-                res.status(400).json({ errors });
-            }
-        }
-        else {
-            console.log('invalid user type');
-            res.status(400).json({ error: 'invalid user type' });
-        }
+        res.status(201).json({
+            user: user._id,
+            type: user.role,
+            message: `${user.role} created successfullly`
+        });
     } catch (err) {
-        res.status(500).json(err);
+        const errors = handleErrors(err);
+        console.log({ errors });
+        res.status(500).json({ errors });
     }
-
 }
 
 // Method = GET
@@ -154,9 +95,9 @@ module.exports.searchUsers = async (req, res) => {
 // Function = create a company
 module.exports.createCompany = async (req, res) => {
     try {
-        const { name, email, contactNo, address, internSeats, description } = req.body;
+        const { name, email, contactNo, address, internSeats, description, connectedForIntern } = req.body;
         //const {criteria01} = req.body.rating;
-        const company = await Company.create({ name, email, contactNo, address, internSeats, description });
+        const company = await Company.create({ name, email, contactNo, address, internSeats, description, connectedForIntern });
         res.status(201).json({ company: company._id });
     } catch (err) {
         const errors = handleErrors(err);
@@ -411,8 +352,7 @@ module.exports.setWeightedGPA = async (req, res) => {
 //Function: Send companies and supervisors for assign-supervisor form
 module.exports.assignSupervisorGET = async (req, res) => {
     try {
-        const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
-        // const { companyId, supervisorId } = req.body;
+        const { userId } = req.body;
 
         const user = await Undergraduate.findById(userId).select("-password");
         const companies = await Company.find();
@@ -433,32 +373,51 @@ module.exports.assignSupervisorGET = async (req, res) => {
 //Function: Assign a supervisor for undergraduate
 module.exports.assignSupervisorPATCH = async (req, res) => {
     try {
-        const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
-        const { supervisorId } = req.body;
+        const { userId, supervisorId } = req.body;
 
         const user = await Undergraduate.findById(userId).select("-password");
         if (!user) {
             return res.status(404).json({ message: "user not found!" });
         }
 
-        if(user.supervisor){
-            return res.status(400).json({message: "User already assigned to a sipervisor", supervisor: user.supervisor});
+        if (user.supervisor) {
+            return res.status(400).json({ message: "User already assigned to a sipervisor", supervisor: user.supervisor });
         }
 
         const supervisor = await Supervisor.findById(supervisorId);
-        if(!supervisor){
-            return res.status(404).json({message: "supervisor not found"});
+        if (!supervisor) {
+            return res.status(404).json({ message: "supervisor not found" });
         }
-        
-        const assignment = await user.updateOne({supervisor}, {new: true});
-        if(!assignment){
-            return res.status(400).json({message: "error happen when updating user"})
+
+        const assignment = await user.updateOne({ supervisor }, { new: true });
+        if (!assignment) {
+            return res.status(400).json({ message: "error happen when updating user" })
         }
 
         console.log(user);
-        res.status(200).json({ message:"assigned supervisor successfully", user });
+        res.status(200).json({ message: "assigned supervisor successfully", user });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 }
+
+//Method: GET
+//Endpoint: "/intern-process-company-list"
+//Function: View companies that select for intern application process
+module.exports.internProcessCompanyList = async (req, res) => {
+    try {
+        const companyList = await Company.find({ connectedForIntern: false });
+
+        if (companyList.length === 0) {
+            return res.status(404).json({ message: "No any company for intern process" });
+        }
+
+        res.status(200).json(companyList);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+}
+
+
+
