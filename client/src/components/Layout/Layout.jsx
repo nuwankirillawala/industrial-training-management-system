@@ -18,6 +18,7 @@ export const Layout = () => {
         </Box>
         <Box
           component='main'
+          sx={{overflow: 'hidden'}}
         >
           <Toolbar/>
           <Outlet/>
