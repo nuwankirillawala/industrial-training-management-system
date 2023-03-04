@@ -32,6 +32,10 @@ const handleErrors = (err) => {
         });
     }
 
+    if(err.message.includes('undergraduate validation failed')){
+        errors.password = 'Minimum password length is 6';
+    }
+
     return errors;
 }
 
