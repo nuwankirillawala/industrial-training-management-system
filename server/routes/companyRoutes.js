@@ -4,15 +4,15 @@ const companyController = require('../controllers/companyController');
 const router = Router();
 
 router.route('/create-company')
-    .post(adminController.createCompany)
+    .post(companyController.createCompany)
 
 router.route('/:companyID/add-contact-person')
-    .post(adminController.addContactPerson)
+    .post(companyController.addContactPerson)
 
 router.route('/:companyID/edit-rating')
-    .post(adminController.editCompanyRating)
+    .post(companyController.editCompanyRating)
 
 router.route('/intern-process-company-list')
-    .get(adminController.internProcessCompanyList)
+    .get(companyController.internProcessCompanyList)
 
 module.exports = router;
