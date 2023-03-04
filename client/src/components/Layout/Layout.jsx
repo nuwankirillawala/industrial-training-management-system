@@ -1,8 +1,10 @@
 import React from 'react'
-import { Box } from '@mui/material'
+import { Box, Toolbar } from '@mui/material'
 import Navbar from '../Navbar/Navbar'
 import Sidebar from '../Sidebar/Sidebar'
 import { Outlet } from 'react-router-dom'
+
+const drawerWidth = 180;
 
 export const Layout = () => {
   return (
@@ -10,9 +12,14 @@ export const Layout = () => {
       <Box sx={{flex: 'initial'}}>
         <Sidebar/>
       </Box>
-      <Box sx={{display: 'flex', gap: '10px', flexDirection: 'column', flex: 'auto'}}>
-        <Navbar/>
-        <Outlet/>
+      <Box sx={{ gap: '10px', flexDirection: 'column', flex: 'auto'}}>
+        <Box sx={{mb: '10px'}}>
+          <Navbar/>
+        </Box>
+        <Box>
+          <Toolbar/>
+          <Outlet/>
+        </Box>
       </Box>
     </Box>    
   )
