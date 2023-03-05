@@ -4,7 +4,7 @@ const catchAsync = require('../utils/catchAsync');
 
 // Method = POST
 // Endpoint = "/create-alumni"
-// Function = create alumni-user
+// Description = create alumni-user
 module.exports.createAlumni = catchAsync(async (req, res) => {
     try {
         const { name, email, contactNo, regNo, graduatedYear, password } = req.body;
