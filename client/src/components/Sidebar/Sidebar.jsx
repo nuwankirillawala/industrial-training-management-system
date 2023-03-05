@@ -77,7 +77,6 @@ export default function Sidebar() {
             width: drawerWidth,
             boxSizing: 'border-box',
             bgcolor: '#4665d2',
-            borderRadius: '0px 10px 10px 0px',
             color: '#f4f6fc',            
           },
         }}
