@@ -1,14 +1,15 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import { Stack } from '@mui/system';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import CloseIcon from '@mui/icons-material/Close';
 
 
-export function Dialogbox({ children, title }) {
+export default function Dialogbox({ children, title, btn_name }) {
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -22,10 +23,13 @@ export function Dialogbox({ children, title }) {
     return (
         <div>
             <Button variant="outlined" onClick={handleClickOpen}>
-                Open form dialog
+                {btn_name}
             </Button>
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>{title}</DialogTitle>
+            <Dialog open={open} >
+                <Stack direction={"row"} >
+                    <DialogTitle width={'27vw'}>{title}</DialogTitle>
+                    <DialogActions ><CloseIcon onClick={handleClose} style={{ backgroundColor: 'red', color: 'white' }}>Cancel</CloseIcon></DialogActions>
+                </Stack>
                 <DialogContent>
                     <DialogContentText>
                         This is content
@@ -33,11 +37,8 @@ export function Dialogbox({ children, title }) {
                     {children}
 
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Save</Button>
-                </DialogActions>
+
             </Dialog>
-        </div>
+        </div >
     );
 }

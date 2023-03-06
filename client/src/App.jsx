@@ -5,17 +5,19 @@ import { Layout } from './components/Layout/Layout'
 import { RootLayout } from './components/Layout/RootLayout'
 import { StudentCvUpdate } from './Pages/Undergraduate/StudentCvUpdate'
 import { Manageuser } from './Pages/Admin/Manageuser'
+import Dialogbox from './components/Dialogbox/Dialogbox'
 
-import { AddAdmin } from './components/user/Admin/addusers/AddAdmin'
-import { AddSuperv } from './components/user/Admin/addusers/AddSuperv'
-import { AddUndg } from './components/user/Admin/addusers/AddUndg'
-import { AddCompany } from './components/user/Admin/addusers/AddCompany'
-import { AddAlumini } from './components/user/Admin/addusers/AddAlumini'
-import { ViewAdmin } from './components/user/Admin/viewusers/ViewAdmin'
-import { ViewSuperv } from './components/user/Admin/viewusers/ViewSuperv'
-import { ViewUndg } from './components/user/Admin/viewusers/ViewUndg'
-import { ViewCompany } from './components/user/Admin/viewusers/ViewCompany'
-import { ViewAlumini } from './components/user/Admin/viewusers/ViewAlumini'
+import { AddAdmin } from './components/user/Admin/addUsers/AddAdmin'
+import { AddSuperv } from './components/user/Admin/addUsers/AddSuperv'
+import { AddUndg } from './components/user/Admin/addUsers/AddUndg'
+import { AddCompany } from './components/user/Admin/addUsers/AddCompany'
+import { AddAlumini } from './components/user/Admin/addUsers/AddAlumini'
+import { ViewAdmin } from './components/user/Admin/viewUsers/ViewAdmin'
+import { ViewSuperv } from './components/user/Admin/viewUsers/ViewSuperv'
+import { ViewUndg } from './components/user/Admin/viewUsers/ViewUndg'
+import { ViewCompany } from './components/user/Admin/viewUsers/ViewCompany'
+import { ViewAlumini } from './components/user/Admin/viewUsers/ViewAlumini'
+import { UpdateAdmin } from './components/user/Admin/updateUsers/UpdateAdmin'
 
 
 function App() {
@@ -39,6 +41,8 @@ function App() {
         <Route path='view-undg-details' element={<ViewUndg />} />
         <Route path='view-comp-details' element={<ViewCompany />} />
         <Route path='view-alumini-details' element={<ViewAlumini />} />
+
+        <Route path='update-admin-details' element={<UpdateAdmin />} />
       </Route>
 
       {/*login page*/}
@@ -51,6 +55,7 @@ function App() {
 
       <Route path='/'>
         <Route path='testcvupdate' element={<StudentCvUpdate />}></Route>
+        <Route path='dialogbox' element={<Dialogbox />}></Route>
       </Route>
 
     </Route>
