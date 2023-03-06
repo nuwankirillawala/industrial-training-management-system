@@ -1,9 +1,12 @@
-import './App.css'
+// import './App.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import { Login } from './components/Login/Login'
 import { Layout } from './components/Layout/Layout'
 import { RootLayout } from './components/Layout/RootLayout'
 import { StudentCvUpdate } from './Pages/Undergraduate/StudentCvUpdate'
+import { StudentSettings } from './Pages/Undergraduate/StudentSettings'
+import { StudentDashboard } from './Pages/Undergraduate/StudentDashboard'
+import { StudentCompany } from './Pages/Undergraduate/StudentCompany'
 import { Manageuser } from './Pages/Admin/Manageuser'
 import Dialogbox from './components/Dialogbox/Dialogbox'
 
@@ -28,7 +31,6 @@ function App() {
       {/*add main pages hete use path variable */}
 
       <Route path='/' element={<Layout />}>
-        <Route path='cvupdate' element={<StudentCvUpdate />}></Route>
         <Route path='manageuser' element={<Manageuser />}></Route>
         <Route path='addadmin' element={<AddAdmin />} />
         <Route path='add-superv-details' element={<AddSuperv />} />
@@ -43,6 +45,12 @@ function App() {
         <Route path='view-alumini-details' element={<ViewAlumini />} />
 
         <Route path='update-admin-details' element={<UpdateAdmin />} />
+        
+{/* student routes */}
+        <Route path='student-dashboard' element={<StudentDashboard />} />
+        <Route path='cvupdate' element={<StudentCvUpdate />}></Route>
+        <Route path='student-company' element={<StudentCompany />} />
+        <Route path='student-settings' element={<StudentSettings />} />
       </Route>
 
       {/*login page*/}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tile } from '../../../card/Tile'
+import { Tile } from '../../card/Tile'
 import { Grid, Typography, FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material'
 import { useState } from 'react'
 

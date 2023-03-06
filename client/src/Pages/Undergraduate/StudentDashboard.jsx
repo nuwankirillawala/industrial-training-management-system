@@ -1,14 +1,13 @@
 import React from 'react'
 import { Box,Typography,Stack,Grid,TextField } from '@mui/material'
-import { Tile } from '../../../card/Tile'
-import { Avatar } from '../../../shared/Images/Avatar'
-import { Layout } from '../../../Layout/Layout'
+import { Tile } from '../../components/card/Tile'
+import { Avatar } from '../../components/shared/Images/Avatar'
 import { TableContainer, Table, TableRow, TableHead, TableCell, TableBody } from '@mui/material'
-import { NoticeBoard } from '../../../Notice/NoticeBoard'
+import { NoticeBoard } from '../../components/Notice/NoticeBoard'
 
 export const StudentDashboard = () => {
   return (
-    <Layout>
+
     <Box sx={{display:'flex'}}>
     <Grid container md={12} sm={12} spacing={1}>
       <Grid item md={9} sm={3}>
@@ -126,6 +125,6 @@ export const StudentDashboard = () => {
 
     </Grid>
     </Box>
-    </Layout>
+
   )
 }

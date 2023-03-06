@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { Tile } from '../../../card/Tile'
+import { Tile } from '../../card/Tile'
 import { Grid, Typography, Button, TextField } from '@mui/material'
 
 const Internperiod = {
