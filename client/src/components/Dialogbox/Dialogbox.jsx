@@ -32,7 +32,7 @@ export default function Dialogbox({ children, title, btn_name }) {
                 </Stack>
                 <DialogContent>
                     <DialogContentText>
-                        This is content
+                        Dialogbox Content
                     </DialogContentText>
                     {children}
 

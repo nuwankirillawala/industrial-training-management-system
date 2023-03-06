@@ -55,7 +55,7 @@ function App() {
 
       <Route path='/'>
         <Route path='testcvupdate' element={<StudentCvUpdate />}></Route>
-        <Route path='dialogbox' element={<Dialogbox />}></Route>
+        <Route path='dialogbox' element={<Dialogbox title="Title here" btn_name="default name">keep Children's here while calling</Dialogbox>}></Route>
       </Route>
 
     </Route>
