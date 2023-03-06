@@ -1,13 +1,12 @@
 import React from "react";
-import { Layout } from "../../../Layout/Layout";
-import { Supervisor } from '../../../shared/CreateUser/forms/Supervisor';
+import { SupervisorCreateForm } from "../../../shared/CreateUser/forms/SupervisorCreateForm";
 
 export const AddSuperv = () => {
     return (
-        <Layout>
-            <Supervisor>
 
-            </Supervisor>
-        </Layout>
+        <SupervisorCreateForm>
+
+        </SupervisorCreateForm>
+
     )
 }
