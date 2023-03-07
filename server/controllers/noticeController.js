@@ -81,7 +81,42 @@ module.exports.editNotice = catchAsync(async (req, res) => {
             });
         newNotice.save();
 
-        res.status(201).json({ message: "notice update successfully", newNotice });
+        res.status(200).json({ message: "notice update successfully", newNotice });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json(err);
+    }
+});
+
+// Method: GET
+// Endpoint: "/view-all-notices"
+// Description: View all notices
+module.exports.viewAllNotices = catchAsync(async (req, res) => {
+    try {
+        const notices = await Notice.find();
+        if (!notices) {
+            return res.status(400).json({ message: "notices not found!" });
+        }
+
+        res.status(200).json(notices);
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json(err);
+    }
+});
+
+// Method: GET
+// Endpoint: "/view-notice"
+// Description: View a notice
+module.exports.viewNotice = catchAsync(async (req, res) => {
+    try {
+        const noticeId = req.body.noticeId;
+        const notice = await Notice.findById(noticeId);
+        if (!notice) {
+            return res.status(400).json({ message: "notice not found!" });
+        }
+
+        res.status(200).json(notice);
     } catch (err) {
         console.log(err.message);
         res.status(500).json(err);
