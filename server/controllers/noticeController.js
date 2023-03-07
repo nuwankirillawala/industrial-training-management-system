@@ -122,3 +122,21 @@ module.exports.viewNotice = catchAsync(async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+// Method: DELETE
+// Endpoint: "/delete-notice"
+// Description: Delete a notice
+module.exports.deleteNotice = catchAsync(async (req, res) => {
+    try {
+        const noticeId = req.body.noticeId;
+        const notice = await Notice.findByIdAndDelete(noticeId);
+        if (!notice) {
+            return res.status(400).json({ message: "notice not found!" });
+        }
+
+        res.status(200).json({message: "notice deleted successfully", notice});
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json(err);
+    }
+});

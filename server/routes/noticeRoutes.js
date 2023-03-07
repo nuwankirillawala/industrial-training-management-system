@@ -15,5 +15,8 @@ router.route('/view-all-notices')
 router.route('/view-notice')
     .get(noticeController.viewNotice)
 
+router.route('/delete-notice')
+    .delete(noticeController.deleteNotice)
+
 
 module.exports = router;
