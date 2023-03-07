@@ -11,6 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import { useState, useEffect } from "react";
 
+const drawerWidth = 190;
 
 
 export default function Navbar () {
@@ -26,7 +27,13 @@ export default function Navbar () {
 //sx={{ width: `calc(100% - ${200}px)`}  
 
   return (
-      <AppBar position="static" elevation= {0} >
+      <AppBar 
+        position="fixed"
+        elevation= {0}
+        sx={{
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          ml: { sm: `${drawerWidth}px` },
+      }}>
         <Toolbar>
           <Typography variant="body2" component="div" sx={{flexGrow: 1}}>
             {/* <li key={products.id}> {Page}</li>  */}

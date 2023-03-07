@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Typography, Grid, Button } from '@mui/material'
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material'
 import { FormControl, Select, MenuItem } from '@mui/material'
-import { Tile } from '../../../card/Tile'
+import { Tile } from '../../card/Tile'
 
 const StdcompanyState = {
     comapnyName : '',

@@ -1,13 +1,13 @@
 import React from "react";
-import { Undergraduate } from '../../../shared/CreateUser/forms/Undergraduate';
-import { Layout } from "../../../Layout/Layout";
+import { UndergraduateCreateForm } from '../../../shared/CreateUser/forms/UndergraduateCreateForm';
+
 
 export const AddUndg = () => {
     return (
-        <Layout>
-            <Undergraduate>
 
-            </Undergraduate>
-        </Layout>
+        <UndergraduateCreateForm>
+
+        </UndergraduateCreateForm>
+
     )
 }

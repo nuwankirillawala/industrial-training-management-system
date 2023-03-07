@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { Tile } from '../../../card/Tile'
+import { Tile } from '../../components/card/Tile'
 import { Grid, Box, Typography, TextField, Button } from '@mui/material'
-import { Avatar } from '../../../shared/Images/Avatar'
-import { Layout } from '../../../Layout/Layout'
+import { Avatar } from '../../components/shared/Images/Avatar'
 
 // get current values form backend and set that valuse as default values in textfields
 
@@ -30,7 +29,6 @@ export const StudentSettings = () => {
     const[profile,setProfile] = useState(values);
 
   return (
-      <Layout>
 
         <Grid container spacing={1}>
             <Grid item md={4}>
@@ -299,7 +297,5 @@ export const StudentSettings = () => {
             </Tile>
             </Grid>
         </Grid>
-
-  </Layout>
   )
 }

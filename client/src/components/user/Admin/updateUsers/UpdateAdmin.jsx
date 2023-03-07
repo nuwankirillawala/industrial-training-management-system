@@ -1,11 +1,15 @@
+import React from "react"
+import { UpdateAdminForm } from "../Forms/UpdateAdminForm";
 import { Stack } from "@mui/system";
-import React from "react";
 import { useState, useEffect } from "react";
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Button, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { Tile } from "../../../card/Tile";
-import { Layout } from "../../../Layout/Layout";
+import Dialogbox from "../../../Dialogbox/Dialogbox";
 
-export const ViewUndg = () => {
+
+
+export const UpdateAdmin = () => {
+
     const [Column, setColumn] = useState([])
     const [Records, setRecords] = useState([])
 
@@ -18,7 +22,9 @@ export const ViewUndg = () => {
             })
     }, [])
 
+
     return (
+
         <Tile>
             <Stack>
                 <Table>
@@ -34,10 +40,11 @@ export const ViewUndg = () => {
                     <TableBody>
 
                         {Records.map((r, i) =>
-                            <TableRow key={i}>
+                            <TableRow key={i} >
                                 <TableCell >   {r.id}  </TableCell>
                                 <TableCell >   {r.title}  </TableCell>
                                 <TableCell >   {r.description} </TableCell>
+                                <TableCell> <Dialogbox title="Update Administrator" btn_name="update"><UpdateAdminForm /></Dialogbox></TableCell>
                             </TableRow> //id,title,description need to change as json file
                         )}
 
@@ -46,5 +53,6 @@ export const ViewUndg = () => {
 
             </Stack>
         </Tile>
+
     )
-} 
+}  

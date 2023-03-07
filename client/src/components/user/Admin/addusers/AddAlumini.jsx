@@ -1,13 +1,12 @@
 import React from "react";
-import { Alumini } from '../../../shared/CreateUser/forms/Alumini';
-import { Layout } from "../../../Layout/Layout";
+import { AluminiCreateForm } from '../../../shared/CreateUser/forms/AluminiCreateForm';
 
 export const AddAlumini = () => {
     return (
-        <Layout>
-            <Alumini>
 
-            </Alumini>
-        </Layout>
+        <AluminiCreateForm>
+
+        </AluminiCreateForm>
+
     )
 }

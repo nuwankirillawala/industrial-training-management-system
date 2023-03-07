@@ -3,7 +3,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { Tile } from "../../../card/Tile";
-import { Layout } from "../../../Layout/Layout";
 
 export const ViewSuperv = () => {
     const [Column, setColumn] = useState([])
@@ -19,34 +18,32 @@ export const ViewSuperv = () => {
     }, [])
 
     return (
-        <Layout>
-            <Tile>
-                <Stack>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                {Column.map((c, i) =>
-                                    <TableCell key={i}>
-                                        {c}
-                                    </TableCell>
-                                )}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-
-                            {Records.map((r, i) =>
-                                <TableRow key={i}>
-                                    <TableCell >   {r.id}  </TableCell>
-                                    <TableCell >   {r.title}  </TableCell>
-                                    <TableCell >   {r.description} </TableCell>
-                                </TableRow> //id,title,description need to change as json file
+        <Tile>
+            <Stack>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            {Column.map((c, i) =>
+                                <TableCell key={i}>
+                                    {c}
+                                </TableCell>
                             )}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
 
-                        </TableBody>
-                    </Table>
+                        {Records.map((r, i) =>
+                            <TableRow key={i}>
+                                <TableCell >   {r.id}  </TableCell>
+                                <TableCell >   {r.title}  </TableCell>
+                                <TableCell >   {r.description} </TableCell>
+                            </TableRow> //id,title,description need to change as json file
+                        )}
 
-                </Stack>
-            </Tile>
-        </Layout>
+                    </TableBody>
+                </Table>
+
+            </Stack>
+        </Tile>
     )
 } 
