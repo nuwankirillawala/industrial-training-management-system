@@ -6,4 +6,8 @@ const router = Router();
 router.route('/create-notice')
     .post(noticeController.createNotice)
 
+router.route('/edit-notice')
+    .patch(noticeController.editNotice)
+    
+    
 module.exports = router;
