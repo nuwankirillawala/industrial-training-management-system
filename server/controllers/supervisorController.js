@@ -4,7 +4,7 @@ const catchAsync = require("../utils/catchAsync");
 
 // Method = POST
 // Endpoint = "/create-supervisor"
-// Function = create supervisor-user
+// Description = create supervisor-user
 module.exports.createSupervisor = catchAsync(async (req, res) => {
     try {
         const { name, email, contactNo, company, jobRole, password } = req.body;
