@@ -5,15 +5,15 @@ import { Tile } from "../../../card/Tile"
 
 
 const User = {
-    adminName: '',
+    AlumniName: '',
     email: '',
     contactNo: '',
-    staffId: '',
-    password: '',
-    adminRole: ''
+    regNo: '',
+    graduatedYear: '',
+    password: ''
 }
 
-export const UpdateAdminForm = () => {
+export const UpdateAlumniForm = () => {
 
     const [values, setValues] = useState(User);
     const [error, setError] = useState();
@@ -45,13 +45,13 @@ export const UpdateAdminForm = () => {
                 <Stack direction={'column'} spacing={1} justifyContent={'center'}>
                     <Stack direction={'row'} spacing={3} justifyContent={'space-between'}>
                         <Stack direction={'column'} spacing={4}>
-                            {['Admin Role', 'Name', 'Email', 'Contact Number', 'Staff ID', 'Password'].map((text) => (
+                            {['Alumni Person Name ', 'Email', 'Contact Number', 'Registration No', 'Graduated Year', 'Password'].map((text) => (
                                 <Typography key={text}>{text}</Typography>
                             ))}
 
                         </Stack>
                         <Stack direction={'column'} spacing={2}>
-                            {['adminRole', 'adminName', 'email', 'contactNo', 'staffId', 'password'].map((text) => (
+                            {['AlumniName', 'email', 'contactNo', 'regNo', 'graduatedYear', 'password'].map((text) => (
                                 <TextField
                                     variant="outlined"
                                     label={text}
