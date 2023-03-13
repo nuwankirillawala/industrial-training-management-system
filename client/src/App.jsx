@@ -48,7 +48,7 @@ function App() {
         
 {/* student routes */}
         <Route path='student-dashboard' element={<StudentDashboard />} />
-        <Route path='cvupdate' element={<StudentCvUpdate />}></Route>
+        <Route path='student-cvupdate' element={<StudentCvUpdate />}></Route>
         <Route path='student-company' element={<StudentCompany />} />
         <Route path='student-settings' element={<StudentSettings />} />
       </Route>

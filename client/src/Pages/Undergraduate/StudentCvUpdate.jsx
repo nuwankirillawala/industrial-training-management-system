@@ -87,6 +87,10 @@ export const StudentCvUpdate = () => {
                                             size='itms-small'
                                         >
                                             Browse
+                                            <input
+                                                type="file"
+                                                hidden
+                                             />
                                         </Button>
                                     </Stack>
                                     <Button
