@@ -5,7 +5,6 @@ import { Grid, Typography } from '@mui/material';
 import { Button } from '@mui/material';
 //import { useState, useEffect } from "react";
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Layout } from '../../components/Layout/Layout';
 
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
@@ -119,26 +118,26 @@ export const Manageuser = () => {
 
 
     return (
-        <Layout>
-            <Grid container spacing={2}>
-                {userList.map((user, index) => (
-                    <Grid item md={2.4} sm={6} key={index}>
-                        <Tile height={'88vh'}>
-                            <Stack ><Icon color='primary' fontSize='large'><user.icon /> </Icon></Stack>
-                            {/* sx={{ display: 'flex-end', alignItems: 'center' }} If want icons in center*/}
-                            <Stack height={'80px'}> <Typography variant="h6" fontWeight={'bold'}>{user.name}</Typography> </Stack>
-                            <Stack height={'120px'} padding="10px">  <Typography variant="body1" > {user.description} </Typography>  </Stack>
-                            <Stack direction={"column"} sx={{ height: '58%' }} justifyContent={"flex-end"} spacing={2}>
-                                <Button variant="itms" onClick={() => navigate(RedirectViewuser(user.name))}> View  </Button>
-                                <Button variant="itms" onClick={() => navigate(RedirectAdduser(user.name))} > Add  </Button>
-                                <Button variant="itms" onClick={() => navigate(RedirectUpdateuser(user.name))}> Update </Button>
-                                <Button variant="itms" onClick={() => navigate(RedirectRemoveuser(user.name))}> Remove  </Button>
-                            </Stack>
-                        </Tile>
-                    </Grid>
-                ))}
-            </Grid>
-        </Layout >
+
+        <Grid container spacing={2}>
+            {userList.map((user, index) => (
+                <Grid item md={2.4} sm={6} key={index}>
+                    <Tile height={'88vh'}>
+                        <Stack ><Icon color='primary' fontSize='large'><user.icon /> </Icon></Stack>
+                        {/* sx={{ display: 'flex-end', alignItems: 'center' }} If want icons in center*/}
+                        <Stack height={'80px'}> <Typography variant="h6" fontWeight={'bold'}>{user.name}</Typography> </Stack>
+                        <Stack height={'120px'} padding="10px">  <Typography variant="body1" > {user.description} </Typography>  </Stack>
+                        <Stack direction={"column"} sx={{ height: '58%' }} justifyContent={"flex-end"} spacing={2}>
+                            <Button variant="itms" onClick={() => navigate(RedirectViewuser(user.name))}> View  </Button>
+                            <Button variant="itms" onClick={() => navigate(RedirectAdduser(user.name))} > Add  </Button>
+                            <Button variant="itms" onClick={() => navigate(RedirectUpdateuser(user.name))}> Update </Button>
+                            <Button variant="itms" onClick={() => navigate(RedirectRemoveuser(user.name))}> Remove  </Button>
+                        </Stack>
+                    </Tile>
+                </Grid>
+            ))}
+        </Grid>
+
     )
 
 

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Tile } from "../../../card/Tile";
 import { DataGrid } from "@mui/x-data-grid";
-import { Layout } from "../../../Layout/Layout";
 import { Button } from "@mui/material";
+
 
 export const RemoveAdmin = () => {
     const [products, setProducts] = useState([]);
@@ -26,19 +26,17 @@ export const RemoveAdmin = () => {
     ];
 
     return (
-        <Layout>
-            <Tile height="83vh" width="77vw" >
 
-                <DataGrid
-                    columns={columns}
-                    rows={products}
-                    checkboxSelection
-                />
-                <Button variant="itms" display="flex-end">Remove</Button>
-                {/* onClick =remove users function */}
+        <Tile height="87vh" width="80vw" >
+            <DataGrid
+                columns={columns}
+                rows={products}
+                checkboxSelection
+                pageSize={5}
+            /><Button variant="itms" display="flex-end">Remove</Button>
+            {/* onClick =remove users function */}
+        </Tile >
 
-            </Tile >
-        </Layout>
     );
 }
 
