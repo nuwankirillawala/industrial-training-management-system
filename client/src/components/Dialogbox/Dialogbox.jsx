@@ -26,9 +26,9 @@ export default function Dialogbox({ children, title, btn_name }) {
                 {btn_name}
             </Button>
             <Dialog open={open} >
-                <Stack direction={"row"} >
+                <Stack direction={"row"} justifyContent="space-between" >
                     <DialogTitle width={'27vw'}>{title}</DialogTitle>
-                    <DialogActions ><CloseIcon onClick={handleClose} style={{ backgroundColor: 'red', color: 'white' }}>Cancel</CloseIcon></DialogActions>
+                    <DialogActions ><CloseIcon display="flex-end" onClick={handleClose} style={{ backgroundColor: 'red', color: 'white' }}>Cancel</CloseIcon></DialogActions>
                 </Stack>
                 <DialogContent>
                     <DialogContentText>

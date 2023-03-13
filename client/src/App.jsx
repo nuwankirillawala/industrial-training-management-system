@@ -21,6 +21,9 @@ import { ViewUndg } from './components/user/Admin/viewUsers/ViewUndg'
 import { ViewCompany } from './components/user/Admin/viewUsers/ViewCompany'
 import { ViewAlumini } from './components/user/Admin/viewUsers/ViewAlumini'
 import { UpdateAdmin } from './components/user/Admin/updateUsers/UpdateAdmin'
+import { RemoveAdmin } from './components/user/Admin/RemoveUsers/RemoveAdmin'
+import { UpdateAlumni } from './components/user/Admin/updateUsers/UpdateAlumni'
+import { UpdateCompany } from './components/user/Admin/updateUsers/UpdateCompany'
 
 
 function App() {
@@ -45,10 +48,13 @@ function App() {
         <Route path='view-alumini-details' element={<ViewAlumini />} />
 
         <Route path='update-admin-details' element={<UpdateAdmin />} />
-        
-{/* student routes */}
+        <Route path='remove-admin' element={<RemoveAdmin />} />
+        <Route path='update-alumni-details' element={<UpdateAlumni />} />
+        <Route path='update-company-details' element={<UpdateCompany />} />
+
+        {/* student routes */}
         <Route path='student-dashboard' element={<StudentDashboard />} />
-        <Route path='cvupdate' element={<StudentCvUpdate />}></Route>
+        <Route path='student-cvupdate' element={<StudentCvUpdate />}></Route>
         <Route path='student-company' element={<StudentCompany />} />
         <Route path='student-settings' element={<StudentSettings />} />
       </Route>

@@ -5,7 +5,7 @@ const catchAsync = require("../utils/catchAsync");
 
 // Method = POST
 // Endpoint = "/create-company"
-// Function = create a company
+// Description = create a company
 module.exports.createCompany = catchAsync(async (req, res) => {
     try {
         const { name, email, contactNo, address, internSeats, description, connectedForIntern } = req.body;
@@ -21,7 +21,7 @@ module.exports.createCompany = catchAsync(async (req, res) => {
 
 // Method = POST
 // Endpoint = "//:companyID/add-contact-person"
-// Function = add a contact person for a company
+// Description = add a contact person for a company
 module.exports.addContactPerson = catchAsync(async (req, res) => {
     try {
         const contactPersonData = req.body;
@@ -54,7 +54,7 @@ module.exports.addContactPerson = catchAsync(async (req, res) => {
 
 // Method = PATCH
 // Endpoint = "/:companyID/edit-rating"
-// Function = edit company ratings
+// Description = edit company ratings
 module.exports.editCompanyRating = catchAsync(async (req, res) => {
     try {
         const companyID = req.params.companyID;
@@ -73,9 +73,9 @@ module.exports.editCompanyRating = catchAsync(async (req, res) => {
     }
 });
 
-//Method: GET
-//Endpoint: "/intern-process-company-list"
-//Function: View companies that select for intern application process
+// Method: GET
+// Endpoint: "/intern-process-company-list"
+// Description: View companies that select for intern application process
 module.exports.internProcessCompanyList = catchAsync(async (req, res) => {
     try {
         const companyList = await Company.find({ connectedForIntern: false });

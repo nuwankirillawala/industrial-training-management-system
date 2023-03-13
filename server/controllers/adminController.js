@@ -18,7 +18,7 @@ const gradeValue = require('../utils/gradeValue');
 
 // Method = POST
 // Endpoint = "/create-admin"
-// Function = create admin-user
+// Description = create admin-user
 module.exports.createAdmin = catchAsync(async (req, res) => {
     try {
         const { role, name, email, contactNo, staffId, password } = req.body;
@@ -42,7 +42,7 @@ module.exports.createAdmin = catchAsync(async (req, res) => {
 
 // Method = GET
 // Endpoint = "/view-all-users/:userType"
-// Function = View all users by user type
+// Description = View all users by user type
 module.exports.viewAllUsers = catchAsync(async (req, res) => {
     try {
         const userType = req.params.userType;
@@ -71,7 +71,7 @@ module.exports.viewAllUsers = catchAsync(async (req, res) => {
 
 // Method = GET
 // Endpoint = "/search-users/:userType"
-// Function = search user by name, regno, email
+// Description = search user by name, regno, email
 module.exports.searchUsers = catchAsync(async (req, res) => {
     try {
         const userType = req.params.userType;
@@ -90,7 +90,7 @@ module.exports.searchUsers = catchAsync(async (req, res) => {
 
 // Method = GET
 // Endpoint = "/admin profile"
-// Function = view admin profile
+// Description = view admin profile
 module.exports.adminProfile = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id;
@@ -108,7 +108,7 @@ module.exports.adminProfile = catchAsync(async (req, res) => {
 
 // Method = PATCH
 // Endpoint = "/update-admin-profile"
-// Function = Update admin profile
+// Description = Update admin profile
 module.exports.updateAdminProfile = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id;

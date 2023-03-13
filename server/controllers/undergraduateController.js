@@ -8,7 +8,7 @@ const Supervisor = require('../models/Supervisor');
 
 // Method = POST
 // Endpoint = "/create-undergraduate"
-// Function = create undergraduate user
+// Description = create undergraduate user
 module.exports.createUndergraduate = catchAsync(async (req, res) => {
 
     try {
@@ -34,7 +34,7 @@ module.exports.createUndergraduate = catchAsync(async (req, res) => {
 
 // Method: GET
 //Endpoint: "/view-undergraduate-profile"
-// Function: View Undegraduate Profile
+// Description: View Undegraduate Profile
 module.exports.viewUndergraduateProfile = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id; // 🛑 user id must get from jwt in future 🛑
@@ -54,7 +54,7 @@ module.exports.viewUndergraduateProfile = catchAsync(async (req, res) => {
 
 // Method = PATCH
 // Endpoint = "/update-undergraduate-profile"
-// Function = Update undergraduate profile
+// Description = Update undergraduate profile
 module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id; // 🛑 user id must get from jwt in future 🛑
@@ -86,7 +86,7 @@ module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
 
 // Method = PATCH
 // Endpoint = "/company-selection"
-// Function = Select companies for internship
+// Description = Select companies for internship
 module.exports.companySelection = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id; // 🛑 user id must get from jwt in future 🛑
@@ -141,7 +141,7 @@ module.exports.companySelection = catchAsync(async (req, res) => {
 
 // Method = GET
 // Endpoint = "/undergraduate-dashboard"
-// Function = Undergraduate Dashboard
+// Description = Undergraduate Dashboard
 module.exports.undergraduateDashboard = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
@@ -164,7 +164,7 @@ module.exports.undergraduateDashboard = catchAsync(async (req, res) => {
 
 // Method = PATCH
 // Endpoint = "/add-note"
-// Function = Add a note
+// Description = Add a note
 module.exports.addNote = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
@@ -191,7 +191,7 @@ module.exports.addNote = catchAsync(async (req, res) => {
 });
 // Method = GET
 // Endpoint = "/view-notes"
-// Function = View notes
+// Description = View notes
 module.exports.viewNotes = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
@@ -218,7 +218,7 @@ module.exports.viewNotes = catchAsync(async (req, res) => {
 
 // Method: GET
 // Endpoint = "/view-note"
-// Function = View a note
+// Description = View a note
 module.exports.viewNote = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
@@ -246,7 +246,7 @@ module.exports.viewNote = catchAsync(async (req, res) => {
 
 // Method = GET
 // Endpoint = "/edit-note"
-// Function = Edit a note
+// Description = Edit a note
 module.exports.editNote = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
@@ -280,9 +280,9 @@ module.exports.editNote = catchAsync(async (req, res) => {
     }
 });
 
-//Method: POST
-//Endpoint: "/add-result"
-//Function: Add results of undergraduate
+// Method: POST
+// Endpoint: "/add-result"
+// Description: Add results of undergraduate
 module.exports.addResult = catchAsync(async (req, res) => {
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -381,9 +381,9 @@ module.exports.addResult = catchAsync(async (req, res) => {
     }
 });
 
-//Method: PATCH
-//Endpoint: "/set-weigted-gpa"
-//Function: Set wiighted gpa for undergraduate
+// Method: PATCH
+// Endpoint: "/set-weigted-gpa"
+// Description: Set wiighted gpa for undergraduate
 module.exports.setWeightedGPA = catchAsync(async (req, res) => {
     try {
         const users = await Undergraduate.find({ results: { $exists: true } }, { results: 1 })
@@ -418,7 +418,7 @@ module.exports.setWeightedGPA = catchAsync(async (req, res) => {
 // 🛑 This is a tempory route controller. just for checking 🛑
 // Method = PATCH
 // Endpoint = "/add-intern-status"
-// Function = add intern status
+// Description = add intern status
 module.exports.addInternStatus = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
@@ -470,7 +470,7 @@ module.exports.addInternStatus = catchAsync(async (req, res) => {
 
 // Method = PATCH
 // Endpoint = "/edit-intern-status"
-// Function = Edit intern status
+// Description = Edit intern status
 module.exports.editInternStatus = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
@@ -515,9 +515,9 @@ module.exports.editInternStatus = catchAsync(async (req, res) => {
     }
 });
 
-//Method: GET
-//Endpoint: "/assign-supervisor"
-//Function: Send companies and supervisors for assign-supervisor form
+// Method: GET
+// Endpoint: "/assign-supervisor"
+// Description: Send companies and supervisors for assign-supervisor form
 module.exports.assignSupervisorGET = catchAsync(async (req, res) => {
     try {
         const { userId } = req.body;
@@ -538,7 +538,7 @@ module.exports.assignSupervisorGET = catchAsync(async (req, res) => {
 
 //Method: PATCH
 //Endpoint: "/assign-supervisor"
-//Function: Assign a supervisor for undergraduate
+//Description: Assign a supervisor for undergraduate
 module.exports.assignSupervisorPATCH = catchAsync(async (req, res) => {
     try {
         const { userId, supervisorId } = req.body;

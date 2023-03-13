@@ -3,20 +3,26 @@ import React from "react"
 import { useState } from "react"
 import { Tile } from "../../../card/Tile"
 
+const User = [
+    { field: 'CompanyName', type: 'text' },
+    { field: 'email', type: 'email' },
+    { field: 'contactNo', type: 'text' },
+    { field: 'address', type: 'text' },
+    { field: 'internSeats', type: 'number' },
+    { field: 'description', type: 'text' },
+    { field: 'rating', type: 'number' },
+    { field: 'ContactPersonName', type: 'text' },
+    { field: 'contactPersonContactNo', type: 'text' },
+    { field: 'contactPersonEmail', type: 'email' },
+    { field: 'contactPersonPosition', type: 'text' }
+]
 
-const User = {
-    adminName: '',
-    email: '',
-    contactNo: '',
-    staffId: '',
-    password: '',
-    adminRole: ''
-}
 
-export const UpdateAdminForm = () => {
+export const UpdateCompanyForm = () => {
 
     const [values, setValues] = useState(User);
     const [error, setError] = useState();
+
 
 
     // const handleSave = () => {
@@ -39,25 +45,26 @@ export const UpdateAdminForm = () => {
 
     return (
 
-        <Tile width={'400px'} height={'80vh'}>
-            <Typography>Edit user details here</Typography>
+        <Tile width={'550px'} >
+            <Typography fontWeight={'bold'} sx={{ padding: '10px', justifyContent: 'center', display: 'flex' }}>Edit Company details here</Typography>
             <form onSubmit={onSubmit}>
                 <Stack direction={'column'} spacing={1} justifyContent={'center'}>
-                    <Stack direction={'row'} spacing={3} justifyContent={'space-between'}>
+                    <Stack direction={'row'} spacing={3} justifyContent={'space-between'} paddingLeft={'15px'}>
                         <Stack direction={'column'} spacing={4}>
-                            {['Admin Role', 'Name', 'Email', 'Contact Number', 'Staff ID', 'Password'].map((text) => (
+                            {['Company Name ', 'Company Email', 'Company Contact Number', 'Address', 'No of Internship Seats', 'Description', ' Rating', 'Contact person name', 'Contact No ', 'E-mail', 'Post'].map((text) => (
                                 <Typography key={text}>{text}</Typography>
                             ))}
 
                         </Stack>
                         <Stack direction={'column'} spacing={2}>
-                            {['adminRole', 'adminName', 'email', 'contactNo', 'staffId', 'password'].map((text) => (
+                            {User.map((user, index) => (
                                 <TextField
                                     variant="outlined"
-                                    label={text}
+                                    label={user.field}
+                                    type={user.type}
                                     size='small'
                                     onChange={(e) => setValues({ ...values, [text]: e.target.value })}
-                                    key={text}
+                                    key={index}
                                     required
 
                                 />
