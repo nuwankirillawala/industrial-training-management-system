@@ -23,6 +23,7 @@ import { ViewAlumini } from './components/user/Admin/viewUsers/ViewAlumini'
 import { UpdateAdmin } from './components/user/Admin/updateUsers/UpdateAdmin'
 import { RemoveAdmin } from './components/user/Admin/RemoveUsers/RemoveAdmin'
 import { UpdateAlumni } from './components/user/Admin/updateUsers/UpdateAlumni'
+import { UpdateCompany } from './components/user/Admin/updateUsers/UpdateCompany'
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
         <Route path='update-admin-details' element={<UpdateAdmin />} />
         <Route path='remove-admin' element={<RemoveAdmin />} />
         <Route path='update-alumni-details' element={<UpdateAlumni />} />
+        <Route path='update-company-details' element={<UpdateCompany />} />
 
         {/* student routes */}
         <Route path='student-dashboard' element={<StudentDashboard />} />
