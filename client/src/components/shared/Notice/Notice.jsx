@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Box, Paper, Button, AppBar, TextField, InputBase, styled, InputAdornment, IconButton, Toolbar, Collapse, Typography, } from '@mui/material';
-import { blue, red } from '@mui/material/colors';
-import { alpha, color, padding, positions, Stack, textAlign, width } from '@mui/system';
+import { InputBase, styled, IconButton, Typography, Grid, List, ListItemText, ListItemButton } from '@mui/material';
 import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+import { Tile } from '../../card/Tile';
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
@@ -20,157 +19,191 @@ const buttonStyles = {
     right:120,
 }
 
+const notices = [
+    {
+        primary: 'Notice 1',
+        secondary: 'This is notice 1.',
+        ternary: 'Display message 1 here.'
+    },
+    {
+        primary: 'Notice 2',
+        secondary: 'This is notice 2.',
+        ternary: 'Display message 2 here.'
+    },
+    {
+        primary: 'Notice 3',
+        secondary: 'This is notice 3.',
+        ternary: 'Display message 3 here.'
+    }
+
+]
+
 export default function Notice () {
     
-    const [displayText, setDisplayText] = useState(false);
+    const [displayText, setDisplayText] = useState('');
 
-    const handleClick = () => {
-        setDisplayText(!displayText);
+    const handleClick = (notice) => {
+        setDisplayText(notice.ternary);
     }    
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                '& > :not(style)': {
-                    m: 1,
-                },
-            }}
+
+        <Grid
+            container
+            spacing={1}
+            alignItems='center'
         >
-            <Paper 
-                elevation={0} 
-                sx={{
-                    bgcolor: '#eaf0ff',
-                    borderRadius: 2,
-                    position: 'relative',
-                    top:50,
-                    // left: 180,
-                    width:310,
-                    height:630
-                }}                
-            />
 
-            <Box>                        
-                <Paper
-                    component='form'
-                    sx={{
-                        p: '2px 8px',
-                        display:'flex',
-                        width:200,
-                        position:'relative',
-                        top:70,
-                        right:305
-                    }}
-                >
-                    <StyledInputBase
-                        placeholder='Search...'
-                        inputProps={{'aria-label': "search"}}
-                    />
-                    <IconButton type='button' sx={{ p: '10px', border:1 }} aria-label='search'>
-                        <SearchIcon/>
-                        {/* <AutorenewIcon /> */}
-                    </IconButton>
-                </Paper>
-                <Box>
-                <Paper sx={{ width:50, height:50, position:'relative', top:20, right:85, display:'flex' }} component='form'>
-                    <IconButton type='button' sx={{ p:1.3, position:'relative', left:3 }} disabled={false}>
-                        <AutorenewIcon />
-                    </IconButton>
-                </Paper>
-                </Box>
-            </Box>
-
-            <Stack sx={buttonStyles} spacing={1} >
-                <Button
-                    variant='contained'
-                    style={{justifyContent:'flex-start'}}
-                    sx={{
-                        width:150,
-                        top:250,
-                        right:417,
-                        borderRadius: '10px 10px 0px 0px',
-                        textTransform: 'none',
-                    }}
-                    onClick={handleClick}
-                >
-                        Notice 1
-                </Button>
-                <Button
-                    variant='contained'
-                    style={{justifyContent:'flex-start'}}
-                    sx={{
-                        width:150,
-                        top:250,
-                        right:417,
-                        borderRadius: 0,
-                        textTransform: 'none'
-                    }}
-                    // onClick={{handleClick}}
-                >
-                        Notice 2
-                </Button>
-                <Button
-                    variant='contained'
-                    style={{justifyContent:'flex-start'}}
-                    sx={{
-                        width:150,
-                        top:250,
-                        right:417,
-                        borderRadius: 0,
-                        textTransform:'none'
-                    }}
-                    // onClick={{handleClick}}
-                >
-                        Notice 3
-                </Button>
-                <Button
-                    variant='contained'
-                    style={{justifyContent:'flex-start'}}
-                    sx={{
-                        width:150,
-                        top:250,
-                        right:417,
-                        borderRadius:'0px 0px 10px 10px',
-                        textTransform:'none'
-                    }}
-                    // onClick={{handleClick}}
-                >
-                        Notice 4
-                </Button>
-            </Stack>            
-           
-            <Paper
-                elevation={0}
-                sx={{
-                    bgcolor: '#eaf0ff',
-                    borderRadius: 2,
-                    position: 'relative',
-                    bottom: 596,
-                    left:330,
-                    width: 1150,
-                    height: 630
-                }}
+            <Grid
+                item
+                xs={10}
+                sm={6}
+                md={3}
             >
+                <Tile
+                    height={'88vh'}
+                >
+                    {/* search bar */}
+                    <Grid
+                        border={1} 
+                        borderRadius={2}
+                        bgcolor={'white'}
+                        /*width={350}*/
+                        height={40}
+                        position={'relative'}
+                        top={10}
+                        item
+                        xs={9}
+                        sm={10}
+                        md={10}
+                        lg={10}
+                        xl={10}
+                    >
+                        <StyledInputBase
+                            placeholder='Search...'
+                            inputProps={{'aria-label': "search"}}
+                            sx={{
+                                bottom:0.5,
+                                left:20,
+                                width:180
+                            }}                        
+                        />
+                    </Grid>
 
-                <Collapse in={displayText}>
-                    <Typography variant='h5' sx={{height:630, display:'flex', alignItems:'center', justifyContent:'center'}}>
+                    {/* Search icon button */}
+                    <Grid
+                        item
+                        sm={6}
+                        md={4}
+                        lg={10}
+                        xl={10}
+                    >
+                        <IconButton
+                            type='button'
+                            sx={{
+                                bgcolor:'black',
+                                border:1,
+                                position:'relative',
+                                bottom:25,
+                                left:0,
+                                width:30,
+                                height:30,
+                                borderRadius:2,
+                                ml: {
+                                    xs: 15,
+                                    sm: 20,
+                                    md: 20,
+                                    lg: 25,
+                                    xl: 26
+                                }
+                            }}
+                        >
+                            <SearchIcon
+                                sx={{
+                                    color:'white',
+                                    "&:hover":{ color:'black' }
+                                }}
+                            />
+                        </IconButton>
+                    </Grid>
 
-                        {/* switch (displayText) {
-                            case  'displayText':
-                                
-                                return 1;
-                        
-                            default:
-                                break;
-                        } */}
+                    {/* Refresh icon button  */}
+                    <Grid>
+                        <IconButton
+                            type='button'
+                            sx={{
+                                border:1,
+                                position:'absolute',
+                                top:99, left:460,
+                                width:30,
+                                height:30,
+                                borderRadius:2,
+                                bgcolor:'black',
+                                ml: {
+                                    xs: -11,
+                                    xl: 0
+                                }
+                            }}
+                        >
+                            <AutorenewIcon
+                                sx={{
+                                    width:28,
+                                    height:28,
+                                    color:'white',
+                                    '&:hover':{
+                                        color:'black',
+                                        bgcolor:'white',
+                                        borderRadius:2
+                                    }
+                                }}
+                            />
+                        </IconButton>
+                    </Grid>
 
-                        Display notice 1 here.
-                    </Typography>
-                </Collapse>
-            </Paper>
-        </Box>
-        
+                    {/* List item buttons */}
+                    <List>
+                        {notices.map((notice, index) => (
+                            <ListItemButton
+                                key={index}
+                                onClick={() => handleClick(notice)}
+                            >
+                                <ListItemText
+                                    primary={notice.primary}
+                                    secondary={notice.secondary}
+                                />
+                            </ListItemButton>
+                        ))}
+                    </List>
+                </Tile>
+            </Grid>
+
+            {/* Display notices */}
+            <Grid
+                item
+                xs={10}
+                sm={6}
+                md={9}
+            >
+                <Tile
+                    height={'88vh'}
+                >
+                    <List>
+                        <Typography
+                            sx={{
+                                height:'83vh',
+                                display:'flex',
+                                alignItems:'center',
+                                justifyContent:'center'
+                            }}
+                        >
+                            {displayText}
+                        </Typography>
+                    </List>
+                </Tile>
+            </Grid>
+
+        </Grid>
+
     );
 
 }
