@@ -85,12 +85,10 @@ export const StudentCvUpdate = () => {
                                         <Button
                                             variant='itms'
                                             size='itms-small'
+                                            component="label"
                                         >
                                             Browse
-                                            <input
-                                                type="file"
-                                                hidden
-                                             />
+                                            <input hidden accept="*.pdf" multiple type="file" />
                                         </Button>
                                     </Stack>
                                     <Button
