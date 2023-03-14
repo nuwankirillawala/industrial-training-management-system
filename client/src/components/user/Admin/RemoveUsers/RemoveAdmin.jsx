@@ -3,6 +3,7 @@ import axios from "axios";
 import { Tile } from "../../../card/Tile";
 import { DataGrid } from "@mui/x-data-grid";
 import { Button } from "@mui/material";
+import { Stack } from "@mui/system";
 
 
 export const RemoveAdmin = () => {
@@ -26,17 +27,17 @@ export const RemoveAdmin = () => {
     ];
 
     return (
-
-        <Tile height="87vh" width="80vw" >
-            <DataGrid
-                columns={columns}
-                rows={products}
-                checkboxSelection
-                pageSize={5}
-            /><Button variant="itms" display="flex-end">Remove</Button>
-            {/* onClick =remove users function */}
-        </Tile >
-
+        <>
+            <Tile height="88vh" width="86vw" sx={{ overflow: 'hidden' }}>
+                <DataGrid
+                    columns={columns}
+                    rows={products}
+                    checkboxSelection
+                    sx={{ height: "80vh" }}
+                /> <Button variant="itms" display="flex-end" >Remove</Button>
+                {/* onClick =remove users function */}
+            </Tile >
+        </>
     );
 }
 
