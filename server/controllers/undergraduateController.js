@@ -4,6 +4,7 @@ const handleErrors = require('../utils/appErrors');
 const { default: mongoose } = require('mongoose');
 const catchAsync = require('../utils/catchAsync');
 const Supervisor = require('../models/Supervisor');
+const { startOfWeek, endOfWeek, addWeeks, format } = require('date-fns');
 
 
 // Method = POST
@@ -17,8 +18,8 @@ module.exports.createUndergraduate = catchAsync(async (req, res) => {
 
         const user = await Undergraduate.create({ name, regNo, email, contactNo, password, gpa });
 
-        if(!user){
-            return res.status(400).json({message: "error! can't create the user!"});
+        if (!user) {
+            return res.status(400).json({ message: "error! can't create the user!" });
         }
         res.status(201).json({
             user: user._id,
@@ -90,7 +91,7 @@ module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
 module.exports.companySelection = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id; // 🛑 user id must get from jwt in future 🛑
-        const { priority, companyId, jobRole } = req.body;
+        const { company01, jobRole01, company02, jobRole02, company03, jobRole03 } = req.body;
 
         // check user is exist
         const user = await Undergraduate.findById(userId);
@@ -98,43 +99,59 @@ module.exports.companySelection = catchAsync(async (req, res) => {
             return res.status(404).json({ message: "user not found!" });
         }
 
-        // check company is exist
-        const company = await Company.findById(companyId);
-        if (!company) {
+        // check companies are exist
+        const foundCompany01 = await Company.findById(company01);
+        const foundCompany02 = await Company.findById(company02);
+        const foundCompany03 = await Company.findById(company03);
+
+        if (!foundCompany01 || !foundCompany02 || !foundCompany03) {
             return res.status(404).json({ message: "company not found" });
         }
 
-        // check that user already apply for that company
-        const existCompany = user.companySelection.filter((selection) => {
-            return selection.companyId.equals(companyId);
-        });
-        if (existCompany) {
-            return res.status(400).json({ message: "user already apply for that company" });
+        // check user inputs are unique or not
+        if (company01 === company02 || company01 === company03 || company02 === company03) {
+            return res.status(400).json({ message: "can not apply same company twice" });
         }
 
-        // check that user already add a company for that priority
-        const existPriority = user.companySelection.filter((selection) => {
-            return selection.priority.equals(priority);
-        });
+        // // compare new inputs with already added values | oc - old companies
+        // const oc01 = user.companySelection01.companyId;
+        // const oc02 = user.companySelection02.companyId;
+        // const oc03 = user.companySelection03.companyId;
 
-        if (existPriority) {
-            return res.status(400).json({ message: "priority already exists" });
-        };
+        // if (company01 === oc01.toString() || company01 === oc02.toString() || company01 === oc03.toString()) {
+        //     return res.status(400).json({ message: "user already apply for company 01" });
+        // }
+        // if (company02 === oc01.toString() || company02 === oc02.toString() || company02 === oc03.toString()) {
+        //     return res.status(400).json({ message: "user already apply for company 02" });
+        // }
+        // if (company03 === oc01.toString() || company03 === oc02.toString() || company03 === oc03.toString()) {
+        //     return res.status(400).json({ message: "user already apply for company 03" });
+        // }
 
-        const newCompanySelection = { priority, companyId, jobRole };
         const updatedUser = await Undergraduate.findByIdAndUpdate(
             userId,
-            { $push: { companySelection: newCompanySelection } },
+            {
+                $set: {
+                    'companySelection01.companyId': company01,
+                    'companySelection01.jobRole': jobRole01,
+                    'companySelection02.companyId': company02,
+                    'companySelection02.jobRole': jobRole02,
+                    'companySelection03.companyId': company03,
+                    'companySelection03.jobRole': jobRole03,
+
+                }
+            },
             { new: true }
         );
 
         if (updatedUser) {
-            res.status(200).json(updatedUser.companySelection);
+            res.status(200).json(updatedUser);
         }
         else {
             res.status(400).json("error");
         }
     } catch (err) {
+        console.log(err);
         res.status(500).json(err);
     }
 });
@@ -570,3 +587,57 @@ module.exports.assignSupervisorPATCH = catchAsync(async (req, res) => {
     }
 });
 
+// weekly report submission
+module.exports.weeklyReportSubmission = catchAsync(async (req, res) => {
+    try {
+        console.log('development start');
+        const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
+        const user = await Undergraduate.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: "user not found!" });
+        }
+
+        const { internshipStart, internshipEnd } = req.body;
+
+        // Generate empty weekly reports for the intern
+        const emptyWeeklyReports = async (internshipStart, internshipEnd) => {
+            const startOfWeekDate = startOfWeek(new date(internshipStart));
+            const endOfWeekDate = endOfWeek(new Date(internshipEnd));
+            const weeks = [];
+
+            let currentWeekDate = startOfWeekDate;
+            let weekNumber = 1;
+
+            while(currentWeekDate < endOfWeekDate){
+                const weekStartDate = new Date(currentWeekDate);
+                const weekEndDate = endOfWeek(new Date(currentWeekDate));
+
+                const emptyWeeklyReport = {
+                    weekNumber,
+                    weekStartDate,
+                    weekEndDate,
+                    dailyReports: [],
+                    problemSection: '',
+                    reportStatus: 'empty'
+                };
+
+                weeks.push(emptyWeeklyReport);
+                weekNumber++;
+                currentWeekDate = addWeeks(currentWeekDate, 1);
+            }
+            return weeks;
+        }
+
+        const candidate = await Undergraduate.findByIdAndUpdate(
+            userId,
+            { $set: { internshipStart, internshipEnd, weeklyReports: emptyWeeklyReports}},
+            {new: true}
+        );
+        res.status(200).json({message: "internship update successfully", candidate});
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
