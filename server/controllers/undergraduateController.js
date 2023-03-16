@@ -587,8 +587,10 @@ module.exports.assignSupervisorPATCH = catchAsync(async (req, res) => {
     }
 });
 
-// weekly report submission
-module.exports.weeklyReportSubmission = catchAsync(async (req, res) => {
+//Method: PATCH
+//Endpoint: "/update-internship-period"
+//Description: Update intern start date and end date, then generate empty weekly reports
+module.exports.updateInternshipPeriod = catchAsync(async (req, res) => {
     try {
         console.log('development start');
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
@@ -601,40 +603,38 @@ module.exports.weeklyReportSubmission = catchAsync(async (req, res) => {
         const { internshipStart, internshipEnd } = req.body;
 
         // Generate empty weekly reports for the intern
-        const emptyWeeklyReports = async (internshipStart, internshipEnd) => {
-            const startOfWeekDate = startOfWeek(new date(internshipStart));
-            const endOfWeekDate = endOfWeek(new Date(internshipEnd));
-            const weeks = [];
 
-            let currentWeekDate = startOfWeekDate;
-            let weekNumber = 1;
+        const startOfWeekDate = startOfWeek(new Date(internshipStart));
+        const endOfWeekDate = endOfWeek(new Date(internshipEnd));
+        const emptyWeeklyReports = [];
 
-            while(currentWeekDate < endOfWeekDate){
-                const weekStartDate = new Date(currentWeekDate);
-                const weekEndDate = endOfWeek(new Date(currentWeekDate));
+        let currentWeekDate = startOfWeekDate;
+        let weekNumber = 1;
 
-                const emptyWeeklyReport = {
-                    weekNumber,
-                    weekStartDate,
-                    weekEndDate,
-                    dailyReports: [],
-                    problemSection: '',
-                    reportStatus: 'empty'
-                };
+        while (currentWeekDate < endOfWeekDate) {
+            const weekStartDate = new Date(currentWeekDate);
+            const weekEndDate = endOfWeek(new Date(currentWeekDate));
 
-                weeks.push(emptyWeeklyReport);
-                weekNumber++;
-                currentWeekDate = addWeeks(currentWeekDate, 1);
-            }
-            return weeks;
+            const emptyWeeklyReport = {
+                weekNumber,
+                weekStartDate,
+                weekEndDate,
+                dailyReports: [],
+                problemSection: '',
+                reportStatus: 'empty'
+            };
+
+            emptyWeeklyReports.push(emptyWeeklyReport);
+            weekNumber++;
+            currentWeekDate = addWeeks(currentWeekDate, 1);
         }
 
         const candidate = await Undergraduate.findByIdAndUpdate(
             userId,
-            { $set: { internshipStart, internshipEnd, weeklyReports: emptyWeeklyReports}},
-            {new: true}
+            { $set: { internshipStart, internshipEnd, weeklyReports: emptyWeeklyReports } },
+            { new: true }
         );
-        res.status(200).json({message: "internship update successfully", candidate});
+        res.status(200).json({ message: "internship update successfully", candidate });
 
     } catch (err) {
         console.log(err);

@@ -50,5 +50,8 @@ router.route('/assign-supervisor')
     .get(undergraduateController.assignSupervisorGET)
     .patch(undergraduateController.assignSupervisorPATCH)
 
+router.route('/update-internship-period')
+    .patch(undergraduateController.updateInternshipPeriod)
+
 
 module.exports = router;
