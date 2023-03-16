@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { isEmail } = require('validator');
+const Undergraduate = require('../models/Undergraduate');
 
 const companySchema = new mongoose.Schema({
     name: {
@@ -48,6 +49,16 @@ const companySchema = new mongoose.Schema({
     rating: [{
         criteria01:{
             type: String
+        }
+    }],
+    applicationListSize: {
+        type: Number,
+        default: 10
+    },
+    applicationList: [{
+        candidate: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Undergraduate'
         }
     }]
 });

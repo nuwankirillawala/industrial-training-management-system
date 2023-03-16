@@ -1,6 +1,8 @@
 const Company = require("../models/Company");
+const Undergraduate = require("../models/Undergraduate");
 const handleErrors = require("../utils/appErrors");
 const catchAsync = require("../utils/catchAsync");
+const quickSortByWGPA = require('../utils/quickSortByWGPA');
 
 
 // Method = POST
@@ -89,3 +91,73 @@ module.exports.internProcessCompanyList = catchAsync(async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+// Method: PATCH
+// Endpoint: "/intern-process"
+// Description: Create a intern lists
+module.exports.internProcess = catchAsync(async (req, res) => {
+    try {
+        const candidates = await Undergraduate.find().populate('companySelection01');
+        const weightedGPAList = await quickSortByWGPA(candidates);
+
+        for (let i = 0; i < weightedGPAList.length; i++) {
+
+            const candidate = weightedGPAList[i];
+
+            // check company slection is done by candidate // may be unnessasry
+            if(!candidate.companySelection01){
+                console.log('user not enter company selection');
+                continue;
+            }
+
+            //get company selections from candidate
+            const company01 = await Company.findOne({ _id: candidate.companySelection01.companyId, connectedForIntern: true });
+            const company02 = await Company.findOne({ _id: candidate.companySelection02.companyId, connectedForIntern: true });
+            const company03 = await Company.findOne({ _id: candidate.companySelection03.companyId, connectedForIntern: true });
+
+            console.log(company01, company02, company03);
+
+            // check if company selections are available or not
+            if (!company01 || !company02 || !company03) {
+                console.log("Some company selections are not connected for internships");
+                continue;
+            }
+
+            // check candidate for first selection
+            if (company01.applicationList.length < company01.applicationListSize) {
+                company01.applicationList.push({ candidate: candidate._id });
+                company01.save((err, doc) => {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    console.log(doc);
+                })
+            } 
+            // check candidate for second selection
+            else if (company02.applicationList.length < company02.applicationListSize) {
+                company02.applicationList.push({ candidate: candidate._id });
+                company02.save((err, doc) => {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    console.log(doc);
+                })
+            } 
+            // check candidate for third selection
+            else if (company03.applicationList.length < company03.applicationListSize) {
+                company03.applicationList.push({ candidate: candidate._id });
+                company03.save((err, doc) => {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    console.log(doc);
+                })
+            } else {
+                console.log("list full");
+            }
+        }
+        console.log(company01);
+    } catch (err) {
+        console.log(err);
+    }
+})

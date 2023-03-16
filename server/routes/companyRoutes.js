@@ -15,4 +15,7 @@ router.route('/:companyID/edit-rating')
 router.route('/intern-process-company-list')
     .get(companyController.internProcessCompanyList)
 
+router.route('/intern-process')
+    .patch(companyController.internProcess)
+
 module.exports = router;

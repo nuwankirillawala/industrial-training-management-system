@@ -16,16 +16,6 @@ const noteSchema = new mongoose.Schema({
     }
 });
 
-const internStatusSchema = new mongoose.Schema({
-    company: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Company
-    },
-    status: {
-        type: String
-    }
-});
-
 
 const undergraduateSchema = new mongoose.Schema({
     role: {
@@ -40,7 +30,6 @@ const undergraduateSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please enter the student registration number'],
         unique: true
-
     },
     email: {
         type: String,
@@ -77,11 +66,7 @@ const undergraduateSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: Result
     },
-    companySelection: [{
-        priority: {
-            type: Number,
-            required: true
-        },
+    companySelection01:{
         companyId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: Company
@@ -89,7 +74,25 @@ const undergraduateSchema = new mongoose.Schema({
         jobRole: {
             type: String
         }
-    }],
+    },
+    companySelection02:{
+        companyId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: Company
+        },
+        jobRole: {
+            type: String
+        }
+    },
+    companySelection03:{
+        companyId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: Company
+        },
+        jobRole: {
+            type: String
+        }
+    },
     //for update the status of intern application process
     // about companies that sent cv by department
     internStatus: [{
@@ -117,7 +120,51 @@ const undergraduateSchema = new mongoose.Schema({
     supervisor: {
         type: mongoose.Schema.Types.ObjectId,
         ref: Supervisor
-    }
+    },
+    internshipStart:{
+        type: Date
+    },
+    internshipEnd:{
+        type: Date
+    },
+    weeklyReports:[{
+        weekNumber:{
+            type: Number,
+            required: true
+        },
+        weekStartDate: {
+            type: Date
+        },
+        weekEndDate: {
+            type: Date
+        },
+        dailyreports:[{
+            dayNumber:{
+                type: Number,
+                required: true
+            },
+            date: {
+                type: Date,
+                required: true
+            },
+            content: {
+                type: String
+            },
+            approvalStatus: {
+                type: String,
+                default: 'pending',
+                enum: ['approved', 'rejected', 'pending']
+            }
+        }],
+        problemSection: {
+            type: String
+        },
+        reportStatus:{
+            type: String,
+            default: 'empty',
+            enum: ['empty', 'saved', 'submitted']
+        }
+    }]
 });
 
 // encrypt user password
