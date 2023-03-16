@@ -21,6 +21,10 @@ import { ViewUndg } from './components/user/Admin/viewUsers/ViewUndg'
 import { ViewCompany } from './components/user/Admin/viewUsers/ViewCompany'
 import { ViewAlumini } from './components/user/Admin/viewUsers/ViewAlumini'
 import { UpdateAdmin } from './components/user/Admin/updateUsers/UpdateAdmin'
+import { RemoveAdmin } from './components/user/Admin/RemoveUsers/RemoveAdmin'
+import { UpdateAlumni } from './components/user/Admin/updateUsers/UpdateAlumni'
+import { UpdateCompany } from './components/user/Admin/updateUsers/UpdateCompany'
+import Notice from './components/shared/Notice/Notice'
 
 
 function App() {
@@ -28,7 +32,7 @@ function App() {
   const router = createBrowserRouter(createRoutesFromElements(
     <Route path='/' element={<RootLayout />}>
 
-      {/*add main pages hete use path variable */}
+      {/*add main pages here use path variable */}
 
       <Route path='/' element={<Layout />}>
         <Route path='manageuser' element={<Manageuser />}></Route>
@@ -45,12 +49,16 @@ function App() {
         <Route path='view-alumini-details' element={<ViewAlumini />} />
 
         <Route path='update-admin-details' element={<UpdateAdmin />} />
-        
-{/* student routes */}
+        <Route path='remove-admin' element={<RemoveAdmin />} />
+        <Route path='update-alumni-details' element={<UpdateAlumni />} />
+        <Route path='update-company-details' element={<UpdateCompany />} />
+
+        {/* student routes */}
         <Route path='student-dashboard' element={<StudentDashboard />} />
-        <Route path='cvupdate' element={<StudentCvUpdate />}></Route>
+        <Route path='student-cvupdate' element={<StudentCvUpdate />}></Route>
         <Route path='student-company' element={<StudentCompany />} />
         <Route path='student-settings' element={<StudentSettings />} />
+        <Route path='notice' element={<Notice />}></Route>
       </Route>
 
       {/*login page*/}
@@ -64,6 +72,7 @@ function App() {
       <Route path='/'>
         <Route path='testcvupdate' element={<StudentCvUpdate />}></Route>
         <Route path='dialogbox' element={<Dialogbox title="Title here" btn_name="default name">keep Children's here while calling</Dialogbox>}></Route>
+        <Route path='testnotice' element={<Notice />}></Route>
       </Route>
 
     </Route>
