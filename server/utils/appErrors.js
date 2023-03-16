@@ -6,12 +6,12 @@ const handleErrors = (err) => {
     // handle login errors
     // incorrect email
     if (err.message === 'incorrect email') {
-        errors.email = "That email is not regitered";
+        errors.email = "The email you entered is not registered. Please try again or register for an account.";
     }
 
     // incorrect password
     if (err.message === 'incorrect password') {
-        errors.password = 'This password is incorrect';
+        errors.password = 'The password you entered is incorrect. Please try again or reset your password.';
     }
 
     // handle user creation errors

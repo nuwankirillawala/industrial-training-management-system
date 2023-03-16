@@ -20,39 +20,24 @@ const createToken = (id) => {
 }
 
 module.exports.login = catchAsync(async (req, res) => {
-    const { email, password } = req.body;
-
     try {
-        let user, userID, userType;
-        try {
+        const { email, password } = req.body;
+        let user;
+        user = await Undergraduate.login(email, password);
+        if (!user) {
             user = await Admin.login(email, password);
-            userID = user._id;
-            userType = "admin";
-        } catch (err) {
-            try {
-                user = await Undergraduate.login(email, password);
-                userID = user._id
-                userType = "undergraduate";
-            } catch (err) {
-                try {
-                    user = await Supervisor.login(email, password);
-                    userID = user._id
-                    userType = "supervisor";
-                } catch (err) {
-                    try {
-                        user = await Alumni.login(email, password);
-                        userID = user._id
-                        userType = "alumni";
-                    } catch (err) {
-                        throw new Error('incorrect email or password');
-                    }
+            if (!user) {
+                user = await Supervisor.login(email, password);
+                if (!user) {
+                    user = await Alumni.login(email, password);
                 }
             }
         }
-        const token = createToken(userID);
+
+        const token = createToken(user._id);
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         // ⚡ cookie.secure must be enables in production.⚡
-        res.status(200).json({ [userType]: userID });
+        res.status(200).json({ user: user._id, role: user.role });
     } catch (err) {
         const errors = handleErrors(err);
         res.status(400).json({ errors });
