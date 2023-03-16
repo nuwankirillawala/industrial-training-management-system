@@ -601,6 +601,9 @@ module.exports.updateInternshipPeriod = catchAsync(async (req, res) => {
         }
 
         const { internshipStart, internshipEnd } = req.body;
+        if(!internshipStart || !internshipEnd){
+            return res.status(400).json({message: "Please add intern start date and end date"});
+        }
 
         // Generate empty weekly reports for the intern
 
@@ -641,3 +644,4 @@ module.exports.updateInternshipPeriod = catchAsync(async (req, res) => {
         res.status(500).json(err);
     }
 });
+
