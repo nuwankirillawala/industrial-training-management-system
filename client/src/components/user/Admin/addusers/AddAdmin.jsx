@@ -6,9 +6,7 @@ import { Layout } from "../../../Layout/Layout";
 export const AddAdmin = () => {
     return (
 
-        <AdminCreateForm>
-
-        </AdminCreateForm>
+        <AdminCreateForm />
 
     )
 }
