@@ -34,6 +34,7 @@ export const Login = () => {
 
             const data = response.data;
 
+            console.log(response);
             // navigate(`/${data.role}-dashboard`);
             navigate(`/student-dashboard`);
         } catch (err) {
