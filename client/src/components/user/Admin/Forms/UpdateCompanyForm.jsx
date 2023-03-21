@@ -65,7 +65,6 @@ export const UpdateCompanyForm = () => {
                                     size='small'
                                     onChange={(e) => setValues({ ...values, [text]: e.target.value })}
                                     key={index}
-                                    required
 
                                 />
                             ))}
