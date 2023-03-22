@@ -44,7 +44,7 @@ export const UpdateAlumni = () => {
                                 <TableCell >   {r.id}  </TableCell>
                                 <TableCell >   {r.title}  </TableCell>
                                 <TableCell >   {r.description} </TableCell>
-                                <TableCell> <Dialogbox title="Update Administrator" btn_name="update"><UpdateAlumniForm /></Dialogbox></TableCell>
+                                <TableCell> <Dialogbox title="Update Alumni" btn_name="update"><UpdateAlumniForm /></Dialogbox></TableCell>
                             </TableRow> //id,title,description need to change as json file
                         )}
 

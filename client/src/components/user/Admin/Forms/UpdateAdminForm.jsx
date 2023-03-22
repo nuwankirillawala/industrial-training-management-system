@@ -58,7 +58,6 @@ export const UpdateAdminForm = () => {
                                     size='small'
                                     onChange={(e) => setValues({ ...values, [text]: e.target.value })}
                                     key={text}
-                                    required
 
                                 />
                             ))}
