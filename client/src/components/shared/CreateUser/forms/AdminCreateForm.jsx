@@ -26,7 +26,7 @@ export const AdminCreateForm = () => {
         adminName : yup.string().required('required Field'),
         adminEmail : yup.string().email("Invalid Email").required("required Field"),
         adminContactNo : yup.string().length(10,"must contain 10 digits").required("Required Field"),
-        adminStaffId : yup.string().required('required Field'),
+        // adminStaffId : yup.string().required('required Field'),
         adminPassword : yup.string().required("Required Field"),
         adminRole : yup.string().required('required Field'),
     })
