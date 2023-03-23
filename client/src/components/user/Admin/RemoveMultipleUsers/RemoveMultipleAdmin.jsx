@@ -6,7 +6,7 @@ import { Button } from "@mui/material";
 import { Stack } from "@mui/system";
 
 
-export const RemoveAdmin = () => {
+export const RemoveMultipleAdmin = () => {
     const [products, setProducts] = useState([]);
     //const [columns, setColumns] = useState([]);
 

@@ -82,9 +82,9 @@ function RedirectUpdateuser(text) {
 
 function RedirectRemoveuser(text) {
     switch (text) {
-        case 'Administrator':
-            return '/remove-admin'
-            break;
+        // case 'Administrator':
+        //     return ''
+        //     break;
         // case 'Department CoOrdinator':
         //     return '/createDeptSup'
         //     break;
