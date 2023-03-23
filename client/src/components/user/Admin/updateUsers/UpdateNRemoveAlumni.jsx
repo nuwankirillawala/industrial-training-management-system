@@ -8,7 +8,7 @@ import Dialogbox from "../../../Dialogbox/Dialogbox";
 
 
 
-export const UpdateAlumni = () => {
+export const UpdateNRemoveAlumni = () => {
 
     const [Column, setColumn] = useState([])
     const [Records, setRecords] = useState([])
@@ -30,7 +30,7 @@ export const UpdateAlumni = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            {Column.map((c, i) =>
+                            {Column.map((c, i) => //need to pass two columns from backend for update & delete button
                                 <TableCell key={i}>
                                     {c}
                                 </TableCell>
@@ -44,7 +44,8 @@ export const UpdateAlumni = () => {
                                 <TableCell >   {r.id}  </TableCell>
                                 <TableCell >   {r.title}  </TableCell>
                                 <TableCell >   {r.description} </TableCell>
-                                <TableCell> <Dialogbox title="Update Alumni" btn_name="update"><UpdateAlumniForm /></Dialogbox></TableCell>
+                                <TableCell> <Dialogbox title="Update Alumni user" btn_name="update"><UpdateAlumniForm /></Dialogbox></TableCell>
+                                <TableCell >   <Dialogbox title="Remove Alumni user" btn_name="remove"></Dialogbox> </TableCell>
                             </TableRow> //id,title,description need to change as json file
                         )}
 

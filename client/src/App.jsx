@@ -22,7 +22,7 @@ import { ViewCompany } from './components/user/Admin/viewUsers/ViewCompany'
 import { ViewAlumini } from './components/user/Admin/viewUsers/ViewAlumini'
 import { UpdateAdmin } from './components/user/Admin/updateUsers/UpdateAdmin'
 import { RemoveMultipleAdmin } from './components/user/Admin/RemoveMultipleUsers/RemoveMultipleAdmin'
-import { UpdateAlumni } from './components/user/Admin/updateUsers/UpdateAlumni'
+import { UpdateNRemoveAlumni } from './components/user/Admin/updateUsers/UpdateNRemoveAlumni'
 import { UpdateCompany } from './components/user/Admin/updateUsers/UpdateCompany'
 import Notice from './components/shared/Notice/Notice'
 
@@ -50,7 +50,7 @@ function App() {
 
         <Route path='update-admin-details' element={<UpdateAdmin />} />
         <Route path='remove-multiple-admin' element={<RemoveMultipleAdmin />} />  {/*  Not used still in site */}
-        <Route path='update-alumni-details' element={<UpdateAlumni />} />
+        <Route path='updateNremove-alumni-details' element={<UpdateNRemoveAlumni />} />
         <Route path='update-company-details' element={<UpdateCompany />} />
 
         {/* student routes */}

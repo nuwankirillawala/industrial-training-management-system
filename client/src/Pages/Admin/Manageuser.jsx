@@ -58,7 +58,7 @@ function RedirectViewuser(text) {
     }
 }
 
-function RedirectUpdateuser(text) {
+function RedirectUpdateNRemoveuser(text) {
     switch (text) {
         case 'Administrator':
             return '/update-admin-details'
@@ -72,35 +72,35 @@ function RedirectUpdateuser(text) {
         // case 'Company Supervisor':
         //     return '/createCompanySup'
         //     break;
-        // case 'Alumni person':
-        //     return '/createAlumini'
-        //     break;
+        case 'Alumni person':
+            return '/updateNremove-alumni-details'
+            break;
         default:
             break;
     }
 }
 
-function RedirectRemoveuser(text) {
-    switch (text) {
-        // case 'Administrator':
-        //     return ''
-        //     break;
-        // case 'Department CoOrdinator':
-        //     return '/createDeptSup'
-        //     break;
-        // case 'Undergraduate':
-        //     return '/createUndergraduate'
-        //     break;
-        // case 'Company Supervisor':
-        //     return '/createCompanySup'
-        //     break;
-        // case 'Alumni person':
-        //     return '/createAlumini'
-        //     break;
-        default:
-            break;
-    }
-}
+// function RedirectRemoveuser(text) {
+//     switch (text) {
+//         case 'Administrator':
+//             return ''
+//             break;
+//         case 'Department CoOrdinator':
+//             return '/createDeptSup'
+//             break;
+//         case 'Undergraduate':
+//             return '/createUndergraduate'
+//             break;
+//         case 'Company Supervisor':
+//             return '/createCompanySup'
+//             break;
+//         case 'Alumni person':
+//             return '/createAlumini'
+//             break;
+//         default:
+//             break;
+//     }
+// }
 
 
 
@@ -130,8 +130,7 @@ export const Manageuser = () => {
                         <Stack direction={"column"} sx={{ height: '58%' }} justifyContent={"flex-end"} spacing={2}>
                             <Button variant="itms" onClick={() => navigate(RedirectViewuser(user.name))}> View  </Button>
                             <Button variant="itms" onClick={() => navigate(RedirectAdduser(user.name))} > Add  </Button>
-                            <Button variant="itms" onClick={() => navigate(RedirectUpdateuser(user.name))}> Update </Button>
-                            <Button variant="itms" onClick={() => navigate(RedirectRemoveuser(user.name))}> Remove  </Button>
+                            <Button variant="itms" onClick={() => navigate(RedirectUpdateNRemoveuser(user.name))}> Update </Button>
                         </Stack>
                     </Tile>
                 </Grid>
