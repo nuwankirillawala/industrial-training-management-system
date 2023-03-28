@@ -7,7 +7,6 @@ import { StudentAddCompany } from '../../components/user/Undergraduate/StudentAd
 import { StudentCompanyChoice } from '../../components/user/Undergraduate/StudentCompanyChoice'
 import { StudentCompanyStatus } from '../../components/user/Undergraduate/StudentCompanyStatus'
 import { StudentInternPeriod } from '../../components/user/Undergraduate/StudentInternPeriod'
-import { Formik } from 'formik'
 
 
 export const StudentCompany = () => {
@@ -29,22 +28,18 @@ export const StudentCompany = () => {
 
 {/* company status, add company, inter time period component add dinamikally */}
                     <Stack>
-                        <Formik>
-                        {({})=>(
-                            <Box>
-                                {page.no === 1 && (
-                                    <StudentCompanyStatus pageNo={page} setPage={setPage}/>
-                                
-                                )}
-                                {page.no === 2 && (
-                                    <StudentAddCompany pageNo={page} setPage={setPage}/>
-                                )}
-                                {page.no === 3 && (
-                                    <StudentInternPeriod pageNo={page} setPage={setPage}/>
-                                )}
-                            </Box>
-                        )}
-                        </Formik>
+                        <Box>
+                            {page.no === 1 && (
+                                <StudentCompanyStatus pageNo={page} setPage={setPage}/>
+                            
+                            )}
+                            {page.no === 2 && (
+                                <StudentAddCompany pageNo={page} setPage={setPage}/>
+                            )}
+                            {page.no === 3 && (
+                                <StudentInternPeriod pageNo={page} setPage={setPage}/>
+                            )}
+                        </Box>
                     </Stack>
                 </Stack>
             </Grid>
