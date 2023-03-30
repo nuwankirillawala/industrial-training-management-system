@@ -1,75 +1,138 @@
 import { TextField, Stack, Button, Typography } from "@mui/material"
 import React from "react"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Tile } from "../../../card/Tile"
-
+import { Formik } from "formik"
+import * as yup from "yup"
 
 const User = {
-    AlumniName: '',
-    email: '',
-    contactNo: '',
-    regNo: '',
-    graduatedYear: '',
-    password: ''
+    alumniName: 'ajith',
+    alumniEmail: '',
+    alumniContactNo: '',
+    alumniRegNo: '', //not allowed to change
+    alumniGraduatedYear: ''
 }
 
 export const UpdateAlumniForm = () => {
+    //add axios while integrate to get initial values
 
-    const [values, setValues] = useState(User);
-    const [error, setError] = useState();
+    const validation = yup.object().shape({
+        alumniName: yup.string(),
+        alumniEmail: yup.string().email("Invalid Email"),
+        alumniContactNo: yup.string().length(10, "must contain 10 digits"),
+        alumniGraduatedYear: yup.string()
+    })
 
 
-    // const handleSave = () => {
-    //     const error = validateData();
-    //     if(Object.keys(error).length){
-    //         setError(error);
-    //         return;
-    //     }
-    //     setError({});
-    //     // console.log(values)
-    //     onSave(values)
-
-    // }
-
-    const onSubmit = (e) => {
-        e.preventDefault();
-        console.log(values)
+    const handleFormSubmit = (values) => {
+        alert(JSON.stringify(values));//convert object to a json file, this popup may omitt @ the integration
+        alert("your data is submitted");
     }
 
 
     return (
+        <Tile>
+            <Formik
 
-        <Tile width={'400px'} height={'80vh'}>
-            <Typography>Edit user details here</Typography>
-            <form onSubmit={onSubmit}>
-                <Stack direction={'column'} spacing={1} justifyContent={'center'}>
-                    <Stack direction={'row'} spacing={3} justifyContent={'space-between'}>
-                        <Stack direction={'column'} spacing={4}>
-                            {['Alumni Person Name ', 'Email', 'Contact Number', 'Registration No', 'Graduated Year', 'Password'].map((text) => (
-                                <Typography key={text}>{text}</Typography>
-                            ))}
+                initialValues={User}
+                validationSchema={validation}>
+                {({
+                    values,
+                    errors,
+                    touched,
+                    handleBlur,
+                    handleChange,
+                    handleSubmit,
+                    handleReset  //this gives initialvalues not clear fields
+                }) => (
+                    <form onReset={handleReset}
+                        onSubmit={(e) => { e.preventDefault(); handleSubmit; handleFormSubmit(values); }} >
+                        <>
+                            <Stack direction="row" spacing={2}>
+                                <Stack width='150px'>
+                                    <Typography variant="body1">Name</Typography>
+                                </Stack>
+                                <Stack width='300px'>
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.alumniName} //if u use User here it will not let change text
+                                        name="alumniName"
+                                        error={!!touched.alumniName && !!errors.alumniName}
+                                        helperText={touched.alumniName && errors.alumniName}
+                                    />
+                                </Stack>
+                            </Stack>
 
-                        </Stack>
-                        <Stack direction={'column'} spacing={2}>
-                            {['AlumniName', 'email', 'contactNo', 'regNo', 'graduatedYear', 'password'].map((text) => (
-                                <TextField
-                                    variant="outlined"
-                                    label={text}
-                                    size='small'
-                                    onChange={(e) => setValues({ ...values, [text]: e.target.value })}
-                                    key={text}
-                                    required
 
-                                />
-                            ))}
+                            <Stack direction="row" spacing={2}>
+                                <Stack width='150px'>
+                                    <Typography variant="body1">E-mail</Typography>
+                                </Stack>
+                                <Stack width='300px'>
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.alumniEmail}
+                                        name="alumniEmail"
+                                        error={!!touched.alumniEmail && !!errors.alumniEmail}
+                                        helperText={touched.alumniEmail && errors.alumniEmail}
+                                    />
+                                </Stack>
+                            </Stack>
 
-                        </Stack>
-                    </Stack>
-                    <Stack>
-                        <Button variant="contained" type="submit"> Update User</Button>
-                    </Stack>
-                </Stack>
-            </form>
+                            <Stack direction="row" spacing={2}>
+                                <Stack width='150px'>
+                                    <Typography variant="body1">Contact Number</Typography>
+                                </Stack>
+                                <Stack width='300px'>
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.alumniContactNo}
+                                        name="alumniContactNo"
+                                        error={!!touched.alumniContactNo && !!errors.alumniContactNo}
+                                        helperText={touched.alumniContactNo && errors.alumniContactNo}
+                                    />
+                                </Stack>
+                            </Stack>
+
+                            <Stack direction="row" spacing={2}>
+                                <Stack width='150px'>
+                                    <Typography variant="body1">Graduated Year</Typography>
+                                </Stack>
+                                <Stack width='300px'>
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.alumniGraduatedYear}
+                                        name="alumniGraduatedYear"
+                                        error={!!touched.alumniGraduatedYear && !!errors.alumniGraduatedYear}
+                                        helperText={touched.alumniGraduatedYear && errors.alumniGraduatedYear}
+                                    />
+                                </Stack>
+                            </Stack>
+
+                            <Stack direction="row" display={'flex'} justifyContent="flex-end" paddingRight={'0px'}>
+                                <Button variant="itms" type="submit"  >Submit</Button>
+                                <Button variant="itms" type="reset"  >Reset</Button>
+                            </Stack>
+                        </>
+                    </form>
+                )}
+            </Formik>
         </Tile>
 
     )

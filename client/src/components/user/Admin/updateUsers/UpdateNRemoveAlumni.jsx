@@ -1,11 +1,11 @@
 import React from "react"
 import { UpdateAlumniForm } from "../Forms/UpdateAlumniForm";
+import { RemoveUserForm } from "../Forms/RemoveUserForm";
 import { Stack } from "@mui/system";
 import { useState, useEffect } from "react";
 import { Button, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { Tile } from "../../../card/Tile";
 import Dialogbox from "../../../Dialogbox/Dialogbox";
-
 
 
 export const UpdateNRemoveAlumni = () => {
@@ -30,7 +30,7 @@ export const UpdateNRemoveAlumni = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            {Column.map((c, i) => //need to pass two columns from backend for update & delete button
+                            {Column.map((c, i) =>
                                 <TableCell key={i}>
                                     {c}
                                 </TableCell>
@@ -45,7 +45,9 @@ export const UpdateNRemoveAlumni = () => {
                                 <TableCell >   {r.title}  </TableCell>
                                 <TableCell >   {r.description} </TableCell>
                                 <TableCell> <Dialogbox title="Update Alumni user" btn_name="update"><UpdateAlumniForm /></Dialogbox></TableCell>
-                                <TableCell >   <Dialogbox title="Remove Alumni user" btn_name="remove"></Dialogbox> </TableCell>
+                                <TableCell ><Dialogbox title="Remove Alumni user" btn_name="remove"><RemoveUserForm /></Dialogbox>
+
+                                </TableCell>
                             </TableRow> //id,title,description need to change as json file
                         )}
 
@@ -56,4 +58,4 @@ export const UpdateNRemoveAlumni = () => {
         </Tile>
 
     )
-}  
+}
