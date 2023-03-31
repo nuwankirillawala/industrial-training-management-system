@@ -20,7 +20,7 @@ import { ViewSuperv } from './components/user/Admin/viewUsers/ViewSuperv'
 import { ViewUndg } from './components/user/Admin/viewUsers/ViewUndg'
 import { ViewCompany } from './components/user/Admin/viewUsers/ViewCompany'
 import { ViewAlumini } from './components/user/Admin/viewUsers/ViewAlumini'
-import { UpdateAdmin } from './components/user/Admin/updateUsers/UpdateAdmin'
+import { UpdateNRemoveAdmin } from './components/user/Admin/updateUsers/UpdateNRemoveAdmin'
 import { RemoveMultipleAdmin } from './components/user/Admin/RemoveMultipleUsers/RemoveMultipleAdmin'
 import { UpdateNRemoveAlumni } from './components/user/Admin/updateUsers/UpdateNRemoveAlumni'
 import { UpdateCompany } from './components/user/Admin/updateUsers/UpdateCompany'
@@ -48,7 +48,7 @@ function App() {
         <Route path='view-comp-details' element={<ViewCompany />} />
         <Route path='view-alumini-details' element={<ViewAlumini />} />
 
-        <Route path='update-admin-details' element={<UpdateAdmin />} />
+        <Route path='updateNremove-admin-details' element={<UpdateNRemoveAdmin />} />
         <Route path='remove-multiple-admin' element={<RemoveMultipleAdmin />} />  {/*  Not used still in site */}
         <Route path='updateNremove-alumni-details' element={<UpdateNRemoveAlumni />} />
         <Route path='update-company-details' element={<UpdateCompany />} />

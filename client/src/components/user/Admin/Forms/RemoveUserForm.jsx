@@ -12,13 +12,13 @@ const RemoveuserData = {
 
 export const RemoveUserForm = () => {
 
-    const [YesNoValue, setYesNoValue] = useState();
-    const handleYesNo = (text) => {
-        setYesNoValue(text)
-    }
-    const handleFormSubmit = (values, YesNoValue) => {
-        alert(JSON.stringify(values, YesNoValue));
-        console.log(values, YesNoValue)
+    //const [YesNoValue, setYesNoValue] = useState();
+    // const handleYesNo = (text) => {
+    //     setYesNoValue({ YesNovalue: text })
+    // }
+    const handleFormSubmit = (values) => { // send req only if 'yes'
+        alert(JSON.stringify(values));
+        console.log(values)
     }
     return (
         <Tile width={'450px'} >
@@ -28,23 +28,20 @@ export const RemoveUserForm = () => {
                     values,
                     handleSubmit,
                 }) => (
-                    <form onSubmit={(e) => { handleSubmit; handleFormSubmit(values); }}>
+                    <form onSubmit={(e) => { e.preventDefault(); handleSubmit; }}>
                         <Typography>
                             Are you sure to remove user {values.userId} ?
                         </Typography>
                         <Stack direction={"row"} justifyContent="flex-end" paddingRight={'0px'}>
-                            <Button variant="itms"
-                                /* value={values.YesNoValue = "yes"}
-                                name="YesNoValue" */
-                                onClick={() => { handleYesNo("yes") }}>
+                            <Button variant="itms" type='submit'
+                                onClick={() => { handleFormSubmit(values); }}>
                                 Yes
                             </Button>
-                            <Button variant="itms"
-                                /*  value={values.YesNoValue = "no"}
-                                 name="YesNoValue" */
-                                onClick={() => { handleYesNo("no") }} >
+                            {/* <Button variant="itms" type='submit'
+                              onClick={() => { setYesNoValue({ YesNovalue: "no" }) }} 
+                            >
                                 No
-                            </Button>
+                            </Button> */}
                         </Stack>
                     </form>)}
             </Formik>
