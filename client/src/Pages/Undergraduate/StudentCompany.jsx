@@ -7,10 +7,17 @@ import { StudentAddCompany } from '../../components/user/Undergraduate/StudentAd
 import { StudentCompanyChoice } from '../../components/user/Undergraduate/StudentCompanyChoice'
 import { StudentCompanyStatus } from '../../components/user/Undergraduate/StudentCompanyStatus'
 import { StudentInternPeriod } from '../../components/user/Undergraduate/StudentInternPeriod'
+import { StudentPrivateCompanyStatus } from '../../components/user/Undergraduate/StudentPrivateCompanyStatus'
 
+
+const StudentcompanyState = {
+    companyName : '',
+    status : ''
+}
 
 export const StudentCompany = () => {
-
+    
+    const[companyState,setCompanyState] = useState(StudentcompanyState)
     const[page,setPage] = useState({no: 1})
 
   return (
@@ -30,14 +37,33 @@ export const StudentCompany = () => {
                     <Stack>
                         <Box>
                             {page.no === 1 && (
-                                <StudentCompanyStatus pageNo={page} setPage={setPage}/>
+                                <StudentCompanyStatus
+                                    pageNo={page}
+                                    setPage={setPage}
+                                    companyState={companyState}
+                                    setCompanyState={setCompanyState}
+                                    />
                             
                             )}
                             {page.no === 2 && (
-                                <StudentAddCompany pageNo={page} setPage={setPage}/>
+                                <StudentAddCompany
+                                    pageNo={page}
+                                    setPage={setPage}
+                                    />
                             )}
                             {page.no === 3 && (
-                                <StudentInternPeriod pageNo={page} setPage={setPage}/>
+                                <StudentInternPeriod
+                                    pageNo={page}
+                                    setPage={setPage}
+                                    />
+                            )}
+                            {page.no === 4 && (
+                                <StudentPrivateCompanyStatus
+                                    pageNo={page}
+                                    setPage={setPage}
+                                    companyState={companyState}
+                                    setCompanyState={setCompanyState}
+                                    />
                             )}
                         </Box>
                     </Stack>
@@ -45,8 +71,8 @@ export const StudentCompany = () => {
             </Grid>
 
             <Grid item md={5}>
-                <Tile height={'90vh'}>
-                    <Stack>
+                <Tile height={'89vh'}>
+                    <Box maxHeight={'89vh'}>
                                     
                         <Typography variant='h6' fontWeight={'bold'}>Company Ranking List</Typography>
                             
@@ -85,7 +111,7 @@ export const StudentCompany = () => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    </Stack>
+                    </Box>
                 </Tile>
             </Grid>
         </Grid>
