@@ -61,7 +61,7 @@ function RedirectViewuser(text) {
 function RedirectUpdateNRemoveuser(text) {
     switch (text) {
         case 'Administrator':
-            return '/update-admin-details'
+            return '/updateNremove-admin-details'
             break;
         // case 'Department CoOrdinator':
         //     return '/createDeptSup'
