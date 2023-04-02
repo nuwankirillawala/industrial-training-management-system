@@ -69,9 +69,9 @@ function RedirectUpdateNRemoveuser(text) {
         // case 'Undergraduate':
         //     return '/createUndergraduate'
         //     break;
-        // case 'Company Supervisor':
-        //     return '/createCompanySup'
-        //     break;
+        case 'Company Supervisor':
+            return '/updateNremove-company-details'
+            break;
         case 'Alumni person':
             return '/updateNremove-alumni-details'
             break;
