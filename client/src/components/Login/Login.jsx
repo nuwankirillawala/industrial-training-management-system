@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import classnames from 'classnames';
 
 const Login = () => {
     // we have update error handling, responsiveness.
@@ -63,12 +64,14 @@ const Login = () => {
                         </div>
                     </div>
 
-                    <div className="app__login-right">
-                        <div className="app__login-container-form">
+                    <div className={classnames('app__login-right', {
+                        'app__login-form_withError': emailError ||  passwordError
+                    })}>
+                        <form className="app__login-container-form" onSubmit={handleSubmit}>
                             <h2>LOGIN</h2>
                             <div className="app__login-container-form_fields">
                                 <TextField
-                                    id="outlined-basic"
+                                    id="usarname"
                                     name="email"
                                     label="Username"
                                     variant="outlined"
@@ -81,7 +84,7 @@ const Login = () => {
                                     helperText={emailError && emailError}
                                 />
                                 <TextField
-                                    id="outlined-basic"
+                                    id="password"
                                     name="password"
                                     label="Password"
                                     variant="outlined"
@@ -110,8 +113,7 @@ const Login = () => {
                             >
                                 LOGIN
                             </Button>
-
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(70, 101, 210, 1) 100%, rgba(0, 212, 255, 1) 100%);
+    padding-bottom: 2rem;
 }
 
 .app__login-header {
@@ -152,6 +153,9 @@
     border-radius: 10px !important;
 }
 
+.app__login-form_withError{
+    height: 400px;
+}
 
 @media screen and (max-width: 800px) {
     .app__login-title_logo {
@@ -188,7 +192,12 @@
         width: 300px;
         height: 390px;
     }
+
     .app__login-container-welcome{
         font-size: 1rem;
+    }
+
+    .app__login-form_withError{
+        height: 420px;
     }
 }
