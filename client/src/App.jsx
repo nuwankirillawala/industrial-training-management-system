@@ -1,6 +1,5 @@
 // import './App.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
-import { Login } from './components/Login/Login'
 import { Layout } from './components/Layout/Layout'
 import { RootLayout } from './components/Layout/RootLayout'
 import { StudentCvUpdate } from './Pages/Undergraduate/StudentCvUpdate'
@@ -25,6 +24,9 @@ import { RemoveMultipleAdmin } from './components/user/Admin/RemoveMultipleUsers
 import { UpdateNRemoveAlumni } from './components/user/Admin/updateUsers/UpdateNRemoveAlumni'
 import { UpdateNRemoveCompany } from './components/user/Admin/updateUsers/UpdateNRemoveCompany'
 import Notice from './components/shared/Notice/Notice'
+
+// Importing Pages
+import Login from './Pages/Shared/Login/Login';
 
 
 function App() {
