@@ -12,7 +12,7 @@ import Dialogbox from './components/Dialogbox/Dialogbox'
 import { AddAdmin } from './components/user/Admin/addUsers/AddAdmin'
 import { AddSuperv } from './components/user/Admin/addUsers/AddSuperv'
 import { AddUndg } from './components/user/Admin/addUsers/AddUndg'
-import { AddCompany } from './components/user/Admin/addUsers/AddCompany'
+import { AddCompanySupervisor } from './components/user/Admin/addUsers/AddCompanySupervisor'
 import { AddAlumini } from './components/user/Admin/addUsers/AddAlumini'
 import { ViewAdmin } from './components/user/Admin/viewUsers/ViewAdmin'
 import { ViewSuperv } from './components/user/Admin/viewUsers/ViewSuperv'
@@ -42,7 +42,7 @@ function App() {
         <Route path='addadmin' element={<AddAdmin />} />
         <Route path='add-superv-details' element={<AddSuperv />} />
         <Route path='add-undg-details' element={<AddUndg />} />
-        <Route path='add-comp-details' element={<AddCompany />} />
+        <Route path='add-companySupervisor-details' element={<AddCompanySupervisor />} />
         <Route path='add-alumini-details' element={<AddAlumini />} />
 
         <Route path='view-admin-details' element={<ViewAdmin />} />

@@ -20,13 +20,13 @@ function RedirectAdduser(text) {
             return '/addadmin'
             break;
         case 'Department CoOrdinator':
-            return '/add-superv-details'
+            return '/add-superv-details' // still the form is not created
             break;
         case 'Undergraduate':
             return '/add-undg-details'
             break;
         case 'Company Supervisor':
-            return '/add-comp-details'
+            return '/add-companySupervisor-details'
             break;
         case 'Alumni person':
             return '/add-alumini-details'
@@ -80,29 +80,6 @@ function RedirectUpdateNRemoveuser(text) {
     }
 }
 
-// function RedirectRemoveuser(text) {
-//     switch (text) {
-//         case 'Administrator':
-//             return ''
-//             break;
-//         case 'Department CoOrdinator':
-//             return '/createDeptSup'
-//             break;
-//         case 'Undergraduate':
-//             return '/createUndergraduate'
-//             break;
-//         case 'Company Supervisor':
-//             return '/createCompanySup'
-//             break;
-//         case 'Alumni person':
-//             return '/createAlumini'
-//             break;
-//         default:
-//             break;
-//     }
-// }
-
-
 
 export const Manageuser = () => {
 
@@ -130,7 +107,7 @@ export const Manageuser = () => {
                         <Stack direction={"column"} sx={{ height: '58%' }} justifyContent={"flex-end"} spacing={2}>
                             <Button variant="itms" onClick={() => navigate(RedirectViewuser(user.name))}> View  </Button>
                             <Button variant="itms" onClick={() => navigate(RedirectAdduser(user.name))} > Add  </Button>
-                            <Button variant="itms" onClick={() => navigate(RedirectUpdateNRemoveuser(user.name))}> Update </Button>
+                            <Button variant="itms" onClick={() => navigate(RedirectUpdateNRemoveuser(user.name))}> Update / Remove </Button>
                         </Stack>
                     </Tile>
                 </Grid>
