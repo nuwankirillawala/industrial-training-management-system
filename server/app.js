@@ -7,7 +7,7 @@ const alumniRoutes = require('./routes/alumniRoutes');
 const companyRoutes = require('./routes/companyRoutes');
 const noticeRoutes = require('./routes/noticeRoutes');
 
-const { requireAuth } = require('./middleware/authMiddleware');
+const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 const cors = require('cors');
 
 const app = express();
@@ -17,18 +17,19 @@ app.use(express.json());
 app.use(cors());
 
 // routes
+app.get('*', checkUser);
 app.get('/', (req, res) => {});
 app.get("/test",  (req, res) => {
     res.send("Success");
 });
 
-app.use(authRoutes);
-app.use(adminRoutes);
-app.use(undergraduateRoutes);
-app.use(supervisorRoutes);
-app.use(alumniRoutes);
-app.use(companyRoutes);
-app.use(noticeRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/admin', adminRoutes);
+app.use('/api/v1/undergraduate', undergraduateRoutes);
+app.use('/api/v1/supervisor', supervisorRoutes);
+app.use('/api/v1/alumni', alumniRoutes);
+app.use('/api/v1/company', companyRoutes);
+app.use('/api/v1/notice', noticeRoutes);
 
 
 
