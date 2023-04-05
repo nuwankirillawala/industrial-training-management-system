@@ -2,11 +2,12 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import './Login.css'
 import { Unilogo } from '../../components/shared/Images/Unilogo';
 import { Button, Checkbox, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import classnames from 'classnames';
+import useAuth from '../../Hooks/useAuth';
 
 const Login = () => {
     // we have update error handling, responsiveness.
@@ -16,27 +17,59 @@ const Login = () => {
     const [passwordError, setPasswordError] = useState('');
     const navigate = useNavigate();
 
+    const { loginUser, isAuthenticated, loading, user, error } = useAuth();
+
     const handleSubmit = async (e) => {
         try {
             e.preventDefault();
-            const response = await axios.post('http://localhost:5000/login', { email, password });
-
-            const data = response.data;
-
-            console.log(response);
-            // navigate(`/${data.role}-dashboard`);
-            navigate(`/student-dashboard`);
+            await loginUser({ email, password });
         } catch (err) {
-            if (err.response) {
-                const errors = err.response;
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        if (!loading && user && isAuthenticated) {
+            console.log(user.role);
+            switch (user.role) {
+                case 'system-admin':
+                    navigate('/admin-dashboard');
+                    break;
+
+                case 'department-coordinator':
+                    navigate('/coordinator-dashboard');
+                    break;
+
+                case 'undergraduate':
+                    navigate('/student-dashboard');
+                    break;
+
+                case 'supervisor':
+                    navigate('/supervisor-dashboard');
+                    break;
+
+                case 'alumni':
+                    navigate('/alumni-dashboard');
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        else if(error){
+            if (error.response) {
+                const errors = error.response;
+                console.log(errors);
                 setEmailError(errors.data.errors.email);
                 setPasswordError(errors.data.errors.password);
             }
             else {
-                console.log(err);
+                console.log(error);
             }
         }
-    }
+
+    }, [isAuthenticated, user, error]);
 
     return (
         <div className="app__login">
@@ -65,7 +98,7 @@ const Login = () => {
                     </div>
 
                     <div className={classnames('app__login-right', {
-                        'app__login-form_withError': emailError ||  passwordError
+                        'app__login-form_withError': emailError || passwordError
                     })}>
                         <form className="app__login-container-form" onSubmit={handleSubmit}>
                             <h2>LOGIN</h2>

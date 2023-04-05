@@ -27,6 +27,10 @@ import Notice from './components/shared/Notice/Notice'
 
 // Importing Pages
 import Login from './Pages/Shared/Login/Login';
+import Test from './components/Testing/Test';
+
+import AuthState from './Context/Auth/AuthState';
+import { Fragment } from 'react'
 
 
 function App() {
@@ -75,15 +79,18 @@ function App() {
         <Route path='testcvupdate' element={<StudentCvUpdate />}></Route>
         <Route path='dialogbox' element={<Dialogbox title="Title here" btn_name="default name">keep Children's here while calling</Dialogbox>}></Route>
         <Route path='testnotice' element={<Notice />}></Route>
+        <Route path='test' element={<Test />}></Route>
       </Route>
 
     </Route>
   ))
 
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <AuthState>
+      <Fragment>
+        <RouterProvider router={router} />
+      </Fragment>
+    </AuthState>
   )
   //   return (
   //     <ThemeProvider theme={theme}>

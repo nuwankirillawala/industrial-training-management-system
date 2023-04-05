@@ -13,8 +13,8 @@ dotenv.config();
 
 // create a json web token
 const maxAge = 12 * 60 * 60;
-const createToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
+const createToken = (id, role) => {
+    return jwt.sign({ id, role }, process.env.JWT_SECRET, {
         expiresIn: maxAge
     });
 }
@@ -34,7 +34,7 @@ module.exports.login = catchAsync(async (req, res) => {
             }
         }
 
-        const token = createToken(user._id);
+        const token = createToken(user._id, user.role);
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         // ⚡ cookie.secure must be enables in production.⚡
         res.status(200).json({ user: user._id, role: user.role });
@@ -43,6 +43,32 @@ module.exports.login = catchAsync(async (req, res) => {
         res.status(400).json({ errors });
     }
 });
+
+module.exports.getProfile = catchAsync(async (req, res) => {
+    try {
+        const user = res.locals.user;
+        console.log('user in getProfile', user);
+        let currentUser;
+
+        if (user.role === 'system-admin' || user.role == 'department-coordinater') {
+            currentUser = await Admin.findById(user.id)
+        }
+        else if (user.role === 'undergraduate') {
+            currentUser = await Undergraduate.findById(user.id);
+        }
+        else if (user.role === 'supervisor') {
+            currentUser = await Supervisor.findById(user.id);
+        }
+        else if (user.role === 'alumni') {
+            currentUser = await Alumni.findById(user.id);
+        }
+
+        console.log(currentUser);
+        res.status(200).json({ user: currentUser });
+    } catch (err) {
+        console.log(err);
+    }
+})
 
 module.exports.logout = catchAsync((req, res) => {
     res.cookie('jwt', '', { maxAge: 1 });
