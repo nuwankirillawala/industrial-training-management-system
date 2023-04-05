@@ -1,8 +1,10 @@
-import { TextField, Button, Typography, Grid} from "@mui/material"
-import React from "react"
+import React ,{useState} from "react"
+import { TextField, Button, Typography, Grid, Stack, Box, InputAdornment, IconButton} from "@mui/material"
 import { Tile } from '../../../card/Tile'
 import { Formik } from "formik"
 import * as yup from "yup"
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { FormControl, Select, MenuItem } from '@mui/material'
 
 
@@ -13,12 +15,23 @@ const User = {
     aluminiRegNo : '',
     aluminiGraduatedYear : '',
     aluminiPassword : '',
+    aluminiConfirmPassword : '',
 }
 
 export const AluminiCreateForm = () => {
+
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+    const handleMouseDownConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
    
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = async (values) => {
         console.log(values);
+        await new Promise((r) => setTimeout(r, 500));
+        alert(JSON.stringify(values, null, 2));
     };
 
     const validation = yup.object().shape({
@@ -27,12 +40,19 @@ export const AluminiCreateForm = () => {
         aluminiContactNo : yup.string().length(10,"must contain 10 digits").required("Required Field"),
         aluminiRegNo : yup.string().required('required Field'),
         aluminiGraduatedYear : yup.string().required("Required Field"),
-        aluminiPassword : yup.string().required('required Field'),
+        aluminiPassword : yup.string().matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
+            "Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+          ).required('Enter your new password'),
+          aluminiConfirmPassword : yup.string().oneOf([yup.ref("aluminiPassword")], "Your password do not match.").required('Confirm your new password')
     })
 
 
     return(
     <Tile>
+        <Box padding={'30px'}>
+        <Grid container>
+            <Grid item md={12}>
 
         <Formik
             onSubmit={handleFormSubmit}
@@ -46,20 +66,22 @@ export const AluminiCreateForm = () => {
                   handleBlur,
                   handleChange,
                   handleSubmit,
+                  handleReset
             }) => (
 
                     <form onSubmit={handleSubmit}>
 
-                        <Grid container spacing={1}>
-
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                        <Stack alignItems={'center'}>
+                            <Stack direction={'column'} spacing={1} width={'60%'}>
+                            
+                                <Stack direction={'row'}>
+                                    <Stack flex={2}>
                                         <Typography variant="body1">Name</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="text"
                                         onBlur={handleBlur}
@@ -69,18 +91,18 @@ export const AluminiCreateForm = () => {
                                         error={!!touched.aluminiName && !!errors.aluminiName}
                                         helperText={touched.aluminiName && errors.aluminiName}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
+                                    </Stack>
+                                </Stack>
+                            
 
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                <Stack direction={'row'}>
+                                    <Stack flex={2}>
                                         <Typography>Email Address</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="email"
                                         onBlur={handleBlur}
@@ -90,37 +112,37 @@ export const AluminiCreateForm = () => {
                                         error={!!touched.aluminiEmail && !!errors.aluminiEmail}
                                         helperText={touched.aluminiEmail && errors.aluminiEmail}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                    </Stack>
+                                </Stack>
+
+                                <Stack direction={'row'}>
+                                    <Stack minWidth={'200px'} flex={2}>
                                         <Typography>Contact Number</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        values={values.aluminiContactNo}
+                                        value={values.aluminiContactNo}
                                         name="aluminiContactNo"
                                         error={!!touched.aluminiContactNo && !!errors.aluminiContactNo}
                                         helperText={touched.aluminiContactNo && errors.aluminiContactNo}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                    </Stack>
+                                </Stack>
+
+                                <Stack direction={'row'}>
+                                    <Stack flex={2}>
                                         <Typography>Registraion Number</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="text"
                                         onBlur={handleBlur}
@@ -130,17 +152,17 @@ export const AluminiCreateForm = () => {
                                         error={!!touched.aluminiRegNo && !!errors.aluminiRegNo}
                                         helperText={touched.aluminiRegNo && errors.aluminiRegNo}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                    </Stack>
+                                </Stack>
+
+                                <Stack direction={'row'}>
+                                    <Stack flex={2}>
                                         <Typography>Graduated Year</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="text"
                                         onBlur={handleBlur}
@@ -150,42 +172,98 @@ export const AluminiCreateForm = () => {
                                         error={!!touched.aluminiGraduatedYear && !!errors.aluminiGraduatedYear}
                                         helperText={touched.aluminiGraduatedYear && errors.aluminiGraduatedYear}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                    </Stack>
+                                </Stack>
+
+                                <Stack direction={'row'}>
+                                    <Stack flex={2}>
                                         <Typography>Password</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
-                                        type="text"
+                                        type={showPassword ? "text" : "password"}
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         value={values.aluminiPassword}
                                         name="aluminiPassword"
                                         error={!!touched.aluminiPassword && !!errors.aluminiPassword}
                                         helperText={touched.aluminiPassword && errors.aluminiPassword}
+                                        InputProps={{
+                                            endAdornment: (
+                                              <InputAdornment position="end">
+                                                <IconButton
+                                                  aria-label="toggle password visibility"
+                                                  onClick={handleClickShowPassword}
+                                                  onMouseDown={handleMouseDownPassword}
+                                                >
+                                                  {showPassword ? (
+                                                    <VisibilityOutlinedIcon />
+                                                  ) : (
+                                                    <VisibilityOffOutlinedIcon />
+                                                  )}
+                                                </IconButton>
+                                              </InputAdornment>
+                                            ),
+                                          }}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container justifyContent={"flex-end"}>
-                                    <Grid item md={1}>
-                                        <Button variant="itms" size='itms=small' type="submit">ADD</Button>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
+                                    </Stack>
+                                </Stack>
 
+                                <Stack direction={'row'}>
+                                    <Stack flex={2}>
+                                        <Typography>Confirm Password</Typography>
+                                    </Stack>
+                                    <Stack flex={3}>
+                                        <TextField
+                                        fullWidth
+                                        size="small"
+                                        variant="outlined"
+                                        type={showConfirmPassword ? "text" : "password"}
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.aluminiConfirmPassword}
+                                        name="aluminiConfirmPassword"
+                                        error={!!touched.aluminiConfirmPassword && !!errors.aluminiConfirmPassword}
+                                        helperText={touched.aluminaluminiConfirmPasswordiPassword && errors.aluminiConfirmPassword}
+                                        InputProps={{
+                                            endAdornment: (
+                                              <InputAdornment position="end">
+                                                <IconButton
+                                                  aria-label="toggle password visibility"
+                                                  onClick={handleClickShowConfirmPassword}
+                                                  onMouseDown={handleMouseDownConfirmPassword}
+                                                >
+                                                  {showConfirmPassword ? (
+                                                    <VisibilityOutlinedIcon />
+                                                  ) : (
+                                                    <VisibilityOffOutlinedIcon />
+                                                  )}
+                                                </IconButton>
+                                              </InputAdornment>
+                                            ),
+                                          }}
+                                        />
+                                    </Stack>
+                                </Stack>
 
-                        </Grid>
+                                <Stack alignItems={'flex-end'}>
+                                    <Stack direction={'row'}>
+                                        <Button variant="itms" size='itms-small' onClick={handleReset}>clear</Button>
+                                        <Button variant="itms" size='itms-small' type="submit">ADD</Button>
+                                    </Stack>
+                                </Stack>
+
+                            </Stack>
+                        </Stack>
                     </form>
                 )}
        </Formik>
+       </Grid>
+       </Grid>
+       </Box>
     </Tile>    
     
     )

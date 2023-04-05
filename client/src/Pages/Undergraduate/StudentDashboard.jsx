@@ -8,40 +8,35 @@ import { NoticeBoard } from '../../components/Notice/NoticeBoard'
 export const StudentDashboard = () => {
   return (
 
-    <Box sx={{display:'flex'}}>
-    <Grid container md={12} sm={12} spacing={1}>
-      <Grid item md={9} sm={3}>
-{/* left half of the grid and it shows user profile and the result */}
-        <Grid item md={12}>
-          <Tile>
+    <Box sx={{display:'flex'}} padding={'0px 10px 0px 0px'}>
+    <Grid container spacing={1}>
 
-            <Grid container>
-              <Grid container>
-{/* profile picture and the GPA */}
-                <Grid item justifyItems={'center'} md={3}>
-                  <Stack alignItems={'center'} justifyContent={'center'}>
-                  <Avatar width={'140px'} height={'140px'}/>
-                  <Typography variant='h6' fontWeight={'bold'}>GPA : 3.50</Typography>
-                  </Stack>
-                </Grid>
-{/* dispaly fields from student profile */}
-                <Grid container md={9}>
-                  <Grid item md={4}>
-                    <Stack spacing={0}>
-                  {['Name : ',
-                    'Registration Number : ',
-                    'Email : ',
-                    'Mobile Number : ',
-                    'Linkedin Account : ',
-                    'Github Account : ',
-                    'Internship Status : '].map((text)=>(
-                    <Typography variant='body1' fontWeight={'bold'}>{text}</Typography>
-                  ))}
-                  </Stack>
-                  </Grid>
+{/* left half of the grid and it shows user profile and the result */}
+      <Grid item md={9} sm={3}>
+        <Stack spacing={1}>
+          <Stack>
+            <Tile>
+                <Stack direction={'column'}>
+                  <Stack direction={'row'}>
+
+                    <Stack justifyItems={'center'} alignItems={'center'} flex={3}>
+                      <Avatar width={'140px'} height={'140px'}/>
+                      <Typography variant='h6' fontWeight={'bold'}>GPA : 3.50</Typography>
+                    </Stack>
+
+                    <Stack spacing={0} flex={4}>
+                    {['Name : ',
+                      'Registration Number : ',
+                      'Email : ',
+                      'Mobile Number : ',
+                      'Linkedin Account : ',
+                      'Github Account : ',
+                      'Internship Status : '].map((text)=>(
+                      <Typography variant='body1' fontWeight={'bold'}>{text}</Typography>
+                    ))}
+                    </Stack>
 {/* in here we have to show data fron database. update that and test with backend */}
-                  <Grid item md={8}>
-                    <Stack spacing={0}>
+                    <Stack spacing={0} flex={8}>
                     {['Gavesh Madshan Sooriyaarachchi ',
                       'SC/2019/11121 ',
                       'gaveshmadushan96@gmail.com',
@@ -52,21 +47,19 @@ export const StudentDashboard = () => {
                       <Typography letterSpacing={1}>{text}</Typography>
                     ))}
                     </Stack>
-                  </Grid>
+                  </Stack>
 
-                </Grid>
-              </Grid>
 {/* Skills levels */}
-              <Grid container md={12}>
+                <Stack direction={'row'}>
                   <Typography>skills</Typography>
-              </Grid>
+                </Stack>
 
-            </Grid>
-          </Tile>
-        </Grid>
+              </Stack>
+            </Tile>
+          </Stack>
 
 {/* results */}
-        <Grid>
+        <Stack>
           <Tile>
             <TableContainer>
               <Table>
@@ -93,34 +86,37 @@ export const StudentDashboard = () => {
               </Table>
             </TableContainer>
           </Tile>
-        </Grid>
+        </Stack>
+      </Stack>
       </Grid>
 
 {/* right half of the grid and it shows notice,note and the calender*/}
       <Grid item md={3}>
-        <Grid>
-          {/* notice  */}
-          <Tile>
-            <NoticeBoard></NoticeBoard>
-          </Tile>
-        </Grid>
-        <Grid>
-          {/* note  */}
-          <Tile>
-            <TextField
-            label="Your Notes  Here..."
-            multiline
-            rows={10}
-            fullWidth
-          />
-          </Tile>
-        </Grid>
-        <Grid>
-          {/* calender  */}
-          <Tile>
-            <Typography>calender</Typography>
-          </Tile>
-        </Grid>
+      <Stack spacing={1}>
+          <Stack>
+            <Tile>
+              {/* notice  */}
+              {/* <NoticeBoard></NoticeBoard> */}
+            </Tile>
+          </Stack>
+          <Stack>
+            {/* note  */}
+            <Tile>
+              <TextField
+              label="Your Notes  Here..."
+              multiline
+              rows={10}
+              fullWidth
+            />
+            </Tile>
+          </Stack>
+          <Stack>
+            {/* calender  */}
+            <Tile>
+              <Typography>calender</Typography>
+            </Tile>
+          </Stack>
+        </Stack>
       </Grid>
 
     </Grid>

@@ -1,10 +1,8 @@
-import { TextField, Button, Typography, Grid} from "@mui/material"
-import React from "react"
+import { TextField, Button, Typography, Grid, Stack, Box, InputAdornment, IconButton} from "@mui/material"
+import React, {useState} from "react"
 import { Tile } from '../../../card/Tile'
 import { Formik } from "formik"
 import * as yup from "yup"
-import { FormControl, Select, MenuItem } from '@mui/material'
-
 
 const User = {
     companyName : '',
@@ -23,8 +21,10 @@ const User = {
 
 export const CompanyCreateForm = () => {
    
-    const handleFormSubmit = (values) => {
-        console.log(values);
+    const handleFormSubmit = async (values) => {
+        console.log(values);        
+        await new Promise((r) => setTimeout(r, 500));
+        alert(JSON.stringify(values, null, 2));
     };
 
     const validation = yup.object().shape({
@@ -45,6 +45,9 @@ export const CompanyCreateForm = () => {
 
     return(
     <Tile>
+    <Box padding={'30px'}>
+    <Grid container>
+        <Grid item md={12}>
 
         <Formik
             onSubmit={handleFormSubmit}
@@ -58,20 +61,22 @@ export const CompanyCreateForm = () => {
                   handleBlur,
                   handleChange,
                   handleSubmit,
+                  handleReset
             }) => (
 
                     <form onSubmit={handleSubmit}>
 
-                        <Grid container spacing={1}>
-
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                        <Stack alignItems={'center'}>
+                            <Stack direction={'column'} spacing={1} width={'60%'}>
+                            
+                                <Stack direction={'row'}>
+                                    <Stack flex={2}>
                                         <Typography variant="body1">Company Name</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="text"
                                         onBlur={handleBlur}
@@ -81,18 +86,17 @@ export const CompanyCreateForm = () => {
                                         error={!!touched.companyName && !!errors.companyName}
                                         helperText={touched.companyName && errors.companyName}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
+                                    </Stack>
+                                </Stack>
 
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                <Stack direction={'row'}>
+                                    <Stack flex={2}>
                                         <Typography>Company Email Address</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="email"
                                         onBlur={handleBlur}
@@ -102,37 +106,37 @@ export const CompanyCreateForm = () => {
                                         error={!!touched.companyEmail && !!errors.companyEmail}
                                         helperText={touched.companyEmail && errors.companyEmail}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
-                                        <Typography>Company Contact Number</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                </Stack>
+
+                                <Stack direction={'row'}>
+                                    <Stack minWidth={'200px'} flex={2}>
+                                        <Typography>Contact Number</Typography>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        values={values.companyContactNo}
+                                        value={values.companyContactNo}
                                         name="companyContactNo"
                                         error={!!touched.companyContactNo && !!errors.companyContactNo}
                                         helperText={touched.companyContactNo && errors.companyContactNo}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                    </Stack>
+                                </Stack>
+
+                                <Stack direction={'row'}>
+                                    <Stack flex={2}>
                                         <Typography>Company Address</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="text"
                                         onBlur={handleBlur}
@@ -142,17 +146,17 @@ export const CompanyCreateForm = () => {
                                         error={!!touched.companyAddress && !!errors.companyAddress}
                                         helperText={touched.companyAddress && errors.companyAddress}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                    </Stack>
+                                </Stack>
+
+                                <Stack direction={'row'}>
+                                    <Stack flex={2}>
                                         <Typography>Company Inten Seats</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="number"
                                         onBlur={handleBlur}
@@ -162,17 +166,17 @@ export const CompanyCreateForm = () => {
                                         error={!!touched.companyIntenSeats && !!errors.companyIntenSeats}
                                         helperText={touched.companyIntenSeats && errors.companyIntenSeats}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                    </Stack>
+                                </Stack>
+
+                                <Stack direction={'row'}>
+                                    <Stack flex={2}>
                                         <Typography>Company Description</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="text"
                                         onBlur={handleBlur}
@@ -182,17 +186,17 @@ export const CompanyCreateForm = () => {
                                         error={!!touched.companyDescription && !!errors.companyDescription}
                                         helperText={touched.companyDescription && errors.companyDescription}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                    </Stack>
+                                </Stack>
+
+                                <Stack direction={'row'}>
+                                    <Stack flex={2}>
                                         <Typography>Company Rating</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="number"
                                         onBlur={handleBlur}
@@ -202,22 +206,22 @@ export const CompanyCreateForm = () => {
                                         error={!!touched.companyRating && !!errors.companyRating}
                                         helperText={touched.companyRating && errors.companyRating}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
+                                    </Stack>
+                                </Stack>
 
 {/* company contact person details */}
-                            <Grid item md={12}>
-                                <Typography vatiant='h6' fontWeight={'bold'}>Company Contact Person Details</Typography>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                <Stack>
+                                    <Typography vatiant='h6' fontWeight={'bold'}>Company Contact Person Details</Typography>
+                                </Stack>
+
+                                <Stack direction={'row'}>
+                                    <Stack flex={2}>
                                         <Typography>Contact Person Name</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="text"
                                         onBlur={handleBlur}
@@ -227,24 +231,17 @@ export const CompanyCreateForm = () => {
                                         error={!!touched.companyContactPersonName && !!errors.companyContactPersonName}
                                         helperText={touched.companyContactPersonName && errors.companyContactPersonName}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container justifyContent={"flex-end"}>
-                                    <Grid item md={1}>
-                                        <Button variant="itms" size='itms=small' type="submit">ADD</Button>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                    </Stack>
+                                </Stack>
+
+                                <Stack direction={'row'}>
+                                    <Stack flex={2}>
                                         <Typography>Contact Person Contact Number</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="text"
                                         onBlur={handleBlur}
@@ -254,24 +251,17 @@ export const CompanyCreateForm = () => {
                                         error={!!touched.companyContactPersonContactNo && !!errors.companyContactPersonContactNo}
                                         helperText={touched.companyContactPersonContactNo && errors.companyContactPersonContactNo}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container justifyContent={"flex-end"}>
-                                    <Grid item md={1}>
-                                        <Button variant="itms" size='itms=small' type="submit">ADD</Button>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                    </Stack>
+                                </Stack>
+
+                                <Stack direction={'row'}>
+                                    <Stack flex={2}>
                                         <Typography>Contact Person Email</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="text"
                                         onBlur={handleBlur}
@@ -281,24 +271,17 @@ export const CompanyCreateForm = () => {
                                         error={!!touched.companyContactPersonEmail && !!errors.companyContactPersonEmail}
                                         helperText={touched.companyContactPersonEmail && errors.companyContactPersonEmail}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container justifyContent={"flex-end"}>
-                                    <Grid item md={1}>
-                                        <Button variant="itms" size='itms=small' type="submit">ADD</Button>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                    </Stack>
+                                </Stack>
+
+                                <Stack direction={'row'}>
+                                    <Stack flex={2}>
                                         <Typography>Contact Person Position</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="text"
                                         onBlur={handleBlur}
@@ -308,22 +291,24 @@ export const CompanyCreateForm = () => {
                                         error={!!touched.companyContactPersonPosition && !!errors.companyContactPersonPosition}
                                         helperText={touched.companyContactPersonPosition && errors.companyContactPersonPosition}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container justifyContent={"flex-end"}>
-                                    <Grid item md={1}>
-                                        <Button variant="itms" size='itms=small' type="submit">ADD</Button>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
+                                    </Stack>
+                                </Stack>
 
+                                <Stack alignItems={'flex-end'}>
+                                    <Stack direction={'row'}>
+                                        <Button variant="itms" size='itms-small' onClick={handleReset}>clear</Button>
+                                        <Button variant="itms" size='itms-small' type="submit">ADD</Button>
+                                    </Stack>
+                                </Stack>
 
-                        </Grid>
+                            </Stack>
+                        </Stack>
                     </form>
                 )}
        </Formik>
+       </Grid>
+       </Grid>
+       </Box>
     </Tile>    
     
     )

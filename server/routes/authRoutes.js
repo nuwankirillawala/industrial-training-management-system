@@ -1,10 +1,14 @@
 const { Router } = require('express');
 const authController = require('../controllers/authController.js');
+const { checkUser } = require('../middleware/authMiddleware.js');
 
 const router = Router();
 
 router.route('/login')
     .post(authController.login)
+
+router.route('/profile')
+    .get(authController.getProfile)
 
 router.route('/logout')
     .get(authController.logout)

@@ -5,22 +5,29 @@ import { Tile } from "../../../card/Tile"
 import { Formik } from "formik"
 import * as yup from "yup"
 
-const User = {
-    alumniName: 'ajith',
-    alumniEmail: '',
-    alumniContactNo: '',
-    alumniRegNo: '', //not allowed to change
-    alumniGraduatedYear: ''
+const Student = {
+    studnetName: '',
+    // studnetRegNo : '',
+    studnetEmail: '',
+    studnetContactNo: '',
+    // studnetPassword : '', we have forgot password
+    studnetGpa: '',
+    studnetWeightedGpa: '',
+    studnetInternStatus: '',
+    // studnetLinkedInURL : '',
+    // studnetGithubURL : '',
 }
 
-export const UpdateAlumniForm = () => {
+export const UpdateUndergraduateForm = () => {
     //add axios while integrate to get initial values
 
     const validation = yup.object().shape({
-        alumniName: yup.string(),
-        alumniEmail: yup.string().email("Invalid Email"),
-        alumniContactNo: yup.string().length(10, "must contain 10 digits"),
-        alumniGraduatedYear: yup.string()
+        studnetName: yup.string(),
+        studnetEmail: yup.string().email("Invalid Email"),
+        studnetContactNo: yup.string().length(10, "must contain 10 digits"),
+        studnetGpa: yup.number(),
+        studnetWeightedGpa: yup.number(),
+        studnetInternStatus: yup.string()
     })
 
 
@@ -34,7 +41,7 @@ export const UpdateAlumniForm = () => {
         <Tile>
             <Formik
 
-                initialValues={User}
+                initialValues={Student}
                 validationSchema={validation}>
                 {({
                     values,
@@ -59,14 +66,13 @@ export const UpdateAlumniForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        value={values.alumniName} //if u use User here it will not let change text
-                                        name="alumniName"
-                                        error={!!touched.alumniName && !!errors.alumniName}
-                                        helperText={touched.alumniName && errors.alumniName}
+                                        value={values.studnetName} //if u use User here it will not let change text
+                                        name="studnetName"
+                                        error={!!touched.studnetName && !!errors.studnetName}
+                                        helperText={touched.studnetName && errors.studnetName}
                                     />
                                 </Stack>
                             </Stack>
-
 
                             <Stack direction="row" spacing={2}>
                                 <Stack width='150px'>
@@ -79,10 +85,10 @@ export const UpdateAlumniForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        value={values.alumniEmail}
-                                        name="alumniEmail"
-                                        error={!!touched.alumniEmail && !!errors.alumniEmail}
-                                        helperText={touched.alumniEmail && errors.alumniEmail}
+                                        value={values.studnetEmail} //if u use User here it will not let change text
+                                        name="studnetEmail"
+                                        error={!!touched.studnetEmail && !!errors.studnetEmail}
+                                        helperText={touched.studnetEmail && errors.studnetEmail}
                                     />
                                 </Stack>
                             </Stack>
@@ -98,17 +104,18 @@ export const UpdateAlumniForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        value={values.alumniContactNo}
-                                        name="alumniContactNo"
-                                        error={!!touched.alumniContactNo && !!errors.alumniContactNo}
-                                        helperText={touched.alumniContactNo && errors.alumniContactNo}
+                                        value={values.studnetContactNo} //if u use User here it will not let change text
+                                        name="studnetstudnetContactNoName"
+                                        error={!!touched.studnetContactNo && !!errors.studnetContactNo}
+                                        helperText={touched.studnetContactNo && errors.studnetContactNo}
                                     />
                                 </Stack>
                             </Stack>
 
+
                             <Stack direction="row" spacing={2}>
                                 <Stack width='150px'>
-                                    <Typography variant="body1">Graduated Year</Typography>
+                                    <Typography variant="body1">GPA </Typography>
                                 </Stack>
                                 <Stack width='300px'>
                                     <TextField
@@ -117,13 +124,52 @@ export const UpdateAlumniForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        value={values.alumniGraduatedYear}
-                                        name="alumniGraduatedYear"
-                                        error={!!touched.alumniGraduatedYear && !!errors.alumniGraduatedYear}
-                                        helperText={touched.alumniGraduatedYear && errors.alumniGraduatedYear}
+                                        value={values.studnetGpa}
+                                        name="studnetGpa"
+                                        error={!!touched.studnetGpa && !!errors.studnetGpa}
+                                        helperText={touched.studnetGpa && errors.studnetGpa}
                                     />
                                 </Stack>
                             </Stack>
+
+                            <Stack direction="row" spacing={2}>
+                                <Stack width='150px'>
+                                    <Typography variant="body1">Weighted GPA</Typography>
+                                </Stack>
+                                <Stack width='300px'>
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.studnetWeightedGpa}
+                                        name="studnetWeightedGpa"
+                                        error={!!touched.studnetWeightedGpa && !!errors.studnetWeightedGpa}
+                                        helperText={touched.studnetWeightedGpa && errors.studnetWeightedGpa}
+                                    />
+                                </Stack>
+                            </Stack>
+
+                            <Stack direction="row" spacing={2}>
+                                <Stack width='150px'>
+                                    <Typography variant="body1">Intern Status</Typography>
+                                </Stack>
+                                <Stack width='300px'>
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.studnetInternStatus}
+                                        name="studnetInternStatus"
+                                        error={!!touched.studnetInternStatus && !!errors.studnetInternStatus}
+                                        helperText={touched.studnetInternStatus && errors.studnetInternStatus}
+                                    />
+                                </Stack>
+                            </Stack>
+
 
                             <Stack direction="row" display={'flex'} justifyContent="flex-end" paddingRight={'0px'}>
                                 <Button variant="itms" type="submit"  >Submit</Button>

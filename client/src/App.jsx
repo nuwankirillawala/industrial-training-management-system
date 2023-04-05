@@ -1,6 +1,5 @@
 // import './App.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
-import { Login } from './components/Login/Login'
 import { Layout } from './components/Layout/Layout'
 import { RootLayout } from './components/Layout/RootLayout'
 import { StudentCvUpdate } from './Pages/Undergraduate/StudentCvUpdate'
@@ -13,18 +12,26 @@ import Dialogbox from './components/Dialogbox/Dialogbox'
 import { AddAdmin } from './components/user/Admin/addUsers/AddAdmin'
 import { AddSuperv } from './components/user/Admin/addUsers/AddSuperv'
 import { AddUndg } from './components/user/Admin/addUsers/AddUndg'
-import { AddCompany } from './components/user/Admin/addUsers/AddCompany'
+import { AddCompanySupervisor } from './components/user/Admin/addUsers/AddCompanySupervisor'
 import { AddAlumini } from './components/user/Admin/addUsers/AddAlumini'
 import { ViewAdmin } from './components/user/Admin/viewUsers/ViewAdmin'
 import { ViewSuperv } from './components/user/Admin/viewUsers/ViewSuperv'
 import { ViewUndg } from './components/user/Admin/viewUsers/ViewUndg'
 import { ViewCompany } from './components/user/Admin/viewUsers/ViewCompany'
 import { ViewAlumini } from './components/user/Admin/viewUsers/ViewAlumini'
-import { UpdateAdmin } from './components/user/Admin/updateUsers/UpdateAdmin'
-import { RemoveAdmin } from './components/user/Admin/RemoveUsers/RemoveAdmin'
-import { UpdateAlumni } from './components/user/Admin/updateUsers/UpdateAlumni'
-import { UpdateCompany } from './components/user/Admin/updateUsers/UpdateCompany'
+import { UpdateNRemoveAdmin } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveAdmin'
+import { RemoveMultipleAdmin } from './components/user/Admin/RemoveMultipleUsers/RemoveMultipleAdmin'
+import { UpdateNRemoveAlumni } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveAlumni'
+import { UpdateNRemoveCompany } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveCompany'
+import { UpdateNRemoveUndergraduate } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveUndergraduate'
 import Notice from './components/shared/Notice/Notice'
+
+// Importing Pages
+import Login from './Pages/Shared/Login/Login';
+import Test from './components/Testing/Test';
+
+import AuthState from './Context/Auth/AuthState';
+import { Fragment } from 'react'
 
 
 function App() {
@@ -39,7 +46,7 @@ function App() {
         <Route path='addadmin' element={<AddAdmin />} />
         <Route path='add-superv-details' element={<AddSuperv />} />
         <Route path='add-undg-details' element={<AddUndg />} />
-        <Route path='add-comp-details' element={<AddCompany />} />
+        <Route path='add-companySupervisor-details' element={<AddCompanySupervisor />} />
         <Route path='add-alumini-details' element={<AddAlumini />} />
 
         <Route path='view-admin-details' element={<ViewAdmin />} />
@@ -48,10 +55,11 @@ function App() {
         <Route path='view-comp-details' element={<ViewCompany />} />
         <Route path='view-alumini-details' element={<ViewAlumini />} />
 
-        <Route path='update-admin-details' element={<UpdateAdmin />} />
-        <Route path='remove-admin' element={<RemoveAdmin />} />
-        <Route path='update-alumni-details' element={<UpdateAlumni />} />
-        <Route path='update-company-details' element={<UpdateCompany />} />
+        <Route path='updateNremove-admin-details' element={<UpdateNRemoveAdmin />} />
+        <Route path='remove-multiple-admin' element={<RemoveMultipleAdmin />} />  {/*  Not used still in site */}
+        <Route path='updateNremove-alumni-details' element={<UpdateNRemoveAlumni />} />
+        <Route path='updateNremove-company-details' element={<UpdateNRemoveCompany />} />
+        <Route path='updateNremove-undergraduate-details' element={<UpdateNRemoveUndergraduate />} />
 
         {/* student routes */}
         <Route path='student-dashboard' element={<StudentDashboard />} />
@@ -73,15 +81,18 @@ function App() {
         <Route path='testcvupdate' element={<StudentCvUpdate />}></Route>
         <Route path='dialogbox' element={<Dialogbox title="Title here" btn_name="default name">keep Children's here while calling</Dialogbox>}></Route>
         <Route path='testnotice' element={<Notice />}></Route>
+        <Route path='test' element={<Test />}></Route>
       </Route>
 
     </Route>
   ))
 
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <AuthState>
+      <Fragment>
+        <RouterProvider router={router} />
+      </Fragment>
+    </AuthState>
   )
   //   return (
   //     <ThemeProvider theme={theme}>

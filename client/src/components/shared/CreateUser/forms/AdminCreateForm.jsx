@@ -1,9 +1,10 @@
-import { TextField, Button, Typography, Grid} from "@mui/material"
-import React from "react"
+import { TextField, Button, Typography, Grid, Stack, Box, InputAdornment, IconButton} from "@mui/material"
+import React, {useState} from "react"
 import { Tile } from '../../../card/Tile'
 import { Formik } from "formik"
 import * as yup from "yup"
-import { FormControl, Select, MenuItem } from '@mui/material'
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 
 
 const User = {
@@ -12,13 +13,15 @@ const User = {
     adminContactNo : '',
     adminStaffId : '',
     adminPassword : '',
-    adminRole : ''
+    adminConfirmPassword : ''
 }
 
 export const AdminCreateForm = () => {
    
-    const handleFormSubmit = (values) => {
-        console.log(values);
+    const handleFormSubmit = async (values) => {
+        console.log(values);        
+        await new Promise((r) => setTimeout(r, 500));
+        alert(JSON.stringify(values, null, 2));
     };
 
     const validation = yup.object().shape({
@@ -26,41 +29,56 @@ export const AdminCreateForm = () => {
         adminName : yup.string().required('required Field'),
         adminEmail : yup.string().email("Invalid Email").required("required Field"),
         adminContactNo : yup.string().length(10,"must contain 10 digits").required("Required Field"),
-        // adminStaffId : yup.string().required('required Field'),
-        adminPassword : yup.string().required("Required Field"),
-        adminRole : yup.string().required('required Field'),
+        adminStaffId : yup.string().required('required Field'),
+        adminPassword : yup.string().matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
+            "Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+          ).required('Enter your new password'),
+        adminConfirmPassword : yup.string().oneOf([yup.ref("adminPassword")], "Your password do not match.").required('Confirm your new password')
     })
 
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+    const handleMouseDownConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
 
     return(
     <Tile>
+        <Box padding={'30px'}>
+        <Grid container>
+            <Grid item md={12}>
+                <Stack alignItems={'center'}>
+<Box width={'70%'}>
+                <Formik
+                    onSubmit={handleFormSubmit}
+                    initialValues={User}
+                    validationSchema={validation}
+                >
+                    
+                    {({
+                          values,
+                          errors,
+                          touched,
+                          handleBlur,
+                          handleChange,
+                          handleSubmit,
+                          handleReset,
+                    }) => (
 
-        <Formik
-            onSubmit={handleFormSubmit}
-            initialValues={User}
-            validationSchema={validation}>
+                        <form onSubmit={handleSubmit}>
+                            <Stack direction={'column'} spacing={1}>
 
-            {({
-                  values,
-                  errors,
-                  touched,
-                  handleBlur,
-                  handleChange,
-                  handleSubmit,
-            }) => (
-
-                    <form onSubmit={handleSubmit}>
-
-                        <Grid container spacing={1}>
-
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                <Stack direction={'row'}>
+                                    <Stack minWidth={'200px'} flex={1}>
                                         <Typography variant="body1">Name</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="text"
                                         onBlur={handleBlur}
@@ -70,18 +88,17 @@ export const AdminCreateForm = () => {
                                         error={!!touched.adminName && !!errors.adminName}
                                         helperText={touched.adminName && errors.adminName}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
+                                    </Stack>
+                                </Stack>
 
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                <Stack direction={'row'}>
+                                    <Stack minWidth={'200px'} flex={1}>
                                         <Typography>Email Address</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="email"
                                         onBlur={handleBlur}
@@ -91,37 +108,36 @@ export const AdminCreateForm = () => {
                                         error={!!touched.adminEmail && !!errors.adminEmail}
                                         helperText={touched.adminEmail && errors.adminEmail}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                    </Stack>
+                                </Stack>
+                                <Stack direction={'row'}>
+                                    <Stack minWidth={'200px'} flex={1}>
                                         <Typography>Contact Number</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        values={values.adminContactNo}
+                                        value={values.adminContactNo}
                                         name="adminContactNo"
                                         error={!!touched.adminContactNo && !!errors.adminContactNo}
                                         helperText={touched.adminContactNo && errors.adminContactNo}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                    </Stack>
+                                </Stack>
+
+                                <Stack direction={'row'}>
+                                    <Stack minWidth={'200px'} flex={1}>
                                         <Typography>Staff Id</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
                                         type="text"
                                         onBlur={handleBlur}
@@ -131,81 +147,109 @@ export const AdminCreateForm = () => {
                                         error={!!touched.adminStaffId && !!errors.adminStaffId}
                                         helperText={touched.adminStaffId && errors.adminStaffId}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
-                                        <Typography>Admin Role</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
-                                        <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="adminRole"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.adminRole}
-                                        name="adminRole"
-                                        error={!!touched.adminRole && !!errors.adminRole}
-                                        helperText={touched.adminRole && errors.adminRole}
-                                        />
+                                    </Stack>
+                                </Stack>
 
-                                        {/* <FormControl fullWidth>
-                                            <Select
-                                            fullWidth
-                                            variant="outlined"
-                                            type="adminRole"
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            values={values.adminRole}
-                                            name="adminRole"
-                                            error={!!touched.adminRole && !!errors.adminRole}
-                                            // helperText={touched.adminRole && errors.adminRole}
-                                            >
-                                                <MenuItem value="none"><em>None</em></MenuItem>
-                                                <MenuItem value="value1">value 1</MenuItem>
-                                                <MenuItem value="value2">value 2</MenuItem>
-                                                <MenuItem value="value3">value 3</MenuItem>
-                                            </Select>
-                                        </FormControl> */}
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container>
-                                    <Grid item md={4}>
+                                <Stack direction={'row'}>
+                                    <Stack minWidth={'200px'} flex={1}>
                                         <Typography>Password</Typography>
-                                    </Grid>
-                                    <Grid item md={8}>
+                                    </Stack>
+                                    <Stack flex={3}>
                                         <TextField
                                         fullWidth
+                                        size="small"
                                         variant="outlined"
-                                        type="text"
+                                        type={showPassword ? "text" : "password"}
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         value={values.adminPassword}
                                         name="adminPassword"
                                         error={!!touched.adminPassword && !!errors.adminPassword}
                                         helperText={touched.adminPassword && errors.adminPassword}
+                                        InputProps={{
+                                            endAdornment: (
+                                              <InputAdornment position="end">
+                                                <IconButton
+                                                  aria-label="toggle password visibility"
+                                                  onClick={handleClickShowPassword}
+                                                  onMouseDown={handleMouseDownPassword}
+                                                >
+                                                  {showPassword ? (
+                                                    <VisibilityOutlinedIcon />
+                                                  ) : (
+                                                    <VisibilityOffOutlinedIcon />
+                                                  )}
+                                                </IconButton>
+                                              </InputAdornment>
+                                            ),
+                                          }}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item md={12}>
-                                <Grid container justifyContent={"flex-end"}>
-                                    <Grid item md={1}>
-                                        <Button variant="itms" size='itms=small' type="submit">ADD</Button>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
+                                    </Stack>
+                                </Stack>
+                                <Stack direction={'row'}>
+                                    <Stack minWidth={'200px'} flex={1}>
+                                        <Typography>Confirm Password</Typography>
+                                    </Stack>
+                                    <Stack flex={3}>
+                                        <TextField
+                                        fullWidth
+                                        size="small"
+                                        variant="outlined"
+                                        type={showConfirmPassword ? "text" : "password"}
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.adminConfirmPassword}
+                                        name="adminConfirmPassword"
+                                        error={!!touched.adminConfirmPassword && !!errors.adminConfirmPassword}
+                                        helperText={touched.adminConfirmPassword && errors.adminConfirmPassword}
+                                        InputProps={{
+                                            endAdornment: (
+                                              <InputAdornment position="end">
+                                                <IconButton
+                                                  aria-label="toggle password visibility"
+                                                  onClick={handleClickShowConfirmPassword}
+                                                  onMouseDown={handleMouseDownConfirmPassword}
+                                                >
+                                                  {showConfirmPassword ? (
+                                                    <VisibilityOutlinedIcon />
+                                                  ) : (
+                                                    <VisibilityOffOutlinedIcon />
+                                                  )}
+                                                </IconButton>
+                                              </InputAdornment>
+                                            ),
+                                          }}
+                                        />
+                                    </Stack>
+                                </Stack>
 
+                                <Stack alignItems={'flex-end'}>
+                                    <Stack direction={'row'}>
+                                        <Button
+                                            variant='itms'
+                                            size='itms-small'
+                                            onClick={handleReset}
+                                            >clear
+                                        </Button>
 
-                        </Grid>
-                    </form>
-                )}
-       </Formik>
+                                        <Button 
+                                            variant="itms"
+                                            size='itms-small'
+                                            type="submit"
+                                            >ADD
+                                        </Button>
+                                    </Stack>
+                                </Stack>
+
+                            </Stack>
+                        </form>
+                    )}
+                </Formik>
+                </Box>
+                </Stack>
+            </Grid>
+       </Grid>
+       </Box>
     </Tile>    
     
     )

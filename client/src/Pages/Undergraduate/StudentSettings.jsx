@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { Tile } from '../../components/card/Tile'
-import { Grid, Box, Typography, TextField, Button } from '@mui/material'
+import { Grid, Stack, Box, Typography, TextField, Button } from '@mui/material'
 import { Avatar } from '../../components/shared/Images/Avatar'
+import {Formik } from 'formik'
+import * as Yup from 'yup'
+import { ChangePassword } from '../../components/ChangePassword/ChangePassword'
 
 // get current values form backend and set that valuse as default values in textfields
 
-const values = {
+const studentValues = {
     firstName : '',
     lastName : '',
     fullName : '',
@@ -16,286 +19,270 @@ const values = {
     github : ''
 }
 
-
-// we have to validate the change password settings
-const pwd = {
-    pwdCurrent : '',
-    pwdNew1 : '',
-    pwdNewCon : ''
-}
-
 export const StudentSettings = () => {
 
-    const[profile,setProfile] = useState(values);
+    const[profile,setProfile] = useState(studentValues);
+
+    const handleOnSubmitForm = async(values) => {
+        console.log(values);
+        await new Promise((r) => setTimeout(r, 500));
+        alert(JSON.stringify(values, null, 2));
+    }
+
+    const validationForm = Yup.object().shape({
+        firstName : Yup.string(),
+        lastName : Yup.string(),
+        fullName : Yup.string(),
+        regNo : Yup.string(),
+        email : Yup.string().email("Invalid Email Address"),
+        contactNo : Yup.string().length(10,"Invalid Number"),
+        linkedin : Yup.string().url("invalid URL"),
+        github : Yup.string().url("Invalid URL")
+    })
 
   return (
 
         <Grid container spacing={1}>
-            <Grid item md={4}>
+
+            <Grid item md={3}>
             <Tile>
-                <Grid container spacing={5}>
+            <Box padding={'20px'}>
+                <Stack direction='column' spacing={5}>
 {/* update profile photo */}
-                    <Grid item md={12}>
-
-                        <Grid container justifyContent={'flex-start'} spacing={1}>
-                        <Grid item md={5}>
-                            <Avatar/>
-                        </Grid>
-                        <Grid item md={12}>
-                            <Button variant='itms'> 
-                            <Typography variant='caption'>change Profile Photo</Typography>
-                            </Button>
-                        </Grid>
-                        </Grid>
-            
-                    </Grid>
+                    <Stack direction={'column'} spacing={2}>
+                        <Stack alignItems={'center'}>
+                            <Box width={'60%'}>
+                                <Avatar/>
+                            </Box>
+                        </Stack>
+                        <Stack alignItems={'center'}>
+                            <Box>
+                                <Button variant='itms'>change Profile Photo</Button>
+                            </Box>
+                        </Stack>            
+                    </Stack>
 {/* change password */}
-                    <Grid item md={12}>
-                        <Grid container spacing={2}>
-                            <Grid item md={12}>
-                                <Typography variant='h6' fontWeight={'bold'}>Change Password</Typography>
-                            </Grid>
+                    <Stack direction={'column'} spacing={2}>
+                        <Stack>
+                            <Typography variant='h6' fontWeight={'bold'}>Change Password</Typography>
+                        </Stack>
 
-                            <Grid item md={12}>
-                                <Grid container spacing={1} justifyContent='center'>
-                                    <Grid item md={12}>
-                                        {/* <Typography variant='body1'>Current Password</Typography> */}
-                                    </Grid>
-                                    <Grid item md={10}>
-                                        <TextField
-                                            variant='outlined'
-                                            size='small'
-                                            label='Current Password'
-                                            type={'text'}
-                                            value={pwd.pwdCurrent}
-                                            name='pwdCurrent'
-                                            fullWidth
-                                        />
-                                    </Grid>
-                                    <Grid item md={12}>
-                                        {/* <Typography variant='body1'>New Password</Typography> */}
-                                    </Grid>
-                                    <Grid item md={10}>
-                                        <TextField
-                                            variant='outlined'
-                                            size='small'
-                                            label='New Password'
-                                            type={'text'}
-                                            value={pwd.pwdNew1}
-                                            name='pwdNew1'
-                                            fullWidth
-                                        />
-                                    </Grid>
-                                    <Grid item md={12}>
-                                        {/* <Typography>Confirm Password</Typography> */}
-                                    </Grid>
-                                    <Grid item md={10}>
-                                        <TextField
-                                            variant='outlined'
-                                            size='small'
-                                            label='Confirm Password'
-                                            type={'text'}
-                                            value={pwd.pwdNewCon}
-                                            name='pwdNewCon'
-                                            fullWidth
-                                        />
-                                    </Grid>
-
-                                </Grid>
-
-                            </Grid>
-
-                            
-                            <Grid item md={12}>
-                                <Grid container justifyContent={'end'}>
-                                <Grid item md={2}>
-                                    <Button variant='itms' fullWidth>save</Button>
-                                </Grid>
-                                </Grid>
-                            </Grid>    
-
-                        </Grid>
-                    </Grid>
-                </Grid>
+{/* Use change password component */}
+                        <Stack>
+                            <ChangePassword />
+                        </Stack>                        
+                    </Stack>
+                </Stack>
+                </Box>
             </Tile>
             </Grid>
 
 {/* update profile details */}
 {/* set the current values as default values */}
-            <Grid item md={8}>
+            <Grid item md={9}>
             <Tile>
-                <Grid container spacing={1} justifyContent={'center'}>
+                <Box padding={'20px'}>
+                <Stack spacing={2} direction='column'>
+                    <Stack>
+                        <Typography variant='h6' fontWeight={'bold'}>Update Your Profile</Typography>
+                    </Stack>
+                    <Stack alignItems={'center'}>
+                        <Box width={'70%'}>
+                            <Formik
+                                initialValues={studentValues}
+                                validationSchema={validationForm}
+                                onSubmit={handleOnSubmitForm}
+                            >
+                                {({
+                                    values,
+                                    errors,
+                                    touched,
+                                    handleBlur,
+                                    handleChange,
+                                    handleSubmit,
+                                    handleReset,
+                                        
+                                })=>(
+                                <form onSubmit={handleSubmit}>
+                                    <Stack spacing={1}>
+                                        <Stack direction={'row'}>
+                                            <Stack minWidth={'200px'} flex={1}>
+                                                <Typography>First Name</Typography>
+                                            </Stack>
+                                            <Stack flex={3}>
+                                                <TextField
+                                                    variant='outlined'
+                                                    size='small'
+                                                    defaultValue="Kamal"
+                                                    type='text'
+                                                    name='firstName'
+                                                    fullWidth
+                                                    value={values.firstName}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    error={!!touched.firstName && !!errors.firstName}
+                                                    helperText={touched.firstName && errors.firstName}
+                                                    />
+                                            </Stack>
+                                        </Stack>
+                                        <Stack direction={'row'}>
+                                            <Stack minWidth={'200px'} flex={1}>
+                                                <Typography>Last Name</Typography>
+                                            </Stack>
+                                            <Stack flex={3}>
+                                                <TextField
+                                                    variant='outlined'
+                                                    size='small'
+                                                    type='text'
+                                                    defaultValue={'Perera'}
+                                                    name='lastName'
+                                                    fullWidth
+                                                    value={values.lastName}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    error={!!touched.lastName && !!errors.lastName}
+                                                    helperText={touched.lastName && errors.lastName}
+                                                />
+                                            </Stack>
+                                        </Stack>
+                                        <Stack direction={'row'}>
+                                            <Stack minWidth={'200px'} flex={1}>
+                                                <Typography>Name With Initials</Typography>
+                                            </Stack>
+                                            <Stack flex={3}>
+                                                <TextField
+                                                    variant='outlined'
+                                                    size='small'
+                                                    type='text'
+                                                    defaultValue={'k.Perera'}
+                                                    name='fullName'
+                                                    fullWidth
+                                                    value={values.fullName}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    error={!!touched.fullName && !!errors.fullName}
+                                                    helperText={touched.fullName && errors.fullName}
+                                                    />
+                                            </Stack>
+                                        </Stack>
+                                        <Stack direction={'row'}>
+                                            <Stack flex={1} minWidth={'200px'}>
+                                                <Typography>Registration Number</Typography>
+                                            </Stack>
+                                            <Stack flex={3}>
+                                                <TextField
+                                                    variant='outlined'
+                                                    size='small'
+                                                    type='text'
+                                                    defaultValue={'SC/2019/11100'}
+                                                    name='regNo'
+                                                    fullWidth
+                                                    value={values.regNo}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    error={!!touched.regNo && !!errors.regNo}
+                                                    helperText={touched.regNo && errors.regNo}
+                                                    />
+                                            </Stack>
+                                        </Stack>
+                                        <Stack direction={'row'} minWidth={'200px'}>
+                                            <Stack flex={1} minWidth={'200px'}>
+                                                <Typography>Email Address</Typography>
+                                            </Stack>
+                                            <Stack flex={3}>
+                                                <TextField
+                                                    variant='outlined'
+                                                    size='small'
+                                                    type='text'
+                                                    defaultValue={values.email}
+                                                    name='email'
+                                                    fullWidth
+                                                    value={values.email}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    error={!!touched.email && !!errors.email}
+                                                    helperText={touched.email && errors.email}
+                                                    />
+                                            </Stack>
+                                        </Stack>
+                                        <Stack direction={'row'}>
+                                            <Stack flex={1} minWidth={'200px'}>
+                                                <Typography>Contact Number</Typography>
+                                            </Stack>
+                                            <Stack flex={3}>
+                                                <TextField
+                                                    variant='outlined'
+                                                    size='small'
+                                                    type='text'
+                                                    defaultValue={'0123456789'}
+                                                    name='contactNo'
+                                                    fullWidth
+                                                    value={values.contactNo}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    error={!!touched.contactNo && !!errors.contactNo}
+                                                    helperText={touched.contactNo && errors.contactNo}
+                                                />
+                                            </Stack>
+                                        </Stack>
+                                        <Stack direction={'row'}>
+                                            <Stack flex={1} minWidth={'200px'}>
+                                                <Typography>Linkedin Account Address</Typography>                            
+                                            </Stack>
+                                            <Stack flex={3}>                        
+                                                <TextField
+                                                    variant='outlined'
+                                                    size='small'
+                                                    type='url'
+                                                    defaultValue={'www.linkedin.com'}
+                                                    name='linkedin'
+                                                    fullWidth
+                                                    value={values.linkedin}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    error={!!touched.linkedin && !!errors.linkedin}
+                                                    helperText={touched.linkedin && errors.linkedin}
+                                                />
+                                            </Stack>
+                                        </Stack>
+                                        <Stack direction={'row'}>
+                                            <Stack flex={1} minWidth={'200px'}>
+                                                <Typography>Github Account Address</Typography>
+                                            </Stack>
+                                            <Stack flex={3}>
+                                                <TextField
+                                                    variant='outlined'
+                                                    size='small'
+                                                    type='url'
+                                                    defaultValue={'www.github.com'}
+                                                    name='github'
+                                                    fullWidth
+                                                    value={values.github}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    error={!!touched.github && !!errors.github}
+                                                    helperText={touched.github && errors.github}
+                                                />
+                                            </Stack>
+                                        </Stack>
+                                        <Stack alignItems={'flex-end'}>
+                                            <Box>
+                                                <Button variant='itms' onClick={handleReset}>reset</Button>
+                                                <Button variant='itms' type='submit'>Update</Button>
+                                            </Box>
+                                        </Stack>
+                                    </Stack>
+                                </form>
+                                )}
+                            </Formik> 
+                        </Box>
+                    </Stack>
 
-                    <Grid item md={10}>
-                    <Grid container>
-                    <Grid item md={4}>
-                        <Typography>First Name</Typography>
-                    </Grid>
-                    <Grid item md={8}>
-                        <TextField
-                            variant='outlined'
-                            size='small'
-                            // label='First Name'
-                            defaultValue="Kamal"
-                            type='text'
-                            // value={values.firstName}
-                            name='firstName'
-                            fullWidth
-                        />
-                    </Grid>
-                    </Grid>
-                    </Grid>
-
-                    <Grid item md={10}>
-                    <Grid container>
-                    <Grid item md={4}>
-                        <Typography>Last Name</Typography>
-                    </Grid>
-                    <Grid item md={8}>
-                        <TextField
-                            variant='outlined'
-                            size='small'
-                            // label='Last Name'
-                            type='text'
-                            defaultValue={'Perera'}
-                            // value={values.lastName}
-                            name='lastName'
-                            fullWidth
-                        />
-                    </Grid>
-                    </Grid>
-                    </Grid>
-                    <Grid item md={10}>
-                    <Grid container>
-                    <Grid item md={4}>
-                        <Typography>Name With Initials</Typography>
-                    </Grid>
-                    <Grid item md={8}>
-                        <TextField
-                            variant='outlined'
-                            size='small'
-                            // label='Last Name'
-                            type='text'
-                            defaultValue={'k.Perera'}
-                            // value={values.fullName}
-                            name='fullName'
-                            fullWidth
-                        />
-                    </Grid>
-                    </Grid>
-                    </Grid>
-
-                    <Grid item md={10}>
-                    <Grid container>
-                    <Grid item md={4}>
-                        <Typography>Registration Number</Typography>
-                    </Grid>
-                    <Grid item md={8}>
-                        <TextField
-                            variant='outlined'
-                            size='small'
-                            // label='Registraion Number'
-                            type='text'
-                            defaultValue={'SC/2019/11100'}
-                            // value={values.regNo}
-                            name='regNo'
-                            fullWidth
-                        />
-                    </Grid>
-                    </Grid>
-                    </Grid>
-
-                    <Grid item md={10}>
-                    <Grid container justifyContent={'center'}>
-                    <Grid item md={4}>
-                        <Typography>Email Address</Typography>
-                    </Grid>
-                    <Grid item md={8}>
-                        <TextField
-                            variant='outlined'
-                            size='small'
-                            // label='Email Address'
-                            type='text'
-                            defaultValue={'kamal@gmail.com'}
-                            // value={values.email}
-                            name='email'
-                            fullWidth
-                        />
-                    </Grid>
-                    </Grid>
-                    </Grid>
-
-                    <Grid item md={10}>
-                    <Grid container>
-                    <Grid item md={4}>
-                        <Typography>Contact Number</Typography>
-                    </Grid>
-                    <Grid item md={8}>
-                        <TextField
-                            variant='outlined'
-                            size='small'
-                            // label='Contact Number'
-                            type='number'
-                            defaultValue={'0123456789'}
-                            // value={values.contactNo}
-                            name='contactNo'
-                            fullWidth
-                        />
-                    </Grid>
-                    </Grid>
-                    </Grid>
-
-                    <Grid item md={10}>
-                    <Grid container>
-                    <Grid item md={4}>
-                        <Typography>Linkedin Account Address</Typography>
-                    </Grid>
-                    <Grid item md={8}>
-                        <TextField
-                            variant='outlined'
-                            size='small'
-                            // label='LinkedIn Account'
-                            type='url'
-                            defaultValue={'www.linkedin.com'}
-                            // value={values.linkedin}
-                            name='linkedin'
-                            fullWidth
-                        />
-                    </Grid>
-                    </Grid>
-                    </Grid>
-
-                    <Grid item md={10}>
-                    <Grid container justifyContent={'center'}>
-                    <Grid item md={4}>
-                        <Typography>Github Account Address</Typography>
-                    </Grid>
-                    <Grid item md={8}>
-                        <TextField
-                            variant='outlined'
-                            size='small'
-                            // label='Github Account Address'
-                            type='url'
-                            defaultValue={'www.github.com'}
-                            // value={values.github}
-                            name='github'
-                            fullWidth
-                        />
-                    </Grid>
-                    </Grid>
-                    </Grid>
-                
-                    <Grid item md={9}>
-                    <Grid container justifyContent={'flex-end'}>
-                    <Grid item md={1}>
-                        <Button variant='itms'>Update</Button>
-                    </Grid>
-                    </Grid>
-                    </Grid>
-
-                </Grid>
+                </Stack>
+                </Box>
             </Tile>
             </Grid>
+
         </Grid>
   )
 }

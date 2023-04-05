@@ -5,10 +5,12 @@ import { useState, useEffect } from "react";
 import { Button, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { Tile } from "../../../card/Tile";
 import Dialogbox from "../../../Dialogbox/Dialogbox";
+import { RemoveUserForm } from "../Forms/RemoveUserForm";
+import { UpdateUndergraduateForm } from "../Forms/UpdateUndergraduateForm";
 
 
 
-export const UpdateAdmin = () => {
+export const UpdateNRemoveUndergraduate = () => {
 
     const [Column, setColumn] = useState([])
     const [Records, setRecords] = useState([])
@@ -44,7 +46,8 @@ export const UpdateAdmin = () => {
                                 <TableCell >   {r.id}  </TableCell>
                                 <TableCell >   {r.title}  </TableCell>
                                 <TableCell >   {r.description} </TableCell>
-                                <TableCell> <Dialogbox title="Update Administrator" btn_name="update"><UpdateAdminForm /></Dialogbox></TableCell>
+                                <TableCell> <Dialogbox title="Update Undergraduate" btn_name="update"><UpdateUndergraduateForm /></Dialogbox></TableCell>
+                                <TableCell> <Dialogbox title="Remove Undergraduate" btn_name="remove"><RemoveUserForm /></Dialogbox></TableCell>
                             </TableRow> //id,title,description need to change as json file
                         )}
 

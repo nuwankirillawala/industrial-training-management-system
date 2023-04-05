@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const undergraduateController = require('../controllers/undergraduateController');
+const {checkUser} = require('../middleware/authMiddleware');
 
 const router = Router();
 
@@ -16,7 +17,7 @@ router.route('/company-selection')
     .patch(undergraduateController.companySelection)
 
 router.route('/undergraduate-dashboard')
-    .get(undergraduateController.undergraduateDashboard)
+    .get(checkUser, undergraduateController.undergraduateDashboard)
 
 router.route('/add-note')
     .patch(undergraduateController.addNote)

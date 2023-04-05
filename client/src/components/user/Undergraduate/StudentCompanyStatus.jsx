@@ -1,193 +1,179 @@
 import React, { useState } from 'react'
-import { Typography, Grid, Button } from '@mui/material'
+import { Typography, Grid, Button, Box, Stack } from '@mui/material'
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material'
 import { FormControl, Select, MenuItem } from '@mui/material'
 import { Tile } from '../../card/Tile'
+import { Formik } from 'formik'
 
-const StdcompanyState = {
-    comapnyName : '',
-    interviewed : '',
-    select : ''
-}
+export const StudentCompanyStatus = ({pageNo,setPage,companyState,setCompanyState}) => {
 
-export const StudentCompanyStatus = ({pageNo,setPage}) => {
-
-    const[state,setState] = useState(StdcompanyState)
+    const handleOnSubmit = async (values) => {
+        console.log(values);
+        await new Promise((r) => setTimeout(r, 500));
+        alert(JSON.stringify(values, null, 2));
+      };
 
   return (
     <Tile>
 
-        <Grid container>
+        <Box>
             {/* university intern status */}
-            <Grid item md={12}>
-                <Grid container>
+            <Formik
+                initialValues={companyState}
+                onSubmit={handleOnSubmit}
+            >
+                {({
+                    values,
+                    touched,
+                    handleBlur,
+                    handleChange,
+                    handleSubmit,
+                })=>(
+                    <form onSubmit={handleSubmit}>
+                        <Stack direction={'column'} spacing={2}>
+                            <Stack>
+                                <Typography variant='body1' fontWeight='bold'>Update Your Internship Status</Typography>
+                            </Stack>
 
-                    <Grid item md={12}>
-                        <Typography variant='body1' fontWeight='bold'>Update Your Internship Status</Typography>
-                    </Grid>
+                            <Stack alignItems={'center'}>
+                                <Stack width={'80%'}>
+                                    <TableContainer>
+                                        <Table size='small'>
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Company</TableCell>
+                                                    <TableCell>Status</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                <TableRow>
+                                                    <TableCell>
+                                                        WSO2
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <FormControl variant="standard" fullWidth size='small'>
+                                                            <Select
+                                                                size='small'
+                                                                variant="outlined"
+                                                                labelId="companyStatusId"
+                                                                id="companyStatus"
+                                                                name="companyStatus"
+                                                                value={values.companyState}
+                                                                onChange={handleChange}
+                                                                placeholder="company"
+                                                                fullWidth
+                                                            >
+                                                                <MenuItem value={''}>None</MenuItem>
+                                                                <MenuItem value={'called'}>Called</MenuItem>
+                                                                <MenuItem value={'notCalled'}>Not Called</MenuItem>
+                                                                <MenuItem value={'selected'}>Selected</MenuItem>
+                                                            </Select>
+                                                        </FormControl>
+                                                    </TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>
+                                                        WSO2
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <FormControl variant="standard" fullWidth size='small'>
+                                                            <Select
+                                                                size='small'
+                                                                variant="outlined"
+                                                                labelId="companyStatusId"
+                                                                id="companyStatus"
+                                                                name="companyStatus"
+                                                                value={values.companyState}
+                                                                onChange={handleChange}
+                                                                placeholder="company"
+                                                                fullWidth
+                                                            >
+                                                                <MenuItem value={''}>None</MenuItem>
+                                                                <MenuItem value={'called'}>Called</MenuItem>
+                                                                <MenuItem value={'notCalled'}>Not Called</MenuItem>
+                                                                <MenuItem value={'selected'}>Selected</MenuItem>
+                                                            </Select>
+                                                        </FormControl>
+                                                    </TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>
+                                                        WSO2
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <FormControl variant="standard" fullWidth size='small'>
+                                                            <Select
+                                                                size='small'
+                                                                variant="outlined"
+                                                                labelId="companyStatusId"
+                                                                id="companyStatus"
+                                                                name="companyStatus"
+                                                                value={values.companyState}
+                                                                onChange={handleChange}
+                                                                placeholder="company"
+                                                                fullWidth
+                                                            >
+                                                                <MenuItem value={''}>None</MenuItem>
+                                                                <MenuItem value={'called'}>Called</MenuItem>
+                                                                <MenuItem value={'notCalled'}>Not Called</MenuItem>
+                                                                <MenuItem value={'selected'}>Selected</MenuItem>
+                                                            </Select>
+                                                        </FormControl>
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </Stack>
+                            </Stack>
 
-                    <Grid item md={12}>
-                        <TableContainer sx={{ maxHeight: '24vh' }}>
-                            <Table size='small'>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Company</TableCell>
-                                        <TableCell>Interview</TableCell>
-                                        <TableCell>Selected or Not</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow>
-                                        <TableCell>WSO2</TableCell>
-                                        <TableCell>
-                                            <FormControl variant="standard" fullWidth size='small'>
-                                                <Select style={{ height: '30px' }}>
-                                                    <MenuItem value={''}>None</MenuItem>
-                                                    <MenuItem value={'called'}>Called</MenuItem>
-                                                    <MenuItem value={'notCalled'}>Not Called</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                        </TableCell>
-                                        <TableCell>
-                                            <FormControl variant="standard" fullWidth size='small'>
-                                                <Select style={{ height: '30px' }}>
-                                                    <MenuItem value={''}>None</MenuItem>
-                                                    <MenuItem value={'selected'}>Selected</MenuItem>
-                                                    <MenuItem value={'notSelected'}>Not Selected</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                        </TableCell>
-                                    </TableRow>
+                            <Stack>
+                                <Stack justifyContent='flex-end' direction={'row'}>
+                                    <Stack>
+                                        <Button
+                                            variant='itms'
+                                            size='itms-small'
+                                            onClick={(prev) => {
+                                                    setPage(
+                                                        {
+                                                            ...prev,
+                                                            no:3,
+                                                        }
+                                                    );
+                                              }}
+                                            >Set intern period
+                                        </Button>
+                                    </Stack>
+                                          
+                                    <Stack>
+                                        <Button
+                                            variant='itms'
+                                            size='itms-small'
+                                            onClick={(prev) => {
+                                                    setPage(
+                                                        {
+                                                            ...prev,
+                                                            no:4,
+                                                        }
+                                                    );
+                                              }}
+                                            >Set Private intern
+                                        </Button>
+                                    </Stack>
+                                          
+                                    <Stack>
+                                        <Button variant='itms' size='itms-small' type='submit'>save</Button>
+                                    </Stack>
+                                          
+                                </Stack>
+                            </Stack>
+                                              
+                        </Stack>
+                    </form>
+                )}
 
-                                    <TableRow>
-                                        <TableCell>WSO2</TableCell>
-                                        <TableCell>
-                                            <FormControl variant="standard" fullWidth size='small'>
-                                                <Select style={{ height: '30px' }}>
-                                                    <MenuItem value={''}>None</MenuItem>
-                                                    <MenuItem value={'called'}>Called</MenuItem>
-                                                    <MenuItem value={'notCalled'}>Not Called</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                        </TableCell>
-                                        <TableCell>
-                                            <FormControl variant="standard" fullWidth size='small'>
-                                                <Select style={{ height: '30px' }}>
-                                                    <MenuItem value={''}>None</MenuItem>
-                                                    <MenuItem value={'selected'}>Selected</MenuItem>
-                                                    <MenuItem value={'notSelected'}>Not Selected</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                        </TableCell>
-                                    </TableRow>
-
-                                    <TableRow>
-                                        <TableCell>WSO2</TableCell>
-                                        <TableCell>
-                                            <FormControl variant="standard" fullWidth size='small'>
-                                                <Select style={{ height: '30px' }}>
-                                                    <MenuItem value={''}>None</MenuItem>
-                                                    <MenuItem value={'called'}>Called</MenuItem>
-                                                    <MenuItem value={'notCalled'}>Not Called</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                        </TableCell>
-                                        <TableCell>
-                                            <FormControl variant="standard" fullWidth size='small'>
-                                                <Select style={{ height: '30px' }}>
-                                                    <MenuItem value={''}>None</MenuItem>
-                                                    <MenuItem value={'selected'}>Selected</MenuItem>
-                                                    <MenuItem value={'notSelected'}>Not Selected</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                        </TableCell>
-                                    </TableRow>
-
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </Grid>
-
-                    <Grid item md={12}>
-                        <Grid container justifyContent='flex-end'>
-                            <Grid item>
-                                <Button variant='itms' size='itms-small'>save</Button>
-                            </Grid>
-                        </Grid>                        
-                    </Grid>
-                </Grid>
-            </Grid>
-            {/* private intern status */}
-            <Grid item md={12}>
-                <Grid container>
-
-                    <Grid item md={12}>
-                        <Typography variant='body1' fontWeight='bold'>Update Your Private Internship Status</Typography>
-                    </Grid>
-
-                    <Grid item md={12}>
-                        <TableContainer>
-                            <Table size='small'>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Company</TableCell>
-                                        <TableCell>Interview</TableCell>
-                                        <TableCell>Selected or Not</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow>
-                                        <TableCell>WSO2</TableCell>
-                                        <TableCell>
-                                            <FormControl variant="standard" fullWidth size='small'>
-                                                <Select style={{ height: '30px' }}>
-                                                    <MenuItem value={''}>None</MenuItem>
-                                                    <MenuItem value={'called'}>Called</MenuItem>
-                                                    <MenuItem value={'notCalled'}>Not Called</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                        </TableCell>
-                                        <TableCell>
-                                            <FormControl variant="standard" fullWidth size='small'>
-                                                <Select style={{ height: '30px' }}>
-                                                    <MenuItem value={''}>None</MenuItem>
-                                                    <MenuItem value={'selected'}>Selected</MenuItem>
-                                                    <MenuItem value={'notSelected'}>Not Selected</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                        </TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </Grid>
-
-                    <Grid item md={12}>
-                        <Grid container justifyContent='flex-end'>
-                            <Grid item>
-                                <Button
-                                    variant='itms'
-                                    size='itms-small'
-                                    onClick={(prev) => {
-                                            setPage(
-                                                {
-                                                    ...prev,
-                                                    no:2,
-                                                }
-                                            );
-                                      }}
-                                >Add Company
-                                </Button>
-                            </Grid>
-                            <Grid item>
-                                <Button variant='itms' size='itms-small'>save</Button>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </Grid>
-
-        </Grid>
+            </Formik>
+        </Box>
 
 
 
