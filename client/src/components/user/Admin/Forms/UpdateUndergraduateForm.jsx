@@ -1,29 +1,33 @@
 import { TextField, Stack, Button, Typography } from "@mui/material"
 import React from "react"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Tile } from "../../../card/Tile"
 import { Formik } from "formik"
 import * as yup from "yup"
 
-
-const Admin = {
-    adminName: '',
-    adminEmail: '',
-    adminContactNo: '',
-    adminStaffId: '',
-    //  adminPassword: '', 
-    adminRole: ''
+const Student = {
+    studnetName: '',
+    // studnetRegNo : '',
+    studnetEmail: '',
+    studnetContactNo: '',
+    // studnetPassword : '', we have forgot password
+    studnetGpa: '',
+    studnetWeightedGpa: '',
+    studnetInternStatus: '',
+    // studnetLinkedInURL : '',
+    // studnetGithubURL : '',
 }
 
-export const UpdateAdminForm = () => {
+export const UpdateUndergraduateForm = () => {
     //add axios while integrate to get initial values
 
     const validation = yup.object().shape({
-        adminName: yup.string(),
-        adminEmail: yup.string().email("Invalid Email"),
-        adminContactNo: yup.string().length(10, "must contain 10 digits"),
-        adminStaffId: yup.string(),
-        adminRole: yup.string()
+        studnetName: yup.string(),
+        studnetEmail: yup.string().email("Invalid Email"),
+        studnetContactNo: yup.string().length(10, "must contain 10 digits"),
+        studnetGpa: yup.number(),
+        studnetWeightedGpa: yup.number(),
+        studnetInternStatus: yup.string()
     })
 
 
@@ -37,7 +41,7 @@ export const UpdateAdminForm = () => {
         <Tile>
             <Formik
 
-                initialValues={Admin}
+                initialValues={Student}
                 validationSchema={validation}>
                 {({
                     values,
@@ -62,10 +66,10 @@ export const UpdateAdminForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        value={values.adminName} //if u use User here it will not let change text
-                                        name="adminName"
-                                        error={!!touched.adminName && !!errors.adminName}
-                                        helperText={touched.adminName && errors.adminName}
+                                        value={values.studnetName} //if u use User here it will not let change text
+                                        name="studnetName"
+                                        error={!!touched.studnetName && !!errors.studnetName}
+                                        helperText={touched.studnetName && errors.studnetName}
                                     />
                                 </Stack>
                             </Stack>
@@ -81,10 +85,10 @@ export const UpdateAdminForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        value={values.adminEmail} //if u use User here it will not let change text
-                                        name="adminEmail"
-                                        error={!!touched.adminEmail && !!errors.adminEmail}
-                                        helperText={touched.adminEmail && errors.adminEmail}
+                                        value={values.studnetEmail} //if u use User here it will not let change text
+                                        name="studnetEmail"
+                                        error={!!touched.studnetEmail && !!errors.studnetEmail}
+                                        helperText={touched.studnetEmail && errors.studnetEmail}
                                     />
                                 </Stack>
                             </Stack>
@@ -100,10 +104,10 @@ export const UpdateAdminForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        value={values.adminContactNo} //if u use User here it will not let change text
-                                        name="adminContactNo"
-                                        error={!!touched.adminContactNo && !!errors.adminContactNo}
-                                        helperText={touched.adminContactNo && errors.adminContactNo}
+                                        value={values.studnetContactNo} //if u use User here it will not let change text
+                                        name="studnetstudnetContactNoName"
+                                        error={!!touched.studnetContactNo && !!errors.studnetContactNo}
+                                        helperText={touched.studnetContactNo && errors.studnetContactNo}
                                     />
                                 </Stack>
                             </Stack>
@@ -111,7 +115,7 @@ export const UpdateAdminForm = () => {
 
                             <Stack direction="row" spacing={2}>
                                 <Stack width='150px'>
-                                    <Typography variant="body1">Staff ID </Typography>
+                                    <Typography variant="body1">GPA </Typography>
                                 </Stack>
                                 <Stack width='300px'>
                                     <TextField
@@ -120,17 +124,17 @@ export const UpdateAdminForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        value={values.adminStaffId}
-                                        name="adminStaffId"
-                                        error={!!touched.adminStaffId && !!errors.adminStaffId}
-                                        helperText={touched.adminStaffId && errors.adminStaffId}
+                                        value={values.studnetGpa}
+                                        name="studnetGpa"
+                                        error={!!touched.studnetGpa && !!errors.studnetGpa}
+                                        helperText={touched.studnetGpa && errors.studnetGpa}
                                     />
                                 </Stack>
                             </Stack>
 
                             <Stack direction="row" spacing={2}>
                                 <Stack width='150px'>
-                                    <Typography variant="body1">Administrator role</Typography>
+                                    <Typography variant="body1">Weighted GPA</Typography>
                                 </Stack>
                                 <Stack width='300px'>
                                     <TextField
@@ -139,13 +143,33 @@ export const UpdateAdminForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        value={values.adminRole}
-                                        name="adminRole"
-                                        error={!!touched.adminRole && !!errors.adminRole}
-                                        helperText={touched.adminRole && errors.adminRole}
+                                        value={values.studnetWeightedGpa}
+                                        name="studnetWeightedGpa"
+                                        error={!!touched.studnetWeightedGpa && !!errors.studnetWeightedGpa}
+                                        helperText={touched.studnetWeightedGpa && errors.studnetWeightedGpa}
                                     />
                                 </Stack>
                             </Stack>
+
+                            <Stack direction="row" spacing={2}>
+                                <Stack width='150px'>
+                                    <Typography variant="body1">Intern Status</Typography>
+                                </Stack>
+                                <Stack width='300px'>
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.studnetInternStatus}
+                                        name="studnetInternStatus"
+                                        error={!!touched.studnetInternStatus && !!errors.studnetInternStatus}
+                                        helperText={touched.studnetInternStatus && errors.studnetInternStatus}
+                                    />
+                                </Stack>
+                            </Stack>
+
 
                             <Stack direction="row" display={'flex'} justifyContent="flex-end" paddingRight={'0px'}>
                                 <Button variant="itms" type="submit"  >Submit</Button>
