@@ -1,13 +1,14 @@
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import './Login.css'
 import { Unilogo } from '../../components/shared/Images/Unilogo';
-import { Button, Checkbox, TextField } from '@mui/material';
+import { Button, Checkbox, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import classnames from 'classnames';
 import useAuth from '../../Hooks/useAuth';
+import { VisibilityOff, Visibility } from '@mui/icons-material/';
 
 const Login = () => {
     // we have update error handling, responsiveness.
@@ -15,9 +16,17 @@ const Login = () => {
     const [emailError, setEmailError] = useState('');
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
-
     const { loginUser, isAuthenticated, loading, user, error } = useAuth();
+
+    const handleClickShowPassword = () => {
+        setShowPassword((show) => !show)
+    }
+
+    const handleMouseDownPassword = (event) => {
+        e.preventDefault();
+    }
 
     const handleSubmit = async (e) => {
         try {
@@ -57,7 +66,7 @@ const Login = () => {
             }
         }
 
-        else if(error){
+        else if (error) {
             if (error.response) {
                 const errors = error.response;
                 console.log(errors);
@@ -104,19 +113,19 @@ const Login = () => {
                             <h2>LOGIN</h2>
                             <div className="app__login-container-form_fields">
                                 <TextField
-                                    id="usarname"
+                                    id="email"
                                     name="email"
-                                    label="Username"
+                                    label="Email"
                                     variant="outlined"
                                     type="text"
-                                    placeholder="Enter Your Username"
+                                    placeholder="Enter your email"
                                     fullWidth
                                     onChange={e => setEmail(e.target.value)}
                                     required
                                     error={(!!emailError)}
                                     helperText={emailError && emailError}
                                 />
-                                <TextField
+                                {/* <TextField
                                     id="password"
                                     name="password"
                                     label="Password"
@@ -128,7 +137,60 @@ const Login = () => {
                                     required
                                     error={(!!passwordError)}
                                     helperText={passwordError && passwordError}
-                                />
+                                /> */}
+                                {/* <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
+                                    <InputLabel htmlFor="password">Password</InputLabel>
+                                    <OutlinedInput
+                                        id="password"
+                                        type={showPassword ? 'text' : 'password'}
+                                        required
+                                        placeholder='Enter your password'
+                                        onChange={e => setPassword(e.target.value)}
+                                        error={(!!passwordError)}
+                                        helperText={passwordError && passwordError}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    // onMouseDown={handleMouseDownPassword}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        label="Password"
+                                    />
+                                </FormControl> */}
+                                <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
+                                    <InputLabel htmlFor="password" required>Password</InputLabel>
+                                    <OutlinedInput
+                                        id="password"
+                                        type={showPassword ? 'text' : 'password'}
+                                        required
+                                        placeholder='Enter your password'
+                                        onChange={e => setPassword(e.target.value)}
+                                        error={(!!passwordError)}
+                                        helperText={passwordError}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        label="Password"
+                                    />
+                                    {passwordError && (
+                                        <FormHelperText id={passwordError} sx={{color: '#d32f2f'}}>{passwordError}</FormHelperText>
+                                    )}
+                                </FormControl>
+
                             </div>
                             <div className="app__login-container-form_forgotPassword">
                                 <div className='app__login-remember'>
