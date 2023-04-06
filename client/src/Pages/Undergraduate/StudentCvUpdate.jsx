@@ -19,6 +19,7 @@ export const StudentCvUpdate = () => {
                         <Stack direction='column'>
                             <Typography 
                                 variant='h5'
+                                fontWeight='bold'
                                 align='center'
                             >
                                 Curriculum Vitae
