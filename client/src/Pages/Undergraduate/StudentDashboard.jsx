@@ -10,17 +10,17 @@ import { useEffect } from 'react';
 export const StudentDashboard = () => {
 
   const { user } = useAuth();
-  console.log("user-", user);
+  console.log("user", user);
 
-  // axios.get('http://localhost:5000/api/v1/undergraduate/undergraduate-dashboard', { withCredentials: true })
-  //   .then(response => {
-  //     // Handle the response data
-  //     console.log(response.data);
-  //   })
-  //   .catch(error => {
-  //     // Handle the error
-  //     console.log(error);
-  //   });
+  axios.get('http://localhost:5000/api/v1/undergraduate/undergraduate-dashboard', { withCredentials: true })
+    .then(response => {
+      // Handle the response data
+      // console.log(response.data.user);
+    })
+    .catch(error => {
+      // Handle the error
+      console.log(error);
+    });
 
 
   return (
