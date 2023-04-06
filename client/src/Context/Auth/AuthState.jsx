@@ -1,5 +1,6 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import AuthContext from './AuthContext';
 import AuthReducer from './AuthReducer';
 import {
@@ -19,8 +20,35 @@ const AuthState = (props) => {
         error: null,
     }
 
+    const setEssentialCookie = (user) => {
+        const data = {
+            user: {
+                _id: user._id,
+                email: user.email,
+                name: user.name
+            }
+
+        }
+        Cookies.set('userCookie', JSON.stringify(data), { expires: 2 / 24 });
+    }
+
     const [state, dispatch] = useReducer(AuthReducer, initialState);
     console.log('Initial State', state);
+
+    useEffect(() => {
+        try {
+            const userCookie = Cookies.get('userCookie');
+            console.log(userCookie);
+            if (userCookie) {
+                dispatch({
+                    type: LOGIN_SUCCESS,
+                    payload: JSON.parse(userCookie),
+                });
+            }
+        } catch (error) {
+            console.log("eeeee", error);
+        }
+    }, []);
 
     // load
     const loadUser = async () => {
@@ -28,11 +56,14 @@ const AuthState = (props) => {
         try {
             const res = await axios.get('http://localhost:5000/api/v1/auth/profile', { withCredentials: true });
             console.log("after loading user", res.data.user);
+            const cookieData = JSON.stringify(res.data.user);
+            setEssentialCookie(res.data.user);
 
             dispatch({
                 type: USER_LOADED,
                 payload: res.data.user,
             })
+
         } catch (err) {
             console.log(err);
             dispatch({ type: AUTH_ERROR });

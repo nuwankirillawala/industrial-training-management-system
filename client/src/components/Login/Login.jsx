@@ -172,7 +172,6 @@ const Login = () => {
                                         placeholder='Enter your password'
                                         onChange={e => setPassword(e.target.value)}
                                         error={(!!passwordError)}
-                                        helperText={passwordError}
                                         endAdornment={
                                             <InputAdornment position="end">
                                                 <IconButton
