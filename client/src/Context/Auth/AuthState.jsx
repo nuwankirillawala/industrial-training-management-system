@@ -41,7 +41,7 @@ const AuthState = (props) => {
     const getCookie = async () => {
         try {
             const cookie = Cookies.get('userCookie');
-            console.log("userCookie", cookie);
+            // console.log("userCookie", cookie);
             if(typeof cookie === 'undefined'){
                 return false;
             } else{
@@ -72,7 +72,7 @@ const AuthState = (props) => {
         dispatch({ type: SET_LOADING })
         try {
             const res = await axios.get('http://localhost:5000/api/v1/auth/profile', { withCredentials: true });
-            console.log("after loading user", res.data.user);
+            // console.log("after loading user", res.data.user);
 
             dispatch({
                 type: USER_LOADED,
@@ -106,7 +106,7 @@ const AuthState = (props) => {
         dispatch({ type: SET_LOADING });
         try {
             const res = await axios.post('http://localhost:5000/api/v1/auth/login', { email, password }, { withCredentials: true });
-            console.log('after login', res.data);
+            // console.log('after login', res.data);
             Cookies.set('userCookie', 'logged-in', { expires: 2 / 24 });
 
 

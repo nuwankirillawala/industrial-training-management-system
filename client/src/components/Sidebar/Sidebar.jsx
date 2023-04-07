@@ -9,7 +9,7 @@ import { Unilogo } from '../shared/Images/Unilogo';
 import { Grid } from '@mui/material';
 import { useState } from 'react';
 
-const drawerWidth = 180;
+const drawerWidth = 200;
 
 const buttonStyles = {
   height:35,
