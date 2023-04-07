@@ -32,6 +32,7 @@ import Test from './components/Testing/Test';
 
 import AuthState from './Context/Auth/AuthState';
 import { Fragment } from 'react'
+import ForgotPassword from './Pages/Shared/ForgotPassword/ForgotPassword'
 
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
 
       <Route path='/'>
         <Route path='login' element={<Login />}></Route>
+        <Route path='forgot-password' element={<ForgotPassword />}></Route>
       </Route>
 
       {/*test your components here*/}
