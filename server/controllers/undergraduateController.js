@@ -161,7 +161,7 @@ module.exports.companySelection = catchAsync(async (req, res) => {
 // Description = Undergraduate Dashboard
 module.exports.undergraduateDashboard = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
+        const userId = res.locals.user.id // 🛑 user id must get from jwt in future 🛑
 
         // get all data exept password
         const user = await Undergraduate.findById(userId).select('-password');

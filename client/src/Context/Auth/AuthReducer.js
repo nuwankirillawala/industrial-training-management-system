@@ -4,19 +4,20 @@ import {
     SET_LOADING,
     USER_LOADED,
     AUTH_ERROR,
-    LOGOUT
+    LOGOUT,
+    RETRIEVE_USER_FROM_COOKIE
 } from '../type';
 
 export default (state, action) => {
     switch (action.type) {
         case LOGIN_SUCCESS:
-            return{
+            return {
                 ...state,
                 ...action.payload,
                 isAuthenticated: true,
                 loading: false,
             };
-        
+
         case LOGIN_FAIL:
         case AUTH_ERROR:
         case LOGOUT:
@@ -29,7 +30,7 @@ export default (state, action) => {
             };
 
         case USER_LOADED:
-            return{
+            return {
                 ...state,
                 isAuthenticated: true,
                 loading: false,
@@ -41,6 +42,14 @@ export default (state, action) => {
                 ...state,
                 loading: true,
             };
+
+        case RETRIEVE_USER_FROM_COOKIE:
+            return {
+                ...state,
+                isAuthenticated: true,
+                loading: false,
+                user,
+            }
 
         default:
             return state;
