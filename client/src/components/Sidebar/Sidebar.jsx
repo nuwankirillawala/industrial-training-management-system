@@ -39,7 +39,6 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
 //   ...theme.mixins.toolbar,
 //   justifyContent: 'flex-end',
 // }));
-const drawerWidth = 200;
 
 const buttonStyles = {
   height:35,
