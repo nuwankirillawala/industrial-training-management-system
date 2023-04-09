@@ -32,6 +32,7 @@ import Test from './components/Testing/Test';
 
 import AuthState from './Context/Auth/AuthState';
 import { Fragment } from 'react'
+import Sidebar from './components/Sidebar/Sidebar'
 
 
 function App() {
@@ -67,6 +68,7 @@ function App() {
         <Route path='student-company' element={<StudentCompany />} />
         <Route path='student-settings' element={<StudentSettings />} />
         <Route path='notice' element={<Notice />}></Route>
+        <Route path='sidebar' element={<Sidebar />}></Route>
       </Route>
 
       {/*login page*/}
@@ -82,6 +84,7 @@ function App() {
         <Route path='dialogbox' element={<Dialogbox title="Title here" btn_name="default name">keep Children's here while calling</Dialogbox>}></Route>
         <Route path='testnotice' element={<Notice />}></Route>
         <Route path='test' element={<Test />}></Route>
+        <Route path='testsidebar' element={<Sidebar />}></Route>
       </Route>
 
     </Route>
