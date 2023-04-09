@@ -12,7 +12,7 @@ import classnames from 'classnames';
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
-    const [emailSent, setEmailSent] = useState(true);
+    const [emailSent, setEmailSent] = useState(false);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [countdown, setCountdown] = useState(15);
     const navigate = useNavigate();
@@ -33,13 +33,14 @@ const ForgotPassword = () => {
 
 
         return () => clearTimeout(timer);
-    }, [isButtonDisabled])
+    }, [isButtonDisabled, emailSent])
 
     const handleSubmit = async (e) => {
         try {
             if(!emailSent){
                 e.preventDefault();
-                await loginUser({ email, password });
+                await axios.post('http://localhost:5000/api/v1/auth/reset-password', {email}, {withCredentials: true});
+                setEmailSent(true);
             } else {
                 setIsButtonDisabled(true);
                 setCountdown(15);
