@@ -21,27 +21,50 @@ import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 
+//creating transition for dialog
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+//end of creation transition for dialog
 
+//creating alert by importing MuiAlert
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
+//end of creating alert by importing MuiAlert
 
 export const StudentCvUpdate = () => {
+  //useState for snackbar
   const [open, setOpen] = React.useState(false);
   const [errorOpen, setErrorOpen] = React.useState(false);
+  //end of useState for snackbar
 
+  //handling dialog closing
   const handleClose = () => {
     setOpen(false);
   };
+  //end of handling dialog closing
 
+  //handling snackbar closing
+  const errorHandleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setErrorOpen(false);
+  };
+  //end of handling snackbar closing
+
+  //useStates for pdfviewer
   const [PDFFile, setPDFFile] = useState(null);
   const [viewPDF, setViewPDF] = useState(null);
+  //end of useStates for pdfviewer
 
+  //defining filetype for filepicker
   const fileType = ["application/pdf"];
+  //end of defining filetype for filepicker
 
+  //handling the change in file picker
   const handleChange = (e) => {
     let selectedFile = e.target.files[0];
     if (selectedFile) {
@@ -61,33 +84,29 @@ export const StudentCvUpdate = () => {
       setErrorOpen(true);
     }
   };
+  //end of handling the changes in file picker
 
-  //submit the selected pdf
-  const handleSubmit = (e) => {
+  //view pdf
+  const viewButtonHandle = (e) => {
     e.preventDefault();
     if (PDFFile !== null) {
       setViewPDF(PDFFile);
+      setOpen(true);
     } else {
       setViewPDF(null);
     }
   };
+  //end of view pdf
 
-  //view the pdf
-  const viewButtonHandle = (e) => {
-    setOpen(true);
-    console.log(open);
+  //End point
+  const handleSubmit = (e) => {
+    console.log("EndPoint here");
   };
+  //end of the end point
 
-  //error handle
-  const errorHandleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setErrorOpen(false);
-  };
-
+  //newpluging creation for pdf viewer
   const newplugin = defaultLayoutPlugin();
+  //end of new plugin creation for pdf viewer
 
   return (
     <Box>
@@ -97,7 +116,7 @@ export const StudentCvUpdate = () => {
           <Tile height="89vh">
             <Stack direction="column">
               <Typography variant="h5" fontWeight="bold" align="center">
-                Curriculum Vitae
+                Additional Information
               </Typography>
             </Stack>
           </Tile>
@@ -105,13 +124,13 @@ export const StudentCvUpdate = () => {
         <Grid item xs={3}>
           <Grid container direction="column" spacing={1}>
             <Grid item>
-              {/* left top content here */}
+              {/* right top content here */}
               <Box>
                 <Tile>hello</Tile>
               </Box>
             </Grid>
             <Grid item>
-              {/* left bottom content here */}
+              {/* right bottom content here */}
               <Box>
                 <Tile>
                   <Typography variant="body2">Upload your CV:</Typography>
@@ -120,16 +139,18 @@ export const StudentCvUpdate = () => {
                   <form onSubmit={handleSubmit}>
                     <input type="file" onChange={handleChange} />
                     <Button
-                      type="submit"
                       variant="itms"
                       size="itms-small"
                       onClick={viewButtonHandle}
                     >
                       View
                     </Button>
+                    <Button type="submit" variant="itms" size="itms-small">
+                      Submit
+                    </Button>
                   </form>
 
-                  {/* viewing the cv */}
+                  {/* viewing the cv dialog*/}
                   <Dialog
                     fullScreen
                     open={open}
@@ -175,7 +196,7 @@ export const StudentCvUpdate = () => {
                     </Box>
                   </Dialog>
 
-                  {/* error massage */}
+                  {/* error massage snackbar*/}
 
                   <Snackbar
                     open={errorOpen}

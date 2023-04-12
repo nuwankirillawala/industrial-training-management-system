@@ -1,5 +1,10 @@
 // import './App.css'
-import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
+import { 
+  Route, 
+  RouterProvider, 
+  createBrowserRouter, 
+  createRoutesFromElements 
+} from 'react-router-dom'
 import { Layout } from './components/Layout/Layout'
 import { RootLayout } from './components/Layout/RootLayout'
 import { StudentCvUpdate } from './Pages/Undergraduate/StudentCvUpdate'
@@ -32,9 +37,11 @@ import Test from './components/Testing/Test';
 
 import AuthState from './Context/Auth/AuthState';
 import { Fragment } from 'react'
+import Sidebar from './components/Sidebar/Sidebar'
+import Navbar from './components/Navbar/Navbar'
 import ForgotPassword from './Pages/Shared/ForgotPassword/ForgotPassword'
-import Sidebar from './components/Sidebar & Navbar/Sidebar & Navbar'
-
+import { ProgrammingLanguages } from "./components/user/Undergraduate/studentCV/ProgrammingLanguages";
+import { EnglishProficiency } from "./components/user/Undergraduate/studentCV/EnglishProficiency";
 
 function App() {
 
