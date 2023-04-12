@@ -41,6 +41,7 @@ import Sidebar from './components/Sidebar/Sidebar'
 import Navbar from './components/Navbar/Navbar'
 import ForgotPassword from './Pages/Shared/ForgotPassword/ForgotPassword'
 import { ProgrammingLanguages } from "./components/user/Undergraduate/studentCV/ProgrammingLanguages";
+import { DepartmentShowStudentProfile } from "./components/user/Department/DepartmentShowStudentProfile";
 import { EnglishProficiency } from "./components/user/Undergraduate/studentCV/EnglishProficiency";
 
 function App() {
@@ -50,34 +51,50 @@ function App() {
 
       {/*add main pages here use path variable */}
 
-      <Route path='/' element={<Layout />}>
-        <Route path='manageuser' element={<Manageuser />}></Route>
-        <Route path='addadmin' element={<AddAdmin />} />
-        <Route path='add-superv-details' element={<AddSuperv />} />
-        <Route path='add-undg-details' element={<AddUndg />} />
-        <Route path='add-companySupervisor-details' element={<AddCompanySupervisor />} />
-        <Route path='add-alumini-details' element={<AddAlumini />} />
-
-        <Route path='view-admin-details' element={<ViewAdmin />} />
-        <Route path='view-superv-details' element={<ViewSuperv />} />
-        <Route path='view-undg-details' element={<ViewUndg />} />
-        <Route path='view-comp-details' element={<ViewCompany />} />
-        <Route path='view-alumini-details' element={<ViewAlumini />} />
-
-        <Route path='updateNremove-admin-details' element={<UpdateNRemoveAdmin />} />
-        <Route path='remove-multiple-admin' element={<RemoveMultipleAdmin />} />  {/*  Not used still in site */}
-        <Route path='updateNremove-alumni-details' element={<UpdateNRemoveAlumni />} />
-        <Route path='updateNremove-company-details' element={<UpdateNRemoveCompany />} />
-        <Route path='updateNremove-undergraduate-details' element={<UpdateNRemoveUndergraduate />} />
-
-        {/* student routes */}
-        <Route path='student-dashboard' element={<StudentDashboard />} />
-        <Route path='student-cvupdate' element={<StudentCvUpdate />}></Route>
-        <Route path='student-company' element={<StudentCompany />} />
-        <Route path='student-settings' element={<StudentSettings />} />
-        <Route path='notice' element={<Notice />}></Route>
-        <Route path='sidebar' element={<Sidebar />}></Route>
-      </Route>
+        <Route path="/" element={<Layout />}>
+          <Route path="manageuser" element={<Manageuser />}></Route>
+          <Route path="addadmin" element={<AddAdmin />} />
+          <Route path="add-superv-details" element={<AddSuperv />} />
+          <Route path="add-undg-details" element={<AddUndg />} />
+          <Route
+            path="add-companySupervisor-details"
+            element={<AddCompanySupervisor />}
+          />
+          <Route path="add-alumini-details" element={<AddAlumini />} />
+          <Route path="view-admin-details" element={<ViewAdmin />} />
+          <Route path="view-superv-details" element={<ViewSuperv />} />
+          <Route path="view-undg-details" element={<ViewUndg />} />
+          <Route path="view-comp-details" element={<ViewCompany />} />
+          <Route path="view-alumini-details" element={<ViewAlumini />} />
+          <Route
+            path="updateNremove-admin-details"
+            element={<UpdateNRemoveAdmin />}
+          />
+          <Route
+            path="remove-multiple-admin"
+            element={<RemoveMultipleAdmin />}
+          />{" "}
+          {/*  Not used still in site */}
+          <Route
+            path="updateNremove-alumni-details"
+            element={<UpdateNRemoveAlumni />}
+          />
+          <Route
+            path="updateNremove-company-details"
+            element={<UpdateNRemoveCompany />}
+          />
+          <Route
+            path="updateNremove-undergraduate-details"
+            element={<UpdateNRemoveUndergraduate />}
+          />
+          {/* student routes */}
+          <Route path="student-dashboard" element={<StudentDashboard />} />
+          <Route path="student-cvupdate" element={<StudentCvUpdate />}></Route>
+          <Route path="student-company" element={<StudentCompany />} />
+          <Route path="student-settings" element={<StudentSettings />} />
+          <Route path="notice" element={<Notice />}></Route>
+          <Route path="sidebar" element={<Sidebar />}></Route>
+        </Route>
 
       {/*login page*/}
 
