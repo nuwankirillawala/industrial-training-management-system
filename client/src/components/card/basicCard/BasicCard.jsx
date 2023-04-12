@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from '@mui/material'
 import Navbar from '../../Navbar/Navbar'
-import Sidebar from '../../Sidebar/Sidebar'
+import Sidebar from '../../Sidebar & Navbar/Sidebar & Navbar'
 // import { Tile } from '../Tile'
 
 export const BasicCard = ({children}) => {

@@ -9,8 +9,9 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 //import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';  //its more red 
 import IconButton from '@mui/material/IconButton';
 import { useState, useEffect } from "react";
-import { createTheme } from '@mui/material/styles';
-import { ThemeProvider } from '@mui/material/styles';
+// import { createTheme } from '@mui/material/styles';
+// import { ThemeProvider } from '@mui/material/styles';
+import { Menu } from "@mui/icons-material";
 
 
 const drawerWidth = 190;
@@ -29,53 +30,66 @@ export default function Navbar() {
   //     .catch(error => console.error(error));
   // }, []);
   //sx={{ width: `calc(100% - ${200}px)`}  
-  const theme = createTheme({
-    palette: {
-      secondary: {
-        main: '#ff3d00',  //#b80000
-      },
-      new: {
-        main: '#eeeeee',  //#b80000
-      },
-    },
-  });
+  // const theme = createTheme({
+  //   palette: {
+  //     secondary: {
+  //       main: '#ff3d00',  //#b80000
+  //     },
+  //     new: {
+  //       main: '#eeeeee',  //#b80000
+  //     },
+  //   },
+  // });
 
-  return (
-    <ThemeProvider theme={theme}>
-      <AppBar
-        position="fixed"
-        elevation={0}
-        sx={{
-          bgcolor: '#4665d2',
-          borderTopLeftRadius: '20px',
-          borderBottomLeftRadius: '20px',
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-        }}>
-        <Toolbar >
-          <Typography variant="body1" component="div" sx={{ flexGrow: 1, paddingLeft: '35px' }}>
-            {/* <li key={products.id}> {Page}</li>  */}
-            {Page}
-          </Typography>
-          <Stack direction="row">
-            <IconButton color={isNotifications ? 'secondary' : 'new'} >
-              {isNotifications ? <NotificationsNoneIcon fontSize="large" /> : <NotificationsNoneIcon fontSize="large" />}
-            </IconButton>
-            <IconButton>
-              <img src={Image} style={{ height: '40px', marginRight: '10px' }} />
-            </IconButton>
-            <Stack justifyContent={'center'}>
-              <Typography variant="body1" sx={{ padding: "8px" }} >
-                {Name}
-              </Typography>
-            </Stack>
-          </Stack>
+  const [open, setOpen] = useState(false);
 
-        </Toolbar>
-      </AppBar>
-    </ThemeProvider>
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
 
-  );
+  // return (
+  //   <ThemeProvider theme={theme}>
+  //     <AppBar
+  //       position="fixed"
+  //       elevation={0}
+  //       sx={{
+  //         bgcolor: '#4665d2',
+  //         borderTopLeftRadius: '20px',
+  //         borderBottomLeftRadius: '20px',
+  //         width: { sm: `calc(100% - ${drawerWidth}px)` },
+  //         ml: { sm: `${drawerWidth}px` },
+  //       }}>
+  //       <Toolbar >
+  //         <IconButton
+  //             onClick={ handleDrawerOpen }
+  //             edge='start'
+  //             // sx={{ mr: 0, ...(open && { display: 'none' }) }}
+  //         >
+  //           <Menu />
+  //         </IconButton>
+  //         <Typography variant="body1" component="div" sx={{ flexGrow: 1, paddingLeft: '35px' }}>
+  //           {/* <li key={products.id}> {Page}</li>  */}
+  //           {Page}
+  //         </Typography>
+  //         <Stack direction="row">
+  //           <IconButton color={isNotifications ? 'secondary' : 'new'} >
+  //             {isNotifications ? <NotificationsNoneIcon fontSize="large" /> : <NotificationsNoneIcon fontSize="large" />}
+  //           </IconButton>
+  //           <IconButton>
+  //             <img src={Image} style={{ height: '40px', marginRight: '10px' }} />
+  //           </IconButton>
+  //           <Stack justifyContent={'center'}>
+  //             <Typography variant="body1" sx={{ padding: "8px" }} >
+  //               {Name}
+  //             </Typography>
+  //           </Stack>
+  //         </Stack>
+
+  //       </Toolbar>
+  //     </AppBar>
+  //   </ThemeProvider>
+
+  // );
 }
 
 /*In general, you should use AppBar if you want a standard navigation bar

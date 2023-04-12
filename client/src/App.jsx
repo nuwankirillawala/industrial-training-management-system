@@ -33,7 +33,7 @@ import Test from './components/Testing/Test';
 import AuthState from './Context/Auth/AuthState';
 import { Fragment } from 'react'
 import ForgotPassword from './Pages/Shared/ForgotPassword/ForgotPassword'
-import Sidebar from './components/Sidebar/Sidebar'
+import Sidebar from './components/Sidebar & Navbar/Sidebar & Navbar'
 
 
 function App() {

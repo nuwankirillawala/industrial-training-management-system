@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Toolbar } from '@mui/material'
 import Navbar from '../Navbar/Navbar'
-import Sidebar from '../Sidebar/Sidebar'
+import Sidebar from '../Sidebar & Navbar/Sidebar & Navbar'
 import { Outlet } from 'react-router-dom'
 
 const drawerWidth = 180;
