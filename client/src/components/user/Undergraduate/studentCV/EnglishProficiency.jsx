@@ -17,12 +17,6 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { Button } from "@mui/material";
 
-//styling the input width for numerical representation of slider value
-// const Input = styled(MuiInput)`
-//   width: 42px;
-// `;
-//End of styling the input width for numerical representation of slider value
-
 export const EnglishProficiency = () => {
   const [value, setValue] = useState({
     olResult: "",
@@ -78,7 +72,7 @@ export const EnglishProficiency = () => {
   return (
     <form>
       <Stack>
-        <FormControl>
+        <FormControl required>
           <FormLabel id="label-olResult">Ordinary Level</FormLabel>
           <RadioGroup
             row
@@ -233,7 +227,13 @@ export const EnglishProficiency = () => {
             </Box>
           </Stack>
         </FormControl>
-        <Button variant="itms" size="itms-small" onClick={handleSubmit}>
+        <br />
+        <Button
+          type="submit"
+          variant="itms"
+          size="itms-small"
+          onClick={handleSubmit}
+        >
           Submit
         </Button>
       </Stack>
