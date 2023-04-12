@@ -1,51 +1,55 @@
 // import './App.css'
-import {
-  Route,
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from "react-router-dom";
-import { Layout } from "./components/Layout/Layout";
-import { RootLayout } from "./components/Layout/RootLayout";
-import { StudentCvUpdate } from "./Pages/Undergraduate/StudentCvUpdate";
-import { StudentSettings } from "./Pages/Undergraduate/StudentSettings";
-import { StudentDashboard } from "./Pages/Undergraduate/StudentDashboard";
-import { StudentCompany } from "./Pages/Undergraduate/StudentCompany";
-import { Manageuser } from "./Pages/Admin/Manageuser";
-import Dialogbox from "./components/Dialogbox/Dialogbox";
+import { 
+  Route, 
+  RouterProvider, 
+  createBrowserRouter, 
+  createRoutesFromElements 
+} from 'react-router-dom'
+import { Layout } from './components/Layout/Layout'
+import { RootLayout } from './components/Layout/RootLayout'
+import { StudentCvUpdate } from './Pages/Undergraduate/StudentCvUpdate'
+import { StudentSettings } from './Pages/Undergraduate/StudentSettings'
+import { StudentDashboard } from './Pages/Undergraduate/StudentDashboard'
+import { StudentCompany } from './Pages/Undergraduate/StudentCompany'
+import { Manageuser } from './Pages/Admin/Manageuser'
+import Dialogbox from './components/Dialogbox/Dialogbox'
 
-import { AddAdmin } from "./components/user/Admin/addUsers/AddAdmin";
-import { AddSuperv } from "./components/user/Admin/addUsers/AddSuperv";
-import { AddUndg } from "./components/user/Admin/addUsers/AddUndg";
-import { AddCompanySupervisor } from "./components/user/Admin/addUsers/AddCompanySupervisor";
-import { AddAlumini } from "./components/user/Admin/addUsers/AddAlumini";
-import { ViewAdmin } from "./components/user/Admin/viewUsers/ViewAdmin";
-import { ViewSuperv } from "./components/user/Admin/viewUsers/ViewSuperv";
-import { ViewUndg } from "./components/user/Admin/viewUsers/ViewUndg";
-import { ViewCompany } from "./components/user/Admin/viewUsers/ViewCompany";
-import { ViewAlumini } from "./components/user/Admin/viewUsers/ViewAlumini";
-import { UpdateNRemoveAdmin } from "./components/user/Admin/updateNremoveUsers/UpdateNRemoveAdmin";
-import { RemoveMultipleAdmin } from "./components/user/Admin/RemoveMultipleUsers/RemoveMultipleAdmin";
-import { UpdateNRemoveAlumni } from "./components/user/Admin/updateNremoveUsers/UpdateNRemoveAlumni";
-import { UpdateNRemoveCompany } from "./components/user/Admin/updateNremoveUsers/UpdateNRemoveCompany";
-import { UpdateNRemoveUndergraduate } from "./components/user/Admin/updateNremoveUsers/UpdateNRemoveUndergraduate";
-import Notice from "./components/shared/Notice/Notice";
+import { AddAdmin } from './components/user/Admin/addUsers/AddAdmin'
+import { AddSuperv } from './components/user/Admin/addUsers/AddSuperv'
+import { AddUndg } from './components/user/Admin/addUsers/AddUndg'
+import { AddCompanySupervisor } from './components/user/Admin/addUsers/AddCompanySupervisor'
+import { AddAlumini } from './components/user/Admin/addUsers/AddAlumini'
+import { ViewAdmin } from './components/user/Admin/viewUsers/ViewAdmin'
+import { ViewSuperv } from './components/user/Admin/viewUsers/ViewSuperv'
+import { ViewUndg } from './components/user/Admin/viewUsers/ViewUndg'
+import { ViewCompany } from './components/user/Admin/viewUsers/ViewCompany'
+import { ViewAlumini } from './components/user/Admin/viewUsers/ViewAlumini'
+import { UpdateNRemoveAdmin } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveAdmin'
+import { RemoveMultipleAdmin } from './components/user/Admin/RemoveMultipleUsers/RemoveMultipleAdmin'
+import { UpdateNRemoveAlumni } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveAlumni'
+import { UpdateNRemoveCompany } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveCompany'
+import { UpdateNRemoveUndergraduate } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveUndergraduate'
+import Notice from './components/shared/Notice/Notice'
 
 // Importing Pages
-import Login from "./Pages/Shared/Login/Login";
-import Test from "./components/Testing/Test";
+import Login from './Pages/Shared/Login/Login';
+import Test from './components/Testing/Test';
 
-import AuthState from "./Context/Auth/AuthState";
-import { Fragment } from "react";
-import Sidebar from "./components/Sidebar/Sidebar";
-import { EnglishProficiency } from "./components/user/Undergraduate/studentCV/EnglishProficiency";
+import AuthState from './Context/Auth/AuthState';
+import { Fragment } from 'react'
+import Sidebar from './components/Sidebar/Sidebar'
+import Navbar from './components/Navbar/Navbar'
+import ForgotPassword from './Pages/Shared/ForgotPassword/ForgotPassword'
 import { ProgrammingLanguages } from "./components/user/Undergraduate/studentCV/ProgrammingLanguages";
+import { DepartmentShowStudentProfile } from "./components/user/Department/DepartmentShowStudentProfile";
+import { EnglishProficiency } from "./components/user/Undergraduate/studentCV/EnglishProficiency";
 
 function App() {
-  const router = createBrowserRouter(
-    createRoutesFromElements(
-      <Route path="/" element={<RootLayout />}>
-        {/*add main pages here use path variable */}
+
+  const router = createBrowserRouter(createRoutesFromElements(
+    <Route path='/' element={<RootLayout />}>
+
+      {/*add main pages here use path variable */}
 
         <Route path="/" element={<Layout />}>
           <Route path="manageuser" element={<Manageuser />}></Route>
@@ -92,36 +96,25 @@ function App() {
           <Route path="sidebar" element={<Sidebar />}></Route>
         </Route>
 
-        {/*login page*/}
+      {/*login page*/}
 
-        <Route path="/">
-          <Route path="login" element={<Login />}></Route>
-        </Route>
-
-        {/*test your components here*/}
-
-        <Route path="/">
-          <Route path="testcvupdate" element={<StudentCvUpdate />}></Route>
-          <Route
-            path="dialogbox"
-            element={
-              <Dialogbox title="Title here" btn_name="default name">
-                keep Children's here while calling
-              </Dialogbox>
-            }
-          ></Route>
-          <Route path="testnotice" element={<Notice />}></Route>
-          <Route path="test" element={<Test />}></Route>
-          <Route path="testsidebar" element={<Sidebar />}></Route>
-          <Route path="testcvform" element={<EnglishProficiency />}></Route>
-          <Route
-            path="testlanguages"
-            element={<ProgrammingLanguages />}
-          ></Route>
-        </Route>
+      <Route path='/'>
+        <Route path='login' element={<Login />}></Route>
+        <Route path='forgot-password' element={<ForgotPassword />}></Route>
       </Route>
-    )
-  );
+
+      {/*test your components here*/}
+
+      <Route path='/'>
+        <Route path='testcvupdate' element={<StudentCvUpdate />}></Route>
+        <Route path='dialogbox' element={<Dialogbox title="Title here" btn_name="default name">keep Children's here while calling</Dialogbox>}></Route>
+        <Route path='testnotice' element={<Notice />}></Route>
+        <Route path='test' element={<Test />}></Route>
+        <Route path='testsidebar' element={<Sidebar />}></Route>
+      </Route>
+
+    </Route>
+  ))
 
   return (
     <AuthState>
@@ -129,7 +122,7 @@ function App() {
         <RouterProvider router={router} />
       </Fragment>
     </AuthState>
-  );
+  )
   //   return (
   //     <ThemeProvider theme={theme}>
   //       <Router>
@@ -144,13 +137,13 @@ function App() {
   //           {/* <Route exact path='/stdcompany' element={<StdCompnay />} /> */}
   //           <Route exact path='/layout' element={<Layout />} />
   //           <Route exact path='/cvupdate' element={<CvUpdate />} />
-  //           <Route exact path='/manageuser' element={<Manageuser />} />
+  //           <Route exact path='/manageuser' element={<Manageuser />} />  
   //           <Route exact path='/dialogbox' element={<Dialogbox title="Update Administrator"><Admin /></Dialogbox>} />
   //           <Route exact path='/' element={<Login/>}/>
-  //           <Route exact path='/navbar' element={<Navbar/>}/>
+  //           <Route exact path='/navbar' element={<Navbar/>}/> 
   //           <Route exact path='/sidebar' element={<Sidebar/>}/>
-  //           <Route exact path='/create-user' element={<CreateUser/>}/>
-  //           <Route exact path='/basiccard' element={<BasicCard/>}/>
+  //           <Route exact path='/create-user' element={<CreateUser/>}/> 
+  //           <Route exact path='/basiccard' element={<BasicCard/>}/> 
   //           <Route exact path='/user-profile' element={<UserProfile />} />
   //           <Route exact path='/stddash' element={<StudentDashboard />} />
   //           <Route exact path='/stdcompany' element={<StudentCompnay />} />
@@ -169,4 +162,4 @@ function App() {
   //   )
 }
 
-export default App;
+export default App
