@@ -5,7 +5,6 @@ import {
     USER_LOADED,
     AUTH_ERROR,
     LOGOUT,
-    RETRIEVE_USER_FROM_COOKIE
 } from '../type';
 
 export default (state, action) => {
@@ -16,6 +15,7 @@ export default (state, action) => {
                 ...action.payload,
                 isAuthenticated: true,
                 loading: false,
+                guest: false,
             };
 
         case LOGIN_FAIL:
@@ -27,6 +27,7 @@ export default (state, action) => {
                 loading: false,
                 user: null,
                 error: action.payload,
+                guest: true,
             };
 
         case USER_LOADED:

@@ -1,11 +1,18 @@
 import React from 'react'
 import { Box } from '@mui/material'
 
-export const Tile = ({width,height,children,sx}) => {
+export const Tile = ({ width, height, backgroundColor, children, sx, flex }) => {
   return (
-    <Box backgroundColor={'#EAF0FF'} width={width} height={height} borderRadius={2} sx={{overflow: 'auto'}} padding={'10px 20px 10px 20px'}>
+    <Box
+      backgroundColor={backgroundColor ? backgroundColor : '#FFF'}
+      width={width}
+      height={height}
+      borderRadius={2}
+      sx={{ overflow: 'auto' }}
+      padding={'20px'}
+      flex={flex}
+    >
       {children}
-      {/* {console.log(sx)} */}
     </Box>
   )
 }

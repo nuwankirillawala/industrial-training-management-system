@@ -8,7 +8,7 @@ const baseFontColor = "#363853"
 const getTheme = (theme) => ({
 
     background: {
-        default: "#F5F8FF",
+        default: "#EAF0FF",
         paper: "#F5F8FF",
     },
 
@@ -22,7 +22,11 @@ const getTheme = (theme) => ({
         },
         text: {
             primary: baseFontColor,
-        }
+        },
+        background: {
+            default: "#E2EDFF",
+            paper: "#F5F8FF",
+        },
 
     },
 
@@ -82,18 +86,19 @@ const getTheme = (theme) => ({
             styleOverrides: {
                 paper: {
                     backgroundColor: baseColor,
-                    borderTopRightRadius: '15px',
-                    borderBottomRightRadius: '10px',
+                    borderTopRightRadius: '0px',
+                    borderBottomRightRadius: '0px',
                 }
             }
         },
         MuiAppBar: {
             styleOverrides: {
                 colorPrimary: {
-                    backgroundColor: "#EFF4FF"
+                    backgroundColor: "#fff"
+                    // backgroundColor: "#EFF4FF"
                 },
                 root: {
-                    borderRadius: '0px 0px 0px 10px'
+                    borderRadius: '0px 0px 0px 0px'
                 }
                 
             }

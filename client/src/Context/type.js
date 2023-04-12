@@ -5,4 +5,3 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const SET_LOADING = 'SET_LOADING';
-export const RETRIEVE_USER_FROM_COOKIE = 'RETRIEVE_USER_FROM_COOKIE';

@@ -1,78 +1,87 @@
 import axios from 'axios';
-import { Box, Typography, Stack, Grid, TextField } from '@mui/material'
+import { Box, Typography, Stack, Grid, TextField, Paper, LinearProgress, Divider } from '@mui/material'
 import { Tile } from '../../components/card/Tile'
 import { Avatar } from '../../components/shared/Images/Avatar'
 import { TableContainer, Table, TableRow, TableHead, TableCell, TableBody } from '@mui/material'
 import { NoticeBoard } from '../../components/Notice/NoticeBoard'
 import useAuth from '../../Hooks/useAuth'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import useFetch from '../../Hooks/useFetch';
+import ProfileFormLine from '../../components/Dashboard/ProfileFormLine';
+import SkillLevel from '../../components/Dashboard/SkillLevel';
+import FeaturedCard from '../../components/Dashboard/FeaturedCard';
+import PrivateNotePanel from './PrivateNotePanel';
 
 export const StudentDashboard = () => {
-
   const { user } = useAuth();
-  console.log("user-", user);
+  const { data } = useFetch('GET', 'http://localhost:5000/api/v1/undergraduate/undergraduate-dashboard', null);
+  console.log(data);
 
-  // axios.get('http://localhost:5000/api/v1/undergraduate/undergraduate-dashboard', { withCredentials: true })
-  //   .then(response => {
-  //     // Handle the response data
-  //     console.log(response.data);
-  //   })
-  //   .catch(error => {
-  //     // Handle the error
-  //     console.log(error);
-  //   });
+  const basicInfo = data && {
+    name: data.user.name,
+    regNo: data.user.regNo,
+    email: data.user.email,
+    contactNo: data.user.contactNo,
+    gpa: data.user.gpa,
+    linkdinURL: data.user.linkdinURL,
+    githubURL: data.user.githubURL,
+  }
 
 
   return (
 
-    <Box sx={{ display: 'flex' }} padding={'0px 10px 0px 0px'}>
-      <Grid container spacing={1}>
+    <Box sx={{ display: 'flex' }} padding={'0px 10px 0px 0px'} margin={'0px 10px'}>
+      <Grid container spacing={2}>
 
         {/* left half of the grid and it shows user profile and the result */}
         <Grid item md={9} sm={3}>
           <Stack spacing={1}>
-            <Stack>
-              <Tile>
-                <Stack direction={'column'}>
-                  <Stack direction={'row'}>
-
-                    <Stack justifyItems={'center'} alignItems={'center'} flex={3}>
+            <Stack spacing={1}>
+              <Typography variant="h6" color="primary" marginBottom={'5px'}>Dashboard</Typography>
+              <Stack spacing={1} direction={'row'}>
+                <Tile flex={7}>
+                  <Stack direction={'row'} spacing={4}>
+                    <Stack justifyItems={'center'} alignItems={'center'} flex={3} >
                       <Avatar width={'140px'} height={'140px'} />
-                      <Typography variant='h6' fontWeight={'bold'}>GPA : 3.50</Typography>
+                      <Typography variant='h6' fontWeight={'bold'}>Undergraduate</Typography>
+                      {/* <Paper sx={{p:1, backgroundColor: '#fff'}}>
+                        <Typography variant='h6' fontWeight={'bold'}>Undergraduate</Typography>
+                      </Paper> */}
                     </Stack>
 
-                    <Stack spacing={0} flex={4}>
-                      {['Name : ',
-                        'Registration Number : ',
-                        'Email : ',
-                        'Mobile Number : ',
-                        'Linkedin Account : ',
-                        'Github Account : ',
-                        'Internship Status : '].map((text) => (
-                          <Typography variant='body1' fontWeight={'bold'}>{text}</Typography>
-                        ))}
-                    </Stack>
-                    {/* in here we have to show data fron database. update that and test with backend */}
-                    <Stack spacing={0} flex={8}>
-                      {['Gavesh Madshan Sooriyaarachchi ',
-                        'SC/2019/11121 ',
-                        'gaveshmadushan96@gmail.com',
-                        '0712345678',
-                        'http//:Linkedin.com/dash',
-                        'http//:Github.com/dash',
-                        'Pending'].map((text) => (
-                          <Typography letterSpacing={1}>{text}</Typography>
-                        ))}
+                    <Stack spacing={0.8} flex={12} direction={'column'}>
+                      <ProfileFormLine title='Name' content={basicInfo.name} />
+                      <ProfileFormLine title='Reg. No' content={basicInfo.regNo} />
+                      <ProfileFormLine title='Email' content={basicInfo.email} />
+                      <ProfileFormLine title='Mobile' content={basicInfo.contactNo} />
+                      <ProfileFormLine title='Linkdin' content={basicInfo.linkdinURL} />
+                      <ProfileFormLine title='GitHub' content={basicInfo.githubURL} />
+                      <ProfileFormLine title='GPA' content={basicInfo.gpa} />
                     </Stack>
                   </Stack>
+                </Tile>
+                <Stack flex={5} spacing={1}>
+                  <Tile height={'100%'}>
+                    <Typography variant="h6" color="initial">Skills</Typography>
+                    <Divider sx={{ m: 1 }} />
+                    <SkillLevel skill={'Programming'} value={80} />
+                    <SkillLevel skill={'Database'} value={60} />
+                    <SkillLevel skill={'Project Management'} value={50} />
+                    <SkillLevel skill={'Database'} value={90} />
+                    <SkillLevel skill={'Database'} value={40} />
 
-                  {/* Skills levels */}
-                  <Stack direction={'row'}>
-                    <Typography>skills</Typography>
-                  </Stack>
-
+                  </Tile>
                 </Stack>
-              </Tile>
+              </Stack>
+              {/* <Typography variant="h5" color="initial">Featured</Typography> */}
+              <Stack direction={'row'} spacing={1}>
+                <FeaturedCard title='Exam Results' color='#fff'/>
+                <FeaturedCard title='Intern Application' color='#2ECC40'/>
+                <FeaturedCard title='Report Submission' color='#0074D9'/>
+                <FeaturedCard title='Your Portfolio' color='#FFDC00'/>
+              </Stack>
+
+
             </Stack>
 
             {/* results */}
@@ -116,6 +125,7 @@ export const StudentDashboard = () => {
                 {/* <NoticeBoard></NoticeBoard> */}
               </Tile>
             </Stack>
+            <PrivateNotePanel />
             <Stack>
               {/* note  */}
               <Tile>
