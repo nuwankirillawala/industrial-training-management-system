@@ -12,7 +12,11 @@ import {
   Toolbar,
   AppBar,
   Snackbar,
+  DialogActions,
+  DialogTitle,
+  DialogContent,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import MuiAlert from "@mui/material/Alert";
 import CloseIcon from "@mui/icons-material/Close";
 import { Tile } from "../../components/card/Tile";
@@ -20,6 +24,8 @@ import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+import { EnglishProficiency } from "../../components/user/Undergraduate/studentCV/EnglishProficiency";
+import Dialogbox from "../../components/Dialogbox/Dialogbox";
 
 //creating transition for dialog
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -34,10 +40,30 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 //end of creating alert by importing MuiAlert
 
 export const StudentCvUpdate = () => {
-  //useState for snackbar
+  //keeping data
+  // const [value, setValue] = useState({
+  //   olResult: "",
+  //   alResult: "",
+  //   speakingLevel: "",
+  //   writingLevel: "",
+  //   readingLevel: "",
+  // });
+  //End of keeping data
+
+  //useState for dialog EnglishProficiency
+  const [epOpen, setEpOpen] = React.useState(false);
+  //End of useState for dialog EnglishProficiency
+
+  //handling setEpOpen
+  const handleCloseEP = () => {
+    setEpOpen(false);
+  };
+  //End of handling setEpOpen
+
+  //useState for snackbar and dialog of pdf selector
   const [open, setOpen] = React.useState(false);
   const [errorOpen, setErrorOpen] = React.useState(false);
-  //end of useState for snackbar
+  //end of useState for snackbar dialog of pdf selector
 
   //handling dialog closing
   const handleClose = () => {
@@ -113,13 +139,149 @@ export const StudentCvUpdate = () => {
       <Grid container spacing={1}>
         <Grid item xs={9}>
           {/* content here */}
-          <Tile height="89vh">
-            <Stack direction="column">
+          <Stack spacing={1}>
+            <Tile height="auto">
               <Typography variant="h5" fontWeight="bold" align="center">
                 Additional Information
               </Typography>
-            </Stack>
-          </Tile>
+              <br />
+            </Tile>
+            <Tile>
+              <Stack
+                direction="row"
+                alignItems="center"
+                spacing={2}
+                justifyContent="space-between"
+              >
+                <Typography varient="h2" fontWeight="bold">
+                  English Proficiency
+                </Typography>
+                <IconButton
+                  aria-label="delete"
+                  name="addEnglishProficiency"
+                  onClick={(e) => {
+                    setEpOpen(true);
+                  }}
+                >
+                  <AddIcon />
+                </IconButton>
+                <Dialog open={epOpen} onClose={handleCloseEP}>
+                  <DialogTitle id="EnglishProficiency">
+                    {"English Proficiency"}
+                  </DialogTitle>
+                  <DialogContent>
+                    <Tile>
+                      <EnglishProficiency />
+                    </Tile>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleCloseEP}>close</Button>
+                  </DialogActions>
+                </Dialog>
+              </Stack>
+            </Tile>
+
+            <Tile>
+              <Stack
+                direction="row"
+                alignItems="center"
+                spacing={2}
+                justifyContent="space-between"
+              >
+                <Typography varient="h2" fontWeight="bold">
+                  Programming languages
+                </Typography>
+                <IconButton
+                  aria-label="delete"
+                  name="addProgrammingLanguages"
+                  onClick={(e) => {
+                    setEpOpen(true);
+                  }}
+                >
+                  <AddIcon />
+                </IconButton>
+                <Dialog open={epOpen} onClose={handleCloseEP}>
+                  <DialogTitle id="programminglanguages">
+                    {"Programming languages"}
+                  </DialogTitle>
+                  <DialogContent>
+                    <Tile>
+                      <EnglishProficiency />
+                    </Tile>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleCloseEP}>close</Button>
+                  </DialogActions>
+                </Dialog>
+              </Stack>
+            </Tile>
+
+            <Tile>
+              <Stack
+                direction="row"
+                alignItems="center"
+                spacing={2}
+                justifyContent="space-between"
+              >
+                <Typography varient="h2" fontWeight="bold">
+                  Other Skills
+                </Typography>
+                <IconButton
+                  aria-label="delete"
+                  name="addOtherSkills"
+                  onClick={(e) => {
+                    setEpOpen(true);
+                  }}
+                >
+                  <AddIcon />
+                </IconButton>
+                <Dialog open={epOpen} onClose={handleCloseEP}>
+                  <DialogTitle id="otherSkills">{"Other skills"}</DialogTitle>
+                  <DialogContent>
+                    <Tile>
+                      <EnglishProficiency />
+                    </Tile>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleCloseEP}>close</Button>
+                  </DialogActions>
+                </Dialog>
+              </Stack>
+            </Tile>
+
+            <Tile>
+              <Stack
+                direction="row"
+                alignItems="center"
+                spacing={2}
+                justifyContent="space-between"
+              >
+                <Typography varient="h2" fontWeight="bold">
+                  Projects
+                </Typography>
+                <IconButton
+                  aria-label="delete"
+                  name="addProjects"
+                  onClick={(e) => {
+                    setEpOpen(true);
+                  }}
+                >
+                  <AddIcon />
+                </IconButton>
+                <Dialog open={epOpen} onClose={handleCloseEP}>
+                  <DialogTitle id="projects">{"Projects"}</DialogTitle>
+                  <DialogContent>
+                    <Tile>
+                      <EnglishProficiency />
+                    </Tile>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleCloseEP}>close</Button>
+                  </DialogActions>
+                </Dialog>
+              </Stack>
+            </Tile>
+          </Stack>
         </Grid>
         <Grid item xs={3}>
           <Grid container direction="column" spacing={1}>
