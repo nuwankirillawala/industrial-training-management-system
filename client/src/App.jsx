@@ -40,6 +40,7 @@ import { Fragment } from "react";
 import Sidebar from "./components/Sidebar/Sidebar";
 import { EnglishProficiency } from "./components/user/Undergraduate/studentCV/EnglishProficiency";
 import { ProgrammingLanguages } from "./components/user/Undergraduate/studentCV/ProgrammingLanguages";
+import { DepartmentShowStudentProfile } from "./components/user/Department/DepartmentShowStudentProfile";
 
 function App() {
   const router = createBrowserRouter(
@@ -90,6 +91,8 @@ function App() {
           <Route path="student-settings" element={<StudentSettings />} />
           <Route path="notice" element={<Notice />}></Route>
           <Route path="sidebar" element={<Sidebar />}></Route>
+
+          <Route path="department-studentprofile" element={<DepartmentShowStudentProfile />}></Route>
         </Route>
 
         {/*login page*/}
