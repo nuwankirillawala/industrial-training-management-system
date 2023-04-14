@@ -3,8 +3,9 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { Tile } from "../../../card/Tile";
+import { Layout } from "../../../Layout/Layout";
 
-export const ViewSuperv = () => {
+export const ViewUndgraduate = () => {
     const [Column, setColumn] = useState([])
     const [Records, setRecords] = useState([])
 
