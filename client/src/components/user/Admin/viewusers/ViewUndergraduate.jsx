@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material"
 import { Tile } from "../../../card/Tile";
 import { Layout } from "../../../Layout/Layout";
 
-export const ViewUndgraduate = () => {
+export const ViewUndergraduate = () => {
     const [Column, setColumn] = useState([])
     const [Records, setRecords] = useState([])
 

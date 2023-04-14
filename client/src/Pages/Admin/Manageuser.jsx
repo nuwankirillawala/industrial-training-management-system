@@ -19,11 +19,11 @@ function RedirectAdduser(text) {
         case 'Administrator':
             return '/addadmin'
             break;
-        case 'Department CoOrdinator':
-            return '/add-superv-details' // still the form is not created
-            break;
+        // case 'Department CoOrdinator':
+        //     return '/' // still the form is not created
+        //     break;
         case 'Undergraduate':
-            return '/add-undg-details'
+            return '/add-undergraduate-details'
             break;
         case 'Company Supervisor':
             return '/add-companySupervisor-details'
@@ -69,9 +69,9 @@ function RedirectUpdateNRemoveuser(text) {
         case 'Undergraduate':
             return '/updateNremove-undergraduate-details'
             break;
-        case 'Company Supervisor':
-            return '/updateNremove-company-details'
-            break;
+        // case 'Company Supervisor':
+        //     return '/updateNremove-company-details'
+        //     break;
         case 'Alumni person':
             return '/updateNremove-alumni-details'
             break;
@@ -97,13 +97,16 @@ export const Manageuser = () => {
     return (
 
         <Grid container spacing={2}>
+            <Grid item md={12} sm={12}>
+                <Typography variant="h6" color="primary" marginBottom={'5px'} paddingLeft={'15px'}>Manage User</Typography>
+            </Grid>
             {userList.map((user, index) => (
                 <Grid item md={2.4} sm={6} key={index}>
-                    <Tile height={'88vh'}>
+                    <Tile height={'80vh'}>
                         <Stack ><Icon color='primary' fontSize='large'><user.icon /> </Icon></Stack>
                         {/* sx={{ display: 'flex-end', alignItems: 'center' }} If want icons in center*/}
                         <Stack height={'80px'}> <Typography variant="h6" fontWeight={'bold'}>{user.name}</Typography> </Stack>
-                        <Stack height={'120px'} padding="10px">  <Typography variant="body1" > {user.description} </Typography>  </Stack>
+                        <Stack height={'100px'} padding="10px">  <Typography variant="body1" > {user.description} </Typography>  </Stack>
                         <Stack direction={"column"} sx={{ height: '58%' }} justifyContent={"flex-end"} spacing={2}>
                             <Button variant="itms" onClick={() => navigate(RedirectViewuser(user.name))}> View  </Button>
                             <Button variant="itms" onClick={() => navigate(RedirectAdduser(user.name))} > Add  </Button>

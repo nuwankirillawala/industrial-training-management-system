@@ -15,19 +15,18 @@ import { Manageuser } from './Pages/Admin/Manageuser'
 import Dialogbox from './components/Dialogbox/Dialogbox'
 
 import { AddAdmin } from './components/user/Admin/addUsers/AddAdmin'
-import { AddSuperv } from './components/user/Admin/addUsers/AddSuperv'
-import { AddUndg } from './components/user/Admin/addUsers/AddUndg'
+import { AddUndergraduate } from './components/user/Admin/addUsers/AddUndergraduate'
 import { AddCompanySupervisor } from './components/user/Admin/addUsers/AddCompanySupervisor'
 import { AddAlumini } from './components/user/Admin/addUsers/AddAlumini'
 import { ViewAdmin } from './components/user/Admin/viewUsers/ViewAdmin'
-import { ViewSuperv } from './components/user/Admin/viewUsers/ViewSuperv'
-import { ViewUndg } from './components/user/Admin/viewUsers/ViewUndg'
-import { ViewCompany } from './components/user/Admin/viewUsers/ViewCompany'
+import { ViewSupervisor } from './components/user/Admin/viewUsers/ViewSupervisor'
+import { ViewUndergraduate } from './components/user/Admin/viewUsers/ViewUndergraduate'
+import { ViewCompanySupervisor } from './components/user/Admin/viewUsers/ViewCompanySupervisor'
 import { ViewAlumini } from './components/user/Admin/viewUsers/ViewAlumini'
 import { UpdateNRemoveAdmin } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveAdmin'
 import { RemoveMultipleAdmin } from './components/user/Admin/RemoveMultipleUsers/RemoveMultipleAdmin'
 import { UpdateNRemoveAlumni } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveAlumni'
-import { UpdateNRemoveCompany } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveCompany'
+import { ManageCompany } from './Pages/Admin/ManageCompany'
 import { UpdateNRemoveUndergraduate } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveUndergraduate'
 import Notice from './components/shared/Notice/Notice'
 import { AdminDashboard } from './Pages/Admin/AdminDashboard'
@@ -55,24 +54,20 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route path="manageuser" element={<Manageuser />}></Route>
         <Route path="addadmin" element={<AddAdmin />} />
-        <Route path="add-superv-details" element={<AddSuperv />} />
-        <Route path="add-undg-details" element={<AddUndg />} />
-        <Route
-          path="add-companySupervisor-details"
-          element={<AddCompanySupervisor />}
-        />
+        <Route path="add-undergraduate-details" element={<AddUndergraduate />} />
+        <Route path="add-companySupervisor-details" element={<AddCompanySupervisor />} />
         <Route path="add-alumini-details" element={<AddAlumini />} />
         <Route path="view-admin-details" element={<ViewAdmin />} />
-        <Route path="view-superv-details" element={<ViewSuperv />} />
-        <Route path="view-undg-details" element={<ViewUndg />} />
-        <Route path="view-comp-details" element={<ViewCompany />} />
+        <Route path="view-superv-details" element={<ViewSupervisor />} />
+        <Route path="view-undg-details" element={<ViewUndergraduate />} />
+        <Route path="view-comp-details" element={<ViewCompanySupervisor />} />
         <Route path="view-alumini-details" element={<ViewAlumini />} />
         <Route path="updateNremove-admin-details" element={<UpdateNRemoveAdmin />} />
         <Route path="remove-multiple-admin" element={<RemoveMultipleAdmin />} />
         <Route path="updateNremove-alumni-details" element={<UpdateNRemoveAlumni />} />
-        <Route path="updateNremove-company-details" element={<UpdateNRemoveCompany />} />
         <Route path="updateNremove-undergraduate-details" element={<UpdateNRemoveUndergraduate />} />
         <Route path="admin-dashboard" element={<AdminDashboard />} />
+        <Route path="manage-company" element={<ManageCompany />} />
 
         {/* student routes */}
         <Route path="student-dashboard" element={<StudentDashboard />} />
