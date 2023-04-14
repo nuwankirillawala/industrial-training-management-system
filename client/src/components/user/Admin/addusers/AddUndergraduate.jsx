@@ -2,7 +2,7 @@ import React from "react";
 import { UndergraduateCreateForm } from '../../../shared/CreateUser/forms/UndergraduateCreateForm';
 
 
-export const AddUndg = () => {
+export const AddUndergraduate = () => {
     return (
 
         <UndergraduateCreateForm>
