@@ -1,17 +1,19 @@
 import React from "react"
 import { UpdateCompanyForm } from "../../components/user/Admin/Forms/UpdateCompanyForm";
+import { CompanyCreateForm } from "../../components/shared/CreateUser/forms/CompanyCreateForm";
 import { Stack } from "@mui/system";
 import { useState, useEffect } from "react";
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, Grid } from "@mui/material";
 import { Tile } from "../../components/card/Tile";
 import Dialogbox from "../../components/Dialogbox/Dialogbox";
 import { RemoveUserForm } from "../../components/user/Admin/Forms/RemoveUserForm";
-
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export const ManageCompany = () => {
 
     const [Column, setColumn] = useState([])
     const [Records, setRecords] = useState([])
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetch('https://dummyjson.com/products')  //url need to changed into json url(this is dummy data from a site)
@@ -25,6 +27,17 @@ export const ManageCompany = () => {
 
     return (
         <Grid>
+            <Grid item sm={12} md={12}>
+                <Typography variant="h6" color="primary" marginBottom={'5px'} paddingLeft={'15px'}>Add new Company</Typography>
+            </Grid>
+            <Grid item sm={12} md={12}>
+                <Tile>
+                    <Stack direction={'row'} spacing={29}>
+                        <Typography> Click here for add a new company to the system</Typography>
+                        <Button variant="itms" fontWeight="bold" onClick={() => navigate("/add-company")}>+  </Button>
+                    </Stack>
+                </Tile>
+            </Grid>
             <Grid item sm={12} md={12}>
                 <Typography variant="h6" color="primary" marginBottom={'5px'} paddingLeft={'15px'}>Manage Company</Typography>
             </Grid>
