@@ -42,8 +42,12 @@ import Sidebar from './components/Sidebar/Sidebar'
 import Navbar from './components/Navbar/Navbar'
 import ForgotPassword from './Pages/Shared/ForgotPassword/ForgotPassword'
 import { ProgrammingLanguages } from "./components/user/Undergraduate/studentCV/ProgrammingLanguages";
-import { DepartmentShowStudentProfile } from "./components/user/Department/DepartmentShowStudentProfile";
 import { EnglishProficiency } from "./components/user/Undergraduate/studentCV/EnglishProficiency";
+import { AlumniSettings } from './Pages/Alumni/AlumniSettings'
+import { AdminSettings } from './Pages/Admin/AdminSettings'
+import { SupervisorSettings } from './Pages/Supervisor/SupervisorSettings'
+import { DepartmentSettings } from './Pages/Department/DepartmentSettings'
+import { DepartmentStudentProfile } from './Pages/Department/DepartmentStudentProfile'
 
 function App() {
 
@@ -79,6 +83,13 @@ function App() {
         <Route path="student-settings" element={<StudentSettings />} />
         <Route path="notice" element={<Notice />}></Route>
         <Route path="sidebar" element={<Sidebar />}></Route>
+
+        <Route path="alumni-settings" element={<AlumniSettings />} />
+        <Route path="admin-settings" element={<AdminSettings />} />
+        <Route path="supervisor-settings" element={<SupervisorSettings />} />
+        <Route path="department-settings" element={<DepartmentSettings />} />
+        <Route path="department-studentprofile" element={<DepartmentStudentProfile />} />
+      
       </Route>
 
       {/*login page*/}
