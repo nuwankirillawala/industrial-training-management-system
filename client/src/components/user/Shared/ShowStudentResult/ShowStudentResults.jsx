@@ -43,7 +43,7 @@ export const ShowStudentResults = () => {
 
   return (
 
-        <Stack direction={'column'} spacing={2} width={'100%'} alignItems={'center'}>
+        <Stack direction={'column'} spacing={2} alignItems={'center'}>
 
             <Stack alignItems={'center'}>
                 <Typography variant='h6' fontWeight={'bold'}>Results</Typography>
@@ -84,7 +84,7 @@ export const ShowStudentResults = () => {
                 </Stack>
             </Stack>
 
-            <Stack width={'100%'}>
+            <Stack width={'100%'} maxHeight={'35vh'}>
                 <TableContainer sx={{maxHeight:'68vh'}}>
                     <Table stickyHeader size='small'>
                         <TableHead>
