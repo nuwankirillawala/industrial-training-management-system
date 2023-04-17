@@ -12,8 +12,16 @@ const alumniValues = {
     firstName : '',
     lastName : '',
     fullName : '',
+    studentNumber : '',
+    universityBatch : '',
     email : '',
     contactNo : '',
+    currentCompany : '',
+    currentJobRole : '',
+    currentCompanyRating : '',
+    linkedIn : '',
+    github : '',
+    AboutMe : ''
 }
 
 export const AlumniSettings = () => {
@@ -30,9 +38,16 @@ export const AlumniSettings = () => {
         firstName : Yup.string(),
         lastName : Yup.string(),
         fullName : Yup.string(),
-        staffId : Yup.string(),
+        studentNumber : Yup.string(),
+        universityBatch : Yup.number(),
         email : Yup.string().email("Invalid Email Address"),
-        contactNo : Yup.string().length(10,"Invalid Number")
+        contactNo : Yup.string().length(10,"Invalid Number"),
+        currentCompany : Yup.string(),
+        currentJobRole : Yup.string(),
+        currentCompanyRating : Yup.number(),
+        linkedin : Yup.string().url("invalid URL"),
+        github : Yup.string().url("Invalid URL"),
+        AboutMe : Yup.string(),
     })
 
   return (
@@ -76,7 +91,7 @@ export const AlumniSettings = () => {
 {/* set the current values as default values */}
             <Grid item md={9}>
             <Tile>
-                <Box padding={'20px'}>
+                <Box padding={'20px'} height={'83vh'}>
                 <Stack spacing={2} direction='column'>
                     <Stack>
                         <Typography variant='h6' fontWeight={'bold'}>Update Your Profile</Typography>
@@ -162,6 +177,46 @@ export const AlumniSettings = () => {
                                         </Stack>
                                         <Stack direction={'row'} minWidth={'200px'}>
                                             <Stack flex={1} minWidth={'200px'}>
+                                                <Typography>Student Number</Typography>
+                                            </Stack>
+                                            <Stack flex={3}>
+                                                <TextField
+                                                    variant='outlined'
+                                                    size='small'
+                                                    type='text'
+                                                    defaultValue={values.studentNumber}
+                                                    name='studentNumber'
+                                                    fullWidth
+                                                    value={values.studentNumber}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    error={!!touched.studentNumber && !!errors.studentNumber}
+                                                    helperText={touched.studentNumber && errors.studentNumber}
+                                                    />
+                                            </Stack>
+                                        </Stack>
+                                        <Stack direction={'row'} minWidth={'200px'}>
+                                            <Stack flex={1} minWidth={'200px'}>
+                                                <Typography>University Batch</Typography>
+                                            </Stack>
+                                            <Stack flex={3}>
+                                                <TextField
+                                                    variant='outlined'
+                                                    size='small'
+                                                    type='text'
+                                                    defaultValue={values.universityBatch}
+                                                    name='universityBatch'
+                                                    fullWidth
+                                                    value={values.universityBatch}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    error={!!touched.universityBatch && !!errors.universityBatch}
+                                                    helperText={touched.universityBatch && errors.universityBatch}
+                                                    />
+                                            </Stack>
+                                        </Stack>
+                                        <Stack direction={'row'} minWidth={'200px'}>
+                                            <Stack flex={1} minWidth={'200px'}>
                                                 <Typography>Email Address</Typography>
                                             </Stack>
                                             <Stack flex={3}>
@@ -200,6 +255,128 @@ export const AlumniSettings = () => {
                                                 />
                                             </Stack>
                                         </Stack>
+                                        <Stack direction={'row'}>
+                                            <Stack flex={1} minWidth={'200px'}>
+                                                <Typography>Current Company</Typography>
+                                            </Stack>
+                                            <Stack flex={3}>
+                                                <TextField
+                                                    variant='outlined'
+                                                    size='small'
+                                                    type='text'
+                                                    defaultValue={values.currentCompany}
+                                                    name='currentCompany'
+                                                    fullWidth
+                                                    value={values.currentCompany}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    error={!!touched.currentCompany && !!errors.currentCompany}
+                                                    helperText={touched.currentCompany && errors.currentCompany}
+                                                />
+                                            </Stack>
+                                        </Stack>
+                                        <Stack direction={'row'}>
+                                            <Stack flex={1} minWidth={'200px'}>
+                                                <Typography>Current Job Role</Typography>
+                                            </Stack>
+                                            <Stack flex={3}>
+                                                <TextField
+                                                    variant='outlined'
+                                                    size='small'
+                                                    type='text'
+                                                    defaultValue={values.currentJobRole}
+                                                    name='currentJobRole'
+                                                    fullWidth
+                                                    value={values.currentJobRole}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    error={!!touched.currentJobRole && !!errors.currentJobRole}
+                                                    helperText={touched.currentJobRole && errors.currentJobRole}
+                                                />
+                                            </Stack>
+                                        </Stack>
+                                        <Stack direction={'row'}>
+                                            <Stack flex={1} minWidth={'200px'}>
+                                                <Typography>Current Company Rating</Typography>
+                                            </Stack>
+                                            <Stack flex={3}>
+                                                <TextField
+                                                    variant='outlined'
+                                                    size='small'
+                                                    type='text'
+                                                    defaultValue={values.currentCompanyRating}
+                                                    name='currentCompanyRating'
+                                                    fullWidth
+                                                    value={values.currentCompanyRating}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    error={!!touched.currentCompanyRating && !!errors.currentCompanyRating}
+                                                    helperText={touched.currentCompanyRating && errors.currentCompanyRating}
+                                                />
+                                            </Stack>
+                                        </Stack>
+                                        <Stack direction={'row'}>
+                                            <Stack flex={1} minWidth={'200px'}>
+                                                <Typography>LinkedIn</Typography>
+                                            </Stack>
+                                            <Stack flex={3}>
+                                                <TextField
+                                                    variant='outlined'
+                                                    size='small'
+                                                    type='text'
+                                                    defaultValue={values.linkedIn}
+                                                    name='linkedIn'
+                                                    fullWidth
+                                                    value={values.linkedIn}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    error={!!touched.linkedIn && !!errors.linkedIn}
+                                                    helperText={touched.linkedIn && errors.linkedIn}
+                                                />
+                                            </Stack>
+                                        </Stack>
+                                        <Stack direction={'row'}>
+                                            <Stack flex={1} minWidth={'200px'}>
+                                                <Typography>GitHub</Typography>
+                                            </Stack>
+                                            <Stack flex={3}>
+                                                <TextField
+                                                    variant='outlined'
+                                                    size='small'
+                                                    type='text'
+                                                    defaultValue={values.github}
+                                                    name='github'
+                                                    fullWidth
+                                                    value={values.github}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    error={!!touched.github && !!errors.github}
+                                                    helperText={touched.github && errors.github}
+                                                />
+                                            </Stack>
+                                        </Stack>
+                                        <Stack direction={'row'}>
+                                            <Stack flex={1} minWidth={'200px'}>
+                                                <Typography>About Me</Typography>
+                                            </Stack>
+                                            <Stack flex={3}>
+                                                <TextField
+                                                    variant='outlined'
+                                                    size='small'
+                                                    type='text'
+                                                    defaultValue={values.AboutMe}
+                                                    name='AboutMe'
+                                                    fullWidth
+                                                    multiline
+                                                    value={values.AboutMe}
+                                                    onBlur={handleBlur}
+                                                    onChange={handleChange}
+                                                    error={!!touched.AboutMe && !!errors.AboutMe}
+                                                    helperText={touched.AboutMe && errors.AboutMe}
+                                                />
+                                            </Stack>
+                                        </Stack>
+                                        
                                         <Stack alignItems={'flex-end'}>
                                             <Box>
                                                 <Button variant='itms' onClick={handleReset}>reset</Button>
