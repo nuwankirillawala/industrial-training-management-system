@@ -1,10 +1,9 @@
 import { fontSize, Stack } from '@mui/system';
 import React, { useState } from 'react'
 import { Tile } from '../../components/card/Tile';
-import { Grid, Typography } from '@mui/material';
-import { Button } from '@mui/material';
+import { Grid, Typography, Box, Button } from '@mui/material';
 //import { useState, useEffect } from "react";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
@@ -102,12 +101,14 @@ export const Manageuser = () => {
             </Grid>
             {userList.map((user, index) => (
                 <Grid item md={2.4} sm={6} key={index}>
-                    <Tile height={'80vh'}>
-                        <Stack ><Icon color='primary' fontSize='large'><user.icon /> </Icon></Stack>
+                    <Tile >
+                        <Box minWidth='10vh' minHeight='10vh'>
+                            <Icon color='primary' fontSize='large' ><user.icon /> </Icon>
+                        </Box>
                         {/* sx={{ display: 'flex-end', alignItems: 'center' }} If want icons in center*/}
-                        <Stack height={'80px'}> <Typography variant="h6" fontWeight={'bold'}>{user.name}</Typography> </Stack>
-                        <Stack height={'100px'} padding="10px">  <Typography variant="body1" > {user.description} </Typography>  </Stack>
-                        <Stack direction={"column"} sx={{ height: '58%' }} justifyContent={"flex-end"} spacing={2}>
+                        <Stack height={'10vh'}> <Typography variant="h6" fontWeight={'bold'}>{user.name}</Typography> </Stack>
+                        <Stack height={'30vh'} padding="10px">  <Typography variant="body2" > {user.description} </Typography>  </Stack>
+                        <Stack direction={"column"} sx={{ height: '25vh' }} justifyContent={"flex-end"} spacing={2} paddingBottom={'20px'}>
                             <Button variant="itms" onClick={() => navigate(RedirectViewuser(user.name))}> View  </Button>
                             <Button variant="itms" onClick={() => navigate(RedirectAdduser(user.name))} > Add  </Button>
                             <Button variant="itms" onClick={() => navigate(RedirectUpdateNRemoveuser(user.name))}> Update / Remove </Button>
