@@ -9,7 +9,7 @@ export const DepartmentStudentProfile = () => {
     <Grid container spacing={1}>
         <Grid item md={3}>
             <Tile>
-                <Stack spacing={3} height={'87vh'} direction={'column'}>
+                <Stack spacing={3} height={'83vh'} direction={'column'}>
                     <Stack alignItems={'center'}>
                         <Typography variant='h6' fontWeight={'bold'}>Student list</Typography>
                     </Stack>
@@ -40,18 +40,17 @@ export const DepartmentStudentProfile = () => {
             </Tile>
         </Grid>
 
-        <Grid item md={4.5}>
+        <Grid item md={9}>
             <Tile>
-                <Box>
-                    <DepartmentShowStudentProfile/>
-                </Box>
-            </Tile>
-        </Grid>
-        <Grid item md={4.5}>
-            <Tile>
-                <Box p={'20px 0px 20px 0px'}>
-                    <ShowStudentResults />
-                </Box>
+                <Stack direction={'column'} spacing={1}>
+                    <Stack flex={1}>
+                        <DepartmentShowStudentProfile/>
+                    </Stack>
+
+                    <Stack alignItems={'center'} flex={1}>
+                        <ShowStudentResults />
+                    </Stack>
+                </Stack>
             </Tile>
         </Grid>
     </Grid>
