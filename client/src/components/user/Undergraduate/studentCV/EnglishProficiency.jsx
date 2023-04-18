@@ -17,7 +17,7 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { Button } from "@mui/material";
 
-export const EnglishProficiency = () => {
+export const EnglishProficiency = (props) => {
   const [value, setValue] = useState({
     olResult: "",
     alResult: "",
@@ -25,6 +25,10 @@ export const EnglishProficiency = () => {
     writingLevel: "",
     readingLevel: "",
   });
+
+  // //Testing
+  // const { handleChildState, ...otherProps } = props;
+  // //End of Testing
 
   //Controllers of Slider TEMP
   const handleSliderChange = (e) => {
@@ -65,8 +69,10 @@ export const EnglishProficiency = () => {
   };
   //End of onchange Radio group
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     console.log(value);
+    console.log("now from parent");
+    props.passDataFromChild({ value });
   };
 
   return (
@@ -94,6 +100,7 @@ export const EnglishProficiency = () => {
             aria-labelledby="alResult"
             name="alResult"
             value={value.alResult}
+            // value={otherProps.alResult}
             onChange={onChange}
           >
             <FormControlLabel value="A" control={<Radio />} label="A" />
@@ -115,8 +122,10 @@ export const EnglishProficiency = () => {
                   <Slider
                     value={
                       typeof value.speakingLevel === "number"
-                        ? value.speakingLevel
-                        : 0
+                        ? // typeof otherProps.speakingLevel === "number"
+                          value.speakingLevel
+                        : // ? otherProps.speakingLevel
+                          0
                     }
                     onChange={handleSliderChange}
                     aria-labelledby="speakingLevel"
@@ -131,6 +140,7 @@ export const EnglishProficiency = () => {
                     name="speakingLevel"
                     variant="standard"
                     value={value.speakingLevel}
+                    // value={otherProps.speakingLevel}
                     size="small"
                     onChange={handleInputChange}
                     onBlur={handleBlur}
@@ -156,7 +166,9 @@ export const EnglishProficiency = () => {
                     value={
                       typeof value.readingLevel === "number"
                         ? value.readingLevel
-                        : 0
+                        : // typeof otherProps.readingLevel === "number"
+                          //   ? otherProps.readingLevel
+                          0
                     }
                     onChange={handleSliderChange}
                     aria-labelledby="readingLevel"
@@ -171,6 +183,7 @@ export const EnglishProficiency = () => {
                     name="readingLevel"
                     variant="standard"
                     value={value.readingLevel}
+                    // value={otherProps.readingLevel}
                     size="small"
                     onChange={handleInputChange}
                     onBlur={handleBlur}
@@ -196,7 +209,9 @@ export const EnglishProficiency = () => {
                     value={
                       typeof value.writingLevel === "number"
                         ? value.writingLevel
-                        : 0
+                        : // typeof otherProps.writingLevel === "number"
+                          //   ? otherProps.writingLevel
+                          0
                     }
                     onChange={handleSliderChange}
                     aria-labelledby="writingLevel"
@@ -211,6 +226,7 @@ export const EnglishProficiency = () => {
                     name="writingLevel"
                     variant="standard"
                     value={value.writingLevel}
+                    // value={otherProps.writingLevel}
                     size="small"
                     onChange={handleInputChange}
                     onBlur={handleBlur}
@@ -228,12 +244,7 @@ export const EnglishProficiency = () => {
           </Stack>
         </FormControl>
         <br />
-        <Button
-          type="submit"
-          variant="itms"
-          size="itms-small"
-          onClick={handleSubmit}
-        >
+        <Button variant="itms" size="itms-small" onClick={handleSubmit}>
           Submit
         </Button>
       </Stack>
