@@ -25,7 +25,6 @@ import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { EnglishProficiency } from "../../components/user/Undergraduate/studentCV/EnglishProficiency";
-import Dialogbox from "../../components/Dialogbox/Dialogbox";
 
 //creating transition for dialog
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -40,15 +39,20 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 //end of creating alert by importing MuiAlert
 
 export const StudentCvUpdate = () => {
-  //keeping data
-  // const [value, setValue] = useState({
-  //   olResult: "",
-  //   alResult: "",
-  //   speakingLevel: "",
-  //   writingLevel: "",
-  //   readingLevel: "",
-  // });
-  //End of keeping data
+  // Testing
+  const [englishProficiency, setEnglishProficiency] = useState({
+    olResult: "",
+    alResult: "",
+    speakingLevel: "",
+    writingLevel: "",
+    readingLevel: "",
+  });
+
+  const passDataFromChild = (newValue) => {
+    setEnglishProficiency(newValue);
+    console.log(englishProficiency);
+  };
+  //End of Testing
 
   //useState for dialog EnglishProficiency
   const [epOpen, setEpOpen] = React.useState(false);
@@ -171,7 +175,9 @@ export const StudentCvUpdate = () => {
                   </DialogTitle>
                   <DialogContent>
                     <Tile>
-                      <EnglishProficiency />
+                      <EnglishProficiency
+                        passDataFromChild={passDataFromChild}
+                      />
                     </Tile>
                   </DialogContent>
                   <DialogActions>

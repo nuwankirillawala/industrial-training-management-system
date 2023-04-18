@@ -31,7 +31,7 @@ import { ManageCompany } from './Pages/Admin/ManageCompany'
 import { UpdateNRemoveUndergraduate } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveUndergraduate'
 import Notice from './components/shared/Notice/Notice'
 import { AdminDashboard } from './Pages/Admin/AdminDashboard'
-import { addCompany } from './components/user/Admin/addCompany/addComapny'
+import { AddCompany } from './components/user/Admin/addCompany/AddCompany'
 // Importing Pages
 import Login from './Pages/Shared/Login/Login';
 import Test from './components/Testing/Test';
@@ -75,7 +75,7 @@ function App() {
         <Route path="updateNremove-companySupervisor-details" element={<UpdateNRemoveCompanySupervisor />} />
         <Route path="admin-dashboard" element={<AdminDashboard />} />
         <Route path="manage-company" element={<ManageCompany />} />
-        <Route path="add-company" element={<addCompany />} />
+        <Route path="add-company" element={<AddCompany />} />
 
         {/* student routes */}
         <Route path="student-dashboard" element={<StudentDashboard />} />

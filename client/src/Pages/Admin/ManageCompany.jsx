@@ -34,7 +34,7 @@ export const ManageCompany = () => {
                 <Tile>
                     <Stack direction={'row'} spacing={29}>
                         <Typography> Click here for add a new company to the system</Typography>
-                        <Button variant="itms" fontWeight="bold" onClick={() => navigate("/add-company")}>+  </Button>
+                        <Button variant="itms" fontWeight="bold" onClick={() => navigate('/add-company')}>+  </Button >
                     </Stack>
                 </Tile>
             </Grid>

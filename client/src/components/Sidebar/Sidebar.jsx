@@ -13,8 +13,13 @@ import { Apartment, ArrowBack, Article, Assessment, Ballot, ChevronLeft, Dashboa
 import styled from '@emotion/styled';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
+import { grey } from '@mui/material/colors';
+import Notice from '../shared/Notice/Notice';
+import { StudentDashboard } from '../../Pages/Undergraduate/StudentDashboard';
+// import { useHistory } from 'react-router-dom';
+import { Login } from '../Login/Login';
 
-const drawerWidth = 223;
+const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -60,13 +65,12 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 const buttonStyles = {
-  height:35,
+  height:40,
   textAlign: 'flex-start',
   '&:hover': {
       bgcolor: '#f4f6fc',
       color: 'black'
   },
-  borderRadius:'10px 10px 10px 10px',
 };
 
 const users = [
@@ -76,27 +80,42 @@ const users = [
       {
         id: 1,
         primaryText: 'Dashboard',
-        icon: <Dashboard fontSize='large' />
+        icon: <Dashboard /*fontSize='large'*/ />,
+        onClick: () => {
+          //grger
+        }
       },
       {
         id: 2,
         primaryText: 'CV',
-        icon: <Article fontSize='large' />
+        icon: <Article /*fontSize='large'*/ />,
+        onClick: () => {
+          //
+        }
       },
       {
         id: 3,
         primaryText: 'Daily Report',
-        icon: <Assessment fontSize='large' />,
+        icon: <Assessment /*fontSize='large'*/ />,
+        onClick: () => {
+          //
+        }
       },
       {
         id: 4,
         primaryText: 'Company',
-        icon: <Apartment fontSize='large' />
+        icon: <Apartment /*fontSize='large'*/ />,
+        onClick: () => {
+          //
+        }
       },
       {
         id: 5,
         primaryText: 'Notice',
-        icon: <Notifications fontSize='large' />
+        icon: <Notifications /*fontSize='large'*/ />,
+        onClick: () => {
+          <Notice />
+        }
       }
     ]
   },
@@ -106,27 +125,42 @@ const users = [
       {
         id: 1,
         primaryText: 'Dashboard',
-        icon: <Dashboard fontSize='large' />
+        icon: <Dashboard /*fontSize='large'*/ />,
+        onClick: () => {
+          //
+        }
       },
       {
         id: 2,
         primaryText: 'CV',
-        icon: <Article fontSize='large' />
+        icon: <Article /*fontSize='large'*/ />,
+        onClick: () => {
+          //
+        }
       },
       {
         id: 3,
-        primaryText: 'Company Choice',
-        icon: <LocationCity fontSize='large' />
+        primaryText: 'Company',
+        icon: <LocationCity /*fontSize='large'*/ />,
+        onClick: () => {
+          //
+        }
       },
       {
         id: 4,
         primaryText: 'Daily Report',
-        icon: <Assessment fontSize='large' />
+        icon: <Assessment /*fontSize='large'*/ />,
+        onClick: () => {
+          //
+        }
       },
       {
         id: 5,
         primaryText: 'Notice',
-        icon: <Notifications fontSize='large' />
+        icon: <Notifications /*fontSize='large'*/ />,
+        onClick: () => {
+          <Notice />
+        }
       }
     ]
   },
@@ -136,27 +170,42 @@ const users = [
       {
         id: 1,
         primaryText: 'Dashboard',
-        icon: <Dashboard fontSize='large' />
+        icon: <Dashboard /*fontSize='large'*/ />,
+        onClick: () => {
+          //
+        }
       },
       {
         id: 2,
         primaryText: 'Intern Application',
-        icon: <Ballot fontSize='large' />
+        icon: <Ballot /*fontSize='large'*/ />,
+        onClick: () => {
+          //
+        }
       },
       {
         id: 3,
-        primaryText: 'Comapany Choice',
-        icon: <LocationCity fontSize='large' />
+        primaryText: 'Comapany',
+        icon: <LocationCity /*fontSize='large'*/ />,
+        onClick: () => {
+          //
+        }
       },
       {
         id: 4,
         primaryText: 'Daily Report',
-        icon: <Assessment fontSize='large' />
+        icon: <Assessment /*fontSize='small'*/ />,
+        onClick: () => {
+          //
+        }
       },
       {
         id: 5,
         primaryText: 'Notice',
-        icon: <Notifications fontSize='large' />
+        icon: <Notifications /*fontSize='samll'*/ />,
+        onClick: () => {
+          <Notice />
+        }
       }
     ]
   }
@@ -166,17 +215,19 @@ const controlItems = [
   {
     id: 1,
     label: 'Settings',
-    icon: <Settings fontSize='large'/>
+    icon: <Settings /*fontSize='samll'*//>,
+    // path: 
   },
   {
     id: 2,
     label: 'Back',
-    icon: < ArrowBack fontSize='large'/>
+    icon: < ArrowBack /*fontSize='small'*//>,
   },
   {
     id: 3,
     label: 'Log out',
-    icon: <Logout fontSize='large'/>
+    icon: <Logout /*fontSize='small'*//>,
+    path: './Pages/Shared/Login/Login'
   }
 ];
 
@@ -193,7 +244,14 @@ export default function Sidebar() {
   //     .then(data => setPage(data.Page))   //setName, setImage
   //     .catch(error => console.error(error));
   // }, []);
-  //sx={{ width: `calc(100% - ${200}px)`}  
+  //sx={{ width: `calc(100% - ${200}px)`}
+  
+  // const history = useHistory();
+
+  // const handleControlItems = (path) => {
+  //   history.push(path);
+  // }
+
   const theme = createTheme({
     palette: {
       secondary: {
@@ -205,7 +263,7 @@ export default function Sidebar() {
     },
   });
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -231,8 +289,6 @@ export default function Sidebar() {
           // elevation={0}
           sx={{
             bgcolor: '#4665d2',
-            borderTopLeftRadius: '20px',
-            borderBottomLeftRadius: '20px',
             // width: { sm: `calc(100% - ${drawerWidth}px)` },
             ml: { sm: `${drawerWidth}px` },
           }}
@@ -278,7 +334,6 @@ export default function Sidebar() {
             boxSizing: 'border-box',
             bgcolor: '#4665d2',
             color: '#f4f6fc',
-            borderRadius: '0px 20px 20px 0px'
           },
         }}
         
@@ -291,49 +346,46 @@ export default function Sidebar() {
             <ChevronLeft />
           </IconButton>
         </DrawerHeader>
-        <Grid container justifyContent="center">
-          <Stack sx={{ position:'relative', top:20 }}>
+        
+        <Stack position={'relative'} bottom={20}>
+          <Grid container justifyContent="center">
             <Unilogo width='50px' height='100px'/>
-          </Stack>
-        </Grid>
+          </Grid>
 
-        <Stack>
           <Typography
             variant={'h6'}
             fontWeight={'bold'}
             letterSpacing={5}
             sx={{
               position:'relative',
-              top:30,
+              top:5,
               lineHeight:1.2
             }}>
             ITMS
           </Typography>
         </Stack>
         
-        <Stack sx={{position:'relative', top:100}}>
-          
+        <Stack sx={{position:'relative', top:20}}>
           {users.map((user) => (            
             <ListItem key={user.name} disablePadding >
             </ListItem>              
           ))}
           {currentUser.items.map((item) => (
-            <ListItemButton key={item.id} sx={buttonStyles}>
+            <ListItemButton key={item.id} sx={buttonStyles} onClick={item.onClick}>
               <ListItemIcon>
                 {item.icon}
               </ListItemIcon>
               <ListItemText primary={item.primaryText} />              
             </ListItemButton>
           ))}
-
-        </Stack>       
+        </Stack>
         
-        <Stack sx={{position:'relative', top:200}}>
+        <Stack sx={{position:'relative', top:100}}>
           {controlItems.map((controlItem) => (
             // <ListItem key={text} disablePadding>              
                 <ListItemButton
                   key={controlItem.id}
-                  sx={buttonStyles}>
+                  sx={buttonStyles} /*onClick={() => handleControlItems(item.path)}*/>
                     <ListItemIcon>
                       {controlItem.icon}
                     </ListItemIcon>
