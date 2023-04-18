@@ -48,6 +48,7 @@ import { AdminSettings } from './Pages/Admin/AdminSettings'
 import { SupervisorSettings } from './Pages/Supervisor/SupervisorSettings'
 import { DepartmentSettings } from './Pages/Department/DepartmentSettings'
 import { DepartmentStudentProfile } from './Pages/Department/DepartmentStudentProfile'
+import { NoticeBoard } from './components/Notice/NoticeBoard'
 
 function App() {
 
@@ -107,6 +108,7 @@ function App() {
         <Route path='testnotice' element={<Notice />}></Route>
         <Route path='test' element={<Test />}></Route>
         <Route path='testsidebar' element={<Sidebar />}></Route>
+        <Route path='noticeboard' element={<NoticeBoard />}></Route>
       </Route>
 
     </Route>

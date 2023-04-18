@@ -122,7 +122,7 @@ export const StudentDashboard = () => {
             <Stack>
               <Tile>
                 {/* notice  */}
-                {/* <NoticeBoard></NoticeBoard> */}
+                <NoticeBoard></NoticeBoard>
               </Tile>
             </Stack>
             <PrivateNotePanel />
