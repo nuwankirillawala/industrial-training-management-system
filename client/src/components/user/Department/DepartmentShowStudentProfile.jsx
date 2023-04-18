@@ -6,13 +6,14 @@ import { ShowStudentResults } from '../Shared/ShowStudentResult/ShowStudentResul
 
 export const DepartmentShowStudentProfile = () => {
   return (
-    <Tile>
-        {/* student profile details */}
-        <Stack direction={'column'} spacing={2}>
-            <Stack justifyItems={'center'} alignItems={'center'} spacing={2} direction={'row'}>
+    
+        // {/* student profile details */}
+        <Stack direction={'row'} spacing={5}>
+
+            <Stack justifyItems={'center'} alignItems={'center'} spacing={2} direction={'column'} flex={1}>
                 <Avatar width={'140px'} height={'140px'} />
                 <Stack direction={'column'}>
-                    <Typography variant='h6' fontWeight={'bold'}>Gavesh Madushan Sooriyaarachchi</Typography>
+                    <Typography variant='body' fontWeight={'bold'}>Gavesh Madushan Sooriyaarachchi</Typography>
                     <Box>
                         <Button
                             variant='itms'
@@ -22,7 +23,7 @@ export const DepartmentShowStudentProfile = () => {
                 </Stack>
             </Stack>
 
-            <Stack direction={'row'} justifyContent={'center'} spacing={2}>
+            <Stack direction={'row'} justifyContent={'center'} spacing={2} flex={2}>
                 <Stack spacing={0.5} minWidth={'100px'}>
                 {['Name ',
                     'Reg. No ',
@@ -50,11 +51,13 @@ export const DepartmentShowStudentProfile = () => {
                 </Stack>
             </Stack>
 
-            <Stack direction={'column'} alignItems={'center'}>
+            <Stack direction={'column'} alignItems={'center'} flex={2}>
+            {/* <Stack flex={2}> */}
                 <Typography variant='h6' fontWeight={'bold'}>Skills</Typography>
-                
+                <Button variant='itms'>show skills here</Button>
             </Stack>
+            
         </Stack>
-    </Tile>
+
   )
 }
