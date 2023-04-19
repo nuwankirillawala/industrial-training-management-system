@@ -3,7 +3,6 @@ import AuthState from './Context/Auth/AuthState';
 import { Fragment } from 'react'
 import {router} from './Routes';
 
-
 function App() {
   return (
     <AuthState>

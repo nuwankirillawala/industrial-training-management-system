@@ -81,7 +81,7 @@ function RedirectUpdateNRemoveuser(text) {
 }
 
 
-export const Manageuser = () => {
+export const ManageUser = () => {
 
     const navigate = useNavigate()
 

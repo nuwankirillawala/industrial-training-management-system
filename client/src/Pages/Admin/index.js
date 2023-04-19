@@ -16,7 +16,7 @@ import ViewDepartmentCoordinator from './UserCRUD/ViewUser/ViewDepartmentCoordin
 import ViewStudent from './UserCRUD/ViewUser/ViewStudent';
 import ViewSupervisor from './UserCRUD/ViewUser/ViewSupervisor';
 
-import ManageUser from './UserCRUD/ManageUser';
+import {ManageUser} from './UserCRUD/ManageUser';
 import UserCreated from './UserCRUD/UserCreated';
 
 import AlumniList from './Alumni/AlumniList';
