@@ -1,6 +1,6 @@
 import { fontSize, Stack } from '@mui/system';
 import React, { useState } from 'react'
-import { Tile } from '../../components/card/Tile';
+import { Tile } from '../../../components/card/Tile';
 import { Grid, Typography } from '@mui/material';
 import { Button } from '@mui/material';
 //import { useState, useEffect } from "react";
