@@ -48,8 +48,8 @@ export const StudentCvUpdate = () => {
     readingLevel: "",
   });
 
-  const passDataFromChild = (newValue) => {
-    setEnglishProficiency(newValue);
+  const passDataFromChild = () => {
+    // setEnglishProficiency(newValue);
     console.log(englishProficiency);
   };
   //End of Testing
