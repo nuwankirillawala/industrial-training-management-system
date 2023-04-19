@@ -1,15 +1,10 @@
-import React from "react"
-import { UpdateCompanyForm } from "../Forms/UpdateCompanyForm";
 import { Stack } from "@mui/system";
+import React from "react";
 import { useState, useEffect } from "react";
-import { Button, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { Tile } from "../../../card/Tile";
-import Dialogbox from "../../../Dialogbox/Dialogbox";
-import { RemoveUserForm } from "../Forms/RemoveUserForm";
 
-
-export const UpdateNRemoveCompany = () => {
-
+export const ViewCompanySupervisor = () => {
     const [Column, setColumn] = useState([])
     const [Records, setRecords] = useState([])
 
@@ -22,9 +17,7 @@ export const UpdateNRemoveCompany = () => {
             })
     }, [])
 
-
     return (
-
         <Tile>
             <Stack>
                 <Table>
@@ -40,12 +33,10 @@ export const UpdateNRemoveCompany = () => {
                     <TableBody>
 
                         {Records.map((r, i) =>
-                            <TableRow key={i} >
+                            <TableRow key={i}>
                                 <TableCell >   {r.id}  </TableCell>
                                 <TableCell >   {r.title}  </TableCell>
                                 <TableCell >   {r.description} </TableCell>
-                                <TableCell> <Dialogbox title="Update Company" btn_name="update"><UpdateCompanyForm /></Dialogbox></TableCell>
-                                <TableCell> <Dialogbox title="Remove Company" btn_name="remove"><RemoveUserForm /></Dialogbox></TableCell>
                             </TableRow> //id,title,description need to change as json file
                         )}
 
@@ -54,6 +45,5 @@ export const UpdateNRemoveCompany = () => {
 
             </Stack>
         </Tile>
-
     )
-}  
+} 
