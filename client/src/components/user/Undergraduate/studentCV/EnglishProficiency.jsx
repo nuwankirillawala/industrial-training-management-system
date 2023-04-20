@@ -27,7 +27,7 @@ export const EnglishProficiency = (props) => {
   });
 
   // //Testing
-  // const { handleChildState, ...otherProps } = props;
+  const { passDataFromChild } = props;
   // //End of Testing
 
   //Controllers of Slider TEMP
@@ -72,7 +72,7 @@ export const EnglishProficiency = (props) => {
   const handleSubmit = () => {
     console.log(value);
     console.log("now from parent");
-    props.passDataFromChild({ value });
+    passDataFromChild();
   };
 
   return (
