@@ -85,6 +85,22 @@ module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
     }
 });
 
+// Method = GET
+// Endpoint = "/view-all-users/:userType"
+// Description = View all users by user type
+module.exports.viewInternList = catchAsync(async (req, res) => {
+    try {
+        const users = await Undergraduate.find().select('name regNo gpa weightedGPA internStatus');
+
+        res.status(200).json({ users });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
+
+
 // Method = PATCH
 // Endpoint = "/company-selection"
 // Description = Select companies for internship

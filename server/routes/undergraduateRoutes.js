@@ -13,6 +13,9 @@ router.route('/view-undergraduate-profile')
 router.route('/update-undergraduate-profile')
     .patch(undergraduateController.updateUndergraduateProfile)
 
+router.route('/view-intern-list')
+    .get(undergraduateController.viewInternList)
+
 router.route('/company-selection')
     .patch(undergraduateController.companySelection)
 
