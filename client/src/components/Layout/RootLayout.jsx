@@ -4,6 +4,17 @@ import { Outlet } from "react-router-dom";
 
 const baseColor = "#4665D2"
 const baseFontColor = "#363853"
+const color_main_blue = '#4665D2'
+const color_purple = '#7B65D2'
+const color_light_blue = "#6EA8FF"
+const color_very_light_blue = '#E2EDFF'
+const color_mid_blue = '#6382D9'
+const color_green = '#65D246'
+const color_red = '#D24665'
+const color_gray= '#666666'
+const color_light_gray = '#ccc'
+const color_blue_purple = '#675FD6'
+// const color_light_gray = 
 
 const getTheme = (theme) => ({
 
@@ -16,6 +27,7 @@ const getTheme = (theme) => ({
         common: {
             black: baseFontColor
         },
+        mode: 'light',
 
         primary: {
             main: baseColor,
@@ -24,9 +36,27 @@ const getTheme = (theme) => ({
             primary: baseFontColor,
         },
         background: {
-            default: "#E2EDFF",
+            default: color_very_light_blue,
             paper: "#F5F8FF",
         },
+        secondary: {
+            main: color_gray,
+        },
+        error: {
+            main: color_red,
+        },
+        info: {
+            main: color_light_blue,
+        },
+        blueColor: {
+            main: color_mid_blue,
+            purple: color_blue_purple,
+            light: color_light_blue,
+        },
+        gray:{
+            main: color_gray,
+            light: color_light_gray,
+        }
 
     },
 
@@ -35,19 +65,19 @@ const getTheme = (theme) => ({
             color: baseFontColor,
         }
     },
-    
+
     components: {
         MuiButton: {
             //new button varient itms
             variants: [
                 {
-                    props: {variant: "itms"},
+                    props: { variant: "itms" },
                     style: {
                         background: baseColor,
                         color: '#F5F8FF',
                         '&:hover': {
                             background: baseFontColor,
-                            
+
                         },
                         borderRadius: '10px',
                         margin: '2px',
@@ -55,14 +85,14 @@ const getTheme = (theme) => ({
                     },
                 },
                 {
-                    props: {size: "itms-large"},
+                    props: { size: "itms-large" },
                     style: {
                         padding: '8px 22px',
                         fontSize: '0.9rem'
                     },
                 },
                 {
-                    props: {size: "itms-small"},
+                    props: { size: "itms-small" },
                     style: {
                         padding: '4px 10px',
                         fontSize: '0.7rem',
@@ -100,7 +130,7 @@ const getTheme = (theme) => ({
                 root: {
                     borderRadius: '0px 0px 0px 0px'
                 }
-                
+
             }
         },
         MuiIconButton: {
@@ -115,10 +145,10 @@ export const RootLayout = () => {
     const defaultTheme = createTheme();
     let theme = createTheme(getTheme(defaultTheme))
 
-    return(
+    return (
         <ThemeProvider theme={theme}>
-            <CssBaseline/>
-            <Outlet/>
+            <CssBaseline />
+            <Outlet />
         </ThemeProvider>
     )
 }
