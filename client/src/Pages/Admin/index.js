@@ -84,5 +84,4 @@ export {
     ViewResultsheet,
     AssignSupervisorForIntern,
     SupervisorList,
-
 };

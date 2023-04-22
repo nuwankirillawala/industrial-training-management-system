@@ -20,10 +20,10 @@ function RedirectAdduser(text) {
             return '/addadmin'
             break;
         case 'Department CoOrdinator':
-            return '/add-superv-details' // still the form is not created
+            return '/add-superv-details'
             break;
         case 'Undergraduate':
-            return '/add-undg-details'
+            return '/add-undergraduate-details'
             break;
         case 'Company Supervisor':
             return '/add-companySupervisor-details'
@@ -97,8 +97,11 @@ export const ManageUser = () => {
     return (
 
         <Grid container spacing={2}>
+            <Grid item lg={12} md={12} sm={12}>
+                <Typography variant="subtitle1">Manage Users</Typography>
+            </Grid>
             {userList.map((user, index) => (
-                <Grid item md={2.4} sm={6} key={index}>
+                <Grid item md={4} sm={6} lg={2.4} key={index}>
                     <Tile height={'88vh'}>
                         <Stack ><Icon color='primary' fontSize='large'><user.icon /> </Icon></Stack>
                         {/* sx={{ display: 'flex-end', alignItems: 'center' }} If want icons in center*/}

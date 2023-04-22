@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import {
   Box,
@@ -11,13 +11,11 @@ import {
   IconButton,
   Toolbar,
   AppBar,
-  Snackbar,
   DialogActions,
   DialogTitle,
   DialogContent,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import MuiAlert from "@mui/material/Alert";
 import CloseIcon from "@mui/icons-material/Close";
 import { Tile } from "../../components/card/Tile";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
@@ -25,6 +23,8 @@ import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { EnglishProficiency } from "../../components/user/Undergraduate/studentCV/EnglishProficiency";
+import { PopUpDialog } from "../../components/user/Undergraduate/studentCV/PopUpDialog";
+import { StatusSnackBar } from "../../components/StatusSnackBar/StatusSnackBar";
 
 //creating transition for dialog
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -32,14 +32,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 //end of creation transition for dialog
 
-//creating alert by importing MuiAlert
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-//end of creating alert by importing MuiAlert
-
 export const StudentCvUpdate = () => {
-  // Testing
+  //Data for End point
   const [englishProficiency, setEnglishProficiency] = useState({
     olResult: "",
     alResult: "",
@@ -48,21 +42,46 @@ export const StudentCvUpdate = () => {
     readingLevel: "",
   });
 
-  const passDataFromChild = () => {
-    // setEnglishProficiency(newValue);
-    console.log(englishProficiency);
+  const passDataFromChild = (newValue) => {
+    setEnglishProficiency(newValue);
+    // console.log(englishProficiency);
   };
-  //End of Testing
+  //End of Data for End Point
 
-  //useState for dialog EnglishProficiency
-  const [epOpen, setEpOpen] = React.useState(false);
-  //End of useState for dialog EnglishProficiency
+  //useState for PopUpDialog
+  const [openForm, setOpenForm] = React.useState({
+    englishProficiency: false,
+    programmingLanguages: false,
+    otherSkills: false,
+    projects: false,
+  });
+  //End of useState for PopUpDialog
 
-  //handling setEpOpen
-  const handleCloseEP = () => {
-    setEpOpen(false);
+  //Control Stack toggle
+  const [isStackOpen, setStackOpen] = useState({
+    englishProficiency: false,
+    programmingLanguages: false,
+    otherSkills: false,
+    projects: false,
+  });
+
+  const toggleStack = (key) => {
+    setStackOpen((prevState) => {
+      prevState[key] = !prevState[key];
+    });
   };
-  //End of handling setEpOpen
+  //End of Control Stack toggle
+
+  //Handling state for PopUpDialog
+  const togglePopup = (key) => {
+    setOpenForm((prevState) => {
+      let newState = { ...prevState };
+      newState[key] = !newState[key];
+      // console.log(newState);
+      return newState;
+    });
+  };
+  //End of handling state for PopUpDialog
 
   //useState for snackbar and dialog of pdf selector
   const [open, setOpen] = React.useState(false);
@@ -73,17 +92,7 @@ export const StudentCvUpdate = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  //end of handling dialog closing
-
-  //handling snackbar closing
-  const errorHandleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setErrorOpen(false);
-  };
-  //end of handling snackbar closing
+  //End of Handling dialog closing
 
   //useStates for pdfviewer
   const [PDFFile, setPDFFile] = useState(null);
@@ -97,6 +106,7 @@ export const StudentCvUpdate = () => {
   //handling the change in file picker
   const handleChange = (e) => {
     let selectedFile = e.target.files[0];
+    console.log(selectedFile.type);
     if (selectedFile) {
       if (selectedFile && fileType.includes(selectedFile.type)) {
         let reader = new FileReader();
@@ -128,15 +138,15 @@ export const StudentCvUpdate = () => {
   };
   //end of view pdf
 
+  //newpluging creation for pdf viewer
+  const newplugin = defaultLayoutPlugin();
+  //end of new plugin creation for pdf viewer
+
   //End point
   const handleSubmit = (e) => {
     console.log("EndPoint here");
   };
   //end of the end point
-
-  //newpluging creation for pdf viewer
-  const newplugin = defaultLayoutPlugin();
-  //end of new plugin creation for pdf viewer
 
   return (
     <Box>
@@ -161,30 +171,24 @@ export const StudentCvUpdate = () => {
                   English Proficiency
                 </Typography>
                 <IconButton
-                  aria-label="delete"
                   name="addEnglishProficiency"
-                  onClick={(e) => {
-                    setEpOpen(true);
+                  onClick={() => {
+                    togglePopup("englishProficiency");
                   }}
                 >
                   <AddIcon />
                 </IconButton>
-                <Dialog open={epOpen} onClose={handleCloseEP}>
-                  <DialogTitle id="EnglishProficiency">
-                    {"English Proficiency"}
-                  </DialogTitle>
-                  <DialogContent>
-                    <Tile>
-                      <EnglishProficiency
-                        passDataFromChild={passDataFromChild}
-                      />
-                    </Tile>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleCloseEP}>close</Button>
-                  </DialogActions>
-                </Dialog>
+                <PopUpDialog
+                  open={openForm.englishProficiency}
+                  setOpen={() => {
+                    togglePopup("englishProficiency");
+                  }}
+                  id={"EnglishProficiency"}
+                >
+                  <EnglishProficiency passDataFromChild={passDataFromChild} />
+                </PopUpDialog>
               </Stack>
+              <></>
             </Tile>
 
             <Tile>
@@ -198,27 +202,20 @@ export const StudentCvUpdate = () => {
                   Programming languages
                 </Typography>
                 <IconButton
-                  aria-label="delete"
                   name="addProgrammingLanguages"
-                  onClick={(e) => {
-                    setEpOpen(true);
+                  onClick={() => {
+                    togglePopup("programmingLanguages");
                   }}
                 >
                   <AddIcon />
                 </IconButton>
-                <Dialog open={epOpen} onClose={handleCloseEP}>
-                  <DialogTitle id="programminglanguages">
-                    {"Programming languages"}
-                  </DialogTitle>
-                  <DialogContent>
-                    <Tile>
-                      <EnglishProficiency />
-                    </Tile>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleCloseEP}>close</Button>
-                  </DialogActions>
-                </Dialog>
+                <PopUpDialog
+                  open={openForm.programmingLanguages}
+                  setOpen={() => {
+                    togglePopup("programmingLanguages");
+                  }}
+                  id={"ProgrammingLanguages"}
+                ></PopUpDialog>
               </Stack>
             </Tile>
 
@@ -233,25 +230,20 @@ export const StudentCvUpdate = () => {
                   Other Skills
                 </Typography>
                 <IconButton
-                  aria-label="delete"
                   name="addOtherSkills"
-                  onClick={(e) => {
-                    setEpOpen(true);
+                  onClick={() => {
+                    togglePopup("otherSkills");
                   }}
                 >
                   <AddIcon />
                 </IconButton>
-                <Dialog open={epOpen} onClose={handleCloseEP}>
-                  <DialogTitle id="otherSkills">{"Other skills"}</DialogTitle>
-                  <DialogContent>
-                    <Tile>
-                      <EnglishProficiency />
-                    </Tile>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleCloseEP}>close</Button>
-                  </DialogActions>
-                </Dialog>
+                <PopUpDialog
+                  open={openForm.otherSkills}
+                  setOpen={() => {
+                    togglePopup("otherSkills");
+                  }}
+                  id={"OtherSkills"}
+                ></PopUpDialog>
               </Stack>
             </Tile>
 
@@ -266,25 +258,20 @@ export const StudentCvUpdate = () => {
                   Projects
                 </Typography>
                 <IconButton
-                  aria-label="delete"
                   name="addProjects"
-                  onClick={(e) => {
-                    setEpOpen(true);
+                  onClick={() => {
+                    togglePopup("projects");
                   }}
                 >
                   <AddIcon />
                 </IconButton>
-                <Dialog open={epOpen} onClose={handleCloseEP}>
-                  <DialogTitle id="projects">{"Projects"}</DialogTitle>
-                  <DialogContent>
-                    <Tile>
-                      <EnglishProficiency />
-                    </Tile>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleCloseEP}>close</Button>
-                  </DialogActions>
-                </Dialog>
+                <PopUpDialog
+                  open={openForm.projects}
+                  setOpen={() => {
+                    togglePopup("projects");
+                  }}
+                  id={"projects"}
+                ></PopUpDialog>
               </Stack>
             </Tile>
           </Stack>
@@ -364,22 +351,12 @@ export const StudentCvUpdate = () => {
                     </Box>
                   </Dialog>
 
-                  {/* error massage snackbar*/}
-
-                  <Snackbar
-                    open={errorOpen}
-                    autoHideDuration={6000}
-                    onClose={errorHandleClose}
-                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                  >
-                    <Alert
-                      onClose={errorHandleClose}
-                      severity="error"
-                      sx={{ width: "100%" }}
-                    >
-                      Input Error!
-                    </Alert>
-                  </Snackbar>
+                  <StatusSnackBar
+                    trigger={errorOpen}
+                    setTrigger={setErrorOpen}
+                    severity="error"
+                    alertMessage="Input Error"
+                  />
                 </Tile>
               </Box>
             </Grid>
