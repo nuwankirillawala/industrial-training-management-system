@@ -2,7 +2,7 @@ import React from "react"
 import { UpdateAdminForm } from "../Forms/UpdateAdminForm";
 import { Stack } from "@mui/system";
 import { useState, useEffect } from "react";
-import { Button, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { Tile } from "../../../card/Tile";
 import Dialogbox from "../../../Dialogbox/Dialogbox";
 import { RemoveUserForm } from "../Forms/RemoveUserForm";
@@ -26,36 +26,37 @@ export const UpdateNRemoveUndergraduate = () => {
 
 
     return (
+        <>
+            <Typography variant="subtitle1">Update or Remove Undergraduate</Typography>
+            <Tile>
+                <Stack>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                {Column.map((c, i) =>
+                                    <TableCell key={i}>
+                                        {c}
+                                    </TableCell>
+                                )}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
 
-        <Tile>
-            <Stack>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            {Column.map((c, i) =>
-                                <TableCell key={i}>
-                                    {c}
-                                </TableCell>
+                            {Records.map((r, i) =>
+                                <TableRow key={i} >
+                                    <TableCell >   {r.id}  </TableCell>
+                                    <TableCell >   {r.title}  </TableCell>
+                                    <TableCell >   {r.description} </TableCell>
+                                    <TableCell> <Dialogbox title="Update Undergraduate" btn_name="update"><UpdateUndergraduateForm /></Dialogbox></TableCell>
+                                    <TableCell> <Dialogbox title="Remove Undergraduate" btn_name="remove"><RemoveUserForm /></Dialogbox></TableCell>
+                                </TableRow> //id,title,description need to change as json file
                             )}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
 
-                        {Records.map((r, i) =>
-                            <TableRow key={i} >
-                                <TableCell >   {r.id}  </TableCell>
-                                <TableCell >   {r.title}  </TableCell>
-                                <TableCell >   {r.description} </TableCell>
-                                <TableCell> <Dialogbox title="Update Undergraduate" btn_name="update"><UpdateUndergraduateForm /></Dialogbox></TableCell>
-                                <TableCell> <Dialogbox title="Remove Undergraduate" btn_name="remove"><RemoveUserForm /></Dialogbox></TableCell>
-                            </TableRow> //id,title,description need to change as json file
-                        )}
+                        </TableBody>
+                    </Table>
 
-                    </TableBody>
-                </Table>
-
-            </Stack>
-        </Tile>
-
+                </Stack>
+            </Tile>
+        </>
     )
 }  
