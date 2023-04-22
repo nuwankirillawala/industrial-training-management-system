@@ -120,7 +120,7 @@ export const DailyReportForm = () => {
                                     <Typography>Monday</Typography><TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)} ></TextField>
                                 </Grid>
                                 <Grid item md={6}>
-                                    <Typography >{mondayvalues.mondayReportData}</Typography>
+                                    <Typography style={{ wordWrap: 'break-word' }} >{mondayvalues.mondayReportData}</Typography>
                                 </Grid>
                                 <Grid item md={2}><Typography>Verification</Typography></Grid>
                                 <Grid item md={1}>
@@ -153,7 +153,7 @@ export const DailyReportForm = () => {
                                     <Typography>Tuesday</Typography><TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)}></TextField>
                                 </Grid>
                                 <Grid item md={6}>
-                                    <Typography >{tuesdayvalues.tuesdayReportData}</Typography>
+                                    <Typography style={{ wordWrap: 'break-word' }}>{tuesdayvalues.tuesdayReportData}</Typography>
                                 </Grid>
                                 <Grid item md={2}><Typography>Verification</Typography></Grid>
                                 <Grid item md={1}>
@@ -186,7 +186,7 @@ export const DailyReportForm = () => {
                                     <Typography>Wednesday</Typography><TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)} ></TextField>
                                 </Grid>
                                 <Grid item md={6}>
-                                    <Typography >{wednesdayvalues.wednesdayReportData}</Typography>
+                                    <Typography style={{ wordWrap: 'break-word' }}>{wednesdayvalues.wednesdayReportData}</Typography>
                                 </Grid>
                                 <Grid item md={2}><Typography>Verification</Typography></Grid>
                                 <Grid item md={1}>
@@ -219,7 +219,7 @@ export const DailyReportForm = () => {
                                     <Typography>Thursday</Typography><TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)}></TextField>
                                 </Grid>
                                 <Grid item md={6}>
-                                    <Typography >{thursdayvalues.thursdayReportData}</Typography>
+                                    <Typography style={{ wordWrap: 'break-word' }} >{thursdayvalues.thursdayReportData}</Typography>
                                 </Grid>
                                 <Grid item md={2}><Typography>Verification</Typography></Grid>
                                 <Grid item md={1}>
@@ -252,7 +252,7 @@ export const DailyReportForm = () => {
                                     <Typography>Friday</Typography><TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)}></TextField>
                                 </Grid>
                                 <Grid item md={6}>
-                                    <Typography >{fridayvalues.fridayReportData}</Typography>
+                                    <Typography style={{ wordWrap: 'break-word' }}>{fridayvalues.fridayReportData}</Typography>
                                 </Grid>
                                 <Grid item md={2}><Typography>Verification</Typography></Grid>
                                 <Grid item md={1}>
@@ -285,7 +285,7 @@ export const DailyReportForm = () => {
                                     <Typography>Saturday</Typography><TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)} ></TextField>
                                 </Grid>
                                 <Grid item md={6}>
-                                    <Typography >{saturdayvalues.saturdayReportData}</Typography>
+                                    <Typography style={{ wordWrap: 'break-word' }} >{saturdayvalues.saturdayReportData}</Typography>
                                 </Grid>
                                 <Grid item md={2}><Typography>Verification</Typography></Grid>
                                 <Grid item md={1}>
@@ -318,7 +318,7 @@ export const DailyReportForm = () => {
                                     <Typography>Sunday</Typography><TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)}></TextField>
                                 </Grid>
                                 <Grid item md={6}>
-                                    <Typography >{sundayvalues.sundayReportData}</Typography>
+                                    <Typography style={{ wordWrap: 'break-word' }}>{sundayvalues.sundayReportData}</Typography>
                                 </Grid>
                                 <Grid item md={2}><Typography>Verification</Typography></Grid>
                                 <Grid item md={1}>
