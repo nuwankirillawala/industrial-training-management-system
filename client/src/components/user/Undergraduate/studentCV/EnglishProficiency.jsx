@@ -17,7 +17,7 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { Button } from "@mui/material";
 
-export const EnglishProficiency = (props) => {
+export const EnglishProficiency = ({ passDataFromChild }) => {
   const [value, setValue] = useState({
     olResult: "",
     alResult: "",
@@ -25,10 +25,6 @@ export const EnglishProficiency = (props) => {
     writingLevel: "",
     readingLevel: "",
   });
-
-  // //Testing
-  const { passDataFromChild } = props;
-  // //End of Testing
 
   //Controllers of Slider TEMP
   const handleSliderChange = (e) => {
@@ -69,11 +65,19 @@ export const EnglishProficiency = (props) => {
   };
   //End of onchange Radio group
 
+  //handle submit button
   const handleSubmit = () => {
     console.log(value);
     console.log("now from parent");
-    passDataFromChild();
+    passDataFromChild({
+      olResult: value.olResult,
+      alResult: value.alResult,
+      speakingLevel: value.speakingLevel,
+      writingLevel: value.writingLevel,
+      readingLevel: value.readingLevel,
+    });
   };
+  //end of handle submit button
 
   return (
     <form>
