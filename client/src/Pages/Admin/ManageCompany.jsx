@@ -28,7 +28,7 @@ export const ManageCompany = () => {
     return (
         <Grid>
             <Grid item sm={12} md={12}>
-                <Typography variant="h6" color="primary" marginBottom={'5px'} paddingLeft={'15px'}>Add new Company</Typography>
+                <Typography variant="subtitle1">Add new Company</Typography>
             </Grid>
             <Grid item sm={12} md={12}>
                 <Tile>
@@ -38,8 +38,10 @@ export const ManageCompany = () => {
                     </Stack>
                 </Tile>
             </Grid>
+
+
             <Grid item sm={12} md={12}>
-                <Typography variant="h6" color="primary" marginBottom={'5px'} paddingLeft={'15px'}>Manage Company</Typography>
+                <Typography variant="subtitle1">Manage Company</Typography>
             </Grid>
             <Grid item sm={12} md={12}>
                 <Tile>
@@ -65,7 +67,6 @@ export const ManageCompany = () => {
                                         <TableCell> <Dialogbox title="Remove Company" btn_name="remove"><RemoveUserForm /></Dialogbox></TableCell>
                                     </TableRow> //id,title,description need to change as json file
                                 )}
-
                             </TableBody>
                         </Table>
 
