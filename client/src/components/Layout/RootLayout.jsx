@@ -114,7 +114,7 @@ const getTheme = (theme) => ({
                     style: {
                         color: color_red,
                     },
-                  },
+                },
             ],
 
             defaultProps: {
