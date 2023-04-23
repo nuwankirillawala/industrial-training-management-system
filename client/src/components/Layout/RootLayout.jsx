@@ -63,7 +63,13 @@ const getTheme = (theme) => ({
     typography: {
         body2: {
             color: baseFontColor,
-        }
+        },
+        head1: {
+            color: baseColor,
+            fontSize: "2.125rem",
+            fontWeight: "500"
+        },
+
     },
 
     components: {
@@ -97,7 +103,13 @@ const getTheme = (theme) => ({
                         padding: '4px 10px',
                         fontSize: '0.7rem',
                     },
-                }
+                },
+                {
+                    props: { type: "close" },
+                    style: {
+                        color: color_red,
+                    },
+                  },
             ],
 
             defaultProps: {
