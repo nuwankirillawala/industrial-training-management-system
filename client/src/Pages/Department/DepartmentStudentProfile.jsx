@@ -1,10 +1,45 @@
-import React from 'react'
-import { Stack, Grid, Box, Typography, Select, Button, Table, TableContainer, TableHead, TableBody, TableRow, TableCell } from '@mui/material'
+import React ,{ useState } from 'react'
+import { Stack, Grid, Box, Typography, Select, Button } from '@mui/material'
 import { Tile } from '../../components/card/Tile'
 import { DepartmentShowStudentProfile } from '../../components/user/Department/DepartmentShowStudentProfile'
 import { ShowStudentResults } from '../../components/user/Shared/ShowStudentResult/ShowStudentResults'
+import { DataGrid } from '@mui/x-data-grid'
+
+import jsonData from '../Admin/ReportSubmission/data.json'
+
 
 export const DepartmentStudentProfile = () => {
+
+    const [rows, setRows] = useState([]);
+    const [uid, setId] = useState(null);
+    const [selectStudent, setSelectStudent] = useState(false);
+
+    const colums = [
+        {
+            field : "name",
+            headerName : 'Name',
+            width : 150,
+            editable : false,
+        },
+        {
+            field : "id",
+            headerName : 'Reg No',
+            width : "100%",
+            editable : false,
+        }
+    ]
+
+    const userData = (params) => {
+        try{
+            const userId = params.row.id;
+            setId(userId);
+            setSelectStudent(true);
+        }
+        catch (error){
+            console.log(error);
+        }
+    };
+
   return (
     <Grid container spacing={1}>
         <Grid item md={3}>
@@ -20,26 +55,28 @@ export const DepartmentStudentProfile = () => {
                             fullWidth
                             ></Select>
                     </Stack>
-                        <TableContainer>
-                            <Table stickyHeader size='small'>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell><b>Reg. No</b></TableCell>
-                                        <TableCell><b>Name</b></TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow>
-                                        <TableCell>SC/2019/11121</TableCell>
-                                        <TableCell>G.M.Sooriyaarachchi</TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                    <Stack>
+                        <Box
+                            sx={{
+                                height : '65vh',
+                                width : "100%",
+                                justifyContent : "center",
+                                textAlign : "center"
+                            }}
+                        >
+                            <DataGrid
+                                columns={colums}
+                                rows={jsonData}
+                                onRowClick={userData}
+                                gerRowId={(row) => row.id}
+                                />
+                        </Box>
+                    </Stack>
                 </Stack>
             </Tile>
         </Grid>
 
+        {selectStudent === true &&
         <Grid item md={9}>
             <Tile>
                 <Stack direction={'column'} spacing={1}>
@@ -53,6 +90,7 @@ export const DepartmentStudentProfile = () => {
                 </Stack>
             </Tile>
         </Grid>
+        }
     </Grid>
   )
 }

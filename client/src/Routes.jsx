@@ -26,6 +26,7 @@ import { UpdateNRemoveUndergraduate } from './components/user/Admin/updateNremov
 import Notice from './components/shared/Notice/Notice'
 import { AdminDashboard } from './Pages/Admin/AdminDashboard'
 import { AddCompany } from './components/user/Admin/addCompany/AddCompany'
+import { DailyReportForm } from './components/DailyReportForm/DailyReportForm'
 // Importing Pages
 import Login from './Pages/Shared/Login/Login';
 import Test from './components/Testing/Test';
@@ -33,6 +34,7 @@ import ForgotPassword from './Pages/Shared/ForgotPassword/ForgotPassword';
 import Sidebar from './components/Sidebar/Sidebar';
 
 import * as Admin from './Pages/Admin';
+import { DepartmentStudentProfile } from './Pages/Department/DepartmentStudentProfile'
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path='/' element={<RootLayout />}>
@@ -58,6 +60,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path="admin-dashboard" element={<AdminDashboard />} />
             <Route path="manage-company" element={<ManageCompany />} />
             <Route path="add-company" element={<AddCompany />} />
+            <Route path="department-studentprofile" element={<DepartmentStudentProfile />} />
 
             {/* student routes */}
             <Route path="student-dashboard" element={<StudentDashboard />} />
@@ -97,11 +100,12 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path='view-company' element={<Admin.ViewCompany />} />
             <Route path='company-intern-list' element={<Admin.CompanyInternList />} />
 
-            <Route path='intern-process-company' element={<Admin.InternProcessCompany />} />
+            <Route path='intern-process-company/:companyId' element={<Admin.InternProcessCompany />} />
             <Route path='intern-process-student' element={<Admin.InternProcessStudent />} />
             <Route path='intern-process-type' element={<Admin.InternProcessType />} />
             <Route path='view-intern-list' element={<Admin.ViewInternList />} />
             <Route path='view-intern-list-remain' element={<Admin.ViewInternListRemain />} />
+            <Route path='select-company' element={<Admin.SelectCompany />} />
 
             <Route path='daily-report' element={<Admin.DailyReport />} />
             <Route path='daily-report-list' element={<Admin.DailyReportList />} />
@@ -132,6 +136,8 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path='testnotice' element={<Notice />} />
             <Route path='test' element={<Test />} />
             <Route path='testsidebar' element={<Sidebar />} />
+            <Route path="daily-report-form" element={<DailyReportForm />} />
+
         </Route>
 
     </Route>

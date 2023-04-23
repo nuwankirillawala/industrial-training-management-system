@@ -3,7 +3,7 @@ import { UpdateAlumniForm } from "../Forms/UpdateAlumniForm";
 import { RemoveUserForm } from "../Forms/RemoveUserForm";
 import { Stack } from "@mui/system";
 import { useState, useEffect } from "react";
-import { Button, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { Tile } from "../../../card/Tile";
 import Dialogbox from "../../../Dialogbox/Dialogbox";
 
@@ -24,38 +24,40 @@ export const UpdateNRemoveAlumni = () => {
 
 
     return (
+        <>
+            <Typography variant="subtitle1">Update or Remove Alumni</Typography>
+            <Tile>
+                <Stack>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                {Column.map((c, i) =>
+                                    <TableCell key={i}>
+                                        {c}
+                                    </TableCell>
+                                )}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
 
-        <Tile>
-            <Stack>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            {Column.map((c, i) =>
-                                <TableCell key={i}>
-                                    {c}
-                                </TableCell>
+                            {Records.map((r, i) =>
+                                <TableRow key={i} >
+                                    <TableCell >   {r.id}  </TableCell>
+                                    <TableCell >   {r.title}  </TableCell>
+                                    <TableCell >   {r.description} </TableCell>
+                                    <TableCell> <Dialogbox title="Update Alumni user" btn_name="update"><UpdateAlumniForm /></Dialogbox></TableCell>
+                                    <TableCell ><Dialogbox title="Remove Alumni user" btn_name="remove"><RemoveUserForm /></Dialogbox>
+
+                                    </TableCell>
+                                </TableRow> //id,title,description need to change as json file
                             )}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
 
-                        {Records.map((r, i) =>
-                            <TableRow key={i} >
-                                <TableCell >   {r.id}  </TableCell>
-                                <TableCell >   {r.title}  </TableCell>
-                                <TableCell >   {r.description} </TableCell>
-                                <TableCell> <Dialogbox title="Update Alumni user" btn_name="update"><UpdateAlumniForm /></Dialogbox></TableCell>
-                                <TableCell ><Dialogbox title="Remove Alumni user" btn_name="remove"><RemoveUserForm /></Dialogbox>
+                        </TableBody>
+                    </Table>
 
-                                </TableCell>
-                            </TableRow> //id,title,description need to change as json file
-                        )}
-
-                    </TableBody>
-                </Table>
-
-            </Stack>
-        </Tile>
+                </Stack>
+            </Tile>
+        </>
 
     )
 }

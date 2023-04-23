@@ -1,5 +1,8 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material'
-const InternProcessTypeCard = ({image, title, content}) => {
+import { useNavigate } from 'react-router-dom';
+const InternProcessTypeCard = ({ image, title, content, goto }) => {
+    const navigate = useNavigate();
+    
     return (
         <Card sx={{ maxWidth: 380, backgroundColor: '#fff' }}>
             <CardMedia
@@ -16,7 +19,12 @@ const InternProcessTypeCard = ({image, title, content}) => {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small">Continue</Button>
+                <Button
+                    size="small"
+                    onClick={() => navigate(goto)}
+                >
+                    Continue
+                </Button>
             </CardActions>
         </Card>
     )

@@ -80,7 +80,7 @@ module.exports.editCompanyRating = catchAsync(async (req, res) => {
 // Description: View companies that select for intern application process
 module.exports.internProcessCompanyList = catchAsync(async (req, res) => {
     try {
-        const companyList = await Company.find({ connectedForIntern: false });
+        const companyList = await Company.find({ connectedForIntern: true });
 
         if (companyList.length === 0) {
             return res.status(404).json({ message: "No any company for intern process" });
@@ -156,8 +156,27 @@ module.exports.internProcess = catchAsync(async (req, res) => {
                 console.log("list full");
             }
         }
-        console.log(company01);
     } catch (err) {
         console.log(err);
     }
 })
+
+
+// Method: GET
+// Endpoint: "/intern-process-company"
+// Description: 
+module.exports.internProcessCompany = catchAsync(async (req, res) => {
+    try {
+        const companyId = req.body.companyId;
+        const company = await Company.findById(companyId);
+        const users = await Undergraduate.find().select('name regNo gpa weightedGPA internStatus');
+        
+        if(!company){
+            return res.status(400).json({message: "Can't find the company"});
+        }
+        console.log(company, users);
+        res.status(200).json({company, users});
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
