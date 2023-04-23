@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 
 const UploadResultsheet = () => {
-  return (
-    <div>UploadResultsheet</div>
-  )
-}
+  //references 'https://github.com/HamzaAnwar1998/Fetch-Excel-File-as-JSON-in-React/tree/main/src'
 
-export default UploadResultsheet
+  return <div>UploadResultsheet</div>;
+};
+
+export default UploadResultsheet;

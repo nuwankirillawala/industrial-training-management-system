@@ -26,6 +26,7 @@ import { UpdateNRemoveUndergraduate } from './components/user/Admin/updateNremov
 import Notice from './components/shared/Notice/Notice'
 import { AdminDashboard } from './Pages/Admin/AdminDashboard'
 import { AddCompany } from './components/user/Admin/addCompany/AddCompany'
+import { DailyReportForm } from './components/DailyReportForm/DailyReportForm'
 // Importing Pages
 import Login from './Pages/Shared/Login/Login';
 import Test from './components/Testing/Test';
@@ -133,6 +134,8 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path='testnotice' element={<Notice />} />
             <Route path='test' element={<Test />} />
             <Route path='testsidebar' element={<Sidebar />} />
+            <Route path="daily-report-form" element={<DailyReportForm />} />
+
         </Route>
 
     </Route>

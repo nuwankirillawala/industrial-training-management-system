@@ -11,7 +11,7 @@ const color_very_light_blue = '#E2EDFF'
 const color_mid_blue = '#6382D9'
 const color_green = '#65D246'
 const color_red = '#D24665'
-const color_gray= '#666666'
+const color_gray = '#666666'
 const color_light_gray = '#ccc'
 const color_blue_purple = '#675FD6'
 // const color_light_gray = 
@@ -53,7 +53,7 @@ const getTheme = (theme) => ({
             purple: color_blue_purple,
             light: color_light_blue,
         },
-        gray:{
+        gray: {
             main: color_gray,
             light: color_light_gray,
         }
@@ -64,13 +64,18 @@ const getTheme = (theme) => ({
         body2: {
             color: baseFontColor,
         },
+        subtitle1: { //for page titles
+            fontSize: '20px',
+            color: baseColor,
+            padding: '10px 15px'
+        }
         head1: {
             color: baseColor,
             fontSize: "2.125rem",
             fontWeight: "500"
         },
-
     },
+
 
     components: {
         MuiButton: {
@@ -103,7 +108,6 @@ const getTheme = (theme) => ({
                         padding: '4px 10px',
                         fontSize: '0.7rem',
                     },
-                },
                 {
                     props: { type: "close" },
                     style: {
