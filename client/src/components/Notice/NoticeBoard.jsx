@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { IconButton, Divider, ListItemAvatar ,Typography ,Box, Grid, List, ListItemText, ListItem ,ListItemButton, Stack } from '@mui/material';
 import { useState } from 'react';
-import { Tile } from '../../components/card/Tile';
 import MarkEmailReadOutlinedIcon from '@mui/icons-material/MarkEmailReadOutlined';
 import MarkEmailUnreadOutlinedIcon from '@mui/icons-material/MarkEmailUnreadOutlined';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -69,11 +68,9 @@ export const NoticeBoard = () => {
 
     return (
 
-        <Grid container>
-            <Grid item md={12}>
-                <Tile>
 
-                  <Box width={'100%'} height={'30vh'}>
+
+                  <Box width={'100%'} height={'35vh'}>
 
 
                     {/* notice list */}
@@ -82,7 +79,7 @@ export const NoticeBoard = () => {
                     {expaned === false &&
                         <List>
                           {notices.map((notice, index) => (
-                            // <Box maxHeight={10}>
+                            <Box>
                               <Stack direction={'row'}>
 
                               <ListItemButton
@@ -104,7 +101,8 @@ export const NoticeBoard = () => {
                                 </ListItemAvatar>
 
                                 <Box
-                                  sx={{overflow: 'auto'}}
+                                  maxHeight={70}
+                                  sx={{overflow: 'hidden'}}
                                 >
                                   <ListItemText
                                       primary={notice.subject}
@@ -129,8 +127,8 @@ export const NoticeBoard = () => {
                                 }
 
                               </Stack>
-                              // <Divider />
-                            // </Box>
+                              <Divider />
+                            </Box>
                           ))}
                       </List>
                     }
@@ -169,7 +167,7 @@ export const NoticeBoard = () => {
                               <Stack flex={3}>
                               <Box 
                                   flex={5}
-                                  maxHeight={'24vh'}
+                                  maxHeight={'28vh'}
                                   sx={{overflow: 'auto'}}
                                 >
                                     {notice.notice}
@@ -185,10 +183,7 @@ export const NoticeBoard = () => {
 
                 </Box>
 
-                </Tile>
-            </Grid>
-        </Grid>
-
+                 
     );
 
 }
