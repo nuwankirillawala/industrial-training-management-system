@@ -13,7 +13,7 @@ const useFetch = (method, url, initialData) => {
                     console.log(response.data);
                 }
                 else if (method === 'POST' || method === 'post') {
-                    const response = await axios.get(url, initialData, { withCredentials: true });
+                    const response = await axios.post(url, initialData, { withCredentials: true });
                     setData(response.data);
                 }
             } catch (error) {

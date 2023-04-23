@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from '@mui/material'
 
-export const Tile = ({ width, height, backgroundColor, children, sx, flex }) => {
+export const Tile = ({ width, height, backgroundColor, children, sx, flex, padding }) => {
   return (
     <Box
       backgroundColor={backgroundColor ? backgroundColor : '#FFF'}
@@ -9,7 +9,7 @@ export const Tile = ({ width, height, backgroundColor, children, sx, flex }) => 
       height={height}
       borderRadius={2}
       sx={{ overflow: 'auto' }}
-      padding={'20px'}
+      padding={padding ? padding :'20px'}
       flex={flex}
     >
       {children}
