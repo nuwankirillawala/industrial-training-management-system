@@ -5,7 +5,25 @@ import { DepartmentShowStudentProfile } from '../../components/user/Department/D
 import { ShowStudentResults } from '../../components/user/Shared/ShowStudentResult/ShowStudentResults'
 import { DataGrid } from '@mui/x-data-grid'
 
-import jsonData from '../Admin/ReportSubmission/data.json'
+// import jsonData from '../Admin/ReportSubmission/data.json'
+
+const jsonData = [
+    {
+      "id" : "SC/2019/11120",
+      "name" : "gavesh madushan"
+      
+    },
+  
+    {
+        "id" : "SC/2019/11121",
+        "name" : "madushan gavesh"
+    },
+  
+    {
+        "id" : "SC/2019/11122",
+        "name" : "G.M.Sooriyaarachchi"
+    }
+  ]
 
 
 export const DepartmentStudentProfile = () => {
