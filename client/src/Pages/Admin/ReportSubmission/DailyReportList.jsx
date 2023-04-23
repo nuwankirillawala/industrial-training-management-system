@@ -3,8 +3,8 @@ import { Stack, Grid, Button, Typography, Box} from '@mui/material'
 import { Tile } from '../../../components/card/Tile'
 import { DataGrid } from "@mui/x-data-grid";
 
-import jsonData from "./data.json";
-import reportData from "./reportData.json"
+// import jsonData from "./data.json";
+// import reportData from "./reportData.json"
 import { DailyReport } from './DailyReport';
 
 export const DailyReportList = () => {
@@ -117,7 +117,7 @@ export const DailyReportList = () => {
 
                     <DataGrid
                       //rows={rows}
-                      rows={jsonData}
+                      // rows={jsonData}
                       columns={studentColumns}
                       rowsPerPageOptions={[]}
                       onRowClick={selectRowData}
@@ -132,7 +132,7 @@ export const DailyReportList = () => {
 
                     <DataGrid
                       //rows={rows}
-                      rows={reportData}
+                      // rows={reportData}
                       columns={reportColumns}
                       rowsPerPageOptions={[]}
                       onRowClick={selectReportData}
