@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import {
   Box,
@@ -11,9 +11,6 @@ import {
   IconButton,
   Toolbar,
   AppBar,
-  DialogActions,
-  DialogTitle,
-  DialogContent,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
@@ -112,7 +109,8 @@ export const StudentCvUpdate = () => {
         let reader = new FileReader();
         reader.readAsDataURL(selectedFile);
         reader.onload = (e) => {
-          setPDFFile(e.target.result);
+          setPDFFile(selectedFile);
+          setViewPDF(e.target.result);
         };
       } else {
         //if a selected file is not a pdf
@@ -129,8 +127,9 @@ export const StudentCvUpdate = () => {
   //view pdf
   const viewButtonHandle = (e) => {
     e.preventDefault();
-    if (PDFFile !== null) {
-      setViewPDF(PDFFile);
+    if (viewPDF !== null) {
+      // setViewPDF(PDFFile);
+      // console.log(PDFFile);
       setOpen(true);
     } else {
       setViewPDF(null);
@@ -354,8 +353,8 @@ export const StudentCvUpdate = () => {
                   <StatusSnackBar
                     trigger={errorOpen}
                     setTrigger={setErrorOpen}
-                    severity="error"
-                    alertMessage="Input Error"
+                    severity="info"
+                    alertMessage="motherfucker"
                   />
                 </Tile>
               </Box>
