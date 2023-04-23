@@ -34,6 +34,7 @@ import ForgotPassword from './Pages/Shared/ForgotPassword/ForgotPassword';
 import Sidebar from './components/Sidebar/Sidebar';
 
 import * as Admin from './Pages/Admin';
+import { DepartmentStudentProfile } from './Pages/Department/DepartmentStudentProfile'
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path='/' element={<RootLayout />}>
@@ -59,6 +60,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path="admin-dashboard" element={<AdminDashboard />} />
             <Route path="manage-company" element={<ManageCompany />} />
             <Route path="add-company" element={<AddCompany />} />
+            <Route path="department-studentprofile" element={<DepartmentStudentProfile />} />
 
             {/* student routes */}
             <Route path="student-dashboard" element={<StudentDashboard />} />

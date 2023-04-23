@@ -34,11 +34,11 @@ import ViewInternList from './InternProcess/ViewInternList';
 import ViewInternListRemain from './InternProcess/ViewInternListRemain'; 
 import SelectCompany from './InternProcess/SelectCompany'; 
 
-import DailyReport from './ReportSubmission/DailyReport';
-import DailyReportList from './ReportSubmission/DailyReportList';
-import FinalFeedback from './ReportSubmission/FinalFeedback';
+import { DailyReport } from './ReportSubmission/DailyReport';
+import { DailyReportList } from './ReportSubmission/DailyReportList';
+import { FinalFeedback } from './ReportSubmission/FinalFeedback';
 import FinalFeedbackList from './ReportSubmission/FinalFeedbackList';
-import ReportPortal from './ReportSubmission/ReportPortal';
+import { ReportPortal } from './ReportSubmission/ReportPortal';
 
 import UploadResultsheet from './Resultsheet/UploadResultsheet';
 import ViewResultsheet from './Resultsheet/ViewResultsheet';

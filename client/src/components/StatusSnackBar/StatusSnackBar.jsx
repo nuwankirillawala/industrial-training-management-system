@@ -30,15 +30,9 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 export const StatusSnackBar = ({
   trigger,
   setTrigger,
-  //   vertical,
-  //   horizontal,
   severity,
   alertMessage,
 }) => {
-  //state
-  //   const [open, setOpen] = useState(false);
-  //End of State
-
   //Controllers
   const handleClose = (reason) => {
     if (reason === "clickaway") {

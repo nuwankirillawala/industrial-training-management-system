@@ -1,9 +1,106 @@
 import React from 'react'
+import { Stack, Grid, Box, Typography, Divider, Button } from '@mui/material'
+import { Tile } from '../../../components/card/Tile'
+import { useState } from 'react'
 
-const DailyReport = () => {
+const weekdays = [
+  {day : 'Monday', varification :'approved'},
+  {day : 'Tuesday', varification :'approved'},
+  {day : 'Wendnesday', varification :'notApproved'},
+  {day : 'Thuresday', varification :'notApproved'},
+  {day : 'Friday', varification :'approved'},
+  {day : 'Saterday', varification :'approved'},
+  {day : 'Sunday', varification :'approved'},
+]
+
+export const DailyReport = () => {
+
+  const [varification , setVarification ] = useState();
+
   return (
-    <div>DailyReport</div>
+        <Tile>
+          <Stack direction={'column'} height={'84vh'} spacing={1}>
+
+            <Stack alignItems={'center'}>
+              <Typography variant='h6' fontWeight={'bold'}>Daily Report</Typography>
+            </Stack>
+
+            <Divider variant='middle' />
+
+            <Stack direction={'row'} justifyContent={'space-evenly'}>
+              <Stack alignItems={'center'} flex={1}>
+                <Typography fontWeight={'bold'}>
+                  Date
+                </Typography>
+              </Stack>
+
+              <Divider orientation='vertical' />
+
+              <Stack alignItems={'center'} flex={2}>
+                <Typography fontWeight={'bold'}>
+                  Brief Description of Work Carried Out
+                </Typography>
+              </Stack>
+
+              <Divider orientation='vertical' />
+
+              <Stack alignItems={'center'} flex={1}>
+                <Typography fontWeight={'bold'}>
+                  Varification
+                </Typography>
+              </Stack>
+
+            </Stack>
+
+            <Divider variant='middle' />
+
+            <Stack direction={'column'} justifyContent={'space-around'} height={'70vh'}>
+
+              {weekdays.map((report)=>(  
+                <Stack>
+                  <Stack direction={'row'} justifyContent={'space-around'}>
+                    <Divider orientation='vertical' />
+                    <Stack flex={1} alignItems={'center'}>
+                      <Typography fontWeight={'bold'}>{report.day}</Typography>
+                    </Stack>
+                    <Divider orientation='vertical' />
+                    <Stack flex={2} direction={'row'} maxHeight={'10vh'}>
+                      <Box width={'24vw'} height={'100%'}>
+                      <Box
+                        flex={5}
+                        sx={{
+                            padding:'10px',
+                            alignItems:'center',
+                            textOverflow: 'ellipsis',
+                            overflow: 'hidden',
+                            height : '100%',
+                            // border : 'solid 0.1px'
+                          }}  
+                        >
+                        <Typography>In terms of a rhetoric any act of communication, a text serves as the vehicle for communication</Typography>
+                      </Box>
+                      </Box>
+                      <Stack flex={1}>
+                        <Button size='small'>full view</Button>
+                      </Stack>
+                    </Stack>
+                    <Divider orientation='vertical' />
+                    <Stack flex={1}alignItems={'center'}>
+                      {report.varification === 'approved' && (
+                        <Typography fontWeight={'bold'} color={'green'}>Approved</Typography>
+                      )}
+                      {report.varification === 'notApproved' && (
+                        <Typography fontWeight={'bold'} color={'red'}>Not Approved</Typography>
+                      )}
+                      </Stack>
+                    <Divider orientation='vertical' />
+                  </Stack>
+                  <Divider orientation='horizontal' />
+                </Stack>
+              ))}
+            </Stack>
+
+          </Stack>
+        </Tile>
   )
 }
-
-export default DailyReport
