@@ -64,11 +64,11 @@ const getTheme = (theme) => ({
         body2: {
             color: baseFontColor,
         },
-        subtitle1: { //for page titles
-            fontSize: '20px',
-            color: baseColor,
-            padding: '10px 15px'
-        },
+        // subtitle1: { //for page titles
+        //     fontSize: '20px',
+        //     color: baseColor,
+        //     padding: '10px 15px'
+        // },
         head1: {
             color: baseColor,
             fontSize: "2.125rem",
