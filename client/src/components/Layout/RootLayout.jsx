@@ -68,7 +68,7 @@ const getTheme = (theme) => ({
             fontSize: '20px',
             color: baseColor,
             padding: '10px 15px'
-        }
+        },
         head1: {
             color: baseColor,
             fontSize: "2.125rem",
@@ -108,6 +108,7 @@ const getTheme = (theme) => ({
                         padding: '4px 10px',
                         fontSize: '0.7rem',
                     },
+                },
                 {
                     props: { type: "close" },
                     style: {
