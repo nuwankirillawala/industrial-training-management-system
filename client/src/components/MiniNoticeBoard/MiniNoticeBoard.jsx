@@ -67,123 +67,104 @@ export const MiniNoticeBoard = () => {
     }    
 
     return (
-
-
-
-                  <Box width={'100%'} height={'35vh'}>
-
-
-                    {/* notice list */}
-
-
-                    {expaned === false &&
-                        <List>
-                          {notices.map((notice, index) => (
-                            <Box>
-                              <Stack direction={'row'}>
-
-                              <ListItemButton
-                                  key={index}
-                                  onClick={() => {
-                                    setNoticeId(notice.id);
-                                    setExpaned(true);
-                                    console.log("more expaned");
-                                    console.log({noticeId});
-                                  }}
-                              >
-                                <ListItemAvatar>
-                                  { notice.read === true && 
-                                  <MarkEmailReadOutlinedIcon color='disabled' />
-                                  }
-                                  { notice.read === false && 
-                                    <MarkEmailUnreadOutlinedIcon  color='info' />
-                                  }
-                                </ListItemAvatar>
-
-                                <Box
-                                  maxHeight={70}
-                                  sx={{overflow: 'hidden'}}
-                                >
-                                  <ListItemText
-                                      primary={notice.subject}
-                                  />
-                                </Box>
-
-                              </ListItemButton>
-
-                              {expaned === false && 
-                                  <IconButton
-                                    edge="end"
-                                    aria-label="expanedMore"
-                                    onClick={() => {
-                                      setNoticeId(notice.id);
-                                      setExpaned(true);
-                                      console.log("more expaned");
-                                      console.log({noticeId});
-                                    }}
-                                    >
-                                    <ExpandMoreIcon />
-                                  </IconButton>
-                                }
-
-                              </Stack>
-                              <Divider />
-                            </Box>
-                          ))}
-                      </List>
+      <Box width={'100%'} height={'35vh'}>
+        {/* notice list */}
+        {expaned === false &&
+            <List>
+              {notices.map((notice, index) => (
+                <Box>
+                  <Stack direction={'row'}>
+                  <ListItemButton
+                      key={index}
+                      onClick={() => {
+                        setNoticeId(notice.id);
+                        setExpaned(true);
+                        console.log("more expaned");
+                        console.log({noticeId});
+                      }}
+                  >
+                    <ListItemAvatar>
+                      { notice.read === true && 
+                      <MarkEmailReadOutlinedIcon color='disabled' />
+                      }
+                      { notice.read === false && 
+                        <MarkEmailUnreadOutlinedIcon  color='info' />
+                      }
+                    </ListItemAvatar>
+                    <Box
+                      maxHeight={70}
+                      sx={{overflow: 'hidden'}}
+                    >
+                      <ListItemText
+                          primary={notice.subject}
+                      />
+                    </Box>
+                  </ListItemButton>
+                  {expaned === false && 
+                      <IconButton
+                        edge="end"
+                        aria-label="expanedMore"
+                        onClick={() => {
+                          setNoticeId(notice.id);
+                          setExpaned(true);
+                          console.log("more expaned");
+                          console.log({noticeId});
+                        }}
+                        >
+                        <ExpandMoreIcon />
+                      </IconButton>
                     }
-
-                    {expaned === true &&
-                      <Box>
-                        {notices.map((notice)=>(
-                          <>
-                          {notice.id === noticeId && 
-                            <Stack direction={'column'} height={'100%'} spacing={1}>
-                              <Stack flex={2} direction={'row'}>
-                                <Box 
-                                  flex={5} 
-                                  maxHeight={'10vh'} 
-                                  sx={{
-                                  overflow: 'auto'
-                                  }}>
-                                    <Typography fontWeight={'bold'}>
-                                      {notice.subject}
-                                      </Typography>
-                                </Box>
-
-                                <Stack flex={1}>
-                                {expaned === true && 
-                                    <IconButton 
-                                      edge="end"
-                                      aria-label="expandLess"
-                                      onClick={handleExpanedLess}
-                                    >
-                                      <ExpandLessIcon />
-                                    </IconButton>
-                                  }
-                                </Stack>
-                              </Stack>
-                              <Divider />
-                              <Stack flex={3}>
-                              <Box 
-                                  flex={5}
-                                  maxHeight={'28vh'}
-                                  sx={{overflow: 'auto'}}
-                                >
-                                    {notice.notice}
-                                </Box>
-                              </Stack>
-                            </Stack>
-                          }
-                        </>
-                        ))}
-                      </Box>
-                    }
-
-
+                  </Stack>
+                  <Divider />
                 </Box>
-
-                 
-    );
-
+              ))}
+          </List>
+        }
+        {expaned === true &&
+          <Box>
+            {notices.map((notice)=>(
+              <>
+              {notice.id === noticeId && 
+                <Stack direction={'column'} height={'100%'} spacing={1}>
+                  <Stack flex={2} direction={'row'}>
+                    <Box 
+                      flex={5} 
+                      maxHeight={'10vh'} 
+                      sx={{
+                      overflow: 'auto'
+                      }}>
+                        <Typography fontWeight={'bold'}>
+                          {notice.subject}
+                          </Typography>
+                    </Box>
+                    <Stack flex={1}>
+                    {expaned === true && 
+                        <IconButton 
+                          edge="end"
+                          aria-label="expandLess"
+                          onClick={handleExpanedLess}
+                        >
+                          <ExpandLessIcon />
+                        </IconButton>
+                      }
+                    </Stack>
+                  </Stack>
+                  <Divider />
+                  <Stack flex={3}>
+                  <Box 
+                      flex={5}
+                      maxHeight={'28vh'}
+                      sx={{overflow: 'auto'}}
+                    >
+                        {notice.notice}
+                    </Box>
+                  </Stack>
+                </Stack>
+              }
+            </>
+            ))}
+          </Box>
+        }
+    </Box>              
+  );
 }
