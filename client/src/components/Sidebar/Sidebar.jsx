@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Box, IconButton, List, ListItemButton, ListItemIcon, Stack, Toolbar } from '@mui/material';
-import Drawer from '@mui/material/Drawer';
+import { Box, Hidden, IconButton, List, ListItemButton, ListItemIcon, Stack, Toolbar, useTheme } from '@mui/material';
+// import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import ListItem from '@mui/material/ListItem';
@@ -8,28 +8,50 @@ import ListItemText from '@mui/material/ListItemText';
 import { Unilogo } from '../shared/Images/Unilogo';
 import { Grid } from '@mui/material';
 import { useState } from 'react';
-import { Apartment, ArrowBack, Article, Assessment, Ballot, ChevronLeft, Dashboard, LocationCity, Logout, Menu, Notifications, NotificationsNone, Settings } from '@mui/icons-material';
+import { Apartment, ArrowBack, Article, Assessment, Ballot, ChevronLeft, Dashboard, LocationCity, Logout, Margin, Menu, Notifications, NotificationsNone, Settings } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import styled from '@emotion/styled';
+import MuiDrawer from '@mui/material/Drawer';
 
 const drawerWidth = 240;
 
-// const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-//   ({ theme, open }) => ({
-//     flexGrow: 1,
-//     transition: theme.transitions.create('margin', {
-//       easing: theme.transitions.easing.sharp,
-//       duration: theme.transitions.duration.leavingScreen,
-//     }),
-//     marginLeft: `-${drawerWidth}px`,
-//     ...(open && {
-//       transition: theme.transitions.create('margin', {
-//         easing: theme.transitions.easing.easeOut,
-//         duration: theme.transitions.duration.enteringScreen,
-//       }),
-//       marginLeft: 0,
-//     }),
-//   }),
-// );
+const openedMixin = (theme) => ({
+  width: drawerWidth,
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: 'hidden',
+});
+
+const closedMixin = (theme) => ({
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: 'hidden',
+  width: `calc(${theme.spacing(6)} + 1px)`,
+  [theme.breakpoints.up('sm')]: {
+    width: `calc(${theme.spacing(9)} + 1px)`,
+  },
+});
+
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+    boxSizing: 'border-box',
+    ...(open && {
+      ...openedMixin(theme),
+      '& .MuiDrawer-paper': openedMixin(theme),
+    }),
+    ...(!open && {
+      ...closedMixin(theme),
+      '& .MuiDrawer-paper': closedMixin(theme),
+    }),
+  }),
+);
 
 // const AppBar = styled(MuiAppBar, {
 //   shouldForwardProp: (prop) => prop !== 'open',
@@ -48,13 +70,13 @@ const drawerWidth = 240;
 //   })
 // }));
 
-// const DrawerHeader = styled('div')(({ theme }) => ({
-//   display: 'flex',
-//   alignItems: 'center',
-//   padding: theme.spacing(0, 1),
-//   ...theme.mixins.toolbar,
-//   justifyContent: 'flex-end',
-// }));
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(0, 1),
+  ...theme.mixins.toolbar,
+  justifyContent: 'flex-end',
+}));
 
 const buttonStyles = {
   height:40,
@@ -65,7 +87,12 @@ const buttonStyles = {
   },
 };
 
-
+const buttonIconStyles ={
+  '&:hover': {
+    bgcolor: 'white',
+    color: 'black'
+  }
+}
 
 const users = [
   {
@@ -157,7 +184,7 @@ const users = [
         id: 3,
         primaryText: 'Comapany',
         icon: <LocationCity /*fontSize='large'*/ />,
-        element: '/view-company'
+        element: '/student-company'
       },
       {
         id: 4,
@@ -198,6 +225,7 @@ const controlItems = [
 
 export default function Sidebar() {
 
+  const theme = useTheme();
   const navigate = useNavigate();
 
   const handleControlItem = (page) => {
@@ -224,17 +252,17 @@ export default function Sidebar() {
   //   },
   // });
 
-  // const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(true);
 
   // const handleDrawerOpen = () => {
   //   setOpen(true);
   // };
 
-  // const handleDrawerClose = () => {
-  //   setOpen(false);
-  // };
+  const toggleDrawer = () => {
+    setOpen(!open);
+  };
 
-  const [currentUser, setCurrentUser] = useState(users[2]);
+  const [currentUser, setCurrentUser] = useState(users[0]);
   
   const handleCurrentUserItem = (user, element) => {
     setCurrentUser(user);
@@ -301,13 +329,13 @@ export default function Sidebar() {
         
         variant="permanent"
         anchor="left"
-        // open={open}
+        open={open}
       >
-        {/* <DrawerHeader>
-          <IconButton onClick={ handleDrawerClose }>
-            <ChevronLeft />
+        <DrawerHeader>
+          <IconButton onClick={ toggleDrawer }>
+            {open ? <ChevronLeft /> : <Menu />}
           </IconButton>
-        </DrawerHeader> */}
+        </DrawerHeader>
         
         <Stack position={'relative'} top={20}>
           <Grid container justifyContent="center">

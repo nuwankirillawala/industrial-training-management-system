@@ -22,6 +22,7 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { EnglishProficiency } from "../../components/user/Undergraduate/studentCV/EnglishProficiency";
 import { PopUpDialog } from "../../components/user/Undergraduate/studentCV/PopUpDialog";
 import { StatusSnackBar } from "../../components/StatusSnackBar/StatusSnackBar";
+import { MiniNoticeBoard } from "../../components/MiniNoticeBoard/MiniNoticeBoard";
 
 //creating transition for dialog
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -148,16 +149,15 @@ export const StudentCvUpdate = () => {
   //end of the end point
 
   return (
-    <Box>
+    <Box height="90vh">
       <Grid container spacing={1}>
         <Grid item xs={9}>
           {/* content here */}
           <Stack spacing={1}>
-            <Tile height="auto">
+            <Tile>
               <Typography variant="h5" fontWeight="bold" align="center">
                 Additional Information
               </Typography>
-              <br />
             </Tile>
             <Tile>
               <Stack
@@ -187,9 +187,7 @@ export const StudentCvUpdate = () => {
                   <EnglishProficiency passDataFromChild={passDataFromChild} />
                 </PopUpDialog>
               </Stack>
-              <></>
             </Tile>
-
             <Tile>
               <Stack
                 direction="row"
@@ -278,12 +276,6 @@ export const StudentCvUpdate = () => {
         <Grid item xs={3}>
           <Grid container direction="column" spacing={1}>
             <Grid item>
-              {/* right top content here */}
-              <Box>
-                <Tile>hello</Tile>
-              </Box>
-            </Grid>
-            <Grid item>
               {/* right bottom content here */}
               <Box>
                 <Tile>
@@ -356,6 +348,14 @@ export const StudentCvUpdate = () => {
                     severity="info"
                     alertMessage="motherfucker"
                   />
+                </Tile>
+              </Box>
+            </Grid>
+            <Grid item>
+              {/* right top content here */}
+              <Box>
+                <Tile>
+                  <MiniNoticeBoard />
                 </Tile>
               </Box>
             </Grid>
