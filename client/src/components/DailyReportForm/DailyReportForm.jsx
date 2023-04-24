@@ -103,11 +103,14 @@ export const DailyReportForm = () => {
                         <Grid item md={11}>
                             {/* row headers */}
                             <Grid container padding={2}>
-                                <Grid item md={3}>
+                                <Grid item md={1.5}>
                                     <Typography fontWeight={"bold"}>Day</Typography>
                                 </Grid>
-                                <Grid item md={6}>
-                                    <Typography fontWeight={"bold"}>Brief description carried out</Typography>
+                                <Grid item md={2.5}>
+                                    <Typography fontWeight={"bold"}>Date</Typography>
+                                </Grid>
+                                <Grid item md={5}>
+                                    <Typography fontWeight={"bold"}>Brief Description </Typography>
                                 </Grid>
                                 <Grid item md={2}><Typography fontWeight={"bold"}>Verification</Typography></Grid>
                                 <Grid item md={1}>
@@ -116,13 +119,16 @@ export const DailyReportForm = () => {
 
                             {/* row 1 monday*/}<Divider orientation="horizontal" />
                             <Grid container>
-                                <Grid item md={3}>
-                                    <Typography>Monday</Typography><TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)} ></TextField>
+                                <Grid item md={1.5}>
+                                    <Typography>Monday</Typography>
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={2.5}>
+                                    <TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)} ></TextField>
+                                </Grid>
+                                <Grid item md={5}>
                                     <Typography style={{ wordWrap: 'break-word' }} >{mondayvalues.mondayReportData}</Typography>
                                 </Grid>
-                                <Grid item md={2}><Typography>Verification</Typography></Grid>
+                                <Grid item md={2}><Typography>Pending</Typography></Grid>
                                 <Grid item md={1}>
                                     <Dialogbox title="Monday report" btn_name="Edit">
                                         {/* <Dialogbox title="Update Administrator" btn_name="update" handleSubmit={handleSubmit} setMondayValues={setMondayValues} mondayvalues={mondayvalues}> */}
@@ -149,13 +155,16 @@ export const DailyReportForm = () => {
                             </Grid>
                             {/* row 2  tuesday*/}<Divider orientation="horizontal" />
                             <Grid container>
-                                <Grid item md={3}>
-                                    <Typography>Tuesday</Typography><TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)}></TextField>
+                                <Grid item md={1.5}>
+                                    <Typography>Tuesday</Typography>
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={2.5}>
+                                    <TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)}></TextField>
+                                </Grid>
+                                <Grid item md={5}>
                                     <Typography style={{ wordWrap: 'break-word' }}>{tuesdayvalues.tuesdayReportData}</Typography>
                                 </Grid>
-                                <Grid item md={2}><Typography>Verification</Typography></Grid>
+                                <Grid item md={2}><Typography>Pending</Typography></Grid>
                                 <Grid item md={1}>
                                     <Dialogbox title="Tuesday report" btn_name="Edit" >
                                         {/* <Dialogbox title="Update Administrator" btn_name="update" handleSubmit={handleSubmit} setMondayValues={setMondayValues} mondayvalues={mondayvalues}> */}
@@ -182,13 +191,16 @@ export const DailyReportForm = () => {
                             </Grid>
                             {/* row 3 wednesday*/}<Divider orientation="horizontal" />
                             <Grid container>
-                                <Grid item md={3}>
-                                    <Typography>Wednesday</Typography><TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)} ></TextField>
+                                <Grid item md={1.5}>
+                                    <Typography>Wednesday</Typography>
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={2.5}>
+                                    <TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)} ></TextField>
+                                </Grid>
+                                <Grid item md={5}>
                                     <Typography style={{ wordWrap: 'break-word' }}>{wednesdayvalues.wednesdayReportData}</Typography>
                                 </Grid>
-                                <Grid item md={2}><Typography>Verification</Typography></Grid>
+                                <Grid item md={2}><Typography>Pending</Typography></Grid>
                                 <Grid item md={1}>
                                     <Dialogbox title="wednesday report" btn_name="Edit">
                                         {/* <Dialogbox title="Update Administrator" btn_name="update" handleSubmit={handleSubmit} setMondayValues={setMondayValues} mondayvalues={mondayvalues}> */}
@@ -215,13 +227,16 @@ export const DailyReportForm = () => {
                             </Grid>
                             {/* row 4  thursday*/}<Divider orientation="horizontal" />
                             <Grid container>
-                                <Grid item md={3}>
-                                    <Typography>Thursday</Typography><TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)}></TextField>
+                                <Grid item md={1.5}>
+                                    <Typography>Thursday</Typography>
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={2.5}>
+                                    <TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)}></TextField>
+                                </Grid>
+                                <Grid item md={5}>
                                     <Typography style={{ wordWrap: 'break-word' }} >{thursdayvalues.thursdayReportData}</Typography>
                                 </Grid>
-                                <Grid item md={2}><Typography>Verification</Typography></Grid>
+                                <Grid item md={2}><Typography>Pending</Typography></Grid>
                                 <Grid item md={1}>
                                     <Dialogbox title="Thursday report" btn_name="Edit">
                                         {/* <Dialogbox title="Update Administrator" btn_name="update" handleSubmit={handleSubmit} setMondayValues={setMondayValues} mondayvalues={mondayvalues}> */}
@@ -248,13 +263,16 @@ export const DailyReportForm = () => {
                             </Grid>
                             {/* row 5 friday */}<Divider orientation="horizontal" />
                             <Grid container>
-                                <Grid item md={3}>
-                                    <Typography>Friday</Typography><TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)}></TextField>
+                                <Grid item md={1.5}>
+                                    <Typography>Friday</Typography>
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={2.5}>
+                                    <TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)}></TextField>
+                                </Grid>
+                                <Grid item md={5}>
                                     <Typography style={{ wordWrap: 'break-word' }}>{fridayvalues.fridayReportData}</Typography>
                                 </Grid>
-                                <Grid item md={2}><Typography>Verification</Typography></Grid>
+                                <Grid item md={2}><Typography>Pending</Typography></Grid>
                                 <Grid item md={1}>
                                     <Dialogbox title="Friday report" btn_name="Edit">
                                         {/* <Dialogbox title="Update Administrator" btn_name="update" handleSubmit={handleSubmit} setMondayValues={setMondayValues} mondayvalues={mondayvalues}> */}
@@ -281,13 +299,16 @@ export const DailyReportForm = () => {
                             </Grid>
                             {/* row 6 saturday*/}<Divider orientation="horizontal" />
                             <Grid container>
-                                <Grid item md={3}>
-                                    <Typography>Saturday</Typography><TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)} ></TextField>
+                                <Grid item md={1.5}>
+                                    <Typography>Saturday</Typography>
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={2.5}>
+                                    <TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)} ></TextField>
+                                </Grid>
+                                <Grid item md={5}>
                                     <Typography style={{ wordWrap: 'break-word' }} >{saturdayvalues.saturdayReportData}</Typography>
                                 </Grid>
-                                <Grid item md={2}><Typography>Verification</Typography></Grid>
+                                <Grid item md={2}><Typography>Pending</Typography></Grid>
                                 <Grid item md={1}>
                                     <Dialogbox title="Saturday report" btn_name="Edit">
                                         {/* <Dialogbox title="Update Administrator" btn_name="update" handleSubmit={handleSubmit} setMondayValues={setMondayValues} mondayvalues={mondayvalues}> */}
@@ -314,13 +335,16 @@ export const DailyReportForm = () => {
                             </Grid>
                             {/* row 7 sunday */}<Divider orientation="horizontal" />
                             <Grid container>
-                                <Grid item md={3}>
-                                    <Typography>Sunday</Typography><TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)}></TextField>
+                                <Grid item md={1.5}>
+                                    <Typography>Sunday</Typography>
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={2.5}>
+                                    <TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)}></TextField>
+                                </Grid>
+                                <Grid item md={5}>
                                     <Typography style={{ wordWrap: 'break-word' }}>{sundayvalues.sundayReportData}</Typography>
                                 </Grid>
-                                <Grid item md={2}><Typography>Verification</Typography></Grid>
+                                <Grid item md={2}><Typography>Pending</Typography></Grid>
                                 <Grid item md={1}>
                                     <Dialogbox title="Sunday report" btn_name="Edit">
                                         {/* <Dialogbox title="Update Administrator" btn_name="update" handleSubmit={handleSubmit} setMondayValues={setMondayValues} mondayvalues={mondayvalues}> */}
