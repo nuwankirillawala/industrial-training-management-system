@@ -12,6 +12,7 @@ import { AddAdmin } from './components/user/Admin/addUsers/AddAdmin'
 import { AddUndergraduate } from './components/user/Admin/addUsers/AddUndergraduate'
 import { AddCompanySupervisor } from './components/user/Admin/addUsers/AddCompanySupervisor'
 import { AddAlumini } from './components/user/Admin/addUsers/AddAlumini'
+import { AddDepartmentCoordinator } from './components/user/Admin/addUsers/AddDepartmentCoordinator'
 import { ViewAdmin } from './components/user/Admin/viewUsers/ViewAdmin'
 import { ViewSupervisor } from './components/user/Admin/viewUsers/ViewSupervisor'
 import { ViewUndergraduate } from './components/user/Admin/viewUsers/ViewUndergraduate'
@@ -47,6 +48,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path="add-undergraduate-details" element={<AddUndergraduate />} />
             <Route path="add-companySupervisor-details" element={<AddCompanySupervisor />} />
             <Route path="add-alumini-details" element={<AddAlumini />} />
+            <Route path="add-deprtmnt-coordinator-details" element={<AddDepartmentCoordinator />} />
             <Route path="view-admin-details" element={<ViewAdmin />} />
             <Route path="view-superv-details" element={<ViewSupervisor />} />
             <Route path="view-undg-details" element={<ViewUndergraduate />} />

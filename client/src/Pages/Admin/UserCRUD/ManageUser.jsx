@@ -26,7 +26,7 @@ function RedirectAdduser(text) {
             return '/addadmin'
             break;
         case 'Department CoOrdinator':
-            return '/add-superv-details'
+            return '/add-deprtmnt-coordinator-details'
             break;
         case 'Undergraduate':
             return '/add-undergraduate-details'
