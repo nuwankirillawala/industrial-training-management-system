@@ -60,13 +60,16 @@ const UploadResultsheet = () => {
   return (
     <Box>
       <Box sx={{ mb: 1 }}>
-        <Tile>
-          <Box display="flex" justifyContent="center">
-            <Typography variant="h5" fontWeight="bold" align="center">
-              Upload Result Sheet
-            </Typography>
-          </Box>
-        </Tile>
+        <Box>
+          <Typography
+            variant="h6"
+            color="primary"
+            marginBottom={"5px"}
+            paddingLeft={"15px"}
+          >
+            Upload Result Sheet
+          </Typography>
+        </Box>
       </Box>
       <Box sx={{ mt: 1, mb: 1 }}>
         <Tile>
@@ -75,10 +78,6 @@ const UploadResultsheet = () => {
               Instruction for the upload
             </Typography>
           </Box>
-        </Tile>
-      </Box>
-      <Box sx={{ mt: 1, mb: 1 }}>
-        <Tile>
           <Box display="flex" justifyContent="center">
             <form onSubmit={handleSubmit}>
               <input
@@ -98,6 +97,7 @@ const UploadResultsheet = () => {
               </Button>
             </form>
           </Box>
+
           <StatusSnackBar
             severity="error"
             trigger={trigger.inputError}

@@ -149,133 +149,138 @@ export const StudentCvUpdate = () => {
   //end of the end point
 
   return (
-    <Box height="90vh">
-      <Grid container spacing={1}>
-        <Grid item xs={9}>
-          {/* content here */}
-          <Stack spacing={1}>
-            <Tile>
-              <Typography variant="h5" fontWeight="bold" align="center">
-                Additional Information
-              </Typography>
-            </Tile>
-            <Tile>
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={2}
-                justifyContent="space-between"
-              >
-                <Typography varient="h2" fontWeight="bold">
-                  English Proficiency
-                </Typography>
-                <IconButton
-                  name="addEnglishProficiency"
-                  onClick={() => {
-                    togglePopup("englishProficiency");
-                  }}
+    <Box height="88vh">
+      <Box>
+        <Typography
+          variant="h6"
+          color="primary"
+          marginBottom={"5px"}
+          paddingLeft={"15px"}
+        >
+          Additional Information
+        </Typography>
+      </Box>
+      <Box>
+        <Grid container spacing={1}>
+          <Grid item xs={9}>
+            {/* content here */}
+            <Stack spacing={1}>
+              <Tile>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={2}
+                  justifyContent="space-between"
                 >
-                  <AddIcon />
-                </IconButton>
-                <PopUpDialog
-                  open={openForm.englishProficiency}
-                  setOpen={() => {
-                    togglePopup("englishProficiency");
-                  }}
-                  id={"EnglishProficiency"}
+                  <Typography varient="h2" fontWeight="bold">
+                    English Proficiency
+                  </Typography>
+                  <IconButton
+                    name="addEnglishProficiency"
+                    onClick={() => {
+                      togglePopup("englishProficiency");
+                    }}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                  <PopUpDialog
+                    open={openForm.englishProficiency}
+                    setOpen={() => {
+                      togglePopup("englishProficiency");
+                    }}
+                    id={"EnglishProficiency"}
+                  >
+                    <EnglishProficiency passDataFromChild={passDataFromChild} />
+                  </PopUpDialog>
+                </Stack>
+              </Tile>
+              <Tile>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={2}
+                  justifyContent="space-between"
                 >
-                  <EnglishProficiency passDataFromChild={passDataFromChild} />
-                </PopUpDialog>
-              </Stack>
-            </Tile>
-            <Tile>
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={2}
-                justifyContent="space-between"
-              >
-                <Typography varient="h2" fontWeight="bold">
-                  Programming languages
-                </Typography>
-                <IconButton
-                  name="addProgrammingLanguages"
-                  onClick={() => {
-                    togglePopup("programmingLanguages");
-                  }}
-                >
-                  <AddIcon />
-                </IconButton>
-                <PopUpDialog
-                  open={openForm.programmingLanguages}
-                  setOpen={() => {
-                    togglePopup("programmingLanguages");
-                  }}
-                  id={"ProgrammingLanguages"}
-                ></PopUpDialog>
-              </Stack>
-            </Tile>
+                  <Typography varient="h2" fontWeight="bold">
+                    Programming languages
+                  </Typography>
+                  <IconButton
+                    name="addProgrammingLanguages"
+                    onClick={() => {
+                      togglePopup("programmingLanguages");
+                    }}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                  <PopUpDialog
+                    open={openForm.programmingLanguages}
+                    setOpen={() => {
+                      togglePopup("programmingLanguages");
+                    }}
+                    id={"ProgrammingLanguages"}
+                  ></PopUpDialog>
+                </Stack>
+              </Tile>
 
-            <Tile>
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={2}
-                justifyContent="space-between"
-              >
-                <Typography varient="h2" fontWeight="bold">
-                  Other Skills
-                </Typography>
-                <IconButton
-                  name="addOtherSkills"
-                  onClick={() => {
-                    togglePopup("otherSkills");
-                  }}
+              <Tile>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={2}
+                  justifyContent="space-between"
                 >
-                  <AddIcon />
-                </IconButton>
-                <PopUpDialog
-                  open={openForm.otherSkills}
-                  setOpen={() => {
-                    togglePopup("otherSkills");
-                  }}
-                  id={"OtherSkills"}
-                ></PopUpDialog>
-              </Stack>
-            </Tile>
+                  <Typography varient="h2" fontWeight="bold">
+                    Other Skills
+                  </Typography>
+                  <IconButton
+                    name="addOtherSkills"
+                    onClick={() => {
+                      togglePopup("otherSkills");
+                    }}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                  <PopUpDialog
+                    open={openForm.otherSkills}
+                    setOpen={() => {
+                      togglePopup("otherSkills");
+                    }}
+                    id={"OtherSkills"}
+                  ></PopUpDialog>
+                </Stack>
+              </Tile>
 
-            <Tile>
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={2}
-                justifyContent="space-between"
-              >
-                <Typography varient="h2" fontWeight="bold">
-                  Projects
-                </Typography>
-                <IconButton
-                  name="addProjects"
-                  onClick={() => {
-                    togglePopup("projects");
-                  }}
+              <Tile>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={2}
+                  justifyContent="space-between"
                 >
-                  <AddIcon />
-                </IconButton>
-                <PopUpDialog
-                  open={openForm.projects}
-                  setOpen={() => {
-                    togglePopup("projects");
-                  }}
-                  id={"projects"}
-                ></PopUpDialog>
-              </Stack>
-            </Tile>
-          </Stack>
-        </Grid>
-        <Grid item xs={3}>
-          <Grid container direction="column" spacing={1}>
-            <Grid item>
+                  <Typography varient="h2" fontWeight="bold">
+                    Projects
+                  </Typography>
+                  <IconButton
+                    name="addProjects"
+                    onClick={() => {
+                      togglePopup("projects");
+                    }}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                  <PopUpDialog
+                    open={openForm.projects}
+                    setOpen={() => {
+                      togglePopup("projects");
+                    }}
+                    id={"projects"}
+                  ></PopUpDialog>
+                </Stack>
+              </Tile>
+            </Stack>
+          </Grid>
+          <Grid item xs={3}>
+            <Stack direction="column" spacing={1}>
               {/* right bottom content here */}
               <Box>
                 <Tile>
@@ -350,18 +355,16 @@ export const StudentCvUpdate = () => {
                   />
                 </Tile>
               </Box>
-            </Grid>
-            <Grid item>
               {/* right top content here */}
               <Box>
                 <Tile>
                   <MiniNoticeBoard />
                 </Tile>
               </Box>
-            </Grid>
+            </Stack>
           </Grid>
         </Grid>
-      </Grid>
+      </Box>
     </Box>
   );
 };
