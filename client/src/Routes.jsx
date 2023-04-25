@@ -22,6 +22,7 @@ import { UpdateNRemoveAdmin } from './components/user/Admin/updateNremoveUsers/U
 import { RemoveMultipleAdmin } from './components/user/Admin/RemoveMultipleUsers/RemoveMultipleAdmin'
 import { UpdateNRemoveAlumni } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveAlumni'
 import { UpdateNRemoveCompanySupervisor } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveCompanySupervisor'
+import { UpdateNRemoveDepartmentCoordinator } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveDepartmentCoordinator'
 import { ManageCompany } from './Pages/Admin/ManageCompany'
 import { UpdateNRemoveUndergraduate } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveUndergraduate'
 import Notice from './components/shared/Notice/Notice'
@@ -48,7 +49,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path="add-undergraduate-details" element={<AddUndergraduate />} />
             <Route path="add-companySupervisor-details" element={<AddCompanySupervisor />} />
             <Route path="add-alumini-details" element={<AddAlumini />} />
-            <Route path="add-deprtmnt-coordinator-details" element={<AddDepartmentCoordinator />} />
+            <Route path="add-departmnt-coordinator-details" element={<AddDepartmentCoordinator />} />
             <Route path="view-admin-details" element={<ViewAdmin />} />
             <Route path="view-superv-details" element={<ViewSupervisor />} />
             <Route path="view-undg-details" element={<ViewUndergraduate />} />
@@ -59,6 +60,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path="updateNremove-alumni-details" element={<UpdateNRemoveAlumni />} />
             <Route path="updateNremove-undergraduate-details" element={<UpdateNRemoveUndergraduate />} />
             <Route path="updateNremove-companySupervisor-details" element={<UpdateNRemoveCompanySupervisor />} />
+            <Route path="updateNremove-Department-Coordinator-details" element={<UpdateNRemoveDepartmentCoordinator />} />
             <Route path="admin-dashboard" element={<AdminDashboard />} />
             <Route path="manage-company" element={<ManageCompany />} />
             <Route path="add-company" element={<AddCompany />} />
