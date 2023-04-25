@@ -16,6 +16,8 @@ const UploadResultsheet = () => {
     success: false,
   });
   //End of statusSnackBar state
+
+  //handle snackbar
   const handleSnackBar = (key) => {
     setTrigger((prevState) => {
       let newState = { ...prevState };
@@ -23,6 +25,7 @@ const UploadResultsheet = () => {
       return newState;
     });
   };
+  //End of handle snackbar
 
   // Handle File
   const fileType = [
@@ -74,8 +77,39 @@ const UploadResultsheet = () => {
       <Box sx={{ mt: 1, mb: 1 }}>
         <Tile>
           <Box>
-            <Typography variant="body2" align="center">
-              Instruction for the upload
+            <Typography variant="body2" fontWeight="bold">
+              Instruction for the upload:
+              <br />
+              <br />
+            </Typography>
+            <Typography variant="body2">
+              1.Click on the file input field to open the file selection dialog
+              box. <br />
+              2.Navigate to the folder on your device where the Excel file is
+              located.
+              <br />
+              3.Select the Excel file by clicking on it and then click on the
+              "Open" button in the dialog box.
+              <br />
+              4.Once you've selected the file, the file input field should
+              display the file name or path to the file.
+              <br />
+              5.Submit the form or perform any other necessary actions to upload
+              or process the selected Excel file. <br />
+              <br />
+              <br />
+            </Typography>
+            <Typography variant="body2" fontWeight="bold">
+              Note: It's important to ensure that the Excel file you are
+              selecting is in a format that is compatible with the webpage or
+              application you are using. Some file formats, such as older
+              versions of Excel files, may not be compatible and may cause
+              errors or problems.
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
             </Typography>
           </Box>
           <Box display="flex" justifyContent="center">

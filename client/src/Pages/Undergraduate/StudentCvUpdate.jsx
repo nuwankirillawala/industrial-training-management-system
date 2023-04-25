@@ -149,7 +149,7 @@ export const StudentCvUpdate = () => {
   //end of the end point
 
   return (
-    <Box height="88vh">
+    <Box>
       <Box>
         <Typography
           variant="h6"
