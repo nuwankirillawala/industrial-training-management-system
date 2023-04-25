@@ -58,7 +58,7 @@ export const AdminDashboard = () => {
                     </Stack>
                 </Tile>
             </Grid >
-            <Grid item md={4} xs={4} direction={'column'} >
+            <Grid item md={4} xs={4} container direction={'column'} >
                 <Stack spacing={.5}>
                     <Tile height={'41vh'}>
                         <Typography fontWeight={'bold'} variant='body1'>Notice</Typography>
