@@ -149,7 +149,7 @@ export const StudentCvUpdate = () => {
   //end of the end point
 
   return (
-    <Box>
+    <Box sx={{ height: "88vh" }}>
       <Box>
         <Typography
           variant="h6"
@@ -160,12 +160,18 @@ export const StudentCvUpdate = () => {
           Additional Information
         </Typography>
       </Box>
-      <Box>
-        <Grid container spacing={1}>
+      <Box sx={{ height: "100%" }}>
+        <Grid container spacing={1} sx={{ height: "100%" }}>
           <Grid item xs={9}>
             {/* content here */}
-            <Stack spacing={1}>
-              <Tile>
+            <Stack
+              height={"100%"}
+              spacing={1}
+              display={"flex"}
+              direction={"column"}
+              justifyContent={"space-around"}
+            >
+              <Tile sx={{ height: "100%" }}>
                 <Stack
                   direction="row"
                   alignItems="center"
@@ -194,7 +200,7 @@ export const StudentCvUpdate = () => {
                   </PopUpDialog>
                 </Stack>
               </Tile>
-              <Tile>
+              <Tile sx={{ height: "100%" }}>
                 <Stack
                   direction="row"
                   alignItems="center"
@@ -222,7 +228,7 @@ export const StudentCvUpdate = () => {
                 </Stack>
               </Tile>
 
-              <Tile>
+              <Tile sx={{ height: "100%" }}>
                 <Stack
                   direction="row"
                   alignItems="center"
@@ -250,7 +256,7 @@ export const StudentCvUpdate = () => {
                 </Stack>
               </Tile>
 
-              <Tile>
+              <Tile sx={{ height: "100%" }}>
                 <Stack
                   direction="row"
                   alignItems="center"
@@ -280,84 +286,104 @@ export const StudentCvUpdate = () => {
             </Stack>
           </Grid>
           <Grid item xs={3}>
-            <Stack direction="column" spacing={1}>
+            <Stack direction="column" spacing={1} height={"100%"}>
               {/* right bottom content here */}
-              <Box>
-                <Tile>
-                  <Typography variant="body2">Upload your CV:</Typography>
-                  <br />
-                  <Typography variant="body2">Choose file:</Typography>
-                  <form onSubmit={handleSubmit}>
-                    <input type="file" onChange={handleChange} />
-                    <Button
-                      variant="itms"
-                      size="itms-small"
-                      onClick={viewButtonHandle}
-                    >
-                      View
-                    </Button>
-                    <Button type="submit" variant="itms" size="itms-small">
-                      Submit
-                    </Button>
-                  </form>
-
-                  {/* viewing the cv dialog*/}
-                  <Dialog
-                    fullScreen
-                    open={open}
-                    onClose={handleClose}
-                    TransitionComponent={Transition}
+              <Box sx={{ height: "60%" }}>
+                <Tile sx={{ height: "100%" }}>
+                  <Stack
+                    height={"100%"}
+                    display={"flex"}
+                    justifyContent={"space-around"}
                   >
-                    <AppBar sx={{ position: "relative" }} elevation={0}>
-                      <Toolbar>
-                        <IconButton
-                          edge="start"
-                          color="#363853"
-                          onClick={handleClose}
-                          aria-label="close"
-                        >
-                          <CloseIcon />
-                        </IconButton>
-                        <Typography
-                          sx={{ ml: 2, flex: 1 }}
-                          variant="body2"
-                          fontWeight="bold"
-                        >
-                          Uploaded File
-                        </Typography>
-                      </Toolbar>
-                    </AppBar>
-                    <Box
-                      justifyContent="center"
-                      justifyItems="center"
-                      sx={{
-                        height: "900px",
-                        width: "100%",
-                      }}
-                      overflow-y="auto"
-                    >
-                      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-                        {viewPDF && (
-                          <>
-                            <Viewer fileUrl={viewPDF} plugins={[newplugin]} />
-                          </>
-                        )}
-                        {!viewPDF && <>No PDF</>}
-                      </Worker>
+                    <Box>
+                      <Typography
+                        variant="body2"
+                        align="center"
+                        fontWeight={"bold"}
+                      >
+                        Upload your CV
+                      </Typography>
                     </Box>
-                  </Dialog>
+                    <Box>
+                      <Typography variant="body2">Choose file:</Typography>
+                    </Box>
+                    <Box>
+                      <form onSubmit={handleSubmit}>
+                        <input type="file" onChange={handleChange} />
+                        <Button
+                          variant="itms"
+                          size="itms-small"
+                          onClick={viewButtonHandle}
+                        >
+                          View
+                        </Button>
+                        <Button type="submit" variant="itms" size="itms-small">
+                          Submit
+                        </Button>
+                      </form>
 
-                  <StatusSnackBar
-                    trigger={errorOpen}
-                    setTrigger={setErrorOpen}
-                    severity="info"
-                    alertMessage="motherfucker"
-                  />
+                      {/* viewing the cv dialog*/}
+                      <Dialog
+                        fullScreen
+                        open={open}
+                        onClose={handleClose}
+                        TransitionComponent={Transition}
+                      >
+                        <AppBar sx={{ position: "relative" }} elevation={0}>
+                          <Toolbar>
+                            <IconButton
+                              edge="start"
+                              color="#363853"
+                              onClick={handleClose}
+                              aria-label="close"
+                            >
+                              <CloseIcon />
+                            </IconButton>
+                            <Typography
+                              sx={{ ml: 2, flex: 1 }}
+                              variant="body2"
+                              fontWeight="bold"
+                            >
+                              Uploaded File
+                            </Typography>
+                          </Toolbar>
+                        </AppBar>
+                        <Box
+                          justifyContent="center"
+                          justifyItems="center"
+                          sx={{
+                            height: "900px",
+                            width: "100%",
+                          }}
+                          overflow-y="auto"
+                        >
+                          <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+                            {viewPDF && (
+                              <>
+                                <Viewer
+                                  fileUrl={viewPDF}
+                                  plugins={[newplugin]}
+                                />
+                              </>
+                            )}
+                            {!viewPDF && <>No PDF</>}
+                          </Worker>
+                        </Box>
+                      </Dialog>
+
+                      <StatusSnackBar
+                        trigger={errorOpen}
+                        setTrigger={setErrorOpen}
+                        severity="info"
+                        alertMessage="motherfucker"
+                      />
+                    </Box>
+                  </Stack>
                 </Tile>
               </Box>
               {/* right top content here */}
-              <Box>
-                <Tile>
+              <Box sx={{ height: "100%" }}>
+                <Tile sx={{ height: "100%" }}>
                   <MiniNoticeBoard />
                 </Tile>
               </Box>

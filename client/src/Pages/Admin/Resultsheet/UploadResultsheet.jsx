@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Tile } from "../../../components/card/Tile";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import { StatusSnackBar } from "../../../components/StatusSnackBar/StatusSnackBar";
 
 const UploadResultsheet = () => {
@@ -46,7 +46,7 @@ const UploadResultsheet = () => {
         handleSnackBar("onlyExcel");
       }
     } else {
-      setExcelFileStatus("plese select your file");
+      setExcelFileStatus("please select your file");
       setExcelFile(null);
       handleSnackBar("inputError");
     }
@@ -56,12 +56,17 @@ const UploadResultsheet = () => {
   // submit function
   const handleSubmit = (e) => {
     console.log("End point here");
-    handleSnackBar("success");
+    if (excelFileStatus === "Success") {
+      handleSnackBar("success");
+    } else {
+      setExcelFileStatus("Please select your file");
+      handleSnackBar("inputError");
+    }
   };
   //End of Submit Function
 
   return (
-    <Box>
+    <Box sx={{ height: "85vh" }}>
       <Box sx={{ mb: 1 }}>
         <Box>
           <Typography
@@ -74,63 +79,70 @@ const UploadResultsheet = () => {
           </Typography>
         </Box>
       </Box>
-      <Box sx={{ mt: 1, mb: 1 }}>
-        <Tile>
-          <Box>
-            <Typography variant="body2" fontWeight="bold">
-              Instruction for the upload:
-              <br />
-              <br />
-            </Typography>
-            <Typography variant="body2">
-              1.Click on the file input field to open the file selection dialog
-              box. <br />
-              2.Navigate to the folder on your device where the Excel file is
-              located.
-              <br />
-              3.Select the Excel file by clicking on it and then click on the
-              "Open" button in the dialog box.
-              <br />
-              4.Once you've selected the file, the file input field should
-              display the file name or path to the file.
-              <br />
-              5.Submit the form or perform any other necessary actions to upload
-              or process the selected Excel file. <br />
-              <br />
-              <br />
-            </Typography>
-            <Typography variant="body2" fontWeight="bold">
-              Note: It's important to ensure that the Excel file you are
-              selecting is in a format that is compatible with the webpage or
-              application you are using. Some file formats, such as older
-              versions of Excel files, may not be compatible and may cause
-              errors or problems.
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-            </Typography>
-          </Box>
-          <Box display="flex" justifyContent="center">
-            <form onSubmit={handleSubmit}>
-              <input
-                onSubmit={handleSubmit}
-                type="file"
-                onChange={handleFile}
-              />
-              <br />
-              <Button
-                // type="submit"
-                variant="itms"
-                size="itms-small"
-                onClick={handleSubmit}
-                sx={{ mt: 1 }}
+      <Box sx={{ mt: 1, mb: 1, height: "100%" }}>
+        <Tile sx={{ height: "100%" }}>
+          <Stack
+            height={"100%"}
+            direction="column"
+            display={"flex"}
+            justifyContent="space-around"
+          >
+            <Box>
+              <Typography
+                align="center"
+                fontSize={20}
+                variant="body2"
+                fontWeight="bold"
               >
-                Submit
-              </Button>
-            </form>
-          </Box>
+                Instruction for the upload:
+              </Typography>{" "}
+            </Box>
+            <Box>
+              <Typography variant="body2">
+                1.Click on the file input field to open the file selection
+                dialog box. <br />
+                2.Navigate to the folder on your device where the Excel file is
+                located.
+                <br />
+                3.Select the Excel file by clicking on it and then click on the
+                "Open" button in the dialog box.
+                <br />
+                4.Once you've selected the file, the file input field should
+                display the file name or path to the file.
+                <br />
+                5.Submit the form or perform any other necessary actions to
+                upload or process the selected Excel file. <br />
+                <br />
+                <br />
+              </Typography>
+              <Typography variant="body2" fontWeight="bold">
+                Note: It's important to ensure that the Excel file you are
+                selecting is in a format that is compatible with the webpage or
+                application you are using. Some file formats, such as older
+                versions of Excel files, may not be compatible and may cause
+                errors or problems.
+              </Typography>
+            </Box>
+            <Box display="flex" justifyContent="center">
+              <form onSubmit={handleSubmit}>
+                <input
+                  onSubmit={handleSubmit}
+                  type="file"
+                  onChange={handleFile}
+                />
+                <br />
+                <Button
+                  // type="submit"
+                  variant="itms"
+                  size="itms-small"
+                  onClick={handleSubmit}
+                  sx={{ mt: 1 }}
+                >
+                  Submit
+                </Button>
+              </form>
+            </Box>
+          </Stack>
 
           <StatusSnackBar
             severity="error"
