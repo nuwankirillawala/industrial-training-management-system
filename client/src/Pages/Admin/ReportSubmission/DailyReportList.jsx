@@ -176,12 +176,12 @@ export const DailyReportList = () => {
                       //rows={rows}
                       rows={jsonData}
                       columns={studentColumns}
-                      rowsPerPageOptions={[]}
                       onRowClick={selectRowData}
                       getRowId={(row) => row.id}
-                      // pageSize={10}
-                      // disableSelectionOnClick
-                      // experimentalFeatures={{ newEditingApi: true }}
+                      // pagination={false}
+                      // footer={false}
+                      disableSelectionOnClick
+                      experimentalFeatures={{ newEditingApi: true }}
                     
                     />
                   )}
@@ -194,7 +194,7 @@ export const DailyReportList = () => {
                       rowsPerPageOptions={[]}
                       onRowClick={selectReportData}
                       getRowId={(row) => row.id}
-                      // pageSize={10}
+                      pageSize={10}
                       // disableSelectionOnClick
                       // experimentalFeatures={{ newEditingApi: true }}
                     

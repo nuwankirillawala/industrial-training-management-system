@@ -1,4 +1,4 @@
-import { TextField, Button, Typography, Grid, Stack, Box, InputAdornment, IconButton} from "@mui/material"
+import { TextField, Button, Typography, Grid, Stack, Box, InputAdornment, IconButton, Select, MenuItem} from "@mui/material"
 import React, {useState} from "react"
 import { Tile } from '../../../card/Tile'
 import { Formik } from "formik"
@@ -36,7 +36,7 @@ export const DepartmentCoordinatorCreateForm = () => {
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
             "Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
           ).required('Enter your new password'),
-        departmentCoordinatorConfirmPassword : yup.string().oneOf([yup.ref("adminPassword")], "Your password do not match.").required('Confirm your new password')
+        departmentCoordinatorConfirmPassword : yup.string().oneOf([yup.ref("departmentCoordinatorPassword")], "Your password do not match.").required('Confirm your new password')
     })
 
     const [showPassword, setShowPassword] = useState(false);
@@ -154,21 +154,27 @@ export const DepartmentCoordinatorCreateForm = () => {
 
                                 <Stack direction={'row'}>
                                     <Stack minWidth={'200px'} flex={1}>
-                                        <Typography><Position></Position></Typography>
+                                        <Typography>Position</Typography>
                                     </Stack>
                                     <Stack flex={3}>
-                                        <TextField
-                                        fullWidth
-                                        size="small"
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.departmentCoordinatorPosition}
-                                        name="departmentCoordinatorPosition"
-                                        error={!!touched.departmentCoordinatorPosition && !!errors.departmentCoordinatorPosition}
-                                        helperText={touched.departmentCoordinatorPosition && errors.departmentCoordinatorPosition}
-                                        />
+
+                                        <Select
+                                            variant="outlined"
+                                            labelId="departmentCoordinatorPosition"
+                                            id="departmentCoordinatorPosition"
+                                            name="departmentCoordinatorPosition"
+                                            value={values.departmentCoordinatorPosition}
+                                            onChange={handleChange}
+                                            placeholder="departmentCoordinatorPosition"
+                                            size='small'
+                                            >
+                                            <MenuItem value="Proffer">Proffer</MenuItem>
+                                            <MenuItem value="SiniorLec1">Sinior Lecture 1</MenuItem>
+                                            <MenuItem value="SiniorLec2">Sinior Lecture 2</MenuItem>
+                                            <MenuItem value="SiniorLec3">Sinior Lecture 3</MenuItem>
+                                            <MenuItem value="Lecture">Lecture</MenuItem>
+                                            <MenuItem value="Prbeshanary">Prbeshanary</MenuItem>                                            
+                                        </Select>
                                     </Stack>
                                 </Stack>
 
