@@ -3,7 +3,7 @@ import { Box, Typography, Stack, Grid, TextField, Paper, LinearProgress, Divider
 import { Tile } from '../../components/card/Tile'
 import { Avatar } from '../../components/shared/Images/Avatar'
 import { TableContainer, Table, TableRow, TableHead, TableCell, TableBody } from '@mui/material'
-import { MiniNoticeBoard } from '../../components/MiniNoticeBoard/MiniNoticeBoard'
+import { NoticeBoard } from '../../components/Notice/NoticeBoard'
 import useAuth from '../../Hooks/useAuth'
 import { useEffect, useState } from 'react';
 import useFetch from '../../Hooks/useFetch';
@@ -122,7 +122,7 @@ export const StudentDashboard = () => {
             <Stack>
               <Tile>
                 {/* notice  */}
-                <MiniNoticeBoard></MiniNoticeBoard>
+                <NoticeBoard></NoticeBoard>
               </Tile>
             </Stack>
             <PrivateNotePanel />
@@ -137,12 +137,12 @@ export const StudentDashboard = () => {
                 />
               </Tile>
             </Stack>
-            <Stack>
-              {/* calender  */}
+            {/* <Stack>
+              // calender
               <Tile>
                 <Typography>calender</Typography>
               </Tile>
-            </Stack>
+            </Stack> */}
           </Stack>
         </Grid>
 

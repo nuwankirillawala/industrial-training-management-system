@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import React from 'react'
-import { Stack, Box, Typography, Button, Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Select, MenuItem } from '@mui/material'
+import { Stack, Box, Typography, Divider, Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Select, MenuItem } from '@mui/material'
 import { Formik } from 'formik'
 
-function resultsData(courseUnitName,courseUnitCode,courseUnitGrade) { 
-    return {courseUnitName,
-            courseUnitCode,
-            courseUnitGrade}
+function resultsData(courseUnitCode,courseUnitName,courseUnitGrade) { 
+    return {
+        courseUnitCode,
+        courseUnitName,
+        courseUnitGrade}
 }
 
 const results = [
@@ -36,55 +37,48 @@ const results = [
     resultsData('CSC2263','Multimedia and Video Production','B+')
 ]
 
+const tableHeight = 480;
+
 export const ShowStudentResults = () => {
 
-    const [levels , setLevels] = useState({level : 0});
-    const [semesters , setSemesters] = useState({semester :0});
+    const [level , setLevels] = useState("");
+    const [semester , setSemesters] = useState("");
+    const [unitcode, setUnitCode] = useState('');
 
   return (
 
-        <Stack direction={'column'} spacing={2} alignItems={'center'}>
+        <Stack direction={'column'} spacing={2} width={"35vw"}>
 
             <Stack alignItems={'center'}>
                 <Typography variant='h6' fontWeight={'bold'}>Results</Typography>
             </Stack>
+
 
             <Stack direction={'row'} spacing={2} width={'100%'} maxHeight={'35px'}>
                 <Stack direction={'row'} spacing={2} flex={3}>
                     <Typography variant='body' fontWeight={'bold'}>Level</Typography>
                     <Select 
                         variant='outlined'
-                        size='small' 
-                        // id='levels'
-                        // name='levels'
-                        // value={levels.level}
-                        // placeholder='Level'
+                        size='small'
                         fullWidth>
-                        <MenuItem onClick={()=>setLevels(1)}>Level 1</MenuItem>
-                        <MenuItem onClick={()=>setLevels(2)}>Level 2</MenuItem>
-                        <MenuItem onClick={()=>setLevels(3)}>Level 3</MenuItem>
-                        <MenuItem onClick={()=>setLevels(0)}>All</MenuItem>
+                        <MenuItem onClick={()=>{setLevels('1'); console.log(level);}}>Level 1</MenuItem>
+                        <MenuItem onClick={()=>{setLevels('2'); console.log(level);}}>Level 2</MenuItem>
+                        <MenuItem onClick={()=>{setLevels('3'); console.log(typeof(level));}}>Level 3</MenuItem>
+                        <MenuItem onClick={()=>{setLevels(""); console.log(level);}}>All</MenuItem>
                     </Select>
                 </Stack>
                 <Stack direction={'row'} spacing={2} flex={3}>
                     <Typography variant='body' fontWeight={'bold'}>Semester</Typography>
                     <Select variant='outlined'size='small' fullWidth>
-                        <MenuItem onClick={()=>setSemesters(1)}>Semester 1</MenuItem>
-                        <MenuItem onClick={()=>setSemesters(2)}>Semester 2</MenuItem>
-                        <MenuItem onClick={()=>setSemesters(0)}>All</MenuItem>
+                        <MenuItem onClick={()=>setSemesters('1')}>Semester 1</MenuItem>
+                        <MenuItem onClick={()=>setSemesters('2')}>Semester 2</MenuItem>
+                        <MenuItem onClick={()=>setSemesters("")}>All</MenuItem>
                     </Select>
-                </Stack>
-                <Stack flex={1}>
-                    <Button 
-                        variant='itms'
-                        size='itms-small'
-                        onClick={()=>{console.log(levels);
-                                    console.log(semesters);}}
-                        >Filter</Button>
                 </Stack>
             </Stack>
 
-            <Stack width={'100%'} maxHeight={'35vh'}>
+
+            <Stack width={'100%'} height={tableHeight}>
                 <TableContainer sx={{maxHeight:'68vh'}}>
                     <Table stickyHeader size='small'>
                         <TableHead>
@@ -102,16 +96,52 @@ export const ShowStudentResults = () => {
                         </TableHead>
 
                         <TableBody>
-                            {results.map((row)=>(
-                                <TableRow key={results.courseUnitCode}>
-                                    <TableCell align='center'>{row.courseUnitName}</TableCell>
-                                    <TableCell align='left'>{row.courseUnitCode}</TableCell>
-                                    <TableCell align='center'>{row.courseUnitGrade}</TableCell>
-                                </TableRow>
+                            {results.map((result,index)=>(
+                                <>
+                                {level === "" &&
+                                    <>
+                                    {semester === "" &&
+                                        <TableRow key={index}>
+                                        <TableCell align='left'>{result.courseUnitCode}</TableCell>
+                                        <TableCell align='left'>{result.courseUnitName}</TableCell>
+                                        <TableCell align='center'>{result.courseUnitGrade}</TableCell>
+                                        </TableRow>  
+                                    }
+                                    {semester === result.courseUnitCode.charAt(4) &&
+                                        <TableRow key={index}>
+                                        <TableCell align='left'>{result.courseUnitCode}</TableCell>
+                                        <TableCell align='left'>{result.courseUnitName}</TableCell>
+                                        <TableCell align='center'>{result.courseUnitGrade}</TableCell>
+                                        </TableRow>  
+                                    }
+                                    </> 
+                                }
+                                {level === result.courseUnitCode.charAt(3) &&
+                                    <>
+                                    {semester === "" &&
+                                        <TableRow key={index}>
+                                        <TableCell align='left'>{result.courseUnitCode}</TableCell>
+                                        <TableCell align='left'>{result.courseUnitName}</TableCell>
+                                        <TableCell align='center'>{result.courseUnitGrade}</TableCell>
+                                        </TableRow>  
+                                    }
+                                    {semester === result.courseUnitCode.charAt(4) &&
+                                        <TableRow key={index}>
+                                        <TableCell align='left'>{result.courseUnitCode}</TableCell>
+                                        <TableCell align='left'>{result.courseUnitName}</TableCell>
+                                        <TableCell align='center'>{result.courseUnitGrade}</TableCell>
+                                        </TableRow>  
+                                    }
+                                    </> 
+                                }
+
+                                
+                                </>
                             )
 
                             )}
                         </TableBody>
+
                     </Table>
                 </TableContainer>
             </Stack>

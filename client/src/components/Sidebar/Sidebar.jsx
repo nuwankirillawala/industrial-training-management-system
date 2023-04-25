@@ -331,13 +331,28 @@ export default function Sidebar() {
         anchor="left"
         open={open}
       >
-        <DrawerHeader>
-          <IconButton onClick={ toggleDrawer }>
-            {open ? <ChevronLeft /> : <Menu />}
-          </IconButton>
-        </DrawerHeader>
+        <Box>
+          {open ? (
+              <Box display={'flex'} justifyContent={open ? 'flex-end' : 'space-between'}>
+                <DrawerHeader>
+                  <IconButton onClick={ toggleDrawer }>
+                    <ChevronLeft />
+                  </IconButton>
+                </DrawerHeader>
+              </Box>
+            ) : (
+              <Box display={'flex'} justifyContent={'center'}>
+                <DrawerHeader>
+                  <IconButton onClick={ toggleDrawer }>
+                    <Menu />
+                  </IconButton>
+                </DrawerHeader>
+              </Box>
+            )
+          }
+        </Box>
         
-        <Stack position={'relative'} top={20}>
+        <Stack position={'relative'} top={0}>
           <Grid container justifyContent="center">
             <Unilogo width='50px' height='100px'/>
           </Grid>
@@ -355,7 +370,7 @@ export default function Sidebar() {
           </Typography>
         </Stack>
         
-        <Stack sx={{position:'relative', top:100}}>
+        <Stack sx={{position:'relative', top:50}}>
           {users.map((user) => (            
             <ListItem key={user.name} disablePadding >
             </ListItem>              
@@ -370,7 +385,7 @@ export default function Sidebar() {
           ))}
         </Stack>
         
-        <Stack sx={{position:'relative', top:200}}>
+        <Stack sx={{position:'relative', top:100}}>
           {controlItems.map((controlItem) => (
             // <ListItem key={text} disablePadding>              
                 <ListItemButton
