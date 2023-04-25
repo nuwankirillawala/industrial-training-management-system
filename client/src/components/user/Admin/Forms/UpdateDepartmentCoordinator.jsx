@@ -1,4 +1,4 @@
-import { TextField, Stack, Button, Typography } from "@mui/material"
+import { TextField, Stack, Button, Typography, Select } from "@mui/material"
 import React from "react"
 import { useState } from "react"
 import { Tile } from "../../../card/Tile"
@@ -133,7 +133,7 @@ export const UpdateDepartmentCoordinator = () => {
                                     <Typography variant="body1">Position</Typography>
                                 </Stack>
                                 <Stack width='300px'>
-                                    <TextField
+                                    <Select
                                         fullWidth
                                         variant="outlined"
                                         type="text"
@@ -143,7 +143,13 @@ export const UpdateDepartmentCoordinator = () => {
                                         name="departmentCoordinatorPosition"
                                         error={!!touched.departmentCoordinatorPosition && !!errors.departmentCoordinatorPosition}
                                         helperText={touched.departmentCoordinatorPosition && errors.departmentCoordinatorPosition}
-                                    />
+                                    ><MenuItem value="Proffer">Proffer</MenuItem>
+                                        <MenuItem value="SiniorLec1">Sinior Lecture 1</MenuItem>
+                                        <MenuItem value="SiniorLec2">Sinior Lecture 2</MenuItem>
+                                        <MenuItem value="SiniorLec3">Sinior Lecture 3</MenuItem>
+                                        <MenuItem value="Lecture">Lecture</MenuItem>
+                                        <MenuItem value="Prbeshanary">Prbeshanary</MenuItem>
+                                    </Select>
                                 </Stack>
                             </Stack>
 
