@@ -15,6 +15,9 @@ router.route('/:companyID/edit-rating')
 router.route('/intern-process-company-list')
     .get(companyController.internProcessCompanyList)
 
+router.route('/update-company-intern-application-list')
+    .post(companyController.updateCompanyInternApplicationList)
+
 router.route('/intern-process-company')
     .post(companyController.internProcessCompany)
 
