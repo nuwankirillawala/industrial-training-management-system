@@ -59,6 +59,9 @@ const UploadResultsheet = () => {
     if (excelFileStatus === "Success") {
       handleSnackBar("success");
     } else {
+      if (excelFileStatus === "Please select only excel file types") {
+        handleSnackBar("onlyExcel");
+      }
       setExcelFileStatus("Please select your file");
       handleSnackBar("inputError");
     }
