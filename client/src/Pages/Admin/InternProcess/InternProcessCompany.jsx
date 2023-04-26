@@ -1,13 +1,16 @@
 import { Fragment, useEffect, useState } from "react";
 import useFetch from "../../../Hooks/useFetch";
-import { Button, Grid, List, ListItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, tableCellClasses, Typography, Alert, AlertTitle, Card, Box, CardContent, CardMedia, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
+import { Button, Grid, Typography, Alert, AlertTitle, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
 import { Tile } from "../../../components/card/Tile";
-import styled from "@emotion/styled";
 import { useTheme } from "@emotion/react";
 import * as assets from '../../../assets'
 import CompanyCard from "../../../components/InternProcess/CompanyCard";
 import { useParams } from "react-router-dom";
-import { red } from "@mui/material/colors";
+import InternDataGridMini from "../../../components/InternProcess/ViewTable/InternDataGridMini";
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import axios from "axios";
+
 
 const InternProcessCompany = () => {
   const [students, setStudents] = useState([]);
@@ -15,6 +18,7 @@ const InternProcessCompany = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [company, setCompany] = useState({})
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogData, setDialogData] = useState();
   const { companyId } = useParams();
 
   const { data } = useFetch('POST', 'http://localhost:5000/api/v1/company/intern-process-company', { companyId: companyId })
@@ -35,7 +39,7 @@ const InternProcessCompany = () => {
   const handleAddStudent = (student) => {
     if (selectedStudents.length < 10) {
       setSelectedStudents([...selectedStudents, student]);
-      setStudents(students.filter(s => s._id !== student._id));
+      setStudents(students.filter(s => s.regNo !== student.regNo));
     }
     else {
       setAlertOpen(true);
@@ -44,54 +48,88 @@ const InternProcessCompany = () => {
 
   const handleRemoveStudent = (student) => {
     setStudents([...students, student]);
-    setSelectedStudents(selectedStudents.filter(s => s._id !== student._id));
+    setSelectedStudents(selectedStudents.filter(s => s.regNo !== student.regNo));
   };
 
-  const handleSave = () => {
-    setDialogOpen(true);
-    // const { data } = useFetch('POST', 'http://localhost:5000/api/v1/company/intern-process-save-company-list', { list: selectedStudents });
-    if (true) {
+  const handleSave = async () => {
+    console.log(company, selectedStudents);
+    const res = await axios.post("http://localhost:5000/api/v1/company/update-company-intern-application-list", { companyId: company._id, candidateList: selectedStudents }, { withCredentials: true })
+    if (res) {
+      setDialogData(res.data);
       setDialogOpen(true);
     }
   }
 
   const handleDialogClose = () => {
-    ;
+    setDialogOpen(false);
   }
-
-  const StyledTableCell = styled(TableCell)(() => {
-    // const theme = useTheme();
-    return {
-      [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.blueColor.main,
-        color: '#fff',
-      },
-      [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-      },
-    }
-  });
-
-  const StyledTableRow = styled(TableRow)(() => {
-    const theme = useTheme();
-    return {
-      cursor: 'pointer',
-      '&:hover': {
-        // backgroundColor: theme.palette.blueColor.light,
-        backgroundColor: theme.palette.gray.light,
-
-      },
-    };
-  });
 
   const demo = {
     name: 'Creative Software',
     image: assets.Creative
   }
 
+  const columnsLeft = [
+    { field: 'regNo', headerName: 'Registration No.', width: 130, headerClassName: 'data-grid-header' },
+    { field: 'name', headerName: 'Name', width: 180, headerClassName: 'data-grid-header' },
+    { field: 'gpa', headerName: 'GPA', type: 'number', width: 50, headerClassName: 'data-grid-header' },
+    { field: 'weightedGPA', headerName: 'WGPA', type: 'number', width: 60, headerClassName: 'data-grid-header' },
+    { field: 'choice', headerName: 'Choice', width: 70, headerClassName: 'data-grid-header' },
+    {
+      field: 'action',
+      headerName: 'Action',
+      width: 100,
+      headerClassName: 'data-grid-header',
+      // renderCell: (params) => (<Button onClick={() => handleAddStudent(params.row)} startIcon={<AddIcon />}>Add</Button>)
+      renderCell: (params) => (<Button onClick={() => handleAddStudent(params.row)} startIcon={<AddIcon />} />)
+
+    },
+  ];
+
+  const rowsLeft =
+    data &&
+    students.map((user) => {
+      return {
+        id: user._id,
+        regNo: user.regNo,
+        name: user.name,
+        gpa: user.gpa,
+        weightedGPA: user.weightedGPA,
+      };
+    });
+
+  const columnsRight = [
+    { field: 'regNo', headerName: 'Registration No.', width: 130, headerClassName: 'data-grid-header' },
+    { field: 'name', headerName: 'Name', width: 180, headerClassName: 'data-grid-header' },
+    { field: 'gpa', headerName: 'GPA', type: 'number', width: 50, headerClassName: 'data-grid-header' },
+    { field: 'weightedGPA', headerName: 'WGPA', type: 'number', width: 60, headerClassName: 'data-grid-header' },
+    { field: 'choice', headerName: 'Choice', width: 70, headerClassName: 'data-grid-header' },
+    {
+      field: 'action',
+      headerName: 'Action',
+      width: 100,
+      headerClassName: 'data-grid-header',
+      // renderCell: (params) => (<Button type='close' onClick={() => handleRemoveStudent(params.row)} startIcon={<DeleteIcon />}>Remove</Button>)
+      renderCell: (params) => (<Button type='close' onClick={() => handleRemoveStudent(params.row)} startIcon={<DeleteIcon />} />)
+
+    },
+  ];
+
+  const rowsRight =
+    data &&
+    selectedStudents.map((user) => {
+      return {
+        id: user._id,
+        regNo: user.regNo,
+        name: user.name,
+        gpa: user.gpa,
+        weightedGPA: user.weightedGPA,
+      };
+    });
+
   return (
     <Grid container spacing={1} direction='column'>
-      <Grid item xs={12}>
+      <Grid item>
         <Tile>
           <Grid container direction='row'>
             <Grid item xs={8}>
@@ -102,18 +140,14 @@ const InternProcessCompany = () => {
                 <Typography variant="body1" color="secondary">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus, illum?</Typography>
               </Tile>
             </Grid>
-
             <Grid item xs={4}>
               <CompanyCard company={company} />
             </Grid>
-
           </Grid>
         </Tile>
       </Grid>
-
       <Grid item>
         <Grid container spacing={1}>
-
           <Dialog
             open={dialogOpen}
             onClose={handleDialogClose}
@@ -126,8 +160,8 @@ const InternProcessCompany = () => {
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
                 List Saved Successfully. <br />
-                Company Name: 
-                Saved candidates: 
+                Company Name: {dialogData && dialogData.company.name} <br />
+                Saved candidates count: {dialogData && dialogData.company.internApplicationList}
               </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -139,37 +173,12 @@ const InternProcessCompany = () => {
           <Grid item xs={6}>
             <Tile>
               <Typography variant="h5" color="">Undergraduate List</Typography><br />
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 100 }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <StyledTableCell>#</StyledTableCell>
-                      <StyledTableCell align="left">Name</StyledTableCell>
-                      <StyledTableCell align="left">Registration No.</StyledTableCell>
-                      <StyledTableCell align="left">GPA</StyledTableCell>
-                      <StyledTableCell align="left">Weighted GPA</StyledTableCell>
-                      <StyledTableCell align="left">Choice</StyledTableCell>
-                      <StyledTableCell align="left">Action</StyledTableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {students && students.map((user, index) => (
-                      <StyledTableRow
-                        key={user.id}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                      >
-                        <TableCell component="th" scope="row">{index + 1}</TableCell>
-                        <TableCell align="left">{user.name}</TableCell>
-                        <TableCell align="left">{user.regNo}</TableCell>
-                        <TableCell align="left">{user.gpa}</TableCell>
-                        <TableCell align="left">{user.weightedGPA}</TableCell>
-                        <TableCell align="left">{user.order}</TableCell>
-                        <TableCell align="left"><Button onClick={() => handleAddStudent(user)}>Add</Button></TableCell>
-                      </StyledTableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+
+              <InternDataGridMini
+                users={students && students}
+                rows={rowsLeft}
+                columns={columnsLeft}
+              />
             </Tile>
           </Grid>
 
@@ -183,37 +192,12 @@ const InternProcessCompany = () => {
                 </Alert>
                 <br />
               </Fragment>}
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 100 }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <StyledTableCell>#</StyledTableCell>
-                      <StyledTableCell align="left">Name</StyledTableCell>
-                      <StyledTableCell align="left">Registration No.</StyledTableCell>
-                      <StyledTableCell align="left">GPA</StyledTableCell>
-                      <StyledTableCell align="left">Weighted GPA</StyledTableCell>
-                      <StyledTableCell align="left">Choice</StyledTableCell>
-                      <StyledTableCell align="left">Action</StyledTableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {selectedStudents && selectedStudents.map((user, index) => (
-                      <StyledTableRow
-                        key={user.id}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                      >
-                        <TableCell component="th" scope="row">{index + 1}</TableCell>
-                        <TableCell align="left">{user.name}</TableCell>
-                        <TableCell align="left">{user.regNo}</TableCell>
-                        <TableCell align="left">{user.gpa}</TableCell>
-                        <TableCell align="left">{user.weightedGPA}</TableCell>
-                        <TableCell align="left">{user.order}</TableCell>
-                        <TableCell align="left"><Button color='error' onClick={() => handleRemoveStudent(user)}>Remove</Button></TableCell>
-                      </StyledTableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+
+              <InternDataGridMini
+                users={selectedStudents && selectedStudents}
+                rows={rowsRight}
+                columns={columnsRight}
+              />
               <br />
               <Button variant="contained" size="large" onClick={handleSave}>Save List</Button>
             </Tile>
