@@ -12,6 +12,8 @@ import { Apartment, ArrowBack, Article, Assessment, Ballot, ChevronLeft, Dashboa
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import MuiDrawer from '@mui/material/Drawer';
+import MuiAppBar from '@mui/material/AppBar';
+import MuiNavbar from '../Navbar/Navbar';
 
 const drawerWidth = 240;
 
@@ -31,6 +33,8 @@ const closedMixin = (theme) => ({
   }),
   overflowX: 'hidden',
   width: `calc(${theme.spacing(6)} + 1px)`,
+  display: 'flex',
+  alignItems: 'center',
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(9)} + 1px)`,
   },
@@ -53,22 +57,28 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-// const AppBar = styled(MuiAppBar, {
-//   shouldForwardProp: (prop) => prop !== 'open',
-// })(({ theme, open }) => ({
-//   transition: theme.transitions.create(['margin', 'width'], {
-//     easing: theme.transitions.easing.sharp,
-//     duration: theme.transitions.duration.leavingScreen
-//   }),
-//   ...(open && {
-//     width: `calc(100% - ${drawerWidth}px)`,
-//     marginLeft: `${drawerWidth}px`,
-//     transition: theme.transitions.create(['margin', 'width'], {
-//       easing: theme.transitions.easing.easeOut,
-//       duration: theme.transitions.duration.enteringScreen
-//     })
-//   })
-// }));
+const ListItemIconWrapper = styled(ListItemIcon)({
+  display: 'flex',
+  justifyContent: 'center',
+});
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer +1,
+  transition: theme.transitions.create(['margin', 'width'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  })
+}));
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -254,10 +264,6 @@ export default function Sidebar() {
 
   const [open, setOpen] = useState(true);
 
-  // const handleDrawerOpen = () => {
-  //   setOpen(true);
-  // };
-
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -314,6 +320,8 @@ export default function Sidebar() {
         </AppBar>
       </ThemeProvider> */}
 
+      <AppBar position='fixed' open={open}/>
+
       <Drawer
         sx={{
           textAlign: 'center',        
@@ -361,42 +369,62 @@ export default function Sidebar() {
             variant={'h6'}
             fontWeight={'bold'}
             letterSpacing={5}
+            // textAlign={'center'}
             sx={{
               position:'relative',
               top:5,
-              lineHeight:1.2
+              lineHeight:1.2,
+              // textAlign:'center'
             }}>
             ITMS
           </Typography>
         </Stack>
         
-        <Stack sx={{position:'relative', top:50}}>
+        <Stack sx={{position:'relative', top:50, justifyContent: 'center'}}>
           {users.map((user) => (            
             <ListItem key={user.name} disablePadding >
             </ListItem>              
           ))}
           {currentUser.items.map((item) => (
             <ListItemButton key={item.id} sx={buttonStyles} onClick={() => handleCurrentUserItem(currentUser, item.element)}>
-              <ListItemIcon>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText primary={item.primaryText} />              
+              {!open ? (
+                <ListItemIconWrapper>
+                  {item.icon}
+                </ListItemIconWrapper>
+              ) : null}
+              {!open ? null : (
+                <React.Fragment>
+                  <ListItemIcon sx={{justifyContent: 'center'}}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item.primaryText} />
+                </React.Fragment>
+              )}
             </ListItemButton>
           ))}
         </Stack>
         
         <Stack sx={{position:'relative', top:100}}>
           {controlItems.map((controlItem) => (
-            // <ListItem key={text} disablePadding>              
+            // <ListItem key={text} disablePadding>
                 <ListItemButton
                   key={controlItem.id}
                   sx={buttonStyles}
                   onClick={() => handleControlItem(controlItem.page)}
                   >
-                    <ListItemIcon>
-                      {controlItem.icon}
-                    </ListItemIcon>
-                  <ListItemText primary={controlItem.label} />
+                    {!open ? (
+                      <ListItemIconWrapper>
+                        {controlItem.icon}
+                      </ListItemIconWrapper>
+                    ) : null}
+                    {!open ? null : (
+                      <React.Fragment>
+                        <ListItemIcon sx={{justifyContent: 'center'}}>
+                          {controlItem.icon}
+                        </ListItemIcon>
+                        <ListItemText primary={controlItem.label} />
+                      </React.Fragment>
+                    )}
                 </ListItemButton>                
               // </ListItem>
             ))}
