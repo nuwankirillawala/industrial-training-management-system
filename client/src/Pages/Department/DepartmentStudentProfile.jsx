@@ -5,7 +5,7 @@ import { DepartmentShowStudentProfile } from '../../components/user/Department/D
 import { ShowStudentResults } from '../../components/user/Shared/ShowStudentResult/ShowStudentResults'
 import { DataGrid } from '@mui/x-data-grid'
 
-import jsonData from '../Admin/ReportSubmission/data.json'
+// import jsonData from '../Admin/ReportSubmission/data.json'
 
 
 export const DepartmentStudentProfile = () => {
