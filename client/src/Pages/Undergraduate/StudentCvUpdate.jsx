@@ -11,6 +11,7 @@ import {
   IconButton,
   Toolbar,
   AppBar,
+  Chip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
@@ -31,6 +32,25 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 //end of creation transition for dialog
 
 export const StudentCvUpdate = () => {
+  //Get data from back end
+  const data = {
+    olResult: "A",
+    alResult: "C",
+    speakingLevel: "50%",
+    writingLevel: "68%",
+    readingLevel: "",
+    language: "",
+    languageLevel: "",
+    skill: "",
+    skillCertificates: "",
+    projects: "",
+    projectDescription: "",
+    projectTechnologies: "",
+    projectRepoLink: "",
+    projectLiveLink: "",
+  };
+  //End of fetcching data from the back end
+
   //Data for End point
   const [englishProficiency, setEnglishProficiency] = useState({
     olResult: "",
@@ -199,6 +219,48 @@ export const StudentCvUpdate = () => {
                     <EnglishProficiency passDataFromChild={passDataFromChild} />
                   </PopUpDialog>
                 </Stack>
+                <Stack mt={1} direction={"row"} spacing={0.5}>
+                  {data.olResult !== "" && (
+                    <>
+                      <Chip
+                        label={`Ordinary Level result : ${data.olResult}`}
+                        variant="outlined"
+                      />
+                    </>
+                  )}
+                  {data.alResult !== "" && (
+                    <>
+                      <Chip
+                        label={`Ordinary Level result : ${data.alResult}`}
+                        variant="outlined"
+                      />
+                    </>
+                  )}
+                  {data.speakingLevel !== "" && (
+                    <>
+                      <Chip
+                        label={`Ordinary Level result : ${data.speakingLevel}`}
+                        variant="outlined"
+                      />
+                    </>
+                  )}
+                  {data.writingLevel !== "" && (
+                    <>
+                      <Chip
+                        label={`Ordinary Level result : ${data.writingLevel}`}
+                        variant="outlined"
+                      />
+                    </>
+                  )}
+                  {data.readingLevel !== "" && (
+                    <>
+                      <Chip
+                        label={`Ordinary Level result : ${data.readingLevel}`}
+                        variant="outlined"
+                      />
+                    </>
+                  )}
+                </Stack>
               </Tile>
               <Tile sx={{ height: "100%" }}>
                 <Stack
@@ -225,6 +287,24 @@ export const StudentCvUpdate = () => {
                     }}
                     id={"ProgrammingLanguages"}
                   ></PopUpDialog>
+                </Stack>
+                <Stack mt={1} direction={"row"} spacing={0.5}>
+                  {data.language !== "" && (
+                    <>
+                      <Chip
+                        label={`Language : ${data.language}`}
+                        variant="outlined"
+                      />
+                    </>
+                  )}
+                  {data.languageLevel !== "" && (
+                    <>
+                      <Chip
+                        label={`Level : ${languageLevel}`}
+                        variant="outlined"
+                      />
+                    </>
+                  )}
                 </Stack>
               </Tile>
 
@@ -254,6 +334,24 @@ export const StudentCvUpdate = () => {
                     id={"OtherSkills"}
                   ></PopUpDialog>
                 </Stack>
+                <Stack mt={1} direction={"row"} spacing={0.5}>
+                  {data.skill !== "" && (
+                    <>
+                      <Chip
+                        label={`Other Skill : ${data.skill}`}
+                        variant="outlined"
+                      />
+                    </>
+                  )}
+                  {data.skillCertificates !== "" && (
+                    <>
+                      <Chip
+                        label={`Certificate : ${data.skillCertificates}`}
+                        variant="outlined"
+                      />
+                    </>
+                  )}
+                </Stack>
               </Tile>
 
               <Tile sx={{ height: "100%" }}>
@@ -282,6 +380,48 @@ export const StudentCvUpdate = () => {
                     id={"projects"}
                   ></PopUpDialog>
                 </Stack>
+                <Stack mt={1} direction={"row"} spacing={0.5}>
+                  {data.projects !== "" && (
+                    <>
+                      <Chip
+                        label={`project Name : ${data.projects}`}
+                        variant="outlined"
+                      />
+                    </>
+                  )}
+                  {data.projectDescription !== "" && (
+                    <>
+                      <Chip
+                        label={`Project Description : ${data.projectDescription}`}
+                        variant="outlined"
+                      />
+                    </>
+                  )}
+                  {data.projectTechnologies !== "" && (
+                    <>
+                      <Chip
+                        label={`Used Technologies : ${data.projectTechnologies}`}
+                        variant="outlined"
+                      />
+                    </>
+                  )}
+                  {data.projectRepoLink !== "" && (
+                    <>
+                      <Chip
+                        label={`Project Repositary : ${data.projectRepoLink}`}
+                        variant="outlined"
+                      />
+                    </>
+                  )}
+                  {data.projectLiveLink !== "" && (
+                    <>
+                      <Chip
+                        label={`Project URL : ${data.projectLiveLink}`}
+                        variant="outlined"
+                      />
+                    </>
+                  )}
+                </Stack>
               </Tile>
             </Stack>
           </Grid>
@@ -305,21 +445,27 @@ export const StudentCvUpdate = () => {
                       </Typography>
                     </Box>
                     <Box>
-                      <Typography variant="body2">Choose file:</Typography>
-                    </Box>
-                    <Box>
                       <form onSubmit={handleSubmit}>
+                        <Typography variant="body2" mb={1}>
+                          Choose file:
+                        </Typography>
                         <input type="file" onChange={handleChange} />
-                        <Button
-                          variant="itms"
-                          size="itms-small"
-                          onClick={viewButtonHandle}
-                        >
-                          View
-                        </Button>
-                        <Button type="submit" variant="itms" size="itms-small">
-                          Submit
-                        </Button>
+                        <Stack direction={"row"} mt={1.5}>
+                          <Button
+                            variant="itms"
+                            size="itms-small"
+                            onClick={viewButtonHandle}
+                          >
+                            View
+                          </Button>
+                          <Button
+                            type="submit"
+                            variant="itms"
+                            size="itms-small"
+                          >
+                            Submit
+                          </Button>
+                        </Stack>
                       </form>
 
                       {/* viewing the cv dialog*/}
