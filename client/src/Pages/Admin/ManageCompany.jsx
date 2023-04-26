@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, Grid } from "@mui/material";
 import { Tile } from "../../components/card/Tile";
 import Dialogbox from "../../components/Dialogbox/Dialogbox";
-import { RemoveUserForm } from "../../components/user/Admin/Forms/RemoveUserForm";
+import { RemoveCompanyForm } from "../../components/user/Admin/Forms/RemoveCompanyForm";
 import { Navigate, useNavigate } from 'react-router-dom';
 
 export const ManageCompany = () => {
@@ -64,7 +64,7 @@ export const ManageCompany = () => {
                                         <TableCell >   {r.title}  </TableCell>
                                         <TableCell >   {r.description} </TableCell>
                                         <TableCell> <Dialogbox title="Update Company" btn_name="update"><UpdateCompanyForm /></Dialogbox></TableCell>
-                                        <TableCell> <Dialogbox title="Remove Company" btn_name="remove"><RemoveUserForm /></Dialogbox></TableCell>
+                                        <TableCell> <Dialogbox title="Remove Company" btn_name="remove"><RemoveCompanyForm /></Dialogbox></TableCell>
                                     </TableRow> //id,title,description need to change as json file
                                 )}
                             </TableBody>
