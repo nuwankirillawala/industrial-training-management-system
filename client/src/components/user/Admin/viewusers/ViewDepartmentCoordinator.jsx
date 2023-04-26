@@ -1,10 +1,10 @@
 import { Stack } from "@mui/system";
 import React from "react";
 import { useState, useEffect } from "react";
-import { Table, TableBody, TableCell, TableHead, Typography, TableRow, Grid } from "@mui/material";
+import { Table, TableBody, TableCell, TableHead, Typography, TableRow, Grid, Divider } from "@mui/material";
 import { Tile } from "../../../card/Tile";
 
-export const ViewSupervisor = () => {
+export const ViewDepartmentCoordinator = () => {
     const [Column, setColumn] = useState([])
     const [Records, setRecords] = useState([])
     const [singleUser, setSingleUser] = useState([])
@@ -50,6 +50,7 @@ export const ViewSupervisor = () => {
             <Grid item md={4} sm={4} > <Tile>
                 <Stack direction={'column'}>
                     <Typography fontWeight={'bold'} paddingTop={'15px'} paddingBottom={'15px'}>Department Coordinator full details</Typography>
+                    <Divider orientation="horizontal" />
                     {singleUser && (
                         <Stack direction={'column'}>
                             <Stack direction={'row'}>  <Typography width={'135px'}> Name </Typography><Typography> {singleUser.id} </Typography></Stack>
