@@ -32,88 +32,56 @@ export const StudentDashboard = () => {
 
     <Box sx={{ display: 'flex' }} padding={'0px 10px 0px 0px'} margin={'0px 10px'}>
       <Grid container spacing={2}>
-
         {/* left half of the grid and it shows user profile and the result */}
         <Grid item md={9} sm={3}>
-          <Stack spacing={1}>
-            <Stack spacing={1}>
-              <Typography variant="h6" color="primary" marginBottom={'5px'}>Dashboard</Typography>
-              <Stack spacing={1} direction={'row'}>
-                <Tile flex={7}>
-                  <Stack direction={'row'} spacing={4}>
-                    <Stack justifyItems={'center'} alignItems={'center'} flex={3} >
-                      <Avatar width={'140px'} height={'140px'} />
-                      <Typography variant='h6' fontWeight={'bold'}>Undergraduate</Typography>
-                      {/* <Paper sx={{p:1, backgroundColor: '#fff'}}>
+          <Typography variant="head3" marginBottom={'5px'}>Dashboard</Typography>
+          <Grid container direction="row" spacing={1}>
+            <Grid item xs={9}>
+              <Grid container spacing={1}>
+                <Grid item xs={12}>
+                  <Tile flex={7}>
+                    <Stack direction={'row'} spacing={4}>
+                      <Stack justifyItems={'center'} alignItems={'center'} flex={3} >
+                        <Avatar width={'140px'} height={'140px'} />
                         <Typography variant='h6' fontWeight={'bold'}>Undergraduate</Typography>
-                      </Paper> */}
-                    </Stack>
+                      </Stack>
 
-                    <Stack spacing={0.8} flex={12} direction={'column'}>
-                      <ProfileFormLine title='Name' content={basicInfo.name} />
-                      <ProfileFormLine title='Reg. No' content={basicInfo.regNo} />
-                      <ProfileFormLine title='Email' content={basicInfo.email} />
-                      <ProfileFormLine title='Mobile' content={basicInfo.contactNo} />
-                      <ProfileFormLine title='Linkdin' content={basicInfo.linkdinURL} />
-                      <ProfileFormLine title='GitHub' content={basicInfo.githubURL} />
-                      <ProfileFormLine title='GPA' content={basicInfo.gpa} />
+                      <Stack spacing={0.8} flex={12} direction={'column'}>
+                        <ProfileFormLine title='Name' content={basicInfo.name} />
+                        <ProfileFormLine title='Reg. No' content={basicInfo.regNo} />
+                        <ProfileFormLine title='Email' content={basicInfo.email} />
+                        <ProfileFormLine title='Mobile' content={basicInfo.contactNo} />
+                        <ProfileFormLine title='Linkdin' content={basicInfo.linkdinURL} />
+                        <ProfileFormLine title='GitHub' content={basicInfo.githubURL} />
+                        <ProfileFormLine title='GPA' content={basicInfo.gpa} />
+                      </Stack>
                     </Stack>
-                  </Stack>
-                </Tile>
-                <Stack flex={5} spacing={1}>
-                  <Tile height={'100%'}>
-                    <Typography variant="h6" color="initial">Skills</Typography>
-                    <Divider sx={{ m: 1 }} />
-                    <SkillLevel skill={'Programming'} value={80} />
-                    <SkillLevel skill={'Database'} value={60} />
-                    <SkillLevel skill={'Project Management'} value={50} />
-                    <SkillLevel skill={'Database'} value={90} />
-                    <SkillLevel skill={'Database'} value={40} />
-
                   </Tile>
-                </Stack>
-              </Stack>
-              {/* <Typography variant="h5" color="initial">Featured</Typography> */}
-              <Stack direction={'row'} spacing={1}>
+                </Grid>
+                <Grid item xs={12}>
+                  <Tile height={'100%'}>
+                    <Stack spacing={0.8} flex={12} direction={'column'}>
+                      <Typography variant="h6" color="initial">Skills</Typography>
+                      <Divider sx={{ m: 1 }} />
+                      <SkillLevel skill={'Programming'} value={80} />
+                      <SkillLevel skill={'Database'} value={60} />
+                      <SkillLevel skill={'Project Management'} value={50} />
+                      <SkillLevel skill={'Database'} value={90} />
+                      <SkillLevel skill={'Database'} value={40} />
+                    </Stack>
+                  </Tile>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={3}>
+            <Stack direction={'column'} spacing={1}>
                 <FeaturedCard title='Exam Results' color='#fff'/>
                 <FeaturedCard title='Intern Application' color='#2ECC40'/>
                 <FeaturedCard title='Report Submission' color='#0074D9'/>
                 <FeaturedCard title='Your Portfolio' color='#FFDC00'/>
               </Stack>
-
-
-            </Stack>
-
-            {/* results */}
-            <Stack>
-              <Tile>
-                <TableContainer>
-                  <Table>
-                    <TableHead sx={{ bgcolor: '#FFFFFF' }}>
-                      <TableRow>
-                        <TableCell>Subject Name</TableCell>
-                        <TableCell>Subject Code</TableCell>
-                        <TableCell>Result</TableCell>
-                      </TableRow>
-                    </TableHead>
-
-                    <TableBody sx={{}}>
-                      <TableRow>
-                        <TableCell align='left'>object orianted system developmet</TableCell>
-                        <TableCell>CSC2134</TableCell>
-                        <TableCell>A</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align='left'>object orianted system developmet</TableCell>
-                        <TableCell>CSC2134</TableCell>
-                        <TableCell>A</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Tile>
-            </Stack>
-          </Stack>
+            </Grid>
+          </Grid>
         </Grid>
 
         {/* right half of the grid and it shows notice,note and the calender*/}
