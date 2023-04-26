@@ -22,6 +22,7 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { EnglishProficiency } from "../../components/user/Undergraduate/studentCV/EnglishProficiency";
 import { PopUpDialog } from "../../components/user/Undergraduate/studentCV/PopUpDialog";
 import { StatusSnackBar } from "../../components/StatusSnackBar/StatusSnackBar";
+import { MiniNoticeBoard } from "../../components/MiniNoticeBoard/MiniNoticeBoard";
 
 //creating transition for dialog
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -148,220 +149,248 @@ export const StudentCvUpdate = () => {
   //end of the end point
 
   return (
-    <Box>
-      <Grid container spacing={1}>
-        <Grid item xs={9}>
-          {/* content here */}
-          <Stack spacing={1}>
-            <Tile height="auto">
-              <Typography variant="h5" fontWeight="bold" align="center">
-                Additional Information
-              </Typography>
-              <br />
-            </Tile>
-            <Tile>
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={2}
-                justifyContent="space-between"
-              >
-                <Typography varient="h2" fontWeight="bold">
-                  English Proficiency
-                </Typography>
-                <IconButton
-                  name="addEnglishProficiency"
-                  onClick={() => {
-                    togglePopup("englishProficiency");
-                  }}
+    <Box sx={{ height: "88vh" }}>
+      <Box>
+        <Typography
+          variant="h6"
+          color="primary"
+          marginBottom={"5px"}
+          paddingLeft={"15px"}
+        >
+          Additional Information
+        </Typography>
+      </Box>
+      <Box sx={{ height: "100%" }}>
+        <Grid container spacing={1} sx={{ height: "100%" }}>
+          <Grid item xs={9}>
+            {/* content here */}
+            <Stack
+              height={"100%"}
+              spacing={1}
+              display={"flex"}
+              direction={"column"}
+              justifyContent={"space-around"}
+            >
+              <Tile sx={{ height: "100%" }}>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={2}
+                  justifyContent="space-between"
                 >
-                  <AddIcon />
-                </IconButton>
-                <PopUpDialog
-                  open={openForm.englishProficiency}
-                  setOpen={() => {
-                    togglePopup("englishProficiency");
-                  }}
-                  id={"EnglishProficiency"}
-                >
-                  <EnglishProficiency passDataFromChild={passDataFromChild} />
-                </PopUpDialog>
-              </Stack>
-              <></>
-            </Tile>
-
-            <Tile>
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={2}
-                justifyContent="space-between"
-              >
-                <Typography varient="h2" fontWeight="bold">
-                  Programming languages
-                </Typography>
-                <IconButton
-                  name="addProgrammingLanguages"
-                  onClick={() => {
-                    togglePopup("programmingLanguages");
-                  }}
-                >
-                  <AddIcon />
-                </IconButton>
-                <PopUpDialog
-                  open={openForm.programmingLanguages}
-                  setOpen={() => {
-                    togglePopup("programmingLanguages");
-                  }}
-                  id={"ProgrammingLanguages"}
-                ></PopUpDialog>
-              </Stack>
-            </Tile>
-
-            <Tile>
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={2}
-                justifyContent="space-between"
-              >
-                <Typography varient="h2" fontWeight="bold">
-                  Other Skills
-                </Typography>
-                <IconButton
-                  name="addOtherSkills"
-                  onClick={() => {
-                    togglePopup("otherSkills");
-                  }}
-                >
-                  <AddIcon />
-                </IconButton>
-                <PopUpDialog
-                  open={openForm.otherSkills}
-                  setOpen={() => {
-                    togglePopup("otherSkills");
-                  }}
-                  id={"OtherSkills"}
-                ></PopUpDialog>
-              </Stack>
-            </Tile>
-
-            <Tile>
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={2}
-                justifyContent="space-between"
-              >
-                <Typography varient="h2" fontWeight="bold">
-                  Projects
-                </Typography>
-                <IconButton
-                  name="addProjects"
-                  onClick={() => {
-                    togglePopup("projects");
-                  }}
-                >
-                  <AddIcon />
-                </IconButton>
-                <PopUpDialog
-                  open={openForm.projects}
-                  setOpen={() => {
-                    togglePopup("projects");
-                  }}
-                  id={"projects"}
-                ></PopUpDialog>
-              </Stack>
-            </Tile>
-          </Stack>
-        </Grid>
-        <Grid item xs={3}>
-          <Grid container direction="column" spacing={1}>
-            <Grid item>
-              {/* right top content here */}
-              <Box>
-                <Tile>hello</Tile>
-              </Box>
-            </Grid>
-            <Grid item>
-              {/* right bottom content here */}
-              <Box>
-                <Tile>
-                  <Typography variant="body2">Upload your CV:</Typography>
-                  <br />
-                  <Typography variant="body2">Choose file:</Typography>
-                  <form onSubmit={handleSubmit}>
-                    <input type="file" onChange={handleChange} />
-                    <Button
-                      variant="itms"
-                      size="itms-small"
-                      onClick={viewButtonHandle}
-                    >
-                      View
-                    </Button>
-                    <Button type="submit" variant="itms" size="itms-small">
-                      Submit
-                    </Button>
-                  </form>
-
-                  {/* viewing the cv dialog*/}
-                  <Dialog
-                    fullScreen
-                    open={open}
-                    onClose={handleClose}
-                    TransitionComponent={Transition}
+                  <Typography varient="h2" fontWeight="bold">
+                    English Proficiency
+                  </Typography>
+                  <IconButton
+                    name="addEnglishProficiency"
+                    onClick={() => {
+                      togglePopup("englishProficiency");
+                    }}
                   >
-                    <AppBar sx={{ position: "relative" }} elevation={0}>
-                      <Toolbar>
-                        <IconButton
-                          edge="start"
-                          color="#363853"
-                          onClick={handleClose}
-                          aria-label="close"
-                        >
-                          <CloseIcon />
-                        </IconButton>
-                        <Typography
-                          sx={{ ml: 2, flex: 1 }}
-                          variant="body2"
-                          fontWeight="bold"
-                        >
-                          Uploaded File
-                        </Typography>
-                      </Toolbar>
-                    </AppBar>
-                    <Box
-                      justifyContent="center"
-                      justifyItems="center"
-                      sx={{
-                        height: "900px",
-                        width: "100%",
-                      }}
-                      overflow-y="auto"
-                    >
-                      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-                        {viewPDF && (
-                          <>
-                            <Viewer fileUrl={viewPDF} plugins={[newplugin]} />
-                          </>
-                        )}
-                        {!viewPDF && <>No PDF</>}
-                      </Worker>
-                    </Box>
-                  </Dialog>
+                    <AddIcon />
+                  </IconButton>
+                  <PopUpDialog
+                    open={openForm.englishProficiency}
+                    setOpen={() => {
+                      togglePopup("englishProficiency");
+                    }}
+                    id={"EnglishProficiency"}
+                  >
+                    <EnglishProficiency passDataFromChild={passDataFromChild} />
+                  </PopUpDialog>
+                </Stack>
+              </Tile>
+              <Tile sx={{ height: "100%" }}>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={2}
+                  justifyContent="space-between"
+                >
+                  <Typography varient="h2" fontWeight="bold">
+                    Programming languages
+                  </Typography>
+                  <IconButton
+                    name="addProgrammingLanguages"
+                    onClick={() => {
+                      togglePopup("programmingLanguages");
+                    }}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                  <PopUpDialog
+                    open={openForm.programmingLanguages}
+                    setOpen={() => {
+                      togglePopup("programmingLanguages");
+                    }}
+                    id={"ProgrammingLanguages"}
+                  ></PopUpDialog>
+                </Stack>
+              </Tile>
 
-                  <StatusSnackBar
-                    trigger={errorOpen}
-                    setTrigger={setErrorOpen}
-                    severity="info"
-                    alertMessage="motherfucker"
-                  />
+              <Tile sx={{ height: "100%" }}>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={2}
+                  justifyContent="space-between"
+                >
+                  <Typography varient="h2" fontWeight="bold">
+                    Other Skills
+                  </Typography>
+                  <IconButton
+                    name="addOtherSkills"
+                    onClick={() => {
+                      togglePopup("otherSkills");
+                    }}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                  <PopUpDialog
+                    open={openForm.otherSkills}
+                    setOpen={() => {
+                      togglePopup("otherSkills");
+                    }}
+                    id={"OtherSkills"}
+                  ></PopUpDialog>
+                </Stack>
+              </Tile>
+
+              <Tile sx={{ height: "100%" }}>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={2}
+                  justifyContent="space-between"
+                >
+                  <Typography varient="h2" fontWeight="bold">
+                    Projects
+                  </Typography>
+                  <IconButton
+                    name="addProjects"
+                    onClick={() => {
+                      togglePopup("projects");
+                    }}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                  <PopUpDialog
+                    open={openForm.projects}
+                    setOpen={() => {
+                      togglePopup("projects");
+                    }}
+                    id={"projects"}
+                  ></PopUpDialog>
+                </Stack>
+              </Tile>
+            </Stack>
+          </Grid>
+          <Grid item xs={3}>
+            <Stack direction="column" spacing={1} height={"100%"}>
+              {/* right bottom content here */}
+              <Box sx={{ height: "60%" }}>
+                <Tile sx={{ height: "100%" }}>
+                  <Stack
+                    height={"100%"}
+                    display={"flex"}
+                    justifyContent={"space-around"}
+                  >
+                    <Box>
+                      <Typography
+                        variant="body2"
+                        align="center"
+                        fontWeight={"bold"}
+                      >
+                        Upload your CV
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant="body2">Choose file:</Typography>
+                    </Box>
+                    <Box>
+                      <form onSubmit={handleSubmit}>
+                        <input type="file" onChange={handleChange} />
+                        <Button
+                          variant="itms"
+                          size="itms-small"
+                          onClick={viewButtonHandle}
+                        >
+                          View
+                        </Button>
+                        <Button type="submit" variant="itms" size="itms-small">
+                          Submit
+                        </Button>
+                      </form>
+
+                      {/* viewing the cv dialog*/}
+                      <Dialog
+                        fullScreen
+                        open={open}
+                        onClose={handleClose}
+                        TransitionComponent={Transition}
+                      >
+                        <AppBar sx={{ position: "relative" }} elevation={0}>
+                          <Toolbar>
+                            <IconButton
+                              edge="start"
+                              color="#363853"
+                              onClick={handleClose}
+                              aria-label="close"
+                            >
+                              <CloseIcon />
+                            </IconButton>
+                            <Typography
+                              sx={{ ml: 2, flex: 1 }}
+                              variant="body2"
+                              fontWeight="bold"
+                            >
+                              Uploaded File
+                            </Typography>
+                          </Toolbar>
+                        </AppBar>
+                        <Box
+                          justifyContent="center"
+                          justifyItems="center"
+                          sx={{
+                            height: "900px",
+                            width: "100%",
+                          }}
+                          overflow-y="auto"
+                        >
+                          <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+                            {viewPDF && (
+                              <>
+                                <Viewer
+                                  fileUrl={viewPDF}
+                                  plugins={[newplugin]}
+                                />
+                              </>
+                            )}
+                            {!viewPDF && <>No PDF</>}
+                          </Worker>
+                        </Box>
+                      </Dialog>
+
+                      <StatusSnackBar
+                        trigger={errorOpen}
+                        setTrigger={setErrorOpen}
+                        severity="info"
+                        alertMessage="motherfucker"
+                      />
+                    </Box>
+                  </Stack>
                 </Tile>
               </Box>
-            </Grid>
+              {/* right top content here */}
+              <Box sx={{ height: "100%" }}>
+                <Tile sx={{ height: "100%" }}>
+                  <MiniNoticeBoard />
+                </Tile>
+              </Box>
+            </Stack>
           </Grid>
         </Grid>
-      </Grid>
+      </Box>
     </Box>
   );
 };

@@ -1,5 +1,3 @@
 export const ProgrammingLanguages = () => {
-  return (
-      
-  );
+  return <Box>hi</Box>;
 };

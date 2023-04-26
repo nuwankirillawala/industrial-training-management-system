@@ -26,7 +26,7 @@ function RedirectAdduser(text) {
             return '/addadmin'
             break;
         case 'Department CoOrdinator':
-            return '/add-superv-details'
+            return '/add-departmnt-coordinator-details'
             break;
         case 'Undergraduate':
             return '/add-undergraduate-details'
@@ -69,9 +69,9 @@ function RedirectUpdateNRemoveuser(text) {
         case 'Administrator':
             return '/updateNremove-admin-details'
             break;
-        // case 'Department CoOrdinator':
-        //     return '/createDeptSup'
-        //     break;
+        case 'Department CoOrdinator':
+            return '/updateNremove-Department-Coordinator-details'
+            break;
         case 'Undergraduate':
             return '/updateNremove-undergraduate-details'
             break;

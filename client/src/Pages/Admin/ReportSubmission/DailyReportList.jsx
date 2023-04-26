@@ -7,6 +7,63 @@ import { DataGrid } from "@mui/x-data-grid";
 // import reportData from "./reportData.json"
 import { DailyReport } from './DailyReport';
 
+const jsonData = [
+  {
+    "id" : "SC/2019/11120",
+    "name" : "gavesh madushan"
+    
+  },
+
+  {
+      "id" : "SC/2019/11121",
+      "name" : "madushan gavesh"
+  },
+
+  {
+      "id" : "SC/2019/11122",
+      "name" : "G.M.Sooriyaarachchi"
+  }
+]
+
+const reportData = [
+  {
+    "id" : "firstWeek",
+    "report" : [
+      {
+          "monday" : "monday report data",
+          "tuesday" : "tuesday report data",
+          "wednesday" : "wednesday report data"
+      }
+    ]
+  },
+
+  {
+      "id" : "secondtWeek",
+      "report" : [
+        {
+          "monday" : "monday report data",
+          "tuesday" : "tuesday report data",
+          "wednesday" : "wednesday report data"
+      }
+    ]
+  },
+
+  {
+      "id" : "thirdWeek",
+      "report" : [
+        {
+          "monday" : "monday report data",
+          "tuesday" : "tuesday report data",
+          "wednesday" : "wednesday report data"
+      }
+    ]
+  }
+  
+]
+
+
+
+
 export const DailyReportList = () => {
   
   const [rows, setRows] = useState([]);
@@ -117,14 +174,14 @@ export const DailyReportList = () => {
 
                     <DataGrid
                       //rows={rows}
-                      // rows={jsonData}
+                      rows={jsonData}
                       columns={studentColumns}
-                      rowsPerPageOptions={[]}
                       onRowClick={selectRowData}
                       getRowId={(row) => row.id}
-                      // pageSize={10}
-                      // disableSelectionOnClick
-                      // experimentalFeatures={{ newEditingApi: true }}
+                      // pagination={false}
+                      // footer={false}
+                      disableSelectionOnClick
+                      experimentalFeatures={{ newEditingApi: true }}
                     
                     />
                   )}
@@ -132,12 +189,12 @@ export const DailyReportList = () => {
 
                     <DataGrid
                       //rows={rows}
-                      // rows={reportData}
+                      rows={reportData}
                       columns={reportColumns}
                       rowsPerPageOptions={[]}
                       onRowClick={selectReportData}
                       getRowId={(row) => row.id}
-                      // pageSize={10}
+                      pageSize={10}
                       // disableSelectionOnClick
                       // experimentalFeatures={{ newEditingApi: true }}
                     
