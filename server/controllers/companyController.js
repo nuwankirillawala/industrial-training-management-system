@@ -180,3 +180,34 @@ module.exports.internProcessCompany = catchAsync(async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+// Method: POST
+// Endpoint: "update-company-intern-application-list"
+// Description: 
+module.exports.updateCompanyInternApplicationList = catchAsync(async (req, res) => {
+    try {
+        const {companyId, candidateList} = req.body;
+        console.log(companyId, candidateList);
+
+        const company = await Company.findById(companyId);
+        console.log(company);
+        if(!company){
+            return res.status(404).json({error: 'Company not found!'});
+        }
+        console.log(company.applicationList);
+        company.applicationList = [];
+        console.log(company.applicationList);
+
+        candidateList.forEach((candidate) => {
+            console.log("candidate", candidate);
+            company.applicationList.push({candidate: candidate.id})
+        })
+        console.log(company.applicationList);
+
+        await company.save();
+        console.log(company);
+        res.status(200).json({company});
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
