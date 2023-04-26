@@ -71,7 +71,31 @@ const getTheme = (theme) => ({
         // },
         head1: {
             color: baseColor,
-            fontSize: "2.125rem",
+            fontSize: "3rem",
+            fontWeight: "500"
+        },
+        head2: {
+            color: baseColor,
+            fontSize: "2.5rem",
+            fontWeight: "500"
+        },
+        head3: {
+            color: baseColor,
+            fontSize: "2rem",
+            fontWeight: "500"
+        },
+        head4: {
+            color: baseColor,
+            fontSize: "1.25rem",
+            fontWeight: "500"
+        },
+        head5: {
+            color: baseColor,
+            fontSize: "1rem",
+            fontWeight: "500"
+        },head6: {
+            color: baseColor,
+            fontSize: "1.5rem",
             fontWeight: "500"
         },
     },
