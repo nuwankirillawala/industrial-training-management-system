@@ -225,6 +225,7 @@ export const StudentCvUpdate = () => {
                       <Chip
                         label={`Ordinary Level result : ${data.olResult}`}
                         variant="outlined"
+                        color="primary"
                       />
                     </>
                   )}
@@ -233,6 +234,7 @@ export const StudentCvUpdate = () => {
                       <Chip
                         label={`Ordinary Level result : ${data.alResult}`}
                         variant="outlined"
+                        color="primary"
                       />
                     </>
                   )}
@@ -241,6 +243,7 @@ export const StudentCvUpdate = () => {
                       <Chip
                         label={`Ordinary Level result : ${data.speakingLevel}`}
                         variant="outlined"
+                        color="primary"
                       />
                     </>
                   )}
@@ -249,6 +252,7 @@ export const StudentCvUpdate = () => {
                       <Chip
                         label={`Ordinary Level result : ${data.writingLevel}`}
                         variant="outlined"
+                        color="primary"
                       />
                     </>
                   )}
@@ -257,6 +261,7 @@ export const StudentCvUpdate = () => {
                       <Chip
                         label={`Ordinary Level result : ${data.readingLevel}`}
                         variant="outlined"
+                        color="primary"
                       />
                     </>
                   )}
@@ -294,6 +299,7 @@ export const StudentCvUpdate = () => {
                       <Chip
                         label={`Language : ${data.language}`}
                         variant="outlined"
+                        color="primary"
                       />
                     </>
                   )}
@@ -302,6 +308,7 @@ export const StudentCvUpdate = () => {
                       <Chip
                         label={`Level : ${languageLevel}`}
                         variant="outlined"
+                        color="primary"
                       />
                     </>
                   )}
@@ -340,6 +347,7 @@ export const StudentCvUpdate = () => {
                       <Chip
                         label={`Other Skill : ${data.skill}`}
                         variant="outlined"
+                        color="primary"
                       />
                     </>
                   )}
@@ -348,6 +356,7 @@ export const StudentCvUpdate = () => {
                       <Chip
                         label={`Certificate : ${data.skillCertificates}`}
                         variant="outlined"
+                        color="primary"
                       />
                     </>
                   )}
@@ -386,6 +395,7 @@ export const StudentCvUpdate = () => {
                       <Chip
                         label={`project Name : ${data.projects}`}
                         variant="outlined"
+                        color="primary"
                       />
                     </>
                   )}
@@ -394,6 +404,7 @@ export const StudentCvUpdate = () => {
                       <Chip
                         label={`Project Description : ${data.projectDescription}`}
                         variant="outlined"
+                        color="primary"
                       />
                     </>
                   )}
@@ -402,6 +413,7 @@ export const StudentCvUpdate = () => {
                       <Chip
                         label={`Used Technologies : ${data.projectTechnologies}`}
                         variant="outlined"
+                        color="primary"
                       />
                     </>
                   )}
@@ -410,6 +422,7 @@ export const StudentCvUpdate = () => {
                       <Chip
                         label={`Project Repositary : ${data.projectRepoLink}`}
                         variant="outlined"
+                        color="primary"
                       />
                     </>
                   )}
@@ -418,6 +431,7 @@ export const StudentCvUpdate = () => {
                       <Chip
                         label={`Project URL : ${data.projectLiveLink}`}
                         variant="outlined"
+                        color="primary"
                       />
                     </>
                   )}
