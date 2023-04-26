@@ -1,7 +1,7 @@
 import { Stack } from "@mui/system";
 import React from "react";
 import { useState, useEffect } from "react";
-import { Table, TableBody, TableCell, TableHead, TableRow, Grid, Typography } from "@mui/material";
+import { Table, TableBody, TableCell, TableHead, TableRow, Grid, Typography, Divider } from "@mui/material";
 import { Tile } from "../../../card/Tile";
 import { Layout } from "../../../Layout/Layout";
 
@@ -55,6 +55,7 @@ export const ViewUndergraduate = () => {
             <Grid item md={4} sm={4} > <Tile>
                 <Stack direction={'column'}>
                     <Typography fontWeight={'bold'} paddingTop={'15px'} paddingBottom={'15px'}>Undergraduate full details</Typography>
+                    <Divider orientation="horizontal" />
                     {singleUser && (
                         <Stack direction={'column'}>
                             <Stack direction={'row'}>  <Typography width={'135px'}> Name </Typography><Typography> {singleUser.id} </Typography></Stack>
