@@ -4,7 +4,9 @@ import { Grid, Stack, Box, Typography, TextField, Button } from '@mui/material'
 import { Avatar } from '../../components/shared/Images/Avatar'
 import {Formik } from 'formik'
 import * as Yup from 'yup'
+import { StatusSnackBar } from '../../components/StatusSnackBar/StatusSnackBar'
 import { ChangePassword } from '../../components/ChangePassword/ChangePassword'
+import { ChangeAvatar } from '../../components/ChangeAvatar/ChangeAvatar'
 
 // get current values form backend and set that valuse as default values in textfields
 
@@ -26,13 +28,36 @@ const alumniValues = {
 
 export const AlumniSettings = () => {
 
-    // const[profile,setProfile] = useState(alumniValues);
-
-    const handleOnSubmitForm = async(values) => {
-        console.log(values);
+    //statusSnackBar state
+    const [trigger, setTrigger] = useState({
+        success: false,
+      });
+      //End of statusSnackBar state
+      const handleSnackBar = (key) => {
+        setTrigger((prevState) => {
+          let newState = { ...prevState };
+          newState[key] = !newState[key];
+          return newState;
+        });
+      };
+   
+    const handleOnSubmitForm = async (values) => {
+        console.log(values);        
+        // const res = await axios.post(
+        //     "http://localhost:5000/api/v1/admin/create-admin", 
+        //     {   role : 'system-admin',
+        //         name : values.adminName,
+        //         email : values.adminEmail,
+        //         contactNo : values.adminContactNo,
+        //         staffId : values.adminStaffId,
+        //         password : values.adminPassword,
+        //    },
+        //     {withCredentials: true}
+        //     );
         await new Promise((r) => setTimeout(r, 500));
         alert(JSON.stringify(values, null, 2));
-    }
+        handleSnackBar("success");
+    };
 
     const validationForm = Yup.object().shape({
         firstName : Yup.string(),
@@ -60,16 +85,7 @@ export const AlumniSettings = () => {
                 <Stack direction='column' spacing={5}>
 {/* update profile photo */}
                     <Stack direction={'column'} spacing={2}>
-                        <Stack alignItems={'center'}>
-                            <Box width={'60%'}>
-                                <Avatar/>
-                            </Box>
-                        </Stack>
-                        <Stack alignItems={'center'}>
-                            <Box>
-                                <Button variant='itms'>change Profile Photo</Button>
-                            </Box>
-                        </Stack>            
+                        <ChangeAvatar />         
                     </Stack>
 {/* change password */}
                     <Stack direction={'column'} spacing={2}>
@@ -387,6 +403,14 @@ export const AlumniSettings = () => {
                                 </form>
                                 )}
                             </Formik> 
+                            <StatusSnackBar
+                              severity="success"
+                              trigger={trigger.success}
+                              setTrigger={() => {
+                                handleSnackBar("success");
+                              }}
+                              alertMessage={"Success"}
+                            />
                         </Box>
                     </Stack>
 
