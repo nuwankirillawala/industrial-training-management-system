@@ -42,18 +42,28 @@ export const AdminCreateForm = () => {
       };
    
     const handleFormSubmit = async (values) => {
-        console.log(values);        
-        const res = await axios.post(
+        // console.log(values);        
+        try{
+          const res = await axios.post(
             "http://localhost:5000/api/v1/admin/create-admin", 
             {   role : 'system-admin',
-                name : values.adminName,
-                email : values.adminEmail,
-                contactNo : values.adminContactNo,
-                staffId : values.adminStaffId,
-                password : values.adminPassword,
-           },
-            {withCredentials: true}
-            );
+            name : values.adminName,
+            email : values.adminEmail,
+            contactNo : values.adminContactNo,
+            staffId : values.adminStaffId,
+            password : values.adminPassword,
+          },
+          {withCredentials: true}
+          );
+          if(res.status === 'success') {
+            alert('You data submited')
+          } else {
+            alert('fail to post')
+          }
+
+        } catch(error){
+c
+        }
   
         handleSnackBar("success");
     };
