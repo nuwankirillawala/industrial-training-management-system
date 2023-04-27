@@ -90,19 +90,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const buttonStyles = {
   height:40,
-  textAlign: 'flex-start',
   '&:hover': {
-      bgcolor: '#f4f6fc',
-      color: 'black'
-  },
-};
-
-const buttonIconStyles ={
-  '&:hover': {
-    bgcolor: 'white',
+    bgcolor: '#f4f6fc',
     color: 'black'
   }
-}
+};
 
 const users = [
   {
@@ -111,31 +103,31 @@ const users = [
       {
         id: 1,
         primaryText: 'Dashboard',
-        icon: <Dashboard /*fontSize='large'*/ />,
+        icon: <Dashboard />,
         element: '/admin-dashboard'
       },
       {
         id: 2,
         primaryText: 'CV',
-        icon: <Article /*fontSize='large'*/ />,
+        icon: <Article />,
         element: '/student-cvupdate'
       },
       {
         id: 3,
         primaryText: 'Daily Report',
-        icon: <Assessment /*fontSize='large'*/ />,
+        icon: <Assessment />,
         element: '/daily-report'
       },
       {
         id: 4,
         primaryText: 'Company',
-        icon: <Apartment /*fontSize='large'*/ />,
+        icon: <Apartment />,
         element: '/add-company'
       },
       {
         id: 5,
         primaryText: 'Notice',
-        icon: <Notifications /*fontSize='large'*/ />,
+        icon: <Notifications />,
         element: '/notice'
       }
     ]
@@ -146,31 +138,31 @@ const users = [
       {
         id: 1,
         primaryText: 'Dashboard',
-        icon: <Dashboard /*fontSize='large'*/ />,
+        icon: <Dashboard />,
         element: 'admin-dashboard'
       },
       {
         id: 2,
         primaryText: 'CV',
-        icon: <Article /*fontSize='large'*/ />,
+        icon: <Article />,
         element: '/student-cvupdate'
       },
       {
         id: 3,
         primaryText: 'Company',
-        icon: <LocationCity /*fontSize='large'*/ />,
+        icon: <LocationCity />,
         element: '/add-company'
       },
       {
         id: 4,
         primaryText: 'Daily Report',
-        icon: <Assessment /*fontSize='large'*/ />,
+        icon: <Assessment />,
         element: '/daily-report'
       },
       {
         id: 5,
         primaryText: 'Notice',
-        icon: <Notifications /*fontSize='large'*/ />,
+        icon: <Notifications />,
         element: '/notice'
       }
     ]
@@ -181,31 +173,31 @@ const users = [
       {
         id: 1,
         primaryText: 'Dashboard',
-        icon: <Dashboard /*fontSize='large'*/ />,
+        icon: <Dashboard />,
         element: '/student-dashboard'
       },
       {
         id: 2,
         primaryText: 'Intern Application',
-        icon: <Ballot /*fontSize='large'*/ />,
+        icon: <Ballot />,
         element: '/intern-process-student'
       },
       {
         id: 3,
         primaryText: 'Comapany',
-        icon: <LocationCity /*fontSize='large'*/ />,
+        icon: <LocationCity />,
         element: '/student-company'
       },
       {
         id: 4,
         primaryText: 'Daily Report',
-        icon: <Assessment /*fontSize='small'*/ />,
+        icon: <Assessment />,
         element: '/daily-report-list'
       },
       {
         id: 5,
         primaryText: 'Notice',
-        icon: <Notifications /*fontSize='samll'*/ />,
+        icon: <Notifications />,
         element: '/notice'
       }
     ]
@@ -216,19 +208,19 @@ const controlItems = [
   {
     id: 1,
     label: 'Settings',
-    icon: <Settings /*fontSize='samll'*//>,
+    icon: <Settings />,
     page : "/student-settings"
   },
   {
     id: 2,
     label: 'Back',
-    icon: < ArrowBack /*fontSize='small'*//>,
+    icon: < ArrowBack />,
     page : 'back'
   },
   {
     id: 3,
     label: 'Log out',
-    icon: <Logout /*fontSize='small'*//>,
+    icon: <Logout />,
     page : '/login'
   }
 ];
@@ -268,7 +260,7 @@ export default function Sidebar() {
     setOpen(!open);
   };
 
-  const [currentUser, setCurrentUser] = useState(users[0]);
+  const [currentUser, setCurrentUser] = useState(users[2]);
   
   const handleCurrentUserItem = (user, element) => {
     setCurrentUser(user);
@@ -343,7 +335,7 @@ export default function Sidebar() {
           {open ? (
               <Box display={'flex'} justifyContent={open ? 'flex-end' : 'space-between'}>
                 <DrawerHeader>
-                  <IconButton onClick={ toggleDrawer }>
+                  <IconButton onClick={ toggleDrawer } sx={{ color: 'inherit' }}>
                     <ChevronLeft />
                   </IconButton>
                 </DrawerHeader>
@@ -351,7 +343,7 @@ export default function Sidebar() {
             ) : (
               <Box display={'flex'} justifyContent={'center'}>
                 <DrawerHeader>
-                  <IconButton onClick={ toggleDrawer }>
+                  <IconButton onClick={ toggleDrawer } sx={{ color: 'inherit' }}>
                     <Menu />
                   </IconButton>
                 </DrawerHeader>
@@ -369,12 +361,10 @@ export default function Sidebar() {
             variant={'h6'}
             fontWeight={'bold'}
             letterSpacing={5}
-            // textAlign={'center'}
             sx={{
               position:'relative',
               top:5,
               lineHeight:1.2,
-              // textAlign:'center'
             }}>
             ITMS
           </Typography>
@@ -386,15 +376,19 @@ export default function Sidebar() {
             </ListItem>              
           ))}
           {currentUser.items.map((item) => (
-            <ListItemButton key={item.id} sx={buttonStyles} onClick={() => handleCurrentUserItem(currentUser, item.element)}>
+            <ListItemButton
+             key={item.id}
+             sx={buttonStyles}
+             onClick={() => handleCurrentUserItem(currentUser, item.element)}
+            >
               {!open ? (
-                <ListItemIconWrapper>
+                <ListItemIconWrapper sx={{ color: 'inherit' }}>
                   {item.icon}
                 </ListItemIconWrapper>
               ) : null}
               {!open ? null : (
                 <React.Fragment>
-                  <ListItemIcon sx={{justifyContent: 'center'}}>
+                  <ListItemIcon sx={{ color: 'inherit', justifyContent: 'center' }}>
                     {item.icon}
                   </ListItemIcon>
                   <ListItemText primary={item.primaryText} />
@@ -413,13 +407,13 @@ export default function Sidebar() {
                   onClick={() => handleControlItem(controlItem.page)}
                   >
                     {!open ? (
-                      <ListItemIconWrapper>
+                      <ListItemIconWrapper sx={{ color: 'inherit' }}>
                         {controlItem.icon}
                       </ListItemIconWrapper>
                     ) : null}
                     {!open ? null : (
                       <React.Fragment>
-                        <ListItemIcon sx={{justifyContent: 'center'}}>
+                        <ListItemIcon sx={{ color: 'inherit', justifyContent: 'center'}}>
                           {controlItem.icon}
                         </ListItemIcon>
                         <ListItemText primary={controlItem.label} />
