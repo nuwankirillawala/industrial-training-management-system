@@ -21,6 +21,9 @@ router.route('/update-company-intern-application-list')
 router.route('/intern-process-company')
     .post(companyController.internProcessCompany)
 
+router.route('/intern-process-company')
+    .post(companyController.internProcessCompany)
+
 router.route('/intern-process')
     .patch(companyController.internProcess)
 

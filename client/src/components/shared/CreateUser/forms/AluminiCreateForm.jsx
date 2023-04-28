@@ -6,6 +6,8 @@ import * as yup from "yup"
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { FormControl, Select, MenuItem } from '@mui/material'
+import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar";
+import axios from 'axios';
 
 
 const User = {
@@ -15,23 +17,48 @@ const User = {
     aluminiRegNo : '',
     aluminiGraduatedYear : '',
     aluminiPassword : '',
-    aluminiConfirmPassword : '',
+    // aluminiConfirmPassword : '',
 }
 
 export const AluminiCreateForm = () => {
-
+    
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
-
+    
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
     const handleMouseDownConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+    //statusSnackBar state
+    const [trigger, setTrigger] = useState({
+        success: false,
+      });
+      //End of statusSnackBar state
+      const handleSnackBar = (key) => {
+        setTrigger((prevState) => {
+          let newState = { ...prevState };
+          newState[key] = !newState[key];
+          return newState;
+        });
+      };
+
    
     const handleFormSubmit = async (values) => {
-        console.log(values);
-        await new Promise((r) => setTimeout(r, 500));
-        alert(JSON.stringify(values, null, 2));
+        console.log(values);    
+        const res = await axios.post(
+          "http://localhost:5000/api/v1/alumni/create-alumni", 
+          { name: values.aluminiName,
+            email : values.aluminiEmail,
+            contactNo : values.aluminiContactNo,
+            regNo : values.aluminiRegNo, 
+            graduatedYear: values.aluminiGraduatedYear,
+            password: values.aluminiPassword,
+         },
+          {withCredentials: true}
+          );
+
+          console.log(res.data);
+          handleSnackBar("success");
     };
 
     const validation = yup.object().shape({
@@ -44,7 +71,7 @@ export const AluminiCreateForm = () => {
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
             "Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
           ).required('Enter your new password'),
-          aluminiConfirmPassword : yup.string().oneOf([yup.ref("aluminiPassword")], "Your password do not match.").required('Confirm your new password')
+        // aluminiConfirmPassword : yup.string().oneOf([yup.ref("aluminiPassword")], "Your password do not match.").required('Confirm your new password')
     })
 
 
@@ -212,7 +239,7 @@ export const AluminiCreateForm = () => {
                                     </Stack>
                                 </Stack>
 
-                                <Stack direction={'row'}>
+                                {/* <Stack direction={'row'}>
                                     <Stack flex={2}>
                                         <Typography>Confirm Password</Typography>
                                     </Stack>
@@ -247,7 +274,7 @@ export const AluminiCreateForm = () => {
                                           }}
                                         />
                                     </Stack>
-                                </Stack>
+                                </Stack> */}
 
                                 <Stack alignItems={'flex-end'}>
                                     <Stack direction={'row'}>
@@ -261,6 +288,14 @@ export const AluminiCreateForm = () => {
                     </form>
                 )}
        </Formik>
+       <StatusSnackBar
+          severity="success"
+          trigger={trigger.success}
+          setTrigger={() => {
+            handleSnackBar("success");
+          }}
+          alertMessage={"Success"}
+        />
        </Grid>
        </Grid>
        </Box>

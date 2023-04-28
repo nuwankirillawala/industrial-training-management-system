@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { InputBase, IconButton, Typography, Grid, List, ListItemText, ListItemButton, Paper } from '@mui/material';
+import { InputBase, IconButton, Typography, Grid, List, ListItemText, ListItemButton, Paper, Box, ListItemSecondaryAction } from '@mui/material';
 import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -65,7 +65,12 @@ export default function Notice () {
 
     const handleClick = (notice) => {
         setDisplayText(notice.ternary);
-    }    
+    }
+
+    const getCurrentDate = () => {
+        const date = new Date();
+        return date.toLocaleDateString();
+    };
 
     return (
 
@@ -85,6 +90,7 @@ export default function Notice () {
                     height={'88vh'}
                 >
                     {/* Search bar & Search button */}
+                    {/* <Box position={'sticky'}> */}
                     <Paper
                       component={'form'}
                       sx={{ p: '2px 4px', display: 'flex', alignItems: "center", width: 270, /*marginBottom: 0*/}}
@@ -110,6 +116,7 @@ export default function Notice () {
                             <RefreshIcon />
                         </IconButton>
                     </Paper>
+                    {/* </Box> */}
 
                     {/* List item buttons */}
                     <List>
@@ -122,6 +129,9 @@ export default function Notice () {
                                     primary={notice.primary}
                                     secondary={notice.secondary}
                                 />
+                            <ListItemSecondaryAction>
+                                <Typography variant='caption' color={'black'}>{getCurrentDate()}</Typography>
+                            </ListItemSecondaryAction>
                             </ListItemButton>
                         ))}
                     </List>

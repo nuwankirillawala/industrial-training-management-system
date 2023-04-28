@@ -16,22 +16,28 @@ const User = {
     studentEmail : '',
     studentContactNo : '',
     studentGpa : '',
-    studentWeigthedGpa : '',
-    studentInternStatus : '',
-    studentLinkedInURL : '',
-    studentGithubURL : '',
+    // studentWeigthedGpa : '',
+    // studentInternStatus : '',
+    // studentLinkedInURL : '',
+    // studentGithubURL : '',
     studentPassword: '',
     studentConfirmPassword : '',
 }
 
 export const UndergraduateCreateForm = () => {
 
-    //statusSnackBar state
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
+  
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+  const handleMouseDownConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+
+  //statusSnackBar state
     const [trigger, setTrigger] = useState({
         success: false,
       });
-
-      
 
 
       //End of statusSnackBar state
@@ -47,12 +53,12 @@ export const UndergraduateCreateForm = () => {
         console.log(values);    
         const res = await axios.post(
           "http://localhost:5000/api/v1/undergraduate/create-undergraduate", 
-          { name: "Upeksha",
-            regNo : "sc/2019/11112", 
-            email : "la@gmail.com",
-            contactNo : "1443363536",
-            password: "test1234",
-            gpa: 4.00,
+          { name: values.studentName,
+            regNo : values.studentRegNo, 
+            email : values.studentEmail,
+            contactNo : values.studentContactNo,
+            password: values.studentPassword,
+            gpa: values.studentGpa,
          },
           {withCredentials: true}
           );
@@ -61,13 +67,6 @@ export const UndergraduateCreateForm = () => {
           handleSnackBar("success");
     };
 
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword(!showPassword);
-    const handleMouseDownPassword = () => setShowPassword(!showPassword);
-
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
-    const handleMouseDownConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
 
     const validation = yup.object().shape({
         studentName : yup.string().required('required Field'),
@@ -75,10 +74,10 @@ export const UndergraduateCreateForm = () => {
         studentEmail : yup.string().email("Invalid Email").required("required Field"),
         studentContactNo : yup.string().length(10,"must contain 10 digits").required("Required Field"),
         studentGpa : yup.string().required('required Field'),
-        studentWeigthedGpa : yup.string().required('required Field'),
-        studentInternStatus : yup.string(),
-        studentLinkedInURL : yup.string().url("Invalid URL"),
-        studentGithubURL : yup.string().url("Invalid URL"),
+        // studentWeigthedGpa : yup.string().required('required Field'),
+        // studentInternStatus : yup.string(),
+        // studentLinkedInURL : yup.string().url("Invalid URL"),
+        // studentGithubURL : yup.string().url("Invalid URL"),
         studentPassword : yup.string().matches(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
             "Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
@@ -89,7 +88,8 @@ export const UndergraduateCreateForm = () => {
 
     return(
     <Tile>
-<Box>
+      <Stack alignItems={'center'}>
+      <Box width={'70%'}>
         <Formik
             onSubmit={handleFormSubmit}
             initialValues={User}
@@ -209,7 +209,7 @@ export const UndergraduateCreateForm = () => {
                                     </Stack>
                             </Stack>
 
-                           <Stack direction={'row'}>
+                           {/* <Stack direction={'row'}>
                                 <Stack minWidth={'200px'} flex={1}>
                                         <Typography>Studnet Weigthed Gpa</Typography>
                                         </Stack>
@@ -227,9 +227,9 @@ export const UndergraduateCreateForm = () => {
                                         helperText={touched.studentWeigthedGpa && errors.studentWeigthedGpa}
                                         />
                                     </Stack>
-                            </Stack>
+                            </Stack> */}
 
-                            <Stack direction={'row'}>
+                            {/* <Stack direction={'row'}>
                                 <Stack minWidth={'200px'} flex={1}>
                                         <Typography>Intern Status</Typography>
                                         </Stack>
@@ -247,9 +247,9 @@ export const UndergraduateCreateForm = () => {
                                         helperText={touched.studentInternStatus && errors.studentInternStatus}
                                         />
                                     </Stack>
-                            </Stack>
+                            </Stack> */}
 
-                            <Stack direction={'row'}>
+                            {/* <Stack direction={'row'}>
                                 <Stack minWidth={'200px'} flex={1}>
                                         <Typography>LinkedIn URL</Typography>
                                         </Stack>
@@ -267,9 +267,9 @@ export const UndergraduateCreateForm = () => {
                                         helperText={touched.studentLinkedInURL && errors.studentLinkedInURL}
                                         />
                                     </Stack>
-                            </Stack>
+                            </Stack> */}
 
-                            <Stack direction={'row'}>
+                            {/* <Stack direction={'row'}>
                                 <Stack minWidth={'200px'} flex={1}>
                                         <Typography>Github URL</Typography>
                                         </Stack>
@@ -287,7 +287,7 @@ export const UndergraduateCreateForm = () => {
                                         helperText={touched.studentGithubURL && errors.studentGithubURL}
                                         />
                                     </Stack>
-                            </Stack>
+                            </Stack> */}
 
                             <Stack direction={'row'}>
                                 <Stack minWidth={'200px'} flex={1}>
@@ -395,6 +395,7 @@ export const UndergraduateCreateForm = () => {
           alertMessage={"Success"}
         />
         </Box>
+        </Stack>
     </Tile>    
     
     )
