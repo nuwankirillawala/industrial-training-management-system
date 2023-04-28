@@ -68,7 +68,7 @@ const InternProcessStudent = () => {
       width: 100,
       headerClassName: 'data-grid-header',
       // renderCell: (params) => (<Button onClick={() => handleAddStudent(params.row)} startIcon={<AddIcon />}>Add</Button>)
-      renderCell: (params) => (<Button onClick={() => handleAddCompany(params.row)} startIcon={<AddIcon />} />)
+      renderCell: (params) => (<Button onClick={() => handleRemoveCompany(params.row)} startIcon={<DeleteIcon />} />)
 
     },
   ];
@@ -76,8 +76,9 @@ const InternProcessStudent = () => {
   const rowsRight =
     selectedCompanies &&
     selectedCompanies.map((company) => {
+      console.log(company);
       return {
-        id: company._id,
+        id: company.id,
         name: company.name,
         internSeats: company.internSeats,
         applicationListSize: company.applicationListSize,
@@ -87,12 +88,16 @@ const InternProcessStudent = () => {
     const handleAddCompany = (company) => {
       if (selectedCompanies.length < 10) {
         setSelectedCompanies([...selectedCompanies, company]);
-        setCompanies(companies.filter(c => c._id !== company._id));
+        setCompanies(companies.filter(c => c._id !== company.id));
       }
       else {
         setAlertOpen(true);
       }
     };
+
+    const handleRemoveCompany = (company) => {
+
+    }
 
   return (
     <Grid container spacing={1}>
