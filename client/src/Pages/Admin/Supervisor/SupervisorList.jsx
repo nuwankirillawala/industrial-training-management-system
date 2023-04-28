@@ -1,7 +1,8 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tile } from "../../../components/card/Tile";
 import { DataGrid } from "@mui/x-data-grid";
+import axios from "axios";
 
 const data = [
   { id: 1, company: "A" },
@@ -10,6 +11,24 @@ const data = [
 ];
 
 const SupervisorList = () => {
+  //state for the company list
+  const [companyList, setCompanyList] = useState([]);
+  //end of state for the company list
+
+  //Fetch company list
+  useEffect(async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/v1/admin/view-all-users/supervisor"
+      );
+      if (res.status === 404) console.log(res.message);
+      if (res.status === 200) setCompanyList(JSON.stringify(res.data));
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+  //End of fetch company list
+
   //Handle cellClick function
   const handleCellClick = (key) => {
     console.log(`Cell clicked: ${key}`);
@@ -18,24 +37,20 @@ const SupervisorList = () => {
   };
   //End of handle cellClick function
 
-  //column list
-  const column = [
+  //column list company
+  const companyColumn = [
     {
-      field: "id",
-      headerName: "ID",
-      width: 80,
-      editable: false,
-    },
-    {
-      field: "company",
+      field: "name",
       headerName: "Company Name ",
       width: 120,
+      // width: "auto",
       editable: false,
     },
     {
       field: "actions",
       headerName: "Actions",
       width: 120,
+      // width: "auto",
       renderCell: (params) => (
         <Button
           variant="itms"
@@ -47,7 +62,36 @@ const SupervisorList = () => {
       ),
     },
   ];
-  //End of column list
+  //End of column list company
+
+  //column list supervisors
+  const supervisorColumn = [
+    {
+      field: "name",
+      headerName: "Name",
+      width: "120",
+      editable: false,
+    },
+    {
+      field: "jobRole",
+      headerName: "Position",
+      width: "120",
+      editable: false,
+    },
+    {
+      field: "contactNo",
+      headerName: "Contact Number",
+      width: "120",
+      editable: false,
+    },
+    {
+      field: "Email",
+      headerName: "Email Address",
+      width: "120",
+      editable: false,
+    },
+  ];
+  //End of column list supervisors
 
   //State for selected company
   const [selectedCompany, setSelectedCompany] = useState("");
@@ -62,12 +106,12 @@ const SupervisorList = () => {
           marginBottom={"5px"}
           paddingLeft={"15px"}
         >
-          Add Supervisors
+          View Supervisors
         </Typography>
       </Box>
       <Box sx={{ height: "100%", width: "100%" }}>
         <Stack direction={"row"} spacing={1} height={"100%"} width={"100%"}>
-          <Tile sx={{ height: "100%", width: "30%" }}>
+          <Tile sx={{ height: "100%", width: "50%" }}>
             <Box height={"100%"}>
               <Stack direction={"column"} height={"100%"} spacing={1}>
                 <Box>
@@ -75,10 +119,10 @@ const SupervisorList = () => {
                     Company Selection
                   </Typography>
                 </Box>
-                <Box width={340}>
+                <Box width={"auto"}>
                   <DataGrid
                     rows={data}
-                    columns={column}
+                    columns={companyColumn}
                     hideFooter={true}
                     disableColumnMenu={true}
                     autoHeight={true}
@@ -87,20 +131,32 @@ const SupervisorList = () => {
               </Stack>
             </Box>
           </Tile>
-          <Tile sx={{ height: "100%", width: "70%" }}>
+          <Tile sx={{ height: "100%", width: "50%" }}>
             <Box>
               <Stack direction={"column"} spacing={1}>
                 <Box>
                   <Typography align="center" fontWeight={"bold"}>
-                    Add Supervisors
+                    Supervisor List
                   </Typography>
                 </Box>
                 {selectedCompany !== "" && (
-                  <Box>
-                    <Typography>
-                      Add Supervisors to the company : {selectedCompany}
-                    </Typography>
-                  </Box>
+                  <Stack direction={"column"} spacing={2}>
+                    <Box>
+                      <Typography>
+                        Supervisors assigned to : {selectedCompany}
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <DataGrid
+                        rows={data}
+                        columns={supervisorColumn}
+                        hideFooter={true}
+                        disableColumnMenu={true}
+                        autoHeight={true}
+                        wi
+                      />
+                    </Box>
+                  </Stack>
                 )}
               </Stack>
             </Box>

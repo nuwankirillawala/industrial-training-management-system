@@ -39,7 +39,7 @@ export const StudentCvUpdate = () => {
     speakingLevel: "50%",
     writingLevel: "68%",
     readingLevel: "",
-    language: "",
+    language: "c++",
     languageLevel: "",
     skill: "",
     skillCertificates: "",
@@ -534,8 +534,8 @@ export const StudentCvUpdate = () => {
                       <StatusSnackBar
                         trigger={errorOpen}
                         setTrigger={setErrorOpen}
-                        severity="info"
-                        alertMessage="motherfucker"
+                        severity="error"
+                        alertMessage="Error"
                       />
                     </Box>
                   </Stack>
