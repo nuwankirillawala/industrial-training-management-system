@@ -16,7 +16,8 @@ const SupervisorList = () => {
   //end of state for the company list
 
   //Fetch company list
-  useEffect(async () => {
+
+  const getCompanyDetails = async () => {
     try {
       const res = await axios.get(
         "http://localhost:5000/api/v1/admin/view-all-users/supervisor"
@@ -26,6 +27,10 @@ const SupervisorList = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  useEffect(() => {
+    getCompanyDetails();
   }, []);
   //End of fetch company list
 
@@ -121,7 +126,7 @@ const SupervisorList = () => {
                 </Box>
                 <Box width={"auto"}>
                   <DataGrid
-                    rows={data}
+                    rows={companyList}
                     columns={companyColumn}
                     hideFooter={true}
                     disableColumnMenu={true}
