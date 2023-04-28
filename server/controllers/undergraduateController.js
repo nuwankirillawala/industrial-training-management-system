@@ -38,7 +38,9 @@ module.exports.createUndergraduate = catchAsync(async (req, res) => {
 // Description: View Undegraduate Profile
 module.exports.viewUndergraduateProfile = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id; // 🛑 user id must get from jwt in future 🛑
+        // const userId = req.body.id; // 🛑 user id must get from jwt in future 🛑
+        const userId = req.params.undergraduateId;
+        console.log(userId);
         const user = await Undergraduate.findById(userId);
 
         if (!user) {
@@ -52,6 +54,8 @@ module.exports.viewUndergraduateProfile = catchAsync(async (req, res) => {
         res.status(500).json({ err })
     }
 });
+
+
 
 // Method = PATCH
 // Endpoint = "/update-undergraduate-profile"
