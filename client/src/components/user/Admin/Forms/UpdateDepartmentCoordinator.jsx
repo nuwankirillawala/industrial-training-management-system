@@ -1,4 +1,4 @@
-import { TextField, Stack, Button, Typography, Select } from "@mui/material"
+import { TextField, Stack, Button, Typography, Select, MenuItem } from "@mui/material"
 import React from "react"
 import { useState } from "react"
 import { Tile } from "../../../card/Tile"
@@ -142,13 +142,13 @@ export const UpdateDepartmentCoordinator = () => {
                                         value={values.departmentCoordinatorPosition}
                                         name="departmentCoordinatorPosition"
                                         error={!!touched.departmentCoordinatorPosition && !!errors.departmentCoordinatorPosition}
-                                        helperText={touched.departmentCoordinatorPosition && errors.departmentCoordinatorPosition}
-                                    ><MenuItem value="Proffer">Proffer</MenuItem>
-                                        <MenuItem value="SiniorLec1">Sinior Lecture 1</MenuItem>
-                                        <MenuItem value="SiniorLec2">Sinior Lecture 2</MenuItem>
-                                        <MenuItem value="SiniorLec3">Sinior Lecture 3</MenuItem>
+                                        helperText={touched.departmentCoordinatorPosition && errors.departmentCoordinatorPosition}>
+                                        <MenuItem value="Proffer">Proffessor</MenuItem>
+                                        <MenuItem value="SeniorLec1">Senior Lecture 1</MenuItem>
+                                        <MenuItem value="SeniorLec2">Senior Lecture 2</MenuItem>
+                                        <MenuItem value="SeniorLec3">Senior Lecture 3</MenuItem>
                                         <MenuItem value="Lecture">Lecture</MenuItem>
-                                        <MenuItem value="Prbeshanary">Prbeshanary</MenuItem>
+                                        <MenuItem value="Probeshanary">Probeshanary</MenuItem>
                                     </Select>
                                 </Stack>
                             </Stack>
