@@ -42,7 +42,7 @@ const InternProcessType = () => {
                     content='Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Numquam dolore tempore rem, debitis incidunt tenetur porro
                 perferendis exercitationem earum. Quaerat.'
-                    goto='/intern-process-student'
+                    goto='/select-student'
                   />
                 </Grid>
               </Grid>

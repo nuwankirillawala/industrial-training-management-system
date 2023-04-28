@@ -33,6 +33,7 @@ import InternProcessType from './InternProcess/InternProcessType';
 import ViewInternList from './InternProcess/ViewInternList';
 import ViewInternListRemain from './InternProcess/ViewInternListRemain'; 
 import SelectCompany from './InternProcess/SelectCompany'; 
+import SelectStudent from './InternProcess/SelectStudent'; 
 
 import { DailyReport } from './ReportSubmission/DailyReport';
 import { DailyReportList } from './ReportSubmission/DailyReportList';
@@ -77,6 +78,7 @@ export {
     ViewInternList,
     ViewInternListRemain,
     SelectCompany,
+    SelectStudent,
     DailyReport,
     DailyReportList,
     FinalFeedback,
