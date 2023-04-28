@@ -7,7 +7,7 @@ const router = Router();
 router.route('/create-undergraduate')
     .post(undergraduateController.createUndergraduate)
 
-router.route('/view-undergraduate-profile')
+router.route('/view-undergraduate-profile/:undergraduateId')
     .get(undergraduateController.viewUndergraduateProfile)
 
 router.route('/update-undergraduate-profile')
