@@ -22,7 +22,8 @@ const InternDataGridMini = ({users, rows, columns }) => {
                         rows={rows && rows}
                         columns={columns}
                         components={{ Toolbar: GridToolbar }}
-                        getRowId={(row) => row.regNo}
+                        getRowId={(row) => row.id}
+                        
 
                         sx={{
                             boxShadow: 2,
