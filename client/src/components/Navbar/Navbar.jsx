@@ -1,7 +1,7 @@
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { Typography, Badge, Box, Paper } from "@mui/material";
+import { Typography, Badge, Box, Paper, Menu, MenuItem } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Stack } from "@mui/system";
 import Popover from '@mui/material/Popover';
@@ -12,7 +12,7 @@ import { useState, useEffect } from "react";
 import { Avatar } from "@mui/material";
 
 
-const drawerWidth = 240;
+const drawerWidth = "auto";
 
 
 export default function Navbar() {
@@ -20,23 +20,31 @@ export default function Navbar() {
   const [Image, setImage] = useState('');
   const [isNotifications, setisNotifications] = useState(true); //Notification available yes or no
 
-  const [Notification, setNotification] = React.useState(null); //notification popover 
+  const [Notification, setNotification] = React.useState(false); //notification popover 
   const handleNotificationOpen = (event) => {
     setNotification(event.currentTarget);
   };
   const handleNotificationClose = () => {
-    setNotification(null);
+    setNotification(false);
   };
   const open = Boolean(Notification);
   const notification = open ? 'simple-popover' : undefined;
 
+  const [profileMenu, setProfileMenu] = useState(false);
+  const menuOpen = Boolean(profileMenu);
+  const handleProfileMenu = (event) => {
+    setProfileMenu(event.currentTarget);
+  };
+  const handleClose = () => {
+    setProfileMenu(false);
+  }
 
-  const [UserData, setUserData] = React.useState(null);  //UserData popover on image
+  const [UserData, setUserData] = React.useState(false);  //UserData popover on image
   const handleUserDataOpen = (event) => {
     setUserData(event.currentTarget);
   };
   const handleUserDataClose = () => {
-    setUserData(null);
+    setUserData(false);
   };
   const useropen = Boolean(UserData);
   const userPhoto = useropen ? 'simple-popover' : undefined;
@@ -54,85 +62,89 @@ export default function Navbar() {
 
 
   return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar
+        position="fixed"
+        elevation={0}
+        sx={{
+          bgcolor: "#4B6A88", //90a4ae
+          width: {
+            sm: `calc(100% - ${drawerWidth}px)`
+          },
+          ml: { sm: `${drawerWidth}px` },
+        }}>
 
-    <AppBar
-      position="fixed"
-      elevation={0}
-      sx={{
-        bgcolor: "#90a4ae",
-        width: {
-          sm: `calc(100% - ${drawerWidth}px)`
-        },
-        ml: { sm: `${drawerWidth}px` },
-      }}>
-      <Toolbar >
+        <Toolbar>
 
-        {/* {isNotifications ? <NotificationsNoneIcon fontSize="large" /> : <NotificationsNoneIcon fontSize="large" />}
+          {/* {isNotifications ? <NotificationsNoneIcon fontSize="large" /> : <NotificationsNoneIcon fontSize="large" />}
             color={isNotifications ? 'secondary' : 'new'}
             */}
 
-        <Stack direction="row" paddingLeft='850px' spacing='5px'>
-          {isNotifications ? (
-            <Box>
-              <IconButton onClick={handleNotificationOpen} style={{ color: 'white' }} >
-                <Badge color="red" variant="dot" sx={{ top: '50%' }} // red defined in rootlayout
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}          >
-                  <NotificationsNoneIcon fontSize="large" />
-                </Badge>
+          <Box sx={{ flexGrow: 1 }}>
+            <Typography variant="h6" color='initial'>Hello</Typography>
+          </Box>
+
+
+
+          <Stack direction="row" spacing='5px'>
+            {isNotifications ? (
+              <Box>
+                <IconButton onClick={handleNotificationOpen} style={{ color: 'white' }} >
+                  <Badge color="red" variant="dot" sx={{ top: '50%' }} // red defined in rootlayout
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}          >
+                    <NotificationsNoneIcon fontSize="large" />
+                  </Badge>
+                </IconButton>
+                <Popover
+                  id={notification}
+                  open={open}
+                  anchorEl={Notification}
+                  onClose={handleNotificationClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                >
+                  <Paper sx={{ p: 2, borderColor: '#4665D2', borderWidth: 3, borderStyle: 'solid' }}>
+                    <Typography sx={{ p: 2 }} fontWeight={'bold'}>Hi {Name}, You have new notifications</Typography>
+                  </Paper>
+                </Popover>
+              </Box>
+
+            ) : (
+              <IconButton>
+                <NotificationsNoneIcon fontSize="large" color='secondary' />
               </IconButton>
-              <Popover
-                id={notification}
-                open={open}
-                anchorEl={Notification}
-                onClose={handleNotificationClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
+            )}
+
+            <Box>
+              <IconButton onClick={handleProfileMenu}>
+                <Avatar sx={{ height: '40px', marginRight: '10px' }} />
+              </IconButton>
+
+              <Menu
+                id="basic-menu"
+                anchorEl={profileMenu}
+                open={menuOpen}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
                 }}
               >
-                <Paper sx={{ p: 2, borderColor: '#4665D2', borderWidth: 3, borderStyle: 'solid' }}>
-                  <Typography sx={{ p: 2 }} fontWeight={'bold'}>Hi {Name}, You have new notifications</Typography>
-                </Paper>
-              </Popover>
+                <MenuItem onClick={() => navigate('/login')}>Profile</MenuItem>
+                <MenuItem onClick={() => navigate('/login')}>Logout</MenuItem>
+              </Menu>
             </Box>
-
-          ) : (
-            <IconButton>
-              <NotificationsNoneIcon fontSize="large" color='secondary' />
-            </IconButton>
-          )}
-          <Box>
-            <IconButton onClick={handleUserDataOpen}>
-              <Avatar sx={{ height: '40px', marginRight: '10px' }} />  {/* <img src={Image} image is defined above */}
-            </IconButton>
-            <Popover
-              id={userPhoto}
-              open={useropen}
-              anchorEl={UserData}
-              onClose={handleUserDataClose}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-            >
-              <Paper sx={{ p: 2, borderColor: '#4665D2', borderWidth: 3, borderStyle: 'solid', width: '250px' }}>
-                <Typography fontWeight={'bold'}>Hi, {Name} </Typography>
-                <Typography fontWeight={'bold'}> Intern Status  : {Name}</Typography>
-                <Typography fontWeight={'bold'}> GPA            :{Name}</Typography>
-              </Paper>
-            </Popover>
-          </Box>
-          <Stack justifyContent={'center'}>
-            <Typography variant="body1" sx={{ padding: "8px" }} >
-              {Name}
-            </Typography>
+            <Stack justifyContent={'center'}>
+              <Typography variant="body1" sx={{ padding: "8px" }} >
+                {Name}
+              </Typography>
+            </Stack>
           </Stack>
-        </Stack>
+        </Toolbar>
+      </AppBar >
 
-      </Toolbar>
-    </AppBar >
-
-
+    </Box>
   );
 }
 
