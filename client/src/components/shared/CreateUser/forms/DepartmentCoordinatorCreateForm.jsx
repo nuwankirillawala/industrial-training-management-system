@@ -5,6 +5,7 @@ import { Formik } from "formik"
 import * as yup from "yup"
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
 
 
 const User = {
@@ -18,11 +19,32 @@ const User = {
 }
 
 export const DepartmentCoordinatorCreateForm = () => {
+    
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = () => setShowPassword(!showPassword);
+    
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+    const handleMouseDownConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+    //statusSnackBar state
+    const [trigger, setTrigger] = useState({
+        success: false,
+      });
+      //End of statusSnackBar state
+      const handleSnackBar = (key) => {
+        setTrigger((prevState) => {
+          let newState = { ...prevState };
+          newState[key] = !newState[key];
+          return newState;
+        });
+      };
    
-    const handleFormSubmit = async (values) => {
+      const handleFormSubmit = async (values) => {
         console.log(values);        
         await new Promise((r) => setTimeout(r, 500));
         alert(JSON.stringify(values, null, 2));
+        handleSnackBar("success");
     };
 
     const validation = yup.object().shape({
@@ -39,13 +61,6 @@ export const DepartmentCoordinatorCreateForm = () => {
         departmentCoordinatorConfirmPassword : yup.string().oneOf([yup.ref("departmentCoordinatorPassword")], "Your password do not match.").required('Confirm your new password')
     })
 
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword(!showPassword);
-    const handleMouseDownPassword = () => setShowPassword(!showPassword);
-
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
-    const handleMouseDownConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
 
     return(
     <Tile>
@@ -273,6 +288,14 @@ export const DepartmentCoordinatorCreateForm = () => {
                         </form>
                     )}
                 </Formik>
+                <StatusSnackBar
+                  severity="success"
+                  trigger={trigger.success}
+                  setTrigger={() => {
+                    handleSnackBar("success");
+                  }}
+                  alertMessage={"Success"}
+                />
                 </Box>
                 </Stack>
             </Grid>

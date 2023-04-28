@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Table, TableBody, TableCell, TableHead, TableRow, Grid, Typography, Stack } from "@mui/material";
+import { Table, TableBody, TableCell, TableHead, TableRow, Grid, Typography, Stack, Divider } from "@mui/material";
 import { Tile } from "../../../card/Tile";
 
 export const ViewAdmin = () => {
@@ -49,6 +49,7 @@ export const ViewAdmin = () => {
             <Grid item md={4} sm={4} > <Tile>
                 <Stack direction={'column'}>
                     <Typography fontWeight={'bold'} paddingTop={'15px'} paddingBottom={'15px'}>Administrator full details</Typography>
+                    <Divider orientation="horizontal" />
                     {singleUser && (
                         <Stack direction={'column'}>
                             <Stack direction={'row'}>  <Typography width={'135px'}> Name </Typography><Typography> {singleUser.id} </Typography></Stack>

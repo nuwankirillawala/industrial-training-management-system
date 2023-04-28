@@ -48,7 +48,7 @@ function RedirectViewuser(text) {
             return '/view-admin-details'
             break;
         case 'Department CoOrdinator':
-            return '/view-superv-details'
+            return '/view-dept-coordinator-details'
             break;
         case 'Undergraduate':
             return '/view-undg-details'

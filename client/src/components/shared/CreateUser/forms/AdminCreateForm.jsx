@@ -5,6 +5,8 @@ import { Formik } from "formik"
 import * as yup from "yup"
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
+import axios from 'axios';
 
 
 const User = {
@@ -17,11 +19,43 @@ const User = {
 }
 
 export const AdminCreateForm = () => {
+
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+    const handleMouseDownConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+
+    //statusSnackBar state
+      const [trigger, setTrigger] = useState({
+        success: false,
+      });
+      //End of statusSnackBar state
+      const handleSnackBar = (key) => {
+        setTrigger((prevState) => {
+          let newState = { ...prevState };
+          newState[key] = !newState[key];
+          return newState;
+        });
+      };
    
     const handleFormSubmit = async (values) => {
         console.log(values);        
-        await new Promise((r) => setTimeout(r, 500));
-        alert(JSON.stringify(values, null, 2));
+        const res = await axios.post(
+            "http://localhost:5000/api/v1/admin/create-admin", 
+            {   role : 'system-admin',
+                name : values.adminName,
+                email : values.adminEmail,
+                contactNo : values.adminContactNo,
+                staffId : values.adminStaffId,
+                password : values.adminPassword,
+           },
+            {withCredentials: true}
+            );
+  
+        handleSnackBar("success");
     };
 
     const validation = yup.object().shape({
@@ -37,21 +71,14 @@ export const AdminCreateForm = () => {
         adminConfirmPassword : yup.string().oneOf([yup.ref("adminPassword")], "Your password do not match.").required('Confirm your new password')
     })
 
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword(!showPassword);
-    const handleMouseDownPassword = () => setShowPassword(!showPassword);
-
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
-    const handleMouseDownConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
 
     return(
     <Tile>
-        <Box padding={'30px'}>
+    <Box padding={'30px'}>
         <Grid container>
             <Grid item md={12}>
                 <Stack alignItems={'center'}>
-<Box width={'70%'}>
+                <Box width={'70%'}>
                 <Formik
                     onSubmit={handleFormSubmit}
                     initialValues={User}
@@ -245,6 +272,14 @@ export const AdminCreateForm = () => {
                         </form>
                     )}
                 </Formik>
+                    <StatusSnackBar
+                      severity="success"
+                      trigger={trigger.success}
+                      setTrigger={() => {
+                        handleSnackBar("success");
+                      }}
+                      alertMessage={"Success"}
+                    />
                 </Box>
                 </Stack>
             </Grid>

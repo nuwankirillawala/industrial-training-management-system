@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { InputBase, IconButton, Typography, Grid, List, ListItemText, ListItemButton, Paper } from '@mui/material';
+import { InputBase, IconButton, Typography, Grid, List, ListItemText, ListItemButton, Paper, Box } from '@mui/material';
 import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -85,6 +85,7 @@ export default function Notice () {
                     height={'88vh'}
                 >
                     {/* Search bar & Search button */}
+                    {/* <Box position={'sticky'}> */}
                     <Paper
                       component={'form'}
                       sx={{ p: '2px 4px', display: 'flex', alignItems: "center", width: 270, /*marginBottom: 0*/}}
@@ -110,6 +111,7 @@ export default function Notice () {
                             <RefreshIcon />
                         </IconButton>
                     </Paper>
+                    {/* </Box> */}
 
                     {/* List item buttons */}
                     <List>

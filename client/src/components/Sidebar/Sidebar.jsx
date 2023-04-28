@@ -12,6 +12,8 @@ import { Apartment, ArrowBack, Article, Assessment, Ballot, ChevronLeft, Dashboa
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import MuiDrawer from '@mui/material/Drawer';
+import MuiAppBar from '@mui/material/AppBar';
+import MuiNavbar from '../Navbar/Navbar';
 
 const drawerWidth = 240;
 
@@ -31,6 +33,8 @@ const closedMixin = (theme) => ({
   }),
   overflowX: 'hidden',
   width: `calc(${theme.spacing(6)} + 1px)`,
+  display: 'flex',
+  alignItems: 'center',
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(9)} + 1px)`,
   },
@@ -53,22 +57,28 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-// const AppBar = styled(MuiAppBar, {
-//   shouldForwardProp: (prop) => prop !== 'open',
-// })(({ theme, open }) => ({
-//   transition: theme.transitions.create(['margin', 'width'], {
-//     easing: theme.transitions.easing.sharp,
-//     duration: theme.transitions.duration.leavingScreen
-//   }),
-//   ...(open && {
-//     width: `calc(100% - ${drawerWidth}px)`,
-//     marginLeft: `${drawerWidth}px`,
-//     transition: theme.transitions.create(['margin', 'width'], {
-//       easing: theme.transitions.easing.easeOut,
-//       duration: theme.transitions.duration.enteringScreen
-//     })
-//   })
-// }));
+const ListItemIconWrapper = styled(ListItemIcon)({
+  display: 'flex',
+  justifyContent: 'center',
+});
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer +1,
+  transition: theme.transitions.create(['margin', 'width'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  })
+}));
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -80,19 +90,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const buttonStyles = {
   height:40,
-  textAlign: 'flex-start',
   '&:hover': {
-      bgcolor: '#f4f6fc',
-      color: 'black'
-  },
-};
-
-const buttonIconStyles ={
-  '&:hover': {
-    bgcolor: 'white',
+    bgcolor: '#f4f6fc',
     color: 'black'
   }
-}
+};
 
 const users = [
   {
@@ -101,31 +103,31 @@ const users = [
       {
         id: 1,
         primaryText: 'Dashboard',
-        icon: <Dashboard /*fontSize='large'*/ />,
+        icon: <Dashboard />,
         element: '/admin-dashboard'
       },
       {
         id: 2,
         primaryText: 'CV',
-        icon: <Article /*fontSize='large'*/ />,
+        icon: <Article />,
         element: '/student-cvupdate'
       },
       {
         id: 3,
         primaryText: 'Daily Report',
-        icon: <Assessment /*fontSize='large'*/ />,
+        icon: <Assessment />,
         element: '/daily-report'
       },
       {
         id: 4,
         primaryText: 'Company',
-        icon: <Apartment /*fontSize='large'*/ />,
+        icon: <Apartment />,
         element: '/add-company'
       },
       {
         id: 5,
         primaryText: 'Notice',
-        icon: <Notifications /*fontSize='large'*/ />,
+        icon: <Notifications />,
         element: '/notice'
       }
     ]
@@ -136,31 +138,31 @@ const users = [
       {
         id: 1,
         primaryText: 'Dashboard',
-        icon: <Dashboard /*fontSize='large'*/ />,
+        icon: <Dashboard />,
         element: 'admin-dashboard'
       },
       {
         id: 2,
         primaryText: 'CV',
-        icon: <Article /*fontSize='large'*/ />,
+        icon: <Article />,
         element: '/student-cvupdate'
       },
       {
         id: 3,
         primaryText: 'Company',
-        icon: <LocationCity /*fontSize='large'*/ />,
+        icon: <LocationCity />,
         element: '/add-company'
       },
       {
         id: 4,
         primaryText: 'Daily Report',
-        icon: <Assessment /*fontSize='large'*/ />,
+        icon: <Assessment />,
         element: '/daily-report'
       },
       {
         id: 5,
         primaryText: 'Notice',
-        icon: <Notifications /*fontSize='large'*/ />,
+        icon: <Notifications />,
         element: '/notice'
       }
     ]
@@ -171,31 +173,31 @@ const users = [
       {
         id: 1,
         primaryText: 'Dashboard',
-        icon: <Dashboard /*fontSize='large'*/ />,
+        icon: <Dashboard />,
         element: '/student-dashboard'
       },
       {
         id: 2,
         primaryText: 'Intern Application',
-        icon: <Ballot /*fontSize='large'*/ />,
+        icon: <Ballot />,
         element: '/intern-process-student'
       },
       {
         id: 3,
         primaryText: 'Comapany',
-        icon: <LocationCity /*fontSize='large'*/ />,
+        icon: <LocationCity />,
         element: '/student-company'
       },
       {
         id: 4,
         primaryText: 'Daily Report',
-        icon: <Assessment /*fontSize='small'*/ />,
+        icon: <Assessment />,
         element: '/daily-report-list'
       },
       {
         id: 5,
         primaryText: 'Notice',
-        icon: <Notifications /*fontSize='samll'*/ />,
+        icon: <Notifications />,
         element: '/notice'
       }
     ]
@@ -206,19 +208,19 @@ const controlItems = [
   {
     id: 1,
     label: 'Settings',
-    icon: <Settings /*fontSize='samll'*//>,
+    icon: <Settings />,
     page : "/student-settings"
   },
   {
     id: 2,
     label: 'Back',
-    icon: < ArrowBack /*fontSize='small'*//>,
+    icon: < ArrowBack />,
     page : 'back'
   },
   {
     id: 3,
     label: 'Log out',
-    icon: <Logout /*fontSize='small'*//>,
+    icon: <Logout />,
     page : '/login'
   }
 ];
@@ -254,15 +256,11 @@ export default function Sidebar() {
 
   const [open, setOpen] = useState(true);
 
-  // const handleDrawerOpen = () => {
-  //   setOpen(true);
-  // };
-
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
-  const [currentUser, setCurrentUser] = useState(users[0]);
+  const [currentUser, setCurrentUser] = useState(users[2]);
   
   const handleCurrentUserItem = (user, element) => {
     setCurrentUser(user);
@@ -314,6 +312,8 @@ export default function Sidebar() {
         </AppBar>
       </ThemeProvider> */}
 
+      <AppBar position='fixed' open={open}/>
+
       <Drawer
         sx={{
           textAlign: 'center',        
@@ -335,7 +335,7 @@ export default function Sidebar() {
           {open ? (
               <Box display={'flex'} justifyContent={open ? 'flex-end' : 'space-between'}>
                 <DrawerHeader>
-                  <IconButton onClick={ toggleDrawer }>
+                  <IconButton onClick={ toggleDrawer } sx={{ color: 'inherit' }}>
                     <ChevronLeft />
                   </IconButton>
                 </DrawerHeader>
@@ -343,7 +343,7 @@ export default function Sidebar() {
             ) : (
               <Box display={'flex'} justifyContent={'center'}>
                 <DrawerHeader>
-                  <IconButton onClick={ toggleDrawer }>
+                  <IconButton onClick={ toggleDrawer } sx={{ color: 'inherit' }}>
                     <Menu />
                   </IconButton>
                 </DrawerHeader>
@@ -364,39 +364,61 @@ export default function Sidebar() {
             sx={{
               position:'relative',
               top:5,
-              lineHeight:1.2
+              lineHeight:1.2,
             }}>
             ITMS
           </Typography>
         </Stack>
         
-        <Stack sx={{position:'relative', top:50}}>
+        <Stack sx={{position:'relative', top:50, justifyContent: 'center'}}>
           {users.map((user) => (            
             <ListItem key={user.name} disablePadding >
             </ListItem>              
           ))}
           {currentUser.items.map((item) => (
-            <ListItemButton key={item.id} sx={buttonStyles} onClick={() => handleCurrentUserItem(currentUser, item.element)}>
-              <ListItemIcon>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText primary={item.primaryText} />              
+            <ListItemButton
+             key={item.id}
+             sx={buttonStyles}
+             onClick={() => handleCurrentUserItem(currentUser, item.element)}
+            >
+              {!open ? (
+                <ListItemIconWrapper sx={{ color: 'inherit' }}>
+                  {item.icon}
+                </ListItemIconWrapper>
+              ) : null}
+              {!open ? null : (
+                <React.Fragment>
+                  <ListItemIcon sx={{ color: 'inherit', justifyContent: 'center' }}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item.primaryText} />
+                </React.Fragment>
+              )}
             </ListItemButton>
           ))}
         </Stack>
         
         <Stack sx={{position:'relative', top:100}}>
           {controlItems.map((controlItem) => (
-            // <ListItem key={text} disablePadding>              
+            // <ListItem key={text} disablePadding>
                 <ListItemButton
                   key={controlItem.id}
                   sx={buttonStyles}
                   onClick={() => handleControlItem(controlItem.page)}
                   >
-                    <ListItemIcon>
-                      {controlItem.icon}
-                    </ListItemIcon>
-                  <ListItemText primary={controlItem.label} />
+                    {!open ? (
+                      <ListItemIconWrapper sx={{ color: 'inherit' }}>
+                        {controlItem.icon}
+                      </ListItemIconWrapper>
+                    ) : null}
+                    {!open ? null : (
+                      <React.Fragment>
+                        <ListItemIcon sx={{ color: 'inherit', justifyContent: 'center'}}>
+                          {controlItem.icon}
+                        </ListItemIcon>
+                        <ListItemText primary={controlItem.label} />
+                      </React.Fragment>
+                    )}
                 </ListItemButton>                
               // </ListItem>
             ))}
