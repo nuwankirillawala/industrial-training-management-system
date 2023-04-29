@@ -30,7 +30,7 @@ export const ManageCompany = () => {
     return (
         <Grid container>
             <Grid item sm={12} md={12}>
-                <Typography variant="subtitle1">Add new Company</Typography>
+                <Typography variant="PageTitle">Add new Company</Typography>
             </Grid>
 
             <Grid item sm={12} md={12}>

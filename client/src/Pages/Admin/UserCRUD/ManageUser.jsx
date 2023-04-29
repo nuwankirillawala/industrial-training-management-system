@@ -104,7 +104,7 @@ export const ManageUser = () => {
 
         <Grid container spacing={2}>
             <Grid item lg={12} md={12} sm={12}>
-                <Typography variant="subtitle1">Manage Users</Typography>
+                <Typography variant="PageTitle">Manage Users</Typography>
             </Grid>
             {userList.map((user, index) => (
                 <Grid item md={4} sm={6} lg={2.4} key={index}>
