@@ -4,7 +4,8 @@ import { useState } from "react"
 import { Tile } from "../../../card/Tile"
 import { Formik } from "formik"
 import * as yup from "yup"
-
+import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
+import axios from 'axios';
 
 const Admin = {
     adminName: '',
@@ -16,7 +17,17 @@ const Admin = {
 }
 
 export const UpdateAdminForm = () => {
-    //add axios while integrate to get initial values
+    const [SnackbarOpen, setSnackbarOpen] = useState(false)
+
+    const handleSnackBar = (key) => {
+        setSnackbarOpen((prevState) => {
+            let newState = { ...prevState };
+            newState[key] = !newState[key];
+            return newState;
+        });
+    };
+
+
 
     const validation = yup.object().shape({
         adminName: yup.string(),
@@ -27,9 +38,22 @@ export const UpdateAdminForm = () => {
     })
 
 
-    const handleFormSubmit = (values) => {
-        alert(JSON.stringify(values));//convert object to a json file, this popup may omitt @ the integration
-        alert("your data is submitted");
+    const handleFormSubmit = async (values) => {
+        alert(JSON.stringify(values));  //convert object to a json file, this popup may omitt @ the integration
+        handleSnackBar("success");
+
+        // const res = await axios.post(
+        //     "http://localhost:5000/api/v1/undergraduate/update-admin-profile",
+        //     {
+        //         role: 'abcd',
+        //         name: 'thusitha',
+        //         email: 'thu@gmail',
+        //         contactNo: '0987654327',
+        //         staffId: '67656g',
+        //     },
+        //     { withCredentials: true }
+        // );
+        // console.log(res.data);
     }
 
 
@@ -155,6 +179,13 @@ export const UpdateAdminForm = () => {
                     </form>
                 )}
             </Formik>
+            <StatusSnackBar
+                trigger={SnackbarOpen.success}
+                setTrigger={() => {
+                    handleSnackBar("success");
+                }}
+                severity='success'
+                alertMessage={' submitted '}></StatusSnackBar>
         </Tile>
 
     )

@@ -42,8 +42,8 @@ export const ManageCompany = () => {
                 </Tile>
             </Grid>
 
-            <Grid item sm={12} md={12}>
-                <Typography variant="subtitle1">Manage Company</Typography>
+            <Grid item sm={12} md={12} paddingTop={'10px'}>
+                <Typography variant="PageTitle">Manage Company</Typography>
             </Grid>
 
             <Grid item sm={12} md={12} >

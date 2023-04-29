@@ -4,6 +4,8 @@ import { useState } from "react"
 import { Tile } from "../../../card/Tile"
 import { Formik } from "formik"
 import * as yup from "yup"
+import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
+
 
 const Company = {
     CompanyName: '',
@@ -34,9 +36,20 @@ export const UpdateCompanyForm = () => {
         CompanyContactPersonEmail: yup.string().email("Invalid Email")
     })
 
+    const [SnackbarOpen, setSnackbarOpen] = useState(false)
+
+    const handleSnackBar = (key) => {
+        setSnackbarOpen((prevState) => {
+            let newState = { ...prevState };
+            newState[key] = !newState[key];
+            return newState;
+        });
+    };
+
+
     const handleFormSubmit = (values) => {
         alert(JSON.stringify(values));//convert object to a json file, this popup may omitt @ the integration
-        alert("your data is submitted");
+        handleSnackBar("success");
     }
 
 
@@ -260,6 +273,13 @@ export const UpdateCompanyForm = () => {
                     </form>
                 )}
             </Formik>
+            <StatusSnackBar
+                trigger={SnackbarOpen.success}
+                setTrigger={() => {
+                    handleSnackBar("success");
+                }}
+                severity='success'
+                alertMessage={' submitted '}></StatusSnackBar>
         </Tile>
 
     )

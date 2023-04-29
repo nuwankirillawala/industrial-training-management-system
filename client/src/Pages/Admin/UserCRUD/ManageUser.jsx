@@ -16,7 +16,7 @@ import alumni from '../../../Images/alumni.png'
 import companySupervisor from '../../../Images/companySupervisor.png'
 import deptCoordinator from '../../../Images/deptCoordinator.png'
 import Undergraduate from '../../../Images/Undergraduate.png'
-
+import { Divider } from '@mui/material';
 
 import { Icon } from '@mui/material';
 
@@ -108,12 +108,12 @@ export const ManageUser = () => {
             </Grid>
             {userList.map((user, index) => (
                 <Grid item md={4} sm={6} lg={2.4} key={index}>
-                    <Tile height={'88vh'}>
+                    <Tile height={'82vh'}>
                         {/*                         <Stack ><Icon color='primary' fontSize='large'><user.icon /> </Icon></Stack>
  */}
-                        <Stack sx={{ display: 'flex-end', alignItems: 'center' }} ><img src={user.icon} height="50px" width='50px' /></Stack>
-
-                        <Stack height={'80px'}> <Typography variant="h6" fontWeight={'bold'}>{user.name}</Typography> </Stack>
+                        <Stack sx={{ display: 'flex-end', alignItems: 'center' }} ><img src={user.icon} height="40px" width='40px' /></Stack>
+                        <Stack height={'60px'}> <Typography variant="h6" fontWeight={'bold'}>{user.name}</Typography> </Stack>
+                        <Divider orientation="horizontal" />
                         <Stack height={'120px'} padding="10px">  <Typography variant="body1" > {user.description} </Typography>  </Stack>
                         <Stack direction={"column"} sx={{ height: '58%' }} justifyContent={"flex-end"} spacing={2}>
                             <Button variant="itms" onClick={() => navigate(RedirectViewuser(user.name))}> View  </Button>

@@ -71,7 +71,7 @@ const getTheme = (theme) => ({
         PageTitle: { //for page titles
             fontSize: '20px',
             color: baseColor,
-            padding: '10px 15px 0 3px'
+            padding: '20px 0 3px 25px'
         },
         head1: {
             color: baseColor,
