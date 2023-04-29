@@ -20,7 +20,7 @@ export const ViewDepartmentCoordinator = () => {
 
     return (
         <Grid spacing={1} container>
-            <Grid item md={12} sm={12} ><Typography variant='subtitle1'> View Department Coordinator Details</Typography> </Grid>
+            <Grid item md={12} sm={12} ><Typography variant='PageTitle'> View Department Coordinator Details</Typography> </Grid>
             <Grid item md={8} sm={8} > <Tile >
 
                 <Table>

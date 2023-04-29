@@ -5,7 +5,7 @@ import { Typography } from "@mui/material";
 export const AddCompanySupervisor = () => {
     return (
         <>
-            <Typography variant='subtitle1'> Add Company Supervisor Details</Typography>
+            <Typography variant='PageTitle'> Add Company Supervisor Details</Typography>
             <SupervisorCreateForm>
 
             </SupervisorCreateForm>

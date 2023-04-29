@@ -27,7 +27,7 @@ export const UpdateNRemoveUndergraduate = () => {
 
     return (
         <>
-            <Typography variant="subtitle1">Update or Remove Undergraduate</Typography>
+            <Typography variant="PageTitle">Update or Remove Undergraduate</Typography>
             <Tile>
                 <Stack>
                     <Table>

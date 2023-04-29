@@ -20,7 +20,7 @@ export const ViewAlumini = () => {
 
     return (
         <Grid spacing={1} container>
-            <Grid item md={12} sm={12} ><Typography variant='subtitle1'> View Alumni Details</Typography> </Grid>
+            <Grid item md={12} sm={12} ><Typography variant='PageTitle'> View Alumni Details</Typography> </Grid>
             <Grid item md={8} sm={8} >
                 <Tile>
                     <Stack>
