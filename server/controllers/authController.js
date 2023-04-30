@@ -7,6 +7,7 @@ const sendEmail = require('../utils/email');
 const handleErrors = require('../utils/appErrors');
 const catchAsync = require('../utils/catchAsync');
 const dotenv = require('dotenv');
+const { authenticateUser } = require('../utils/auth');
 
 dotenv.config();
 
@@ -22,21 +23,12 @@ const createToken = (id, role) => {
 module.exports.login = catchAsync(async (req, res) => {
     try {
         const { email, password } = req.body;
-        let user;
-        user = await Undergraduate.login(email, password);
-        if (!user) {
-            user = await Admin.login(email, password);
-            if (!user) {
-                user = await Supervisor.login(email, password);
-                if (!user) {
-                    user = await Alumni.login(email, password);
-                }
-            }
-        }
+        const user = await authenticateUser(email, password);
 
         const token = createToken(user._id, user.role);
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         // ⚡ cookie.secure must be enables in production.⚡
+
         res.status(200).json({ user: user._id, role: user.role });
     } catch (err) {
         const errors = handleErrors(err);

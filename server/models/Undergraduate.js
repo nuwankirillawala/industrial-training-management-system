@@ -180,17 +180,24 @@ undergraduateSchema.post('save', function (doc, next) {
     next();
 });
 
-undergraduateSchema.statics.login = async function (email, password) {
-    const undergraduate = await this.findOne({ email });
-    if (undergraduate) {
-        const auth = await bcrypt.compare(password, undergraduate.password);
-        if (auth) {
-            return undergraduate;
-        }
-        throw Error('incorrect password');
-    }
-    throw Error('incorrect email');
-}
+// undergraduateSchema.statics.login = async function (email, password) {
+//     const undergraduate = await this.findOne({ email });
+//     if (undergraduate) {
+//         const auth = await bcrypt.compare(password, undergraduate.password);
+//         if (auth) {
+//             return undergraduate;
+//         }
+//         // throw Error('incorrect password');
+//         else{
+//             return "incorrect password";
+//         }
+//     }
+//     // throw Error('incorrect email');
+//     else{
+//         return "incorrect email";
+//     }
+    
+// }
 
 const Undergraduate = mongoose.model('undergraduate', undergraduateSchema);
 
