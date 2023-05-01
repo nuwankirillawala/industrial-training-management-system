@@ -737,9 +737,9 @@ module.exports.viewDailyReport = catchAsync(async (req, res) => {
 module.exports.editDailyReport = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id;
-        // const weekNo = req.body.weekNumber;
-        const weekNo = parseInt(req.body.weekNumber);
-        const dayNo = parseInt(req.body.dayNumber);
+        const {weekNo, dayNo, reportContent} = req.body;
+        // const weekNo = parseInt(req.body.weekNumber);
+        // const dayNo = parseInt(req.body.dayNumber);
         const user = await Undergraduate.findById(userId);
         if (!user) {
             return res.status(400).json({error: "user not found"});
@@ -749,14 +749,27 @@ module.exports.editDailyReport = catchAsync(async (req, res) => {
             return res.status(400).json({message: "please set the internship"});
         }
 
-        const weeklyReport = user.weeklyReports.filter((report) => report.weekNumber === weekNo);
-        const dailyReport = weeklyReport.dailyReport.filter((report) => report.dayNumber === dayNo);
+        const weeklyReport = user.weeklyReports.find((report) => report.weekNumber === weekNo);
+        if(!weeklyReport){
+            return res.status(400).json({error: "weekly report not found"});
+        }
 
-        res.status(200).json({dailyReport: dailyReport});
+        const dailyReport = weeklyReport.dailyReports.find((report) => report.dayNumber === dayNo);
+        if(!dailyReport){
+            return res.status(400).json({error: "daily report not found"});
+        }
+
+        dailyReport.content = reportContent;
+        dailyReport.approvalStatus = 'edited';
+        weeklyReport.reportStatus = 'saved';
+        await user.save();
+
+        res.status(200).json({dailyReport});
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
+
 
 

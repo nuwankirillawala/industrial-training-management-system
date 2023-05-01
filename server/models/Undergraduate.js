@@ -138,7 +138,7 @@ const undergraduateSchema = new mongoose.Schema({
         weekEndDate: {
             type: Date
         },
-        dailyreports:[{
+        dailyReports:[{
             dayNumber:{
                 type: Number,
                 required: true
@@ -152,8 +152,8 @@ const undergraduateSchema = new mongoose.Schema({
             },
             approvalStatus: {
                 type: String,
-                default: 'pending',
-                enum: ['approved', 'rejected', 'pending', 'empty']
+                default: 'empty',
+                enum: ['approved', 'rejected', 'pending', 'edited','empty']
             }
         }],
         problemSection: {
