@@ -153,7 +153,7 @@ const undergraduateSchema = new mongoose.Schema({
             approvalStatus: {
                 type: String,
                 default: 'pending',
-                enum: ['approved', 'rejected', 'pending']
+                enum: ['approved', 'rejected', 'pending', 'empty']
             }
         }],
         problemSection: {

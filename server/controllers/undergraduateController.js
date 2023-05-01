@@ -4,7 +4,7 @@ const handleErrors = require('../utils/appErrors');
 const { default: mongoose } = require('mongoose');
 const catchAsync = require('../utils/catchAsync');
 const Supervisor = require('../models/Supervisor');
-const { startOfWeek, endOfWeek, addWeeks, format } = require('date-fns');
+const { startOfWeek, endOfWeek, addWeeks, format, addDays } = require('date-fns');
 
 
 // Method = POST
@@ -621,8 +621,8 @@ module.exports.updateInternshipPeriod = catchAsync(async (req, res) => {
         }
 
         const { internshipStart, internshipEnd } = req.body;
-        if(!internshipStart || !internshipEnd){
-            return res.status(400).json({message: "Please add intern start date and end date"});
+        if (!internshipStart || !internshipEnd) {
+            return res.status(400).json({ message: "Please add intern start date and end date" });
         }
 
         // Generate empty weekly reports for the intern
@@ -638,11 +638,28 @@ module.exports.updateInternshipPeriod = catchAsync(async (req, res) => {
             const weekStartDate = new Date(currentWeekDate);
             const weekEndDate = endOfWeek(new Date(currentWeekDate));
 
+            const emptyDailyReports = [];
+            let dayNumber = 1;
+            let currentDate = new Date(currentWeekDate);
+
+            while(dayNumber <= 5){
+                const emptyDailyReport = {
+                    dayNumber,
+                    date: currentDate,
+                    content: '',
+                    approvedStatus: 'empty',
+                };
+                
+                emptyDailyReports.push(emptyDailyReport);
+                dayNumber++;
+                currentDate = addDays(currentDate, 1);
+            }
+
             const emptyWeeklyReport = {
                 weekNumber,
                 weekStartDate,
                 weekEndDate,
-                dailyReports: [],
+                dailyReports: emptyDailyReports,
                 problemSection: '',
                 reportStatus: 'empty'
             };
@@ -665,5 +682,81 @@ module.exports.updateInternshipPeriod = catchAsync(async (req, res) => {
     }
 });
 
+
+//Method: GET
+//Endpoint: "/view-all-daily-reports"
+//Description: View all daily reports weekly vise
+module.exports.viewAllDailyReports = catchAsync(async (req, res) => {
+    try {
+        const userId = req.body.id;
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({error: "user not found"});
+        }
+
+        if(user.weeklyReports.length === 0){
+            return res.status(400).json({message: "please set the internship"});
+        }
+
+        res.status(200).json({dailyReports: user.weeklyReports});
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+//Method: GET
+//Endpoint: "/view-daily-report"
+//Description: View a set of daily reports weekly vise
+module.exports.viewDailyReport = catchAsync(async (req, res) => {
+    try {
+        const userId = req.body.id;
+        // const weekNo = req.body.weekNumber;
+        const weekNo = parseInt(req.body.weekNumber);
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({error: "user not found"});
+        }
+
+        if(user.weeklyReports.length === 0){
+            return res.status(400).json({message: "please set the internship"});
+        }
+
+        const report = user.weeklyReports.filter((report) => report.weekNumber === weekNo);
+
+        res.status(200).json({weeklyReport: report});
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+//Method: POST
+//Endpoint: "/edit-daily-report"
+//Description: View a set of daily reports weekly vise
+module.exports.editDailyReport = catchAsync(async (req, res) => {
+    try {
+        const userId = req.body.id;
+        // const weekNo = req.body.weekNumber;
+        const weekNo = parseInt(req.body.weekNumber);
+        const dayNo = parseInt(req.body.dayNumber);
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({error: "user not found"});
+        }
+
+        if(user.weeklyReports.length === 0){
+            return res.status(400).json({message: "please set the internship"});
+        }
+
+        const weeklyReport = user.weeklyReports.filter((report) => report.weekNumber === weekNo);
+        const dailyReport = weeklyReport.dailyReport.filter((report) => report.dayNumber === dayNo);
+
+        res.status(200).json({dailyReport: dailyReport});
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
 
 
