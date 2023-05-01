@@ -12,8 +12,6 @@ import { Apartment, ArrowBack, Article, Assessment, Ballot, ChevronLeft, Dashboa
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import MuiDrawer from '@mui/material/Drawer';
-import MuiAppBar from '@mui/material/AppBar';
-import MuiNavbar from '../Navbar/Navbar';
 
 const drawerWidth = 240;
 
@@ -42,7 +40,7 @@ const closedMixin = (theme) => ({
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
-    width: drawerWidth,
+    // width: drawerWidth,
     flexShrink: 0,
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
@@ -62,23 +60,23 @@ const ListItemIconWrapper = styled(ListItemIcon)({
   justifyContent: 'center',
 });
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer +1,
-  transition: theme.transitions.create(['margin', 'width'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  })
-}));
+// const AppBar = styled(MuiAppBar, {
+//   shouldForwardProp: (prop) => prop !== 'open',
+// })(({ theme, open }) => ({
+//   zIndex: theme.zIndex.drawer +1,
+//   transition: theme.transitions.create(['margin', 'width'], {
+//     easing: theme.transitions.easing.sharp,
+//     duration: theme.transitions.duration.leavingScreen
+//   }),
+//   ...(open && {
+//     width: `calc(100% - ${drawerWidth}px)`,
+//     marginLeft: drawerWidth,
+//     transition: theme.transitions.create(['margin', 'width'], {
+//       easing: theme.transitions.easing.sharp,
+//       duration: theme.transitions.duration.enteringScreen
+//     })
+//   })
+// }));
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -312,19 +310,20 @@ export default function Sidebar() {
         </AppBar>
       </ThemeProvider> */}
 
-      <AppBar position='fixed' open={open}/>
+      {/* <AppBar position='fixed' open={open}/> */}
 
       <Drawer
         sx={{
           textAlign: 'center',        
-          width: drawerWidth,
+          // width: open ? drawerWidth : null,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
-            width: drawerWidth,
+            // width: drawerWidth,
             boxSizing: 'border-box',
             bgcolor: '#4665d2',
             color: '#f4f6fc',
           },
+          overflowX: 'hidden'
         }}
         
         variant="permanent"
@@ -352,23 +351,25 @@ export default function Sidebar() {
           }
         </Box>
         
-        <Stack position={'relative'} top={0}>
-          <Grid container justifyContent="center">
-            <Unilogo width='50px' height='100px'/>
-          </Grid>
+        {open && (
+          <Stack position={'relative'} top={0}>
+            <Grid container justifyContent="center">
+              <Unilogo width='50px' height='100px'/>
+            </Grid>
 
-          <Typography
-            variant={'h6'}
-            fontWeight={'bold'}
-            letterSpacing={5}
-            sx={{
-              position:'relative',
-              top:5,
-              lineHeight:1.2,
-            }}>
-            ITMS
-          </Typography>
-        </Stack>
+            <Typography
+              variant={'h6'}
+              fontWeight={'bold'}
+              letterSpacing={5}
+              sx={{
+                position:'relative',
+                top:5,
+                lineHeight:1.2,
+              }}>
+              ITMS
+            </Typography>
+          </Stack>
+        )}
         
         <Stack sx={{position:'relative', top:50, justifyContent: 'center'}}>
           {users.map((user) => (            
