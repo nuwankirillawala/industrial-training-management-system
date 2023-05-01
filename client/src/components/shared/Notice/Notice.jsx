@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { InputBase, IconButton, Typography, Grid, List, ListItemText, ListItemButton, Paper, Box, ListItemSecondaryAction } from '@mui/material';
+import { InputBase, IconButton, Typography, Grid, List, ListItemText, ListItemButton, Paper, Box, ListItemSecondaryAction, Toolbar, ListItem } from '@mui/material';
 import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Tile } from '../../card/Tile';
+import { red } from '@mui/material/colors';
 
 const notices = [
     {
@@ -62,6 +63,7 @@ const notices = [
 export default function Notice () {
     
     const [displayText, setDisplayText] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
 
     const handleClick = (notice) => {
         setDisplayText(notice.ternary);
@@ -71,6 +73,23 @@ export default function Notice () {
         const date = new Date();
         return date.toLocaleDateString();
     };
+
+    const searchStyles = {
+        position: 'sticky',
+        zIndex: (theme) => theme.zIndex.appbar,
+        // left: '10%',
+        transform: 'translate(-5%, 0)',
+        minWidth: '250px',
+        top: 0
+    };
+
+    const listStyles = {
+        paddingTop: (theme) => theme.spacing(4)
+    };
+
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+    }
 
     return (
 
@@ -90,36 +109,40 @@ export default function Notice () {
                     height={'88vh'}
                 >
                     {/* Search bar & Search button */}
-                    {/* <Box position={'sticky'}> */}
-                    <Paper
-                      component={'form'}
-                      sx={{ p: '2px 4px', display: 'flex', alignItems: "center", width: 270, /*marginBottom: 0*/}}
-                    >
-                        <InputBase
-                            sx={{ ml: 1, flex: 1 }}
-                            placeholder='Search...'
-                            inputProps={{ 'aria-label': 'Search' }}
-                        />
-                        <IconButton type='button' sx={{ p: '10px', marginLeft: '10px', bgcolor: 'black' }} aria-label='search'>
-                            <SearchIcon
-                                sx={{
-                                    color:'white',
-                                    "&:hover":{ color:'black' }
-                                }}
+                    {/* <Box sx={{ height: '10vh', overflow: 'sroll' }}> */}
+                    <Toolbar sx={searchStyles}>
+                        <Paper
+                        component={'form'}
+                        sx={{ p: '2px 4px', display: 'flex', alignItems: "center", width: 270, /*marginBottom: 0*/}}
+                        >
+                            <InputBase
+                                sx={{ ml: 1, flex: 1 }}
+                                placeholder='Search...'
+                                inputProps={{ 'aria-label': 'Search' }}
+                                value={searchTerm}
+                                onChange={handleSearchChange}
                             />
-                        </IconButton>
-                    </Paper>
+                            <IconButton type='button' sx={{ p: '10px', marginLeft: '10px', bgcolor: 'black' }} aria-label='search'>
+                                <SearchIcon
+                                    sx={{
+                                        color:'white',
+                                        "&:hover":{ color:'black' }
+                                    }}
+                                />
+                            </IconButton>
+                        </Paper>
 
-                    {/* Refresh button */}
-                    <Paper sx={{ borderRadius: 20, width: 45, position: 'relative', bottom: 46, left: 280 }} elevation={0}>
-                        <IconButton color='primary' sx={{ p: '10px', bgcolor: 'black', left: 0.5 }} aria-label='refresh' >
-                            <RefreshIcon />
-                        </IconButton>
-                    </Paper>
+                        {/* Refresh button */}
+                        <Paper sx={{ borderRadius: 20, width: 45, position: 'relative', top: 0, left: 10 }} elevation={0}>
+                            <IconButton color='primary' sx={{ p: '10px', bgcolor: 'black', left: 0.5 }} aria-label='refresh' >
+                                <RefreshIcon />
+                            </IconButton>
+                        </Paper>
+                    </Toolbar>
                     {/* </Box> */}
 
                     {/* List item buttons */}
-                    <List>
+                    <List sx={listStyles}>
                         {notices.map((notice, index) => (
                             <ListItemButton
                                 key={index}

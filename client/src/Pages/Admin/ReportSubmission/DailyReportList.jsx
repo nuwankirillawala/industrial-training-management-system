@@ -182,6 +182,7 @@ export const DailyReportList = () => {
                       // footer={false}
                       disableSelectionOnClick
                       experimentalFeatures={{ newEditingApi: true }}
+                      hideFooter={true}
                     
                     />
                   )}
@@ -195,6 +196,7 @@ export const DailyReportList = () => {
                       onRowClick={selectReportData}
                       getRowId={(row) => row.id}
                       pageSize={10}
+                      hideFooter={true}
                       // disableSelectionOnClick
                       // experimentalFeatures={{ newEditingApi: true }}
                     

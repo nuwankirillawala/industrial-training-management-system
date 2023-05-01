@@ -25,7 +25,7 @@ export const UpdateNRemoveCompanySupervisor = () => {
 
     return (
         <>
-            <Typography variant="subtitle1">Update or Remove Company Supervisor</Typography>
+            <Typography variant="PageTitle">Update or Remove Company Supervisor</Typography>
             <Tile>
                 <Stack>
                     <Table>

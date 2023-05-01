@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { Stack, TextField, Button , InputAdornment, IconButton } from '@mui/material'
+import { Stack, TextField, Button , InputAdornment, IconButton, Box,  } from '@mui/material'
 import {Formik } from 'formik'
 import * as Yup from 'yup'
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import { StatusSnackBar } from '../StatusSnackBar/StatusSnackBar';
 
 
 const pwd = {
@@ -22,10 +23,25 @@ export const ChangePassword = () => {
     const handleClickShowNewPassword = () => setShowNewPassword(!showNewPassword);
     const handleMouseDownNewPassword = () => setShowNewPassword(!showNewPassword);
 
+    //statusSnackBar state
+    const [trigger, setTrigger] = useState({
+      success: false,
+    });
+    //End of statusSnackBar state
+    const handleSnackBar = (key) => {
+      setTrigger((prevState) => {
+        let newState = { ...prevState };
+        newState[key] = !newState[key];
+        return newState;
+      });
+    };
+
     const handleOnSubmit = async (values) => {
         console.log(values);
         await new Promise((r) => setTimeout(r, 500));
         alert(JSON.stringify(values, null, 2));
+
+        handleSnackBar("success");
     }
 
     const validatePwd = Yup.object().shape({
@@ -38,6 +54,7 @@ export const ChangePassword = () => {
     })
 
   return (
+    <Box>
     <Formik
         initialValues={pwd}
         validationSchema={validatePwd}
@@ -145,8 +162,8 @@ export const ChangePassword = () => {
                         />
                         <Stack diraction={'row'} alignItems={'flex-end'}>
                             <Stack direction={'row'}>
-                                <Button variant='itms' size="itms-small" onClick={handleReset}>clear</Button>
-                                <Button variant='itms' size={'itms-small'} type='submit'>save</Button>
+                                <Button variant='itms' onClick={handleReset}>clear</Button>
+                                <Button variant='itms' type='submit'>save</Button>
                             </Stack>
                         </Stack>
                     </Stack>
@@ -154,5 +171,15 @@ export const ChangePassword = () => {
             )
         }
     </Formik>
+
+<StatusSnackBar
+severity="success"
+trigger={trigger.success}
+setTrigger={() => {
+  handleSnackBar("success");
+}}
+alertMessage={"Success"}
+/>
+</Box>
   )
 }

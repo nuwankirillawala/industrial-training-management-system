@@ -98,12 +98,17 @@ module.exports.viewAllNotices = catchAsync(async (req, res) => {
             return res.status(400).json({ message: "notices not found!" });
         }
 
-        res.status(200).json(notices);
+        res.status(200).json({
+            status: "success",
+            results: notices.length,
+            data: notices
+        });
     } catch (err) {
         console.log(err.message);
         res.status(500).json(err);
     }
 });
+ 
 
 // Method: GET
 // Endpoint: "/view-notice"
