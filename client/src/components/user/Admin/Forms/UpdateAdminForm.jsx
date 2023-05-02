@@ -12,7 +12,6 @@ const Admin = {
     adminEmail: '',
     adminContactNo: '',
     adminStaffId: '',
-    //  adminPassword: '', 
     adminRole: ''
 }
 
@@ -39,21 +38,27 @@ export const UpdateAdminForm = () => {
 
 
     const handleFormSubmit = async (values) => {
-        alert(JSON.stringify(values));  //convert object to a json file, this popup may omitt @ the integration
+        // alert(JSON.stringify(values));  //working //convert object to a json file
         handleSnackBar("success");
+        // console.log(values);  // working
+        try {
+            const res = await axios.patch("http://localhost:5000/api/v1/admin/update-admin-profile",
+                {
+                    _id: '6666',   //id, _id, userID
+                    role: values.adminRole,
+                    name: values.adminName,
+                    email: values.adminEmail,
+                    contactNo: values.adminContactNo,
+                    staffId: values.adminStaffId,
+                },
+                { withCredentials: true }
 
-        // const res = await axios.post(
-        //     "http://localhost:5000/api/v1/undergraduate/update-admin-profile",
-        //     {
-        //         role: 'abcd',
-        //         name: 'thusitha',
-        //         email: 'thu@gmail',
-        //         contactNo: '0987654327',
-        //         staffId: '67656g',
-        //     },
-        //     { withCredentials: true }
-        // );
-        // console.log(res.data);
+            );
+            console.log(res.data)
+        }
+        catch (error) {
+            console.log(error)
+        }
     }
 
 
