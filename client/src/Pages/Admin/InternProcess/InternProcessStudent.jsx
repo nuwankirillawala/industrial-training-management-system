@@ -28,7 +28,7 @@ const InternProcessStudent = () => {
 
   useEffect(() => {
     studentData && setStudent(studentData.user)
-    companyData && setCompanies(companyData)
+    companyData && setCompanies(companyData.companyList)
   }, [companyData, studentData]);
   console.log(companyData);
 
@@ -52,6 +52,7 @@ const InternProcessStudent = () => {
     companies.map((company) => {
       return {
         id: company._id,
+        _id: company._id,
         name: company.name,
         internSeats: company.internSeats,
         applicationListSize: company.applicationListSize,
@@ -68,7 +69,7 @@ const InternProcessStudent = () => {
       width: 100,
       headerClassName: 'data-grid-header',
       // renderCell: (params) => (<Button onClick={() => handleAddStudent(params.row)} startIcon={<AddIcon />}>Add</Button>)
-      renderCell: (params) => (<Button onClick={() => handleRemoveCompany(params.row)} startIcon={<DeleteIcon />} />)
+      renderCell: (params) => (<Button type='close' onClick={() => handleRemoveCompany(params.row)} startIcon={<DeleteIcon />} />)
 
     },
   ];
@@ -78,7 +79,8 @@ const InternProcessStudent = () => {
     selectedCompanies.map((company) => {
       console.log(company);
       return {
-        id: company.id,
+        id: company._id,
+        _id: company._id,
         name: company.name,
         internSeats: company.internSeats,
         applicationListSize: company.applicationListSize,
@@ -86,7 +88,7 @@ const InternProcessStudent = () => {
     });
 
     const handleAddCompany = (company) => {
-      if (selectedCompanies.length < 10) {
+      if (selectedCompanies.length < 3) {
         setSelectedCompanies([...selectedCompanies, company]);
         setCompanies(companies.filter(c => c._id !== company.id));
       }
@@ -96,8 +98,17 @@ const InternProcessStudent = () => {
     };
 
     const handleRemoveCompany = (company) => {
-
+      console.log(typeof companies);
+      setCompanies([...companies, company]);
+      setSelectedCompanies(selectedCompanies.filter(c => c.id !== company.id));
     }
+
+    const handleSave = async () => {
+      // const res = await axios.post("http://localhost:5000/api/v1/company/update-company-intern-application-list", { companyId: company._id, candidateList: selectedStudents }, { withCredentials: true })
+      // if (res) {
+      //   setDialogData(res.data);
+        setDialogOpen(true);
+      }
 
   return (
     <Grid container spacing={1}>
@@ -132,6 +143,8 @@ const InternProcessStudent = () => {
                 rows={rowsRight}
                 columns={columnsRight}
               />
+              <br />
+              <Button variant="contained" size="large" onClick={handleSave}>Save List</Button>
             </Tile>
           </Grid>
         </Grid>

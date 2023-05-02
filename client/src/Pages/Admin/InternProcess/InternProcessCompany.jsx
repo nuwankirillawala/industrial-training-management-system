@@ -47,6 +47,7 @@ const InternProcessCompany = () => {
   };
 
   const handleRemoveStudent = (student) => {
+    console.log(typeof students);
     setStudents([...students, student]);
     setSelectedStudents(selectedStudents.filter(s => s.regNo !== student.regNo));
   };
@@ -91,6 +92,7 @@ const InternProcessCompany = () => {
     students.map((user) => {
       return {
         id: user._id,
+        _id: user._id,
         regNo: user.regNo,
         name: user.name,
         gpa: user.gpa,
@@ -120,6 +122,7 @@ const InternProcessCompany = () => {
     selectedStudents.map((user) => {
       return {
         id: user._id,
+        _id: user._id,
         regNo: user.regNo,
         name: user.name,
         gpa: user.gpa,

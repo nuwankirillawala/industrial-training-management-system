@@ -50,17 +50,17 @@ alumniSchema.post('save', function (doc, next) {
     next();
 });
 
-alumniSchema.statics.login = async function (email, password) {
-    const alumni = await this.findOne({ email });
-    if (alumni) {
-        const auth = await bcrypt.compare(password, alumni.password);
-        if (auth) {
-            return alumni;
-        }
-        throw Error('incorrect password');
-    }
-    throw Error('incorrect email');
-}
+// alumniSchema.statics.login = async function (email, password) {
+//     const alumni = await this.findOne({ email });
+//     if (alumni) {
+//         const auth = await bcrypt.compare(password, alumni.password);
+//         if (auth) {
+//             return alumni;
+//         }
+//         throw Error('incorrect password');
+//     }
+//     throw Error('incorrect email');
+// }
 
 const Alumni = mongoose.model('alumni', alumniSchema);
 
