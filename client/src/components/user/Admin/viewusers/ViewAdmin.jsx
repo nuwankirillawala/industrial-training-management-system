@@ -41,6 +41,21 @@ export const ViewAdmin = () => {
         { columnName: '  Staff ID' },
         { columnName: ' Job Role' }
     ]
+    // const fetchUser = async () =>{
+    //     try{
+    //         const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/admin')
+    //         if(res.status){
+    //             setSingleUser(JSON.stringify(res.data))
+    //         }
+    //         console.log(res)
+    //     }
+    //     catch(err){
+
+    //     }
+    // }
+
+    // useEffect(() => fetchUser, []);
+
     return (
         <Grid spacing={1} container>
             <Grid item md={12} sm={12} ><Typography variant='PageTitle'> View Administrator Details</Typography> </Grid>
