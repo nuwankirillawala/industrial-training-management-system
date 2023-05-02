@@ -4,19 +4,29 @@ import { useState } from "react"
 import { Tile } from "../../../card/Tile"
 import { Formik } from "formik"
 import * as yup from "yup"
-
+import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
+import axios from 'axios';
 
 const Admin = {
     adminName: '',
     adminEmail: '',
     adminContactNo: '',
     adminStaffId: '',
-    //  adminPassword: '', 
     adminRole: ''
 }
 
 export const UpdateAdminForm = () => {
-    //add axios while integrate to get initial values
+    const [SnackbarOpen, setSnackbarOpen] = useState(false)
+
+    const handleSnackBar = (key) => {
+        setSnackbarOpen((prevState) => {
+            let newState = { ...prevState };
+            newState[key] = !newState[key];
+            return newState;
+        });
+    };
+
+
 
     const validation = yup.object().shape({
         adminName: yup.string(),
@@ -27,9 +37,28 @@ export const UpdateAdminForm = () => {
     })
 
 
-    const handleFormSubmit = (values) => {
-        alert(JSON.stringify(values));//convert object to a json file, this popup may omitt @ the integration
-        alert("your data is submitted");
+    const handleFormSubmit = async (values) => {
+        // alert(JSON.stringify(values));  //working //convert object to a json file
+        handleSnackBar("success");
+        // console.log(values);  // working
+        try {
+            const res = await axios.patch("http://localhost:5000/api/v1/admin/update-admin-profile",
+                {
+                    _id: '6666',   //id, _id, userID
+                    role: values.adminRole,
+                    name: values.adminName,
+                    email: values.adminEmail,
+                    contactNo: values.adminContactNo,
+                    staffId: values.adminStaffId,
+                },
+                { withCredentials: true }
+
+            );
+            console.log(res.data)
+        }
+        catch (error) {
+            console.log(error)
+        }
     }
 
 
@@ -155,6 +184,13 @@ export const UpdateAdminForm = () => {
                     </form>
                 )}
             </Formik>
+            <StatusSnackBar
+                trigger={SnackbarOpen.success}
+                setTrigger={() => {
+                    handleSnackBar("success");
+                }}
+                severity='success'
+                alertMessage={' submitted '}></StatusSnackBar>
         </Tile>
 
     )

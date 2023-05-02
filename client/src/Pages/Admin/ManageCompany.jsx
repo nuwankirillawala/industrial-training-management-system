@@ -30,7 +30,7 @@ export const ManageCompany = () => {
     return (
         <Grid container>
             <Grid item sm={12} md={12}>
-                <Typography variant="subtitle1">Add new Company</Typography>
+                <Typography variant="PageTitle">Add new Company</Typography>
             </Grid>
 
             <Grid item sm={12} md={12}>
@@ -42,8 +42,8 @@ export const ManageCompany = () => {
                 </Tile>
             </Grid>
 
-            <Grid item sm={12} md={12}>
-                <Typography variant="subtitle1">Manage Company</Typography>
+            <Grid item sm={12} md={12} paddingTop={'10px'}>
+                <Typography variant="PageTitle">Manage Company</Typography>
             </Grid>
 
             <Grid item sm={12} md={12} >
@@ -89,8 +89,8 @@ export const ManageCompany = () => {
                                         <Stack direction={'row'}>  <Typography width={'135px'}> CompanyName </Typography><Typography> {singleCompany.id} </Typography></Stack>
                                         <Stack direction={'row'}> <Typography width={'135px'}> E-mail </Typography><Typography>{singleCompany.title} </Typography></Stack>
                                         <Stack direction={'row'}> <Typography width={'135px'}> EContact Number</Typography><Typography> {singleCompany.title} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> Comapny Address</Typography><Typography>{singleCompany.title} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> Comapny Description</Typography><Typography>{singleCompany.title} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}> Company Address</Typography><Typography>{singleCompany.title} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}> Company Description</Typography><Typography>{singleCompany.title} </Typography></Stack>
                                         <Stack direction={'row'}> <Typography width={'135px'}> Comapny Rating</Typography><Typography>{singleCompany.title} </Typography></Stack>
                                     </Stack>
                                 )}

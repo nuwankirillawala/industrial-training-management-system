@@ -25,7 +25,10 @@ module.exports.createAdmin = catchAsync(async (req, res) => {
         const user = await Admin.create({ role, name, email, contactNo, staffId, password });
 
         if(!user){
-            return res.status(400).json({message: "error! can't create the user!"});
+            return res.status(400).json({
+                status : "error",
+                message: "error! can't create the user!"
+            });
         }
 
         res.status(201).json({
@@ -36,7 +39,11 @@ module.exports.createAdmin = catchAsync(async (req, res) => {
     } catch (err) {
         const errors = handleErrors(err);
         console.log({ errors });
-        res.status(500).json({ errors });
+        res.status(500).json({
+            starus : "error",
+            message: "This user allready created",
+            data: errors
+        });
     }
 });
 

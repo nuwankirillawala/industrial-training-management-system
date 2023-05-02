@@ -5,6 +5,8 @@ import { Avatar } from '../../components/shared/Images/Avatar'
 import {Formik } from 'formik'
 import * as Yup from 'yup'
 import { ChangePassword } from '../../components/ChangePassword/ChangePassword'
+import { ChangeAvatar } from '../../components/ChangeAvatar/ChangeAvatar'
+import { StatusSnackBar } from '../../components/StatusSnackBar/StatusSnackBar'
 
 // get current values form backend and set that valuse as default values in textfields
 
@@ -23,11 +25,35 @@ export const StudentSettings = () => {
 
     const[profile,setProfile] = useState(studentValues);
 
-    const handleOnSubmitForm = async(values) => {
-        console.log(values);
-        await new Promise((r) => setTimeout(r, 500));
-        alert(JSON.stringify(values, null, 2));
-    }
+    //statusSnackBar state
+    const [trigger, setTrigger] = useState({
+        success: false,
+      });
+      //End of statusSnackBar state
+      const handleSnackBar = (key) => {
+        setTrigger((prevState) => {
+          let newState = { ...prevState };
+          newState[key] = !newState[key];
+          return newState;
+        });
+      };
+   
+    const handleFormSubmit = async (values) => {
+        console.log(values);        
+        // const res = await axios.post(
+        //     "http://localhost:5000/api/v1/admin/create-admin", 
+        //     {   role : 'system-admin',
+        //         name : values.adminName,
+        //         email : values.adminEmail,
+        //         contactNo : values.adminContactNo,
+        //         staffId : values.adminStaffId,
+        //         password : values.adminPassword,
+        //    },
+        //     {withCredentials: true}
+        //     );
+  
+        handleSnackBar("success");
+    };
 
     const validationForm = Yup.object().shape({
         firstName : Yup.string(),
@@ -44,23 +70,24 @@ export const StudentSettings = () => {
 
         <Grid container spacing={1}>
 
-            <Grid item md={3}>
-            <Tile>
-            <Box padding={'20px'}>
-                <Stack direction='column' spacing={5}>
-{/* update profile photo */}
-                    <Stack direction={'column'} spacing={2}>
-                        <Stack alignItems={'center'}>
-                            <Box width={'60%'}>
-                                <Avatar/>
-                            </Box>
-                        </Stack>
-                        <Stack alignItems={'center'}>
-                            <Box>
-                                <Button variant='itms'>change Profile Photo</Button>
-                            </Box>
-                        </Stack>            
+            <Grid item md={12}>
+            <Stack>
+                        <Typography variant='h6' fontWeight={'bold'}>Update Your Profile</Typography>
                     </Stack>
+            </Grid>
+
+            <Grid item md={3}>
+            {/* <Tile> */}
+            {/* <Box padding={'20px'}> */}
+                <Stack direction='column' spacing={1}>
+<Tile>
+{/* update profile photo */}
+                    <Stack>
+                        <ChangeAvatar />
+                    </Stack>
+                    </Tile>
+
+                    <Tile>
 {/* change password */}
                     <Stack direction={'column'} spacing={2}>
                         <Stack>
@@ -72,9 +99,12 @@ export const StudentSettings = () => {
                             <ChangePassword />
                         </Stack>                        
                     </Stack>
+                    </Tile>
+
+
                 </Stack>
-                </Box>
-            </Tile>
+                {/* </Box> */}
+            {/* </Tile> */}
             </Grid>
 
 {/* update profile details */}
@@ -83,15 +113,15 @@ export const StudentSettings = () => {
             <Tile>
                 <Box padding={'20px'}>
                 <Stack spacing={2} direction='column'>
-                    <Stack>
+                    {/* <Stack>
                         <Typography variant='h6' fontWeight={'bold'}>Update Your Profile</Typography>
-                    </Stack>
+                    </Stack> */}
                     <Stack alignItems={'center'}>
                         <Box width={'70%'}>
                             <Formik
                                 initialValues={studentValues}
                                 validationSchema={validationForm}
-                                onSubmit={handleOnSubmitForm}
+                                onSubmit={handleFormSubmit}
                             >
                                 {({
                                     values,
@@ -275,6 +305,14 @@ export const StudentSettings = () => {
                                 </form>
                                 )}
                             </Formik> 
+                            <StatusSnackBar
+                              severity="success"
+                              trigger={trigger.success}
+                              setTrigger={() => {
+                                handleSnackBar("success");
+                              }}
+                              alertMessage={"Success"}
+                            />
                         </Box>
                     </Stack>
 

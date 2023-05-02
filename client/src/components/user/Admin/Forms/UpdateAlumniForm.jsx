@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from "react"
 import { Tile } from "../../../card/Tile"
 import { Formik } from "formik"
 import * as yup from "yup"
+import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
+
 
 const User = {
     alumniName: 'ajith',
@@ -14,7 +16,15 @@ const User = {
 }
 
 export const UpdateAlumniForm = () => {
-    //add axios while integrate to get initial values
+    const [SnackbarOpen, setSnackbarOpen] = useState(false)
+
+    const handleSnackBar = (key) => {
+        setSnackbarOpen((prevState) => {
+            let newState = { ...prevState };
+            newState[key] = !newState[key];
+            return newState;
+        });
+    };
 
     const validation = yup.object().shape({
         alumniName: yup.string(),
@@ -26,7 +36,7 @@ export const UpdateAlumniForm = () => {
 
     const handleFormSubmit = (values) => {
         alert(JSON.stringify(values));//convert object to a json file, this popup may omitt @ the integration
-        alert("your data is submitted");
+        handleSnackBar("success");
     }
 
 
@@ -133,6 +143,13 @@ export const UpdateAlumniForm = () => {
                     </form>
                 )}
             </Formik>
+            <StatusSnackBar
+                trigger={SnackbarOpen.success}
+                setTrigger={() => {
+                    handleSnackBar("success");
+                }}
+                severity='success'
+                alertMessage={' submitted '}></StatusSnackBar>
         </Tile>
 
     )

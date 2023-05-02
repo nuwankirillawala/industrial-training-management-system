@@ -50,17 +50,17 @@ supervisorSchema.post('save', function (doc, next) {
     next();
 });
 
-supervisorSchema.statics.login = async function (email, password) {
-    const supervisor = await this.findOne({ email });
-    if (supervisor) {
-        const auth = await bcrypt.compare(password, supervisor.password);
-        if (auth) {
-            return supervisor;
-        }
-        throw Error('incorrect password');
-    }
-    throw Error('incorrect email');
-}
+// supervisorSchema.statics.login = async function (email, password) {
+//     const supervisor = await this.findOne({ email });
+//     if (supervisor) {
+//         const auth = await bcrypt.compare(password, supervisor.password);
+//         if (auth) {
+//             return supervisor;
+//         }
+//         throw Error('incorrect password');
+//     }
+//     throw Error('incorrect email');
+// }
 
 const Supervisor = mongoose.model('supervisor', supervisorSchema);
 

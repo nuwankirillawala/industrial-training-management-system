@@ -6,7 +6,7 @@ import { Typography } from "@mui/material";
 
 export const AddAdmin = () => {
     return (<>
-        <Typography variant='subtitle1'> Add Administrator Details</Typography>
+        <Typography variant='PageTitle'> Add Administrator Details</Typography>
         <AdminCreateForm />
     </>
     )
