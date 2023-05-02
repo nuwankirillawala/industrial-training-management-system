@@ -38,7 +38,8 @@ export const ViewAdmin = () => {
         { columnName: 'Admin Name' },
         { columnName: '  Email' },
         { columnName: '  ContactNo' },
-        { columnName: '  Staff ID' }
+        { columnName: '  Staff ID' },
+        { columnName: ' Job Role' }
     ]
     return (
         <Grid spacing={1} container>
@@ -65,6 +66,7 @@ export const ViewAdmin = () => {
                                     <TableCell>   {r.email}  </TableCell>
                                     <TableCell>   {r.contactNo} </TableCell>
                                     <TableCell >   {r.staffId} </TableCell>
+                                    <TableCell >   {r.jobRole} </TableCell>
                                 </TableRow>
                             )}
                         </TableBody>
@@ -83,6 +85,7 @@ export const ViewAdmin = () => {
                             <Stack direction={'row'}> <Typography width={'135px'}> Staff ID </Typography><Typography>{singleAdmin.staffId} </Typography></Stack>
                             <Stack direction={'row'}> <Typography width={'135px'}> E-mail</Typography><Typography> {singleAdmin.email} </Typography></Stack>
                             <Stack direction={'row'}> <Typography width={'135px'}> Contact Number</Typography><Typography>{singleAdmin.contactNo} </Typography></Stack>
+                            <Stack direction={'row'}> <Typography width={'135px'}> Job Role</Typography><Typography>{singleAdmin.jobRole} </Typography></Stack>
                         </Stack>
                     )}
                 </Stack>
