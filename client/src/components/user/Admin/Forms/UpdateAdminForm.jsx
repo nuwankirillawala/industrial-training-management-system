@@ -39,22 +39,22 @@ export const UpdateAdminForm = () => {
 
     const handleFormSubmit = async (values) => {
         // alert(JSON.stringify(values));  //working //convert object to a json file
-        handleSnackBar("success");
-        // console.log(values);  // working
+        console.log(values);  // working
         try {
             const res = await axios.patch("http://localhost:5000/api/v1/admin/update-admin-profile",
-                {
-                    _id: '6666',   //id, _id, userID
-                    role: values.adminRole,
-                    name: values.adminName,
-                    email: values.adminEmail,
-                    contactNo: values.adminContactNo,
-                    staffId: values.adminStaffId,
-                },
-                { withCredentials: true }
-
+            {
+                id: "63dc7c95310861894e97e8fd",   //id, _id, userID
+                role: values.adminRole,
+                name: values.adminName,
+                email: values.adminEmail,
+                contactNo: values.adminContactNo,
+                staffId: values.adminStaffId
+            },
+            { withCredentials: true }
+            
             );
-            console.log(res.data)
+            console.log(res.status);
+            handleSnackBar("success");
         }
         catch (error) {
             console.log(error)
