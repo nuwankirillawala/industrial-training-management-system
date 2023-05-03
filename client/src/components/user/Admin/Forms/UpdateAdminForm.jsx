@@ -15,7 +15,7 @@ const Admin = {
     adminRole: ''
 }
 
-export const UpdateAdminForm = () => {
+export const UpdateAdminForm = ({userId}) => {
     const [SnackbarOpen, setSnackbarOpen] = useState(false)
 
     const handleSnackBar = (key) => {
@@ -43,7 +43,7 @@ export const UpdateAdminForm = () => {
         try {
             const res = await axios.patch("http://localhost:5000/api/v1/admin/update-admin-profile",
             {
-                id: "63dc7c95310861894e97e8fd",   //id, _id, userID
+                id: userId,   //id, _id, userID
                 role: values.adminRole,
                 name: values.adminName,
                 email: values.adminEmail,
@@ -82,7 +82,7 @@ export const UpdateAdminForm = () => {
                         <>
                             <Stack direction="row" spacing={2}>
                                 <Stack width='150px'>
-                                    <Typography variant="body1">Name</Typography>
+                                    <Typography variant="body1">Name{userId}</Typography>
                                 </Stack>
                                 <Stack width='300px'>
                                     <TextField

@@ -71,7 +71,7 @@ export const UpdateNRemoveAdmin = () => {
                                     <TableCell >   {r.contactNo}  </TableCell>
                                     <TableCell >   {r.staffId} </TableCell>
                                     <TableCell >   {r.jobRole} </TableCell>
-                                    <TableCell> <Dialogbox title="Update Administrator" btn_name="update"><UpdateAdminForm /></Dialogbox></TableCell>
+                                    <TableCell> <Dialogbox title="Update Administrator" btn_name="update"><UpdateAdminForm userId={r._id} /></Dialogbox></TableCell>
                                     <TableCell> <Dialogbox title="Remove Administrator" btn_name="remove"><RemoveUserForm /></Dialogbox></TableCell>
                                 </TableRow> //id,title,description need to change as json file
                             )}
