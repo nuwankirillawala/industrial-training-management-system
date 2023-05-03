@@ -33,7 +33,7 @@ app.get("/test", (req, res) => {
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/admin', adminRoutes);
-app.use('/api/v1/undergraduate', undergraduateRoutes);
+app.use('/api/v1/undergraduate', checkUser, undergraduateRoutes);
 app.use('/api/v1/supervisor', supervisorRoutes);
 app.use('/api/v1/alumni', alumniRoutes);
 app.use('/api/v1/company', companyRoutes);

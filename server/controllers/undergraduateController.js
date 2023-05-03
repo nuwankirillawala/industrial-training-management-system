@@ -860,16 +860,16 @@ module.exports.editProblemSection = catchAsync(async (req, res) => {
 //Method: POST
 //Endpoint: "/upload-cv"
 //Description: upload the cv as the pdf to local files
-
 module.exports.uploadCV = catchAsync(async (req, res) => {
     try {
         const filePath = `files/CV/${req.file.filename}`;
         fs.renameSync(req.file.path, filePath);
-        const userId = req.body.id;
 
         if(!filePath){
             console.log('not uploaded');
         }
+
+        const userId = res.locals.user.id;
 
         const user = await Undergraduate.findByIdAndUpdate(
             userId,
@@ -881,7 +881,7 @@ module.exports.uploadCV = catchAsync(async (req, res) => {
             return res.status(400).json({error: "user not found"});
         }
 
-        console.log(user);
+        console.log('success');
         res.status(200).json({
             user,
             message: "CV uploaded successfully"
