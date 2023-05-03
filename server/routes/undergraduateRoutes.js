@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const undergraduateController = require('../controllers/undergraduateController');
-const {checkUser} = require('../middleware/authMiddleware');
+const { checkUser } = require('../middleware/authMiddleware');
+const upload = require('../middleware/uploadMiddleware');
 
 const router = Router();
 
@@ -57,5 +58,18 @@ router.route('/assign-supervisor')
 router.route('/update-internship-period')
     .patch(undergraduateController.updateInternshipPeriod)
 
+router.route('/view-all-daily-reports')
+    .get(undergraduateController.viewAllDailyReports)
+
+router.route('/view-daily-report')
+    .get(undergraduateController.viewDailyReport);
+
+router.route('/edit-daily-report')
+    .post(undergraduateController.editDailyReport)
+
+router.route('/edit-weekly-report-problem-section')
+    .post(undergraduateController.editProblemSection)
+
+router.post('/upload-cv', upload.single('cv-file'), undergraduateController.uploadCV)
 
 module.exports = router;

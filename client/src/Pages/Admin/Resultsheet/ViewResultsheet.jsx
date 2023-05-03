@@ -90,6 +90,24 @@ const jsonData = [
 ];
 
 const ViewResultsheet = () => {
+  //State for the results
+  const [results, setResults] = useState([]);
+  //End of state
+
+  //Fetching data from backend
+  const getResults = async () => {
+    try {
+      const res = await axios.get("");
+      if (res.status === 200) {
+      } else {
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //End of fetching data from backend
+
+  //columns for the data grid
   const studentColumns = [
     {
       field: "name",
@@ -236,6 +254,7 @@ const ViewResultsheet = () => {
       editable: false,
     },
   ];
+  //End of columns
 
   const drawerWidth = 240;
 
@@ -254,7 +273,7 @@ const ViewResultsheet = () => {
       <Box sx={{ height: "100%" }}>
         <Stack spacing={1} height={"100%"}>
           <Tile sx={{ height: "100%" }}>
-            <Box sx={{ height: 400, width: "80vw" }}>
+            <Box sx={{ height: 400 }}>
               <DataGrid
                 rows={jsonData}
                 columns={studentColumns}

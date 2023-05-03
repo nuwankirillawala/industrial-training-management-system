@@ -138,7 +138,7 @@ const undergraduateSchema = new mongoose.Schema({
         weekEndDate: {
             type: Date
         },
-        dailyreports:[{
+        dailyReports:[{
             dayNumber:{
                 type: Number,
                 required: true
@@ -152,8 +152,8 @@ const undergraduateSchema = new mongoose.Schema({
             },
             approvalStatus: {
                 type: String,
-                default: 'pending',
-                enum: ['approved', 'rejected', 'pending']
+                default: 'empty',
+                enum: ['approved', 'rejected', 'pending', 'edited','empty']
             }
         }],
         problemSection: {
@@ -164,7 +164,80 @@ const undergraduateSchema = new mongoose.Schema({
             default: 'empty',
             enum: ['empty', 'saved', 'submitted']
         }
-    }]
+    }],
+    monthlyReports:[{
+        monthNumber:{
+            type: Number,
+            required: true
+        },
+        monthEndDate: {
+            type: Date
+        },
+        weekEndDate: {
+            type: Date
+        },
+        weeklyReports:[{
+            weekNumber:{
+                type: Number,
+                required: true
+            },
+            weekStartDate: {
+                type: Date
+            },
+            weekEndDate: {
+                type: Date
+            },
+            content: {
+                type: String
+            },
+            approvalStatus: {
+                type: String,
+                default: 'empty',
+                enum: ['approved', 'rejected', 'pending', 'edited','empty']
+            }
+        }],
+        problemSection: {
+            type: String
+        },
+        leaveRecord: {
+            absentDays: {
+                type: Number
+            },
+            spprovalStatus: {
+                type: String,
+                enum: ['approved', 'not-approved']
+            }
+        },
+        reportStatus:{
+            type: String,
+            default: 'empty',
+            enum: ['empty', 'saved', 'submitted']
+        }
+    }],
+    progressReport: {
+        comments: {
+            conduct: {
+                type: String
+            },
+            attitude: {
+                type: String 
+            },
+            attendance: {
+                type: String 
+            }
+        },
+        leaves:{
+            total: {
+                type: Number
+            }, 
+            authorized: {
+                type: Number 
+            },
+            unauthorized: {
+                type: Number
+            }
+        },
+    }
 });
 
 // encrypt user password

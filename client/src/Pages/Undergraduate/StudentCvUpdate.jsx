@@ -24,6 +24,7 @@ import { EnglishProficiency } from "../../components/user/Undergraduate/studentC
 import { PopUpDialog } from "../../components/user/Undergraduate/studentCV/PopUpDialog";
 import { StatusSnackBar } from "../../components/StatusSnackBar/StatusSnackBar";
 import { MiniNoticeBoard } from "../../components/MiniNoticeBoard/MiniNoticeBoard";
+import axios from 'axios';
 
 //creating transition for dialog
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -163,8 +164,23 @@ export const StudentCvUpdate = () => {
   //end of new plugin creation for pdf viewer
 
   //End point
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     console.log("EndPoint here");
+
+    const headers = {
+      "Content-Type": "multipart/form-data",
+      withCredentials: true,
+    };
+
+    const formData = new FormData();
+
+    formData.append("cv-file", PDFFile);
+    formData.append("id", "640f5c181f21609a73ec4de5");
+
+
+    const res = await axios.post('http://localhost:5000/api/v1/undergraduate/upload-cv', formData,  headers)
+    console.log(res);
   };
   //end of the end point
 
