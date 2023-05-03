@@ -7,7 +7,7 @@ const weekdays = [
   {day : 'First Week', varification :'approved'},
   {day : 'Second Week', varification :'approved'},
   {day : 'Third Week', varification :'notApproved'},
-  {day : 'Fouth Week', varification :'notApproved'}
+  {day : 'Fouth Week', varification :'notApproved'},
 ]
 
 export const FinalFeedback = () => {
@@ -52,7 +52,7 @@ export const FinalFeedback = () => {
             <Divider variant='middle' />
 
             <Stack direction={'column'} justifyContent={'space-around'} height={'70vh'}>
-
+              <Box>
               {weekdays.map((report)=>(  
                 <Stack>
                   <Stack direction={'row'} justifyContent={'space-around'}>
@@ -61,7 +61,7 @@ export const FinalFeedback = () => {
                       <Typography fontWeight={'bold'}>{report.day}</Typography>
                     </Stack>
                     <Divider orientation='vertical' />
-                    <Stack flex={2} direction={'row'} maxHeight={'10vh'}>
+                    <Stack flex={2} direction={'row'} >
                       <Box width={'24vw'} height={'100%'}>
                       <Box
                         flex={5}
@@ -77,9 +77,9 @@ export const FinalFeedback = () => {
                         <Typography>In terms of a rhetoric any act of communication, a text serves as the vehicle for communication</Typography>
                       </Box>
                       </Box>
-                      <Stack flex={1}>
+                      {/* <Stack flex={1}>
                         <Button size='small'>full view</Button>
-                      </Stack>
+                      </Stack> */}
                     </Stack>
                     <Divider orientation='vertical' />
                     <Stack flex={1}alignItems={'center'}>
@@ -95,6 +95,7 @@ export const FinalFeedback = () => {
                   <Divider orientation='horizontal' />
                 </Stack>
               ))}
+              </Box>
             </Stack>
 
           </Stack>
