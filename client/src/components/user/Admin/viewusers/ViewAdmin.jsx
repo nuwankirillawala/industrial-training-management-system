@@ -1,7 +1,7 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import { Table, TableBody, TableCell, TableHead, TableRow, Grid, Typography, Stack, Divider } from "@mui/material";
 import { Tile } from "../../../card/Tile";
+import axios from 'axios';
 
 export const ViewAdmin = () => {
     const [Records, setRecords] = useState([])
@@ -17,10 +17,10 @@ export const ViewAdmin = () => {
 
     const getAdminData = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/v1/view-all-users/admin');
-            if (res.data.status === 'success') {
-                console.log(res.data.data);
-                setRecords(res.data.data)
+            const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/admin');
+            if (res.status === 200) {
+                console.log(res.data);
+                setRecords(res.data.users)
             }
         } catch (error) {
             console.log(error)
