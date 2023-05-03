@@ -205,7 +205,7 @@ const undergraduateSchema = new mongoose.Schema({
             },
             spprovalStatus: {
                 type: String,
-                enum: ['approved', 'not-approved']
+                enum: ['approved', 'not-approved', 'pending', 'empty']
             }
         },
         reportStatus:{

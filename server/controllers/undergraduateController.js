@@ -4,7 +4,7 @@ const handleErrors = require('../utils/appErrors');
 const { default: mongoose } = require('mongoose');
 const catchAsync = require('../utils/catchAsync');
 const Supervisor = require('../models/Supervisor');
-const { startOfWeek, endOfWeek, addWeeks, format, addDays } = require('date-fns');
+const { startOfWeek, endOfWeek, addWeeks, format, addDays, startOfMonth, endOfMonth, getWeeksInMonth, addMonths } = require('date-fns');
 const fs = require('fs');
 
 // Method = POST
@@ -669,9 +669,61 @@ module.exports.updateInternshipPeriod = catchAsync(async (req, res) => {
             currentWeekDate = addWeeks(currentWeekDate, 1);
         }
 
+        //Generate empty monthly reports
+
+        const startofMonth = startOfMonth(new Date(internshipStart));
+        const endofMonth = endOfMonth(new Date(internshipEnd));
+        const emptyMonthlyReports = [];
+
+        let currentMonth = startofMonth;
+        let monthNumber = 1;
+
+        while(currentMonth < endofMonth){
+            const monthStartDate = startOfMonth(currentMonth);
+            const monthEndDate = endOfMonth(currentMonth);
+
+            const emptyWeeklyReports = [];
+            let weekNumber = 1;
+
+            // Generate empty weekly reports for month
+
+            while(weekNumber < getWeeksInMonth(currentMonth)){
+                const weekStartDate = startOfWeek(addWeeks(monthStartDate, weekNumber - 1), {weekStartsOn: 2});
+                const weekEndDate = endOfWeek(addWeeks(monthStartDate, weekNumber - 1), {weekStartsOn: 2});
+
+                const emptyWeeklyReport = {
+                    weekNumber,
+                    weekStartDate,
+                    weekEndDate,
+                    content: '',
+                    approvalStatus: 'empty'
+                };
+
+                emptyWeeklyReports.push(emptyWeeklyReport);
+                weekNumber++;
+            }
+
+            const emptyMonthlyReport = {
+                monthNumber,
+                monthStartDate,
+                monthEndDate,
+                weeklyReports: emptyWeeklyReports,
+                problemSection: '',
+                leaveRecord: {
+                    absentDays: 0,
+                    approvalStatus: 'empty'
+                },
+                reportStatus: 'empty'
+            };
+
+            emptyMonthlyReports.push(emptyMonthlyReport);
+            monthNumber++;
+            currentMonth = addMonths(currentMonth, 1);
+        }
+
         const candidate = await Undergraduate.findByIdAndUpdate(
             userId,
-            { $set: { internshipStart, internshipEnd, weeklyReports: emptyWeeklyReports } },
+            { $set: { internshipStart, internshipEnd, weeklyReports: emptyWeeklyReports, monthlyReports: emptyMonthlyReports } },
             { new: true }
         );
         res.status(200).json({ message: "internship update successfully", candidate });
@@ -811,9 +863,7 @@ module.exports.editProblemSection = catchAsync(async (req, res) => {
 
 module.exports.uploadCV = catchAsync(async (req, res) => {
     try {
-        console.log(req.file);
         const filePath = `files/CV/${req.file.filename}`;
-        console.log(filePath);
         fs.renameSync(req.file.path, filePath);
         const userId = req.body.id;
 
@@ -828,7 +878,6 @@ module.exports.uploadCV = catchAsync(async (req, res) => {
         );
 
         if(!user){
-            console.log('errorrrr');
             return res.status(400).json({error: "user not found"});
         }
 
