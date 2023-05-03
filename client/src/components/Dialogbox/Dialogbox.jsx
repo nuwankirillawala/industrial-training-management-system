@@ -32,7 +32,7 @@ export default function Dialogbox({ children, title, btn_name }) {
                 </Stack>
                 <DialogContent>
                     <DialogContentText>
-                        Dialogbox Content
+                        {/* if u want you can add instructions here without Typography */}
                     </DialogContentText>
                     {children}
 
