@@ -772,4 +772,36 @@ module.exports.editDailyReport = catchAsync(async (req, res) => {
 });
 
 
+//Method: POST
+//Endpoint: "/edit-weekly-report-problem-section"
+//Description: 
+module.exports.editProblemSection = catchAsync(async (req, res) => {
+    try {
+        const userId = req.body.id;
+        const {weekNo, problemContent} = req.body;
+        
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({error: "user not found"});
+        }
+
+        if(user.weeklyReports.length === 0){
+            return res.status(400).json({message: "please set the internship"});
+        }
+
+        const weeklyReport = user.weeklyReports.find((report) => report.weekNumber === weekNo);
+        if(!weeklyReport){
+            return res.status(400).json({error: "weekly report not found"});
+        }
+
+        weeklyReport.problemSection = problemContent;
+        weeklyReport.reportStatus = 'saved';
+        await user.save();
+
+        res.status(200).json({weeklyReport});
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
 

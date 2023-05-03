@@ -63,5 +63,13 @@ router.route('/view-all-daily-reports')
 router.route('/view-daily-report')
     .get(undergraduateController.viewDailyReport);
 
+router.route('/edit-daily-report')
+    .post(undergraduateController.editDailyReport)
+
+router.route('/edit-weekly-report-problem-section')
+    .post(undergraduateController.editProblemSection)
+
+
+
 
 module.exports = router;
