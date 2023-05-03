@@ -5,7 +5,7 @@ const { default: mongoose } = require('mongoose');
 const catchAsync = require('../utils/catchAsync');
 const Supervisor = require('../models/Supervisor');
 const { startOfWeek, endOfWeek, addWeeks, format, addDays } = require('date-fns');
-
+const fs = require('fs');
 
 // Method = POST
 // Endpoint = "/create-undergraduate"
@@ -627,8 +627,8 @@ module.exports.updateInternshipPeriod = catchAsync(async (req, res) => {
 
         // Generate empty weekly reports for the intern
 
-        const startOfWeekDate = startOfWeek(new Date(internshipStart));
-        const endOfWeekDate = endOfWeek(new Date(internshipEnd));
+        const startOfWeekDate = startOfWeek(new Date(internshipStart), {weekStartsOn: 2}); //monday the weekstart
+        const endOfWeekDate = endOfWeek(new Date(internshipEnd), {weekStartsOn: 2});
         const emptyWeeklyReports = [];
 
         let currentWeekDate = startOfWeekDate;
@@ -636,20 +636,20 @@ module.exports.updateInternshipPeriod = catchAsync(async (req, res) => {
 
         while (currentWeekDate < endOfWeekDate) {
             const weekStartDate = new Date(currentWeekDate);
-            const weekEndDate = endOfWeek(new Date(currentWeekDate));
+            const weekEndDate = addDays(currentWeekDate, 6); // sunday the weekend
 
             const emptyDailyReports = [];
             let dayNumber = 1;
             let currentDate = new Date(currentWeekDate);
 
-            while(dayNumber <= 5){
+            while (dayNumber <= 7) {
                 const emptyDailyReport = {
                     dayNumber,
                     date: currentDate,
                     content: '',
                     approvedStatus: 'empty',
                 };
-                
+
                 emptyDailyReports.push(emptyDailyReport);
                 dayNumber++;
                 currentDate = addDays(currentDate, 1);
@@ -691,14 +691,14 @@ module.exports.viewAllDailyReports = catchAsync(async (req, res) => {
         const userId = req.body.id;
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({error: "user not found"});
+            return res.status(400).json({ error: "user not found" });
         }
 
-        if(user.weeklyReports.length === 0){
-            return res.status(400).json({message: "please set the internship"});
+        if (user.weeklyReports.length === 0) {
+            return res.status(400).json({ message: "please set the internship" });
         }
 
-        res.status(200).json({dailyReports: user.weeklyReports});
+        res.status(200).json({ dailyReports: user.weeklyReports });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -715,16 +715,16 @@ module.exports.viewDailyReport = catchAsync(async (req, res) => {
         const weekNo = parseInt(req.body.weekNumber);
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({error: "user not found"});
+            return res.status(400).json({ error: "user not found" });
         }
 
-        if(user.weeklyReports.length === 0){
-            return res.status(400).json({message: "please set the internship"});
+        if (user.weeklyReports.length === 0) {
+            return res.status(400).json({ message: "please set the internship" });
         }
 
         const report = user.weeklyReports.filter((report) => report.weekNumber === weekNo);
 
-        res.status(200).json({weeklyReport: report});
+        res.status(200).json({ weeklyReport: report });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -737,26 +737,26 @@ module.exports.viewDailyReport = catchAsync(async (req, res) => {
 module.exports.editDailyReport = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id;
-        const {weekNo, dayNo, reportContent} = req.body;
+        const { weekNo, dayNo, reportContent } = req.body;
         // const weekNo = parseInt(req.body.weekNumber);
         // const dayNo = parseInt(req.body.dayNumber);
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({error: "user not found"});
+            return res.status(400).json({ error: "user not found" });
         }
 
-        if(user.weeklyReports.length === 0){
-            return res.status(400).json({message: "please set the internship"});
+        if (user.weeklyReports.length === 0) {
+            return res.status(400).json({ message: "please set the internship" });
         }
 
         const weeklyReport = user.weeklyReports.find((report) => report.weekNumber === weekNo);
-        if(!weeklyReport){
-            return res.status(400).json({error: "weekly report not found"});
+        if (!weeklyReport) {
+            return res.status(400).json({ error: "weekly report not found" });
         }
 
         const dailyReport = weeklyReport.dailyReports.find((report) => report.dayNumber === dayNo);
-        if(!dailyReport){
-            return res.status(400).json({error: "daily report not found"});
+        if (!dailyReport) {
+            return res.status(400).json({ error: "daily report not found" });
         }
 
         dailyReport.content = reportContent;
@@ -764,7 +764,7 @@ module.exports.editDailyReport = catchAsync(async (req, res) => {
         weeklyReport.reportStatus = 'saved';
         await user.save();
 
-        res.status(200).json({dailyReport});
+        res.status(200).json({ dailyReport });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -778,30 +778,69 @@ module.exports.editDailyReport = catchAsync(async (req, res) => {
 module.exports.editProblemSection = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id;
-        const {weekNo, problemContent} = req.body;
-        
+        const { weekNo, problemContent } = req.body;
+
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({error: "user not found"});
+            return res.status(400).json({ error: "user not found" });
         }
 
-        if(user.weeklyReports.length === 0){
-            return res.status(400).json({message: "please set the internship"});
+        if (user.weeklyReports.length === 0) {
+            return res.status(400).json({ message: "please set the internship" });
         }
 
         const weeklyReport = user.weeklyReports.find((report) => report.weekNumber === weekNo);
-        if(!weeklyReport){
-            return res.status(400).json({error: "weekly report not found"});
+        if (!weeklyReport) {
+            return res.status(400).json({ error: "weekly report not found" });
         }
 
         weeklyReport.problemSection = problemContent;
         weeklyReport.reportStatus = 'saved';
         await user.save();
 
-        res.status(200).json({weeklyReport});
+        res.status(200).json({ weeklyReport });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
+
+//Method: POST
+//Endpoint: "/upload-cv"
+//Description: upload the cv as the pdf to local files
+
+module.exports.uploadCV = catchAsync(async (req, res) => {
+    try {
+        console.log(req.file);
+        const filePath = `files/CV/${req.file.filename}`;
+        console.log(filePath);
+        fs.renameSync(req.file.path, filePath);
+        const userId = req.body.id;
+
+        if(!filePath){
+            console.log('not uploaded');
+        }
+
+        const user = await Undergraduate.findByIdAndUpdate(
+            userId,
+            { cvURL: filePath },
+            { new: true }
+        );
+
+        if(!user){
+            console.log('errorrrr');
+            return res.status(400).json({error: "user not found"});
+        }
+
+        console.log(user);
+        res.status(200).json({
+            user,
+            message: "CV uploaded successfully"
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+})
+
 
