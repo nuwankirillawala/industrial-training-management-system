@@ -42,8 +42,8 @@ const SupervisorList = () => {
         "http://localhost:5000/api/v1/company/intern-process-company-list"
       );
       if (res.status === 200) {
-        console.log(res.data);
-        res.data && setCompanyList(res.data);
+        console.log(res.data.data);
+        res.data && setCompanyList(res.data.data);
       } else {
         setErrorDetails(res.message);
       }
@@ -90,18 +90,13 @@ const SupervisorList = () => {
   //column list company
   const companyColumn = [
     {
-      field: "email",
-      headerName: "Email",
-      width: 120,
-      editable: false,
-    },
-    {
       field: "name",
       headerName: "Company Name ",
       width: 150,
       editable: false,
     },
     {
+      field: "actions",
       headerName: "Actions",
       width: 120,
       renderCell: (params) => (
@@ -120,29 +115,29 @@ const SupervisorList = () => {
   //column list supervisors
   const supervisorColumn = [
     {
-      field: "name",
+      field: "id",
       headerName: "Name",
       width: "120",
       editable: false,
     },
     {
-      field: "position",
+      field: "company",
       headerName: "Position",
       width: "120",
       editable: false,
     },
-    {
-      field: "contactNo",
-      headerName: "Contact Number",
-      width: "120",
-      editable: false,
-    },
-    {
-      field: "Email",
-      headerName: "Email Address",
-      width: "120",
-      editable: false,
-    },
+    // {
+    //   field: "contactNo",
+    //   headerName: "Contact Number",
+    //   width: "120",
+    //   editable: false,
+    // },
+    // {
+    //   field: "Email",
+    //   headerName: "Email Address",
+    //   width: "120",
+    //   editable: false,
+    // },
   ];
   //End of column list supervisors
 
@@ -170,14 +165,12 @@ const SupervisorList = () => {
                 </Box>
                 <Box width={"auto"}>
                   <DataGrid
-                    rows={companyList.map((company) => {
-                      return { email: company.email, name: company.name };
-                    })}
+                    rows={companyList}
                     columns={companyColumn}
                     hideFooter={true}
                     disableColumnMenu={true}
                     autoHeight={true}
-                    getRowId={(rows) => rows.email}
+                    getRowId={(row) => row._id}
                     slots={{
                       noRowsOverlay: NoRowsOverlay,
                     }}
@@ -208,6 +201,7 @@ const SupervisorList = () => {
                         hideFooter={true}
                         disableColumnMenu={true}
                         autoHeight={true}
+                        getRowId={(row) => row.id}
                       />
                     </Box>
                   </Stack>
