@@ -57,7 +57,7 @@ export const UpdateNRemoveAdmin = () => {
                             <TableRow>
                                 {Column.map((c, i) =>
                                     <TableCell key={i} >
-                                        {c.columnName}
+                                        <Typography fontWeight={'bold'}> {c.columnName}</Typography>
                                     </TableCell>
                                 )}
                             </TableRow>
