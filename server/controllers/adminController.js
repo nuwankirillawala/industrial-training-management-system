@@ -100,7 +100,7 @@ module.exports.searchUsers = catchAsync(async (req, res) => {
 // Description = view admin profile
 module.exports.adminProfile = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
+        const userId = req.params.id;
         const user = await Admin.findById(userId);
 
         if (!user) {
