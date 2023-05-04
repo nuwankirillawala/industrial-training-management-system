@@ -5,7 +5,7 @@ import { Tile } from "../../../card/Tile"
 import { Formik } from "formik"
 import * as yup from "yup"
 import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
-
+import axios from "axios"
 
 const Student = {
     studnetName: '',
@@ -42,9 +42,28 @@ export const UpdateUndergraduateForm = () => {
         });
     };
 
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = async (values) => {
         alert(JSON.stringify(values));//convert object to a json file, this popup may omitt @ the integration
-        handleSnackBar("success");
+        try {
+            const res = await axios.patch("http://localhost:5000/api/v1/undergraduate/update-undergraduate-profile",
+                {
+                    id: userId,   //id, _id, userID
+                    email: values.studnetEmail,
+                    contactNo: values.studnetContactNo,
+                    linkdinURL: ' ',
+                    githubURL: ' ',
+                    internStatus: ' '
+                    //name & regNo is not in backend to change
+                },
+                { withCredentials: true }
+
+            );
+            console.log(res.status);
+            handleSnackBar("success");
+        }
+        catch (error) {
+            console.log(error)
+        }
     }
 
 

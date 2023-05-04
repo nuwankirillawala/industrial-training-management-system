@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Stack, Grid, Button, Typography, Box} from '@mui/material'
+import { Stack, Grid, Button, Typography, Box, Divider} from '@mui/material'
 import { Tile } from '../../../components/card/Tile'
 import { DataGrid } from "@mui/x-data-grid";
-
-// import jsonData from "./data.json";
-// import reportData from "./reportData.json"
 import { DailyReport } from './DailyReport';
+import { ReportPortal } from './ReportPortal';
+import {FinalFeedback} from './FinalFeedback'
 
 const jsonData = [
   {
@@ -64,21 +63,18 @@ const reportData = [
 
 
 
-export const DailyReportList = () => {
+export const DailyReportList = ({reportType, setSelectReportType, selectReportType}) => {
   
   const [rows, setRows] = useState([]);
-  // const [uid, setId] = useState(null);
-  // const [rid, setRId] = useState(null);
-  // const [selectedRows, setSelectedRows] = useState([]);
   const [selectStudent, setSelectStudent] = useState(false);
   const [selectReport, setSelectReport] = useState(false);
+
 
   const selectRowData = (params) => {
     try {
       const  usersid = params.row.id;
       setSelectStudent(true);
       console.log({selectStudent});
-      // setId(usersid);
     } catch (error) {
       console.log(error);
     }
@@ -87,7 +83,6 @@ export const DailyReportList = () => {
     try {
       const  reportid = params.row.id;
       setSelectReport(true);
-      // setRId(reportid);
       console.log({selectReport});
     } catch (error) {
       console.log(error);
@@ -143,86 +138,126 @@ export const DailyReportList = () => {
 //   }, []);
 
   return (
-    <Grid container spacing={1}>
-        <Grid item md={3}>
-          <Tile>
-            <Stack direction={'column'} spacing={5} height={'84vh'}>
+  <Stack>
+    { selectReportType === false &&
+    <Grid container spacing={2}>
+      <Grid item md={12}>
+        <Typography variant='PageTitle'>{reportType}</Typography>
+      </Grid>
 
-              <Stack alignItems={'center'}>
-                {selectStudent === false && (
-                  <Typography variant='h6' fontWeight={'bold'}>Student List</Typography>
-                )}
-                {selectStudent === true && (
-                  <Typography variant='h6' fontWeight={'bold'}>Report List</Typography>
-                )}
-              </Stack>
+{/* student list and report list */}
+      <Grid item md={12}>
+          <Grid container spacing={1}>
+            <Grid item md={3}>
+              <Tile>
+                <Stack direction={'column'} spacing={4} height={'76vh'}>
 
-              <Stack>
-                <Typography>set search bar here</Typography>
-              </Stack>
+                  <Stack alignItems={'center'}>
+                    {selectStudent === false && (
+                      <Stack width={'100%'}>
+                      <Typography variant='h6' fontWeight={'bold'}>Student List</Typography>
+                      <Divider />
+                      </Stack>
+                    )}
+                    {selectStudent === true && (
+                    <Stack width={'100%'}>
+                      <Typography variant='h6' fontWeight={'bold'}>Report List</Typography>
+                      <Divider />
+                    </Stack>
+                    )}
+                  </Stack>
 
-              <Stack direction="row" spacing={2}>
-                <Box
-                  sx={{
-                    height: '55vh',
-                    width: '100%',
-                    justifyContent: "center",
-                    textAlign: "center",
-                  }}
-                >
+                  <Stack>
+                    <Typography>set search bar here</Typography>
+                  </Stack>
+
+                  <Stack>
+                    <Box
+                      sx={{
+                        height: '48vh',
+                        width: '100%',
+                        justifyContent: "center",
+                        textAlign: "center",
+                      }}
+                    >
+                      {selectStudent === false && (
+
+                        <DataGrid
+                          rows={jsonData}
+                          columns={studentColumns}
+                          onRowClick={selectRowData}
+                          getRowId={(row) => row.id}
+                          disableSelectionOnClick
+                          experimentalFeatures={{ newEditingApi: true }}
+                          hideFooter={true}
+                        
+                        />
+                      )}
+                      {selectStudent === true && (
+
+                        <DataGrid
+                          //rows={rows}
+                          rows={reportData}
+                          columns={reportColumns}
+                          rowsPerPageOptions={[]}
+                          onRowClick={selectReportData}
+                          getRowId={(row) => row.id}
+                          pageSize={10}
+                          hideFooter={true}
+                          // disableSelectionOnClick
+                          // experimentalFeatures={{ newEditingApi: true }}
+                        
+                        />
+                      )}
+                    </Box>
+                  </Stack>
+                  
                   {selectStudent === false && (
-
-                    <DataGrid
-                      //rows={rows}
-                      rows={jsonData}
-                      columns={studentColumns}
-                      onRowClick={selectRowData}
-                      getRowId={(row) => row.id}
-                      // pagination={false}
-                      // footer={false}
-                      disableSelectionOnClick
-                      experimentalFeatures={{ newEditingApi: true }}
-                      hideFooter={true}
-                    
-                    />
+                    <Stack>
+                      <Button
+                        variant='itms'
+                        onClick={()=>{
+                          setSelectReport(false);
+                          setSelectStudent(false);
+                          setSelectReportType(true);
+                        }}
+                        >report type</Button>
+                    </Stack>
                   )}
                   {selectStudent === true && (
-
-                    <DataGrid
-                      //rows={rows}
-                      rows={reportData}
-                      columns={reportColumns}
-                      rowsPerPageOptions={[]}
-                      onRowClick={selectReportData}
-                      getRowId={(row) => row.id}
-                      pageSize={10}
-                      hideFooter={true}
-                      // disableSelectionOnClick
-                      // experimentalFeatures={{ newEditingApi: true }}
-                    
-                    />
+                    <Stack>
+                      <Button
+                        variant='itms'
+                        onClick={handleOnClick}
+                        >student list</Button>
+                    </Stack>
                   )}
-                </Box>
-              </Stack>
-              
-              {selectStudent === true && (
-                <Stack>
-                  <Button
-                    variant='itms'
-                    onClick={handleOnClick}
-                    >student list</Button>
-                </Stack>
-              )}
 
-              </Stack>
-          </Tile>
+                  </Stack>
+              </Tile>
+            </Grid>
+
+{/* show report in here */}
+            {selectStudent === true && selectReport === true && (
+              <Grid item md={9}>
+                {reportType === "Daily Report" &&
+                  <DailyReport />
+                }
+                {reportType === "Monthly Report" &&
+                  <DailyReport />
+                }
+                {reportType === "Progress Report" &&
+                  <DailyReport />
+                }
+                {reportType === "Final Feedback Report" &&
+                  <FinalFeedback />
+                }
+              </Grid>
+            )}
         </Grid>
-
-        {selectStudent === true && selectReport === true && (
-          <Grid item md={9}>
-            <DailyReport />
-          </Grid>
-        )}
+      </Grid>
     </Grid>
+    }
+  </Stack>
   )
 }
