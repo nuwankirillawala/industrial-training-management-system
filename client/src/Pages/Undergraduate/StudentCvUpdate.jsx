@@ -174,9 +174,7 @@ export const StudentCvUpdate = () => {
     };
 
     const formData = new FormData();
-
     formData.append("cv-file", PDFFile);
-    formData.append("id", "640f5c181f21609a73ec4de5");
 
 
     const res = await axios.post('http://localhost:5000/api/v1/undergraduate/upload-cv', formData,  headers)

@@ -68,8 +68,9 @@ router.route('/edit-daily-report')
     .post(undergraduateController.editDailyReport)
 
 router.route('/edit-weekly-report-problem-section')
-    .post(undergraduateController.editProblemSection)
+    .post(undergraduateController.editDailyProblemSection)
 
-router.post('/upload-cv', cvUpload.single('cv-file'), undergraduateController.uploadCV)
+router.route('/upload-cv')
+    .post(cvUpload.single('cv-file'), undergraduateController.uploadCV)
 
 module.exports = router;

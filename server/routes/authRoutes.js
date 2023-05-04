@@ -19,7 +19,11 @@ router.route('/reset-password')
 router.route('/reset-password/:token')
     .get(authController.resetPasswordToken)
 
+router.route('/update-reset-password')
+    .patch(authController.updateResetPassword)
+
 router.route('/update-password')
     .patch(authController.updatePassword)
+
 
 module.exports = router;
