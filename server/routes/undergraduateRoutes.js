@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const undergraduateController = require('../controllers/undergraduateController');
 const { checkUser } = require('../middleware/authMiddleware');
-const upload = require('../middleware/uploadMiddleware');
+const cvUpload = require('../middleware/uploadMiddleware');
 
 const router = Router();
 
@@ -68,8 +68,9 @@ router.route('/edit-daily-report')
     .post(undergraduateController.editDailyReport)
 
 router.route('/edit-weekly-report-problem-section')
-    .post(undergraduateController.editProblemSection)
+    .post(undergraduateController.editDailyProblemSection)
 
-router.post('/upload-cv', upload.single('cv-file'), undergraduateController.uploadCV)
+router.route('/upload-cv')
+    .post(cvUpload.single('cv-file'), undergraduateController.uploadCV)
 
 module.exports = router;
