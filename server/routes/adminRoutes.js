@@ -16,7 +16,7 @@ router.route('/view-all-users/:userType')
 router.route('/search-users/:userType')
     .get(adminController.searchUsers)
 
-router.route('/admin-profile')
+router.route('/admin-profile/:id')
     .get(adminController.adminProfile)
 
 router.route('/update-admin-profile')
