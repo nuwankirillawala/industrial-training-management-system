@@ -66,7 +66,7 @@ const undergraduateSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: Result
     },
-    companySelection01:{
+    companySelection01: {
         companyId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: Company
@@ -75,7 +75,7 @@ const undergraduateSchema = new mongoose.Schema({
             type: String
         }
     },
-    companySelection02:{
+    companySelection02: {
         companyId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: Company
@@ -84,7 +84,7 @@ const undergraduateSchema = new mongoose.Schema({
             type: String
         }
     },
-    companySelection03:{
+    companySelection03: {
         companyId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: Company
@@ -104,13 +104,25 @@ const undergraduateSchema = new mongoose.Schema({
             type: String
         },
         status: {
-            type: String
+            type: String,
+            enum: ['cv-sent', 'called', 'selected', 'not-selected']
         }
     }],
     // update if undergaduate select for internship through department
-    internalInternShip: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Company
+    internship: {
+        company: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: Company
+        },
+        jobRole: {
+            type: String
+        },
+        internshipStart: {
+            type: Date
+        },
+        internshipEnd: {
+            type: Date
+        }
     },
     // upadate if undergraduate select for internship outside
     externalInternship: {
@@ -121,14 +133,8 @@ const undergraduateSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: Supervisor
     },
-    internshipStart:{
-        type: Date
-    },
-    internshipEnd:{
-        type: Date
-    },
-    weeklyReports:[{
-        weekNumber:{
+    weeklyReports: [{
+        weekNumber: {
             type: Number,
             required: true
         },
@@ -138,8 +144,8 @@ const undergraduateSchema = new mongoose.Schema({
         weekEndDate: {
             type: Date
         },
-        dailyReports:[{
-            dayNumber:{
+        dailyReports: [{
+            dayNumber: {
                 type: Number,
                 required: true
             },
@@ -153,20 +159,20 @@ const undergraduateSchema = new mongoose.Schema({
             approvalStatus: {
                 type: String,
                 default: 'empty',
-                enum: ['approved', 'rejected', 'pending', 'edited','empty']
+                enum: ['approved', 'rejected', 'pending', 'edited', 'empty']
             }
         }],
         problemSection: {
             type: String
         },
-        reportStatus:{
+        reportStatus: {
             type: String,
             default: 'empty',
             enum: ['empty', 'saved', 'submitted']
         }
     }],
-    monthlyReports:[{
-        monthNumber:{
+    monthlyReports: [{
+        monthNumber: {
             type: Number,
             required: true
         },
@@ -176,8 +182,8 @@ const undergraduateSchema = new mongoose.Schema({
         weekEndDate: {
             type: Date
         },
-        weeklyReports:[{
-            weekNumber:{
+        weeklyReports: [{
+            weekNumber: {
                 type: Number,
                 required: true
             },
@@ -193,7 +199,7 @@ const undergraduateSchema = new mongoose.Schema({
             approvalStatus: {
                 type: String,
                 default: 'empty',
-                enum: ['approved', 'rejected', 'pending', 'edited','empty']
+                enum: ['approved', 'rejected', 'pending', 'edited', 'empty']
             }
         }],
         problemSection: {
@@ -208,7 +214,7 @@ const undergraduateSchema = new mongoose.Schema({
                 enum: ['approved', 'not-approved', 'pending', 'empty']
             }
         },
-        reportStatus:{
+        reportStatus: {
             type: String,
             default: 'empty',
             enum: ['empty', 'saved', 'submitted']
@@ -220,18 +226,18 @@ const undergraduateSchema = new mongoose.Schema({
                 type: String
             },
             attitude: {
-                type: String 
+                type: String
             },
             attendance: {
-                type: String 
+                type: String
             }
         },
-        leaves:{
+        leaves: {
             total: {
                 type: Number
-            }, 
+            },
             authorized: {
-                type: Number 
+                type: Number
             },
             unauthorized: {
                 type: Number
@@ -253,24 +259,6 @@ undergraduateSchema.post('save', function (doc, next) {
     next();
 });
 
-// undergraduateSchema.statics.login = async function (email, password) {
-//     const undergraduate = await this.findOne({ email });
-//     if (undergraduate) {
-//         const auth = await bcrypt.compare(password, undergraduate.password);
-//         if (auth) {
-//             return undergraduate;
-//         }
-//         // throw Error('incorrect password');
-//         else{
-//             return "incorrect password";
-//         }
-//     }
-//     // throw Error('incorrect email');
-//     else{
-//         return "incorrect email";
-//     }
-    
-// }
 
 const Undergraduate = mongoose.model('undergraduate', undergraduateSchema);
 

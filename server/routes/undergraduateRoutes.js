@@ -55,8 +55,8 @@ router.route('/assign-supervisor')
     .get(undergraduateController.assignSupervisorGET)
     .patch(undergraduateController.assignSupervisorPATCH)
 
-router.route('/update-internship-period')
-    .patch(undergraduateController.updateInternshipPeriod)
+router.route('/update-internship')
+    .patch(undergraduateController.updateInternship)
 
 router.route('/view-all-daily-reports')
     .get(undergraduateController.viewAllDailyReports)

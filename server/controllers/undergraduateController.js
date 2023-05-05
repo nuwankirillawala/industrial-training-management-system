@@ -608,25 +608,29 @@ module.exports.assignSupervisorPATCH = catchAsync(async (req, res) => {
 });
 
 //Method: PATCH
-//Endpoint: "/update-internship-period"
+//Endpoint: "/update-internship"
 //Description: Update intern start date and end date, then generate empty weekly reports
-module.exports.updateInternshipPeriod = catchAsync(async (req, res) => {
+module.exports.updateInternship = catchAsync(async (req, res) => {
     try {
         console.log('development start');
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
-        const user = await Undergraduate.findById(userId);
+        const { companyId, jobRole, internshipStart, internshipEnd } = req.body;
 
+        const user = await Undergraduate.findById(userId);
+        const company = await Company.findById(companyId);
         if (!user) {
-            return res.status(404).json({ message: "user not found!" });
+            return res.status(404).json({ error: "user not found!" });
         }
 
-        const { internshipStart, internshipEnd } = req.body;
         if (!internshipStart || !internshipEnd) {
-            return res.status(400).json({ message: "Please add intern start date and end date" });
+            return res.status(400).json({ error: "Please add intern start date and end date" });
+        }
+
+        if(!company){
+            return res.status(404).json({ error: "company not found!" });
         }
 
         // Generate empty weekly reports for the intern
-
         const startOfWeekDate = startOfWeek(new Date(internshipStart), {weekStartsOn: 2}); //monday the weekstart
         const endOfWeekDate = endOfWeek(new Date(internshipEnd), {weekStartsOn: 2});
         const emptyWeeklyReports = [];
@@ -670,7 +674,6 @@ module.exports.updateInternshipPeriod = catchAsync(async (req, res) => {
         }
 
         //Generate empty monthly reports
-
         const startofMonth = startOfMonth(new Date(internshipStart));
         const endofMonth = endOfMonth(new Date(internshipEnd));
         const emptyMonthlyReports = [];
@@ -721,11 +724,14 @@ module.exports.updateInternshipPeriod = catchAsync(async (req, res) => {
             currentMonth = addMonths(currentMonth, 1);
         }
 
-        const candidate = await Undergraduate.findByIdAndUpdate(
-            userId,
-            { $set: { internshipStart, internshipEnd, weeklyReports: emptyWeeklyReports, monthlyReports: emptyMonthlyReports } },
-            { new: true }
-        );
+        user.internship.company = company._id;
+        user.internship.internshipStart = internshipStart;
+        user.internship.internshipEnd = internshipEnd;
+        user.internship.jobRole = jobRole;
+        user.weeklyReports = emptyWeeklyReports;
+        user.monthlyReports = emptyMonthlyReports;
+
+        await user.save();
         res.status(200).json({ message: "internship update successfully", candidate });
 
     } catch (err) {
