@@ -986,7 +986,7 @@ module.exports.editMonthlyProblemSection = catchAsync(async (req, res) => {
 //Description: upload the cv as the pdf to local files
 module.exports.uploadCV = catchAsync(async (req, res) => {
     try {
-        const filePath = `files/CV/${req.file.filename}`;
+        const filePath = `files/pdf/${req.file.filename}`;
         fs.renameSync(req.file.path, filePath);
 
         if (!filePath) {

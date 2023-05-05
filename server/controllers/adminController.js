@@ -14,6 +14,7 @@ const multer = require('multer');
 const searchUsers = require('../utils/searchUsers');
 const setCreditValue = require('../utils/setCreditValue');
 const gradeValue = require('../utils/gradeValue');
+const fs = require('fs');
 
 
 // Method = POST
@@ -24,9 +25,9 @@ module.exports.createAdmin = catchAsync(async (req, res) => {
         const { role, name, email, contactNo, staffId, password } = req.body;
         const user = await Admin.create({ role, name, email, contactNo, staffId, password });
 
-        if(!user){
+        if (!user) {
             return res.status(400).json({
-                status : "error",
+                status: "error",
                 message: "error! can't create the user!"
             });
         }
@@ -40,7 +41,7 @@ module.exports.createAdmin = catchAsync(async (req, res) => {
         const errors = handleErrors(err);
         console.log({ errors });
         res.status(500).json({
-            starus : "error",
+            starus: "error",
             message: "This user allready created",
             data: errors
         });
@@ -121,8 +122,25 @@ module.exports.updateAdminProfile = catchAsync(async (req, res) => {
         const userId = req.body.id;
         const { role, name, email, contactNo, staffId } = req.body;
 
+        const filePath = `files/images/${req.file.filename}`;
+        fs.renameSync(req.file.path, filePath);
+
+        if (!filePath) {
+            console.log('image not uploaded');
+        }
+
         const filter = { _id: userId };
-        const update = { $set: { role, name, email, contactNo, staffId } };
+        const update = {
+            $set:
+            {
+                role,
+                name,
+                email,
+                contactNo,
+                staffId,
+                profileImage: filePath
+            }
+        };
         const options = { new: true };
 
         // findbyIdAndUpdate mongoose⚡
@@ -131,7 +149,7 @@ module.exports.updateAdminProfile = catchAsync(async (req, res) => {
             .then(async () => {
                 const user = await Admin.findOne(filter);
                 if (!user) {
-                    return res.status(400).json({ message: "user not exists" });
+                    return res.status(400).json({ message: "user not found" });
                 }
                 res.status(200).json(user);
             })

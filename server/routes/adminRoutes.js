@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const adminController = require('../controllers/adminController');
 const { requireAuth } = require('../middleware/authMiddleware');
+const { imageUpload } = require('../middleware/uploadMiddleware');
 
 const router = Router();
 
@@ -20,7 +21,7 @@ router.route('/admin-profile/:id')
     .get(adminController.adminProfile)
 
 router.route('/update-admin-profile')
-    .patch(adminController.updateAdminProfile)
+    .patch(imageUpload, adminController.updateAdminProfile)
 
 // router.route('update-result-schema')
 

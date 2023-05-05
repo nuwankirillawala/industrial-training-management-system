@@ -57,7 +57,7 @@ const excelFileFilter = (req, file, cb) => {
 };
 
 const cvUpload = multer({ storage: pdfCVStorage, fileFilter: pdfFileFilter}).single('cv-file');
-const imageUpload = multer({ storage: imageStorage, fileFilter: imageFileFilter});
+const imageUpload = multer({ storage: imageStorage, fileFilter: imageFileFilter}).single('profile-image');
 const excelsheetUpload = multer({ storage: excelStorage, fileFilter: excelFileFilter});
 
 module.exports = {cvUpload, imageUpload, excelsheetUpload};
