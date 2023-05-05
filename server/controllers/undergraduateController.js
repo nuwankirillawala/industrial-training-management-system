@@ -72,9 +72,8 @@ module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
             console.log('image not uploaded');
         }
 
-        const filter = { _id: userId };
-        const update = {
-            $set:
+        const user = await Undergraduate.findByIdAndUpdate(
+            userId,
             {
                 email,
                 contactNo,
@@ -82,15 +81,14 @@ module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
                 githubURL,
                 internStatus,
                 profileImage: filePath
-            }
-        };
-        const options = { new: true };
+            },
+            { new: true }
+        );
 
-        const user = await Undergraduate.findByIdAndUpdate(filter, update, options)
         if (!user) {
             return res.status(400).json({ error: "user not found" });
         }
-        
+
         res.status(200).json(user);
     } catch (err) {
         console.log(err);

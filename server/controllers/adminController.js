@@ -129,9 +129,8 @@ module.exports.updateAdminProfile = catchAsync(async (req, res) => {
             console.log('image not uploaded');
         }
 
-        const filter = { _id: userId };
-        const update = {
-            $set:
+        const user = await Admin.findByIdAndUpdate(
+            userId,
             {
                 role,
                 name,
@@ -139,15 +138,14 @@ module.exports.updateAdminProfile = catchAsync(async (req, res) => {
                 contactNo,
                 staffId,
                 profileImage: filePath
-            }
-        };
-        const options = { new: true };
-
-        const user = await Admin.findByIdAndUpdate(filter, update, options)
+            },
+            { new: true }
+        );
+        
         if (!user) {
             return res.status(400).json({ error: "user not found" });
         }
-        
+
         res.status(200).json(user);
     } catch (err) {
         console.log(err);
