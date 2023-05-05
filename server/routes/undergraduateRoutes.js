@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const undergraduateController = require('../controllers/undergraduateController');
 const { checkUser } = require('../middleware/authMiddleware');
-const {cvUpload} = require('../middleware/uploadMiddleware');
+const {cvUpload, imageUpload} = require('../middleware/uploadMiddleware');
 
 const router = Router();
 
@@ -12,7 +12,7 @@ router.route('/view-undergraduate-profile/:undergraduateId')
     .get(undergraduateController.viewUndergraduateProfile)
 
 router.route('/update-undergraduate-profile')
-    .patch(undergraduateController.updateUndergraduateProfile)
+    .patch(imageUpload, undergraduateController.updateUndergraduateProfile)
 
 router.route('/view-intern-list')
     .get(undergraduateController.viewInternList)

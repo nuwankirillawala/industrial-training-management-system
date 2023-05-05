@@ -62,27 +62,36 @@ module.exports.viewUndergraduateProfile = catchAsync(async (req, res) => {
 // Description = Update undergraduate profile
 module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id; // 🛑 user id must get from jwt in future 🛑
+        const userId = res.locals.user.id;
         const { email, contactNo, linkdinURL, githubURL, internStatus } = req.body;
 
+        const filePath = `files/images/${req.file.filename}`;
+        fs.renameSync(req.file.path, filePath);
+
+        if (!filePath) {
+            console.log('image not uploaded');
+        }
+
         const filter = { _id: userId };
-        const update = { $set: { email, contactNo, linkdinURL, githubURL, internStatus } };
+        const update = {
+            $set:
+            {
+                email,
+                contactNo,
+                linkdinURL,
+                githubURL,
+                internStatus,
+                profileImage: filePath
+            }
+        };
         const options = { new: true };
 
-        await Undergraduate.updateOne(filter, update, options)
-            .then(async () => {
-                const user = await Undergraduate.findOne(filter);
-                if (!user) {
-                    res.status(200).json({ message: "user not found!" });
-                }
-                else {
-                    res.status(200).json(user);
-                }
-            })
-            .catch((error) => {
-                console.log(error.message);
-                res.status(400).json(error);
-            });
+        const user = await Undergraduate.findByIdAndUpdate(filter, update, options)
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+        
+        res.status(200).json(user);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -537,7 +546,7 @@ module.exports.updateInternStatus = catchAsync(async (req, res) => {
         );
 
         if (!updatedUser) {
-            return res.status(400).json({error: "update failed"});
+            return res.status(400).json({ error: "update failed" });
         }
 
         res.status(200).json(updatedUser.internStatus);
@@ -609,7 +618,7 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
     try {
         console.log('development start');
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
-        const { companyId, jobRole, type,  internshipStart, internshipEnd } = req.body;
+        const { companyId, jobRole, type, internshipStart, internshipEnd } = req.body;
 
         const user = await Undergraduate.findById(userId);
         const company = await Company.findById(companyId);

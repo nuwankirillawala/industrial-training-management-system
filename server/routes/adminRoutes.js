@@ -1,12 +1,8 @@
 const { Router } = require('express');
 const adminController = require('../controllers/adminController');
-const { requireAuth } = require('../middleware/authMiddleware');
 const { imageUpload } = require('../middleware/uploadMiddleware');
 
 const router = Router();
-
-// router.route('/create-user/:userType')
-//     .post(requireAuth, adminController.createUser)
 
 router.route('/create-admin')
     .post(adminController.createAdmin)

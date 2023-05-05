@@ -119,7 +119,7 @@ module.exports.adminProfile = catchAsync(async (req, res) => {
 // Description = Update admin profile
 module.exports.updateAdminProfile = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
+        const userId = res.locals.user.id;
         const { role, name, email, contactNo, staffId } = req.body;
 
         const filePath = `files/images/${req.file.filename}`;
@@ -143,20 +143,12 @@ module.exports.updateAdminProfile = catchAsync(async (req, res) => {
         };
         const options = { new: true };
 
-        // findbyIdAndUpdate mongoose⚡
-
-        await Admin.updateOne(filter, update, options)
-            .then(async () => {
-                const user = await Admin.findOne(filter);
-                if (!user) {
-                    return res.status(400).json({ message: "user not found" });
-                }
-                res.status(200).json(user);
-            })
-            .catch((error) => {
-                console.log(error.message);
-                res.status(400).json(error);
-            });
+        const user = await Admin.findByIdAndUpdate(filter, update, options)
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+        
+        res.status(200).json(user);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);

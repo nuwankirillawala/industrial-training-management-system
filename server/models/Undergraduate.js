@@ -46,6 +46,9 @@ const undergraduateSchema = new mongoose.Schema({
         require: [true, 'Please enter a password'],
         minlength: [6, 'Minimum password length is 6']
     },
+    profileImage: {
+        type: String
+    },
     linkdinURL: {
         type: String
     },
