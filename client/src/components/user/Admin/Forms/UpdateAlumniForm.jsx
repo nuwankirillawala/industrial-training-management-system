@@ -5,10 +5,11 @@ import { Tile } from "../../../card/Tile"
 import { Formik } from "formik"
 import * as yup from "yup"
 import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
+import axios from "axios"
 
 
 const User = {
-    alumniName: 'ajith',
+    alumniName: '',
     alumniEmail: '',
     alumniContactNo: '',
     alumniRegNo: '', //not allowed to change
@@ -34,8 +35,28 @@ export const UpdateAlumniForm = () => {
     })
 
 
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = async (values) => {
         alert(JSON.stringify(values));//convert object to a json file, this popup may omitt @ the integration
+        console.log(values)
+        try {
+            const res = await axios.patch("http://localhost:5000/api/v1/alumni/update-alumni-profile",
+                {
+                    id: userId,   //id, _id, userID
+                    name: values.alumniName,
+                    email: values.alumniEmail,
+                    contactNo: values.alumniContactNo,
+                    regNo: values.adminStaffId,
+                    graduatedYear: values.alumniGraduatedYear
+                },
+                { withCredentials: true }
+
+            );
+            console.log(res.status);
+            handleSnackBar("success");
+        }
+        catch (error) {
+            console.log(error)
+        }
         handleSnackBar("success");
     }
 
