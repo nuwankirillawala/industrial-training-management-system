@@ -108,7 +108,7 @@ const undergraduateSchema = new mongoose.Schema({
             enum: ['cv-sent', 'called', 'selected', 'not-selected']
         }
     }],
-    // update if undergaduate select for internship through department
+    // update if undergaduate select for internship
     internship: {
         company: {
             type: mongoose.Schema.Types.ObjectId,
@@ -117,17 +117,16 @@ const undergraduateSchema = new mongoose.Schema({
         jobRole: {
             type: String
         },
+        type: {
+            type: String,
+            enum: ['internal', 'external']
+        },
         internshipStart: {
             type: Date
         },
         internshipEnd: {
             type: Date
         }
-    },
-    // upadate if undergraduate select for internship outside
-    externalInternship: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Company
     },
     supervisor: {
         type: mongoose.Schema.Types.ObjectId,

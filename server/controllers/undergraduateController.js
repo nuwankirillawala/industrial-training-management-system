@@ -609,7 +609,7 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
     try {
         console.log('development start');
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
-        const { companyId, jobRole, internshipStart, internshipEnd } = req.body;
+        const { companyId, jobRole, type,  internshipStart, internshipEnd } = req.body;
 
         const user = await Undergraduate.findById(userId);
         const company = await Company.findById(companyId);
@@ -723,6 +723,7 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
         user.internship.internshipStart = internshipStart;
         user.internship.internshipEnd = internshipEnd;
         user.internship.jobRole = jobRole;
+        user.internship.type = type;
         user.weeklyReports = emptyWeeklyReports;
         user.monthlyReports = emptyMonthlyReports;
 
