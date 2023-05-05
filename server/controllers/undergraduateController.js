@@ -495,7 +495,6 @@ module.exports.addInternStatus = catchAsync(async (req, res) => {
                         res.status(400).json("error");
                     }
                 }
-
             }
         }
     } catch (err) {
@@ -506,46 +505,42 @@ module.exports.addInternStatus = catchAsync(async (req, res) => {
 });
 
 // Method = PATCH
-// Endpoint = "/edit-intern-status"
-// Description = Edit intern status
-module.exports.editInternStatus = catchAsync(async (req, res) => {
+// Endpoint = "/update-intern-status"
+// Description = Update intern status
+module.exports.updateInternStatus = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
         const { companyId, newStatus } = req.body;
-        // console.log(companyId, newStatus);
-        const user = await Undergraduate.findById(userId);
-        // console.log(user);
-        if (!user) {
-            res.status(404).json({ message: "user not found!" });
-        }
-        else {
-            const company = await Company.findById(companyId);
-            if (!company) {
-                res.status(404).json({ message: "company not found" });
-            }
-            else {
-                // console.log(user.internStatus);
-                const existingInternStatus = user.internStatus.filter((status) => { return status.company.equals(companyId) });
-                console.log(existingInternStatus);
-                if (!existingInternStatus) {
-                    res.status(400).json({ message: "Error! User hasn't listed on that company" });
-                } else {
-                    // const newInternSatatus = {status: newStatus };
-                    const updatedUser = await Undergraduate.findOneAndUpdate(
-                        { _id: userId, "internStatus._id": existingInternStatus[0]._id },
-                        { $set: { "internStatus.$.status": newStatus } },
-                        { new: true }
-                    );
-                    if (updatedUser) {
-                        res.status(200).json(updatedUser.internStatus);
-                    }
-                    else {
-                        res.status(400).json("error");
-                    }
-                }
 
-            }
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: "user not found" });
         }
+
+        const company = await Company.findById(companyId);
+        if (!company) {
+            return res.status(404).json({ error: "company not found" });
+        }
+
+        // console.log(user.internStatus);
+        const existingInternStatus = user.internStatus.findOne((status) => { return status.company.equals(companyId) });
+        console.log(existingInternStatus);
+        if (!existingInternStatus) {
+            return res.status(400).json({ error: "user hasn't listed on that company" });
+        }
+
+        // const newInternSatatus = {status: newStatus };
+        const updatedUser = await Undergraduate.findOneAndUpdate(
+            { _id: userId, "internStatus._id": existingInternStatus._id },
+            { $set: { "internStatus.$.status": newStatus } },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(400).json({error: "update failed"});
+        }
+
+        res.status(200).json(updatedUser.internStatus);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -626,13 +621,13 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
             return res.status(400).json({ error: "Please add intern start date and end date" });
         }
 
-        if(!company){
+        if (!company) {
             return res.status(404).json({ error: "company not found!" });
         }
 
         // Generate empty weekly reports for the intern
-        const startOfWeekDate = startOfWeek(new Date(internshipStart), {weekStartsOn: 2}); //monday the weekstart
-        const endOfWeekDate = endOfWeek(new Date(internshipEnd), {weekStartsOn: 2});
+        const startOfWeekDate = startOfWeek(new Date(internshipStart), { weekStartsOn: 2 }); //monday the weekstart
+        const endOfWeekDate = endOfWeek(new Date(internshipEnd), { weekStartsOn: 2 });
         const emptyWeeklyReports = [];
 
         let currentWeekDate = startOfWeekDate;
@@ -681,7 +676,7 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
         let currentMonth = startofMonth;
         let monthNumber = 1;
 
-        while(currentMonth < endofMonth){
+        while (currentMonth < endofMonth) {
             const monthStartDate = startOfMonth(currentMonth);
             const monthEndDate = endOfMonth(currentMonth);
 
@@ -690,9 +685,9 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
 
             // Generate empty weekly reports for month
 
-            while(weekNumber < getWeeksInMonth(currentMonth)){
-                const weekStartDate = startOfWeek(addWeeks(monthStartDate, weekNumber - 1), {weekStartsOn: 2});
-                const weekEndDate = endOfWeek(addWeeks(monthStartDate, weekNumber - 1), {weekStartsOn: 2});
+            while (weekNumber < getWeeksInMonth(currentMonth)) {
+                const weekStartDate = startOfWeek(addWeeks(monthStartDate, weekNumber - 1), { weekStartsOn: 2 });
+                const weekEndDate = endOfWeek(addWeeks(monthStartDate, weekNumber - 1), { weekStartsOn: 2 });
 
                 const emptyWeeklyReport = {
                     weekNumber,
@@ -993,7 +988,7 @@ module.exports.uploadCV = catchAsync(async (req, res) => {
         const filePath = `files/CV/${req.file.filename}`;
         fs.renameSync(req.file.path, filePath);
 
-        if(!filePath){
+        if (!filePath) {
             console.log('not uploaded');
         }
 
@@ -1005,8 +1000,8 @@ module.exports.uploadCV = catchAsync(async (req, res) => {
             { new: true }
         );
 
-        if(!user){
-            return res.status(400).json({error: "user not found"});
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
         }
 
         console.log('success');

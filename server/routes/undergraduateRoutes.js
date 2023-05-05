@@ -45,8 +45,8 @@ router.route('/set-weighted-gpa')
 router.route('/add-intern-status')
     .patch(undergraduateController.addInternStatus)
 
-router.route('/edit-intern-status')
-    .patch(undergraduateController.editInternStatus)
+router.route('/update-intern-status')
+    .patch(undergraduateController.updateInternStatus)
 
 router.route('/company-selection')
     .patch(undergraduateController.companySelection)
