@@ -77,4 +77,8 @@ router.route('/soft-skill')
     .post(undergraduateController.addSoftSkill)
     .delete(undergraduateController.deleteSoftSkill)
 
+router.route('/technology-skill')
+    .post(undergraduateController.addTechnologySkill)
+    .delete(undergraduateController.deleteTechnologySkill)
+
 module.exports = router;

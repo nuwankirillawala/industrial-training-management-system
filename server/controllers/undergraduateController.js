@@ -1107,32 +1107,65 @@ module.exports.deleteSoftSkill = catchAsync(async (req, res) => {
       res.status(500).json(err);
     }
   });
+
+
+//Method: POST
+//Endpoint: "/technology-skill"
+//Description: Update the profile with additional information about undergraduate
+module.exports.addTechnologySkill = catchAsync(async (req, res) => {
+    try {
+        const userId = req.body.id;
+        // const userId = res.locals.user.id;
+        const { name, level } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        const technologies = user.additionalInformation.technologies;
+        const existTechnologies = technologies.filter(s => { return s.name !== name });
+        
+
+        existTechnologies.push({ name, level });
+        user.additionalInformation.technologies = existTechnologies;
+        user.save();
+
+        res.status(200).json({ technologies: user.additionalInformation.technologies });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+})
+
+//Method: DELETE
+//Endpoint: "/technology-skill"
+//Description: Update the profile with additional information about undergraduate
+module.exports.deleteTechnologySkill = catchAsync(async (req, res) => {
+    try {
+      const userId = req.body.id;
+      // const userId = res.locals.user.id;
+      const { name } = req.body;
   
-
-
-// //Method: POST
-// //Endpoint: "/add-technology-skill"
-// //Description: Update the profile with additional information about undergraduate
-// module.exports.addTechnologySkill = catchAsync(async (req, res) => {
-//     try {
-//         const userId = req.body.id;
-//         // const userId = res.locals.user.id;
-//         const { name, level } = req.body;
-
-//         const user = await Undergraduate.findById(userId);
-//         if (!user) {
-//             return res.status(400).json({ error: "user not found" });
-//         }
-
-//         const technologies = user.additionalInformation.technologies;
-//         technologies.push({ name, level });
-//         user.additionalInformation.technologies = technologies;
-//         user.save();
-
-//         res.status(200).json({ technologies: user.additionalInformation.technologies });
-//     } catch (err) {
-//         console.log(err);
-//         res.status(500).json(err);
-//     }
-// })
-
+      const user = await Undergraduate.findById(userId);
+      if (!user) {
+        return res.status(400).json({ error: "user not found" });
+      }
+  
+      const technologies = user.additionalInformation.technologies;
+      const skillIndex = technologies.findIndex((tech) => {return tech.name === name});
+      if (skillIndex === -1) {
+        return res.status(400).json({ error: "technology skill not found" });
+      }
+  
+      technologies.splice(skillIndex, 1);
+      user.additionalInformation.technologies = technologies;
+      user.save();
+  
+      res.status(200).json({ technologies: user.additionalInformation.technologies });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  });
+  
