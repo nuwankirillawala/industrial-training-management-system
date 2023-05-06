@@ -75,27 +75,39 @@ const undergraduateSchema = new mongoose.Schema({
         }],
         technologies: [{
             name: { type: String },
-            level: {type: String}
+            level: { type: String }
         }],
         certifications: [{
-            name: {type: String},
-            issuedBy: {type: String}
+            name: { type: String },
+            issuedBy: { type: String }
         }],
         extraActivities: [{
-            name: {type: String},
-            year: {type: String},
-            description: {type: String}
+            name: { type: String },
+            year: { type: String },
+            description: { type: String }
         }],
         projects: [{
-            name: {type: String},
-            year: {type: String},
-            languages: {type: String},
-            description: {type: String},
+            name: { type: String },
+            year: { type: String },
+            languages: { type: String },
+            description: { type: String },
             links: {
-                url: {type: String},
-                description: {type: String}
+                design: { type: String },
+                github: { type: String },
+                hosted: { type: String },
             },
         }],
+        englishSkill:{
+            odinaryLevel: {type: String},
+            advancedLevel: {type: String},
+            level01: {type: String},
+            level02: {type: String},
+            courses: [{
+                name: {type: String},
+                offeredBy: {type: String},
+                grade: {type: String}
+            }],
+        },
     },
     companySelection01: {
         companyId: {

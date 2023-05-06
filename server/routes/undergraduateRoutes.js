@@ -89,4 +89,8 @@ router.route('/extra-activities')
     .post(undergraduateController.addExtraActivities)
     .delete(undergraduateController.deleteExtraActivities)
 
+router.route('/projects')
+    .post(undergraduateController.addProject)
+    .delete(undergraduateController.deleteProject)
+
 module.exports = router;

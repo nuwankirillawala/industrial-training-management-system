@@ -1245,7 +1245,7 @@ module.exports.addExtraActivities = catchAsync(async (req, res) => {
         const existExtraActivities = extraActivities.filter(a => { return a.name !== name });
 
         existExtraActivities.push({ name, year, description });
-        user.additionalInformation.extraActivities = extraActivities;
+        user.additionalInformation.extraActivities = existExtraActivities;
         user.save();
 
         res.status(200).json({ extraActivities: user.additionalInformation.extraActivities });
@@ -1280,6 +1280,65 @@ module.exports.deleteExtraActivities = catchAsync(async (req, res) => {
         user.save();
 
         res.status(200).json({ extraActivities: user.additionalInformation.extraActivities });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+//Method: POST
+//Endpoint: "/projects"
+//Description: Update the profile with additional information about undergraduate
+module.exports.addProject = catchAsync(async (req, res) => {
+    try {
+        const userId = req.body.id;
+        // const userId = res.locals.user.id;
+        const { name, year, description, languages, links } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        const projects = user.additionalInformation.projects;
+        const existProjects = projects.filter(a => { return a.name !== name });
+
+        existProjects.push({ name, year, description, languages, links });
+        user.additionalInformation.projects = existProjects;
+        user.save();
+
+        res.status(200).json({ projects: user.additionalInformation.projects });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+})
+
+//Method: DELETE
+//Endpoint: "/projects"
+//Description: Update the profile with additional information about undergraduate
+module.exports.deleteProject = catchAsync(async (req, res) => {
+    try {
+        const userId = req.body.id;
+        // const userId = res.locals.user.id;
+        const { name } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        const projects = user.additionalInformation.projects;
+        const projectsIndex = projects.findIndex((a) => { return a.name === name });
+        if (projectsIndex === -1) {
+            return res.status(400).json({ error: "project not found" });
+        }
+
+        projects.splice(projectsIndex, 1);
+        user.additionalInformation.projects = projects;
+        user.save();
+
+        res.status(200).json({ projects: user.additionalInformation.projects });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
