@@ -73,7 +73,8 @@ router.route('/edit-weekly-report-problem-section')
 router.route('/upload-cv')
     .post(cvUpload, undergraduateController.uploadCV)
 
-router.route('/add-soft-skill')
+router.route('/soft-skill')
     .post(undergraduateController.addSoftSkill)
+    .delete(undergraduateController.deleteSoftSkill)
 
 module.exports = router;

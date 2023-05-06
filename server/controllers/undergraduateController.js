@@ -1044,7 +1044,7 @@ module.exports.updateAdditionalInformation = catchAsync(async (req, res) => {
 });
 
 //Method: POST
-//Endpoint: "/add-soft-skill"
+//Endpoint: "/soft-skill"
 //Description: Update the profile with additional information about undergraduate
 module.exports.addSoftSkill = catchAsync(async (req, res) => {
     try {
@@ -1057,17 +1057,82 @@ module.exports.addSoftSkill = catchAsync(async (req, res) => {
             return res.status(400).json({ error: "user not found" });
         }
 
-        const softSkills = user.additionalInformation.softSkills;
+        const softSkills = user.additionalInformation.softSkills
+        const existSkill = softSkills.filter(s => { return s === skill });
+        if (existSkill) {
+            return res.status(200).json({
+                softSkills: user.additionalInformation.softSkills,
+                message: "skill already exist"
+            })
+        }
+
         softSkills.push(skill);
         user.additionalInformation.softSkills = softSkills;
         user.save();
 
-        res.status(200).json({softSkills: user.additionalInformation.softSkills});
+        res.status(200).json({ softSkills: user.additionalInformation.softSkills });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
 
+//Method: DELETE
+//Endpoint: "/soft-skill"
+//Description: Update the profile with additional information about undergraduate
+module.exports.deleteSoftSkill = catchAsync(async (req, res) => {
+    try {
+      const userId = req.body.id;
+      // const userId = res.locals.user.id;
+      const { skill } = req.body;
+  
+      const user = await Undergraduate.findById(userId);
+      if (!user) {
+        return res.status(400).json({ error: "user not found" });
+      }
+  
+      const softSkills = user.additionalInformation.softSkills;
+      const skillIndex = softSkills.indexOf(skill);
+      if (skillIndex === -1) {
+        return res.status(400).json({ error: "soft skill not found" });
+      }
+  
+      softSkills.splice(skillIndex, 1);
+      user.additionalInformation.softSkills = softSkills;
+      user.save();
+  
+      res.status(200).json({softSkills: user.additionalInformation.softSkills});
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  });
+  
 
+
+// //Method: POST
+// //Endpoint: "/add-technology-skill"
+// //Description: Update the profile with additional information about undergraduate
+// module.exports.addTechnologySkill = catchAsync(async (req, res) => {
+//     try {
+//         const userId = req.body.id;
+//         // const userId = res.locals.user.id;
+//         const { name, level } = req.body;
+
+//         const user = await Undergraduate.findById(userId);
+//         if (!user) {
+//             return res.status(400).json({ error: "user not found" });
+//         }
+
+//         const technologies = user.additionalInformation.technologies;
+//         technologies.push({ name, level });
+//         user.additionalInformation.technologies = technologies;
+//         user.save();
+
+//         res.status(200).json({ technologies: user.additionalInformation.technologies });
+//     } catch (err) {
+//         console.log(err);
+//         res.status(500).json(err);
+//     }
+// })
 
