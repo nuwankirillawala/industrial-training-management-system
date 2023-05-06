@@ -1082,31 +1082,31 @@ module.exports.addSoftSkill = catchAsync(async (req, res) => {
 //Description: Update the profile with additional information about undergraduate
 module.exports.deleteSoftSkill = catchAsync(async (req, res) => {
     try {
-      const userId = req.body.id;
-      // const userId = res.locals.user.id;
-      const { skill } = req.body;
-  
-      const user = await Undergraduate.findById(userId);
-      if (!user) {
-        return res.status(400).json({ error: "user not found" });
-      }
-  
-      const softSkills = user.additionalInformation.softSkills;
-      const skillIndex = softSkills.indexOf(skill);
-      if (skillIndex === -1) {
-        return res.status(400).json({ error: "soft skill not found" });
-      }
-  
-      softSkills.splice(skillIndex, 1);
-      user.additionalInformation.softSkills = softSkills;
-      user.save();
-  
-      res.status(200).json({softSkills: user.additionalInformation.softSkills});
+        const userId = req.body.id;
+        // const userId = res.locals.user.id;
+        const { skill } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        const softSkills = user.additionalInformation.softSkills;
+        const skillIndex = softSkills.indexOf(skill);
+        if (skillIndex === -1) {
+            return res.status(400).json({ error: "soft skill not found" });
+        }
+
+        softSkills.splice(skillIndex, 1);
+        user.additionalInformation.softSkills = softSkills;
+        user.save();
+
+        res.status(200).json({ softSkills: user.additionalInformation.softSkills });
     } catch (err) {
-      console.log(err);
-      res.status(500).json(err);
+        console.log(err);
+        res.status(500).json(err);
     }
-  });
+});
 
 
 //Method: POST
@@ -1125,7 +1125,6 @@ module.exports.addTechnologySkill = catchAsync(async (req, res) => {
 
         const technologies = user.additionalInformation.technologies;
         const existTechnologies = technologies.filter(s => { return s.name !== name });
-        
 
         existTechnologies.push({ name, level });
         user.additionalInformation.technologies = existTechnologies;
@@ -1143,32 +1142,32 @@ module.exports.addTechnologySkill = catchAsync(async (req, res) => {
 //Description: Update the profile with additional information about undergraduate
 module.exports.deleteTechnologySkill = catchAsync(async (req, res) => {
     try {
-      const userId = req.body.id;
-      // const userId = res.locals.user.id;
-      const { name } = req.body;
-  
-      const user = await Undergraduate.findById(userId);
-      if (!user) {
-        return res.status(400).json({ error: "user not found" });
-      }
-  
-      const technologies = user.additionalInformation.technologies;
-      const skillIndex = technologies.findIndex((tech) => {return tech.name === name});
-      if (skillIndex === -1) {
-        return res.status(400).json({ error: "technology skill not found" });
-      }
-  
-      technologies.splice(skillIndex, 1);
-      user.additionalInformation.technologies = technologies;
-      user.save();
-  
-      res.status(200).json({ technologies: user.additionalInformation.technologies });
+        const userId = req.body.id;
+        // const userId = res.locals.user.id;
+        const { name } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        const technologies = user.additionalInformation.technologies;
+        const skillIndex = technologies.findIndex((tech) => { return tech.name === name });
+        if (skillIndex === -1) {
+            return res.status(400).json({ error: "technology skill not found" });
+        }
+
+        technologies.splice(skillIndex, 1);
+        user.additionalInformation.technologies = technologies;
+        user.save();
+
+        res.status(200).json({ technologies: user.additionalInformation.technologies });
     } catch (err) {
-      console.log(err);
-      res.status(500).json(err);
+        console.log(err);
+        res.status(500).json(err);
     }
-  });
-  
+});
+
 //Method: POST
 //Endpoint: "/certifications"
 //Description: Update the profile with additional information about undergraduate
@@ -1185,7 +1184,6 @@ module.exports.addCertifications = catchAsync(async (req, res) => {
 
         const certifications = user.additionalInformation.certifications;
         const existCertifications = certifications.filter(c => { return c.name !== name });
-        
 
         existCertifications.push({ name, issuedBy });
         user.additionalInformation.certifications = existCertifications;
@@ -1203,28 +1201,87 @@ module.exports.addCertifications = catchAsync(async (req, res) => {
 //Description: Update the profile with additional information about undergraduate
 module.exports.deleteCertifications = catchAsync(async (req, res) => {
     try {
-      const userId = req.body.id;
-      // const userId = res.locals.user.id;
-      const { name } = req.body;
-  
-      const user = await Undergraduate.findById(userId);
-      if (!user) {
-        return res.status(400).json({ error: "user not found" });
-      }
-  
-      const certifications = user.additionalInformation.certifications;
-      const certificationIndex = certifications.findIndex((c) => {return c.name === name});
-      if (certificationIndex === -1) {
-        return res.status(400).json({ error: "certification not found" });
-      }
-  
-      certifications.splice(certificationIndex, 1);
-      user.additionalInformation.certifications = certifications;
-      user.save();
-  
-      res.status(200).json({ certifications: user.additionalInformation.certifications });
+        const userId = req.body.id;
+        // const userId = res.locals.user.id;
+        const { name } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        const certifications = user.additionalInformation.certifications;
+        const certificationIndex = certifications.findIndex((c) => { return c.name === name });
+        if (certificationIndex === -1) {
+            return res.status(400).json({ error: "certification not found" });
+        }
+
+        certifications.splice(certificationIndex, 1);
+        user.additionalInformation.certifications = certifications;
+        user.save();
+
+        res.status(200).json({ certifications: user.additionalInformation.certifications });
     } catch (err) {
-      console.log(err);
-      res.status(500).json(err);
+        console.log(err);
+        res.status(500).json(err);
     }
-  });
+});
+
+//Method: POST
+//Endpoint: "/extra-activities"
+//Description: Update the profile with additional information about undergraduate
+module.exports.addExtraActivities = catchAsync(async (req, res) => {
+    try {
+        const userId = req.body.id;
+        // const userId = res.locals.user.id;
+        const { name, year, description } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        const extraActivities = user.additionalInformation.extraActivities;
+        const existExtraActivities = extraActivities.filter(a => { return a.name !== name });
+
+        existExtraActivities.push({ name, year, description });
+        user.additionalInformation.extraActivities = extraActivities;
+        user.save();
+
+        res.status(200).json({ extraActivities: user.additionalInformation.extraActivities });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+})
+
+//Method: DELETE
+//Endpoint: "/extra-activities"
+//Description: Update the profile with additional information about undergraduate
+module.exports.deleteExtraActivities = catchAsync(async (req, res) => {
+    try {
+        const userId = req.body.id;
+        // const userId = res.locals.user.id;
+        const { name } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        const extraActivities = user.additionalInformation.extraActivities;
+        const extraActivitiesIndex = extraActivities.findIndex((a) => { return a.name === name });
+        if (extraActivitiesIndex === -1) {
+            return res.status(400).json({ error: "extra activity not found" });
+        }
+
+        extraActivities.splice(extraActivitiesIndex, 1);
+        user.additionalInformation.extraActivities = extraActivities;
+        user.save();
+
+        res.status(200).json({ extraActivities: user.additionalInformation.extraActivities });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
