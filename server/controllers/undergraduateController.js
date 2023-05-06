@@ -7,9 +7,10 @@ const Supervisor = require('../models/Supervisor');
 const { startOfWeek, endOfWeek, addWeeks, format, addDays, startOfMonth, endOfMonth, getWeeksInMonth, addMonths } = require('date-fns');
 const fs = require('fs');
 
-// Method = POST
-// Endpoint = "/create-undergraduate"
-// Description = create undergraduate user
+// Method: POST
+// Endpoint: "/create-undergraduate"
+// Description: create undergraduate user
+// User: admin
 module.exports.createUndergraduate = catchAsync(async (req, res) => {
 
     try {
@@ -19,7 +20,7 @@ module.exports.createUndergraduate = catchAsync(async (req, res) => {
         const user = await Undergraduate.create({ name, regNo, email, contactNo, password, gpa });
 
         if (!user) {
-            return res.status(400).json({ message: "error! can't create the user!" });
+            return res.status(400).json({ error: "error! can't create the user!" });
         }
         res.status(201).json({
             user: user._id,
@@ -34,17 +35,17 @@ module.exports.createUndergraduate = catchAsync(async (req, res) => {
 });
 
 // Method: GET
-//Endpoint: "/view-undergraduate-profile"
-// Description: View Undegraduate Profile
-module.exports.viewUndergraduateProfile = catchAsync(async (req, res) => {
+// Endpoint: "/get-undergraduate/:undergraduateId"
+// Description: get Undegraduate Profile
+// User: admin
+module.exports.getUndergraduate = catchAsync(async (req, res) => {
     try {
-        // const userId = req.body.id; // 🛑 user id must get from jwt in future 🛑
         const userId = req.params.undergraduateId;
         console.log(userId);
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
 
         if (!user) {
-            res.status(400).json({ message: "user not found!" })
+            res.status(400).json({ error: "user not found!" })
         }
         else {
             res.status(200).json({ user });
@@ -55,11 +56,32 @@ module.exports.viewUndergraduateProfile = catchAsync(async (req, res) => {
     }
 });
 
+// Method: GET
+// Endpoint: "/view-undergraduate-profile"
+// Description: View Undegraduate Profile
+// User: undergraduate
+module.exports.viewUndergraduateProfile = catchAsync(async (req, res) => {
+    try {
+        const userId = res.locals.user.id;
+        console.log(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
 
+        if (!user) {
+            res.status(400).json({ error: "user not found!" })
+        }
+        else {
+            res.status(200).json(user);
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ err })
+    }
+});
 
-// Method = PATCH
-// Endpoint = "/update-undergraduate-profile"
-// Description = Update undergraduate profile
+// Method: PATCH
+// Endpoint: "/update-undergraduate-profile"
+// Description: Update undergraduate profile
+// User: undergraduate
 module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
     try {
         const userId = res.locals.user.id;
@@ -96,9 +118,46 @@ module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
     }
 });
 
-// Method = GET
-// Endpoint = "/view-all-users/:userType"
-// Description = View all users by user type
+// Method: GET
+// Endpoint: "/undergraduate-dashboard"
+// Description: Undergraduate Dashboard
+// User: undergraduate
+module.exports.undergraduateDashboard = catchAsync(async (req, res) => {
+    try {
+        const userId = res.locals.user.id
+
+        const user = await Undergraduate.findById(userId).select('-password');
+        if (!user) {
+            return res.status(404).json({ error: "user not found!" });
+        }
+
+        const companies = await Company.find();
+
+        res.status(200).json({ user, companies });
+    } catch (err) {
+        res.status(500).json({ error: "server error!" });
+    }
+});
+
+// Method: GET
+// Endpoint: "/view-all-undergraduates"
+// Description: View all undergraduates
+// User: admin
+module.exports.viewAllUndergraduates = catchAsync(async (req, res) => {
+    try {
+        const users = await Undergraduate.find();
+
+        res.status(200).json({ users });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
+// Method: GET
+// Endpoint: "/view-intern-list"
+// Description: View all interns
+// User: admin
 module.exports.viewInternList = catchAsync(async (req, res) => {
     try {
         const users = await Undergraduate.find().select('name regNo gpa weightedGPA internStatus');
@@ -110,99 +169,60 @@ module.exports.viewInternList = catchAsync(async (req, res) => {
     }
 });
 
-
-
-// Method = PATCH
-// Endpoint = "/company-selection"
-// Description = Select companies for internship
+// Method: PATCH
+// Endpoint: "/company-selection"
+// Description: Select companies for internship
+// User: undergraduate
 module.exports.companySelection = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id; // 🛑 user id must get from jwt in future 🛑
-        const { company01, jobRole01, company02, jobRole02, company03, jobRole03 } = req.body;
+        const userId = res.locals.user.id;
+        const { choice01, choice02, choice03, choice04, choice05 } = req.body; // choice01 = {company, jobRole}
 
-        // check user is exist
-        const user = await Undergraduate.findById(userId);
-        if (!user) {
-            return res.status(404).json({ message: "user not found!" });
-        }
+        const foundCompany01 = await Company.findById(choice01.company);
+        const foundCompany02 = await Company.findById(choice02.company);
+        const foundCompany03 = await Company.findById(choice03.company);
+        const foundCompany04 = await Company.findById(choice04.company);
+        const foundCompany05 = await Company.findById(choice05.company);
 
-        // check companies are exist
-        const foundCompany01 = await Company.findById(company01);
-        const foundCompany02 = await Company.findById(company02);
-        const foundCompany03 = await Company.findById(company03);
-
-        if (!foundCompany01 || !foundCompany02 || !foundCompany03) {
-            return res.status(404).json({ message: "company not found" });
+        if (!foundCompany01 || !foundCompany02 || !foundCompany03 || !foundCompany04 || !foundCompany05) {
+            return res.status(404).json({ error: "company not found" });
         }
 
         // check user inputs are unique or not
-        if (company01 === company02 || company01 === company03 || company02 === company03) {
-            return res.status(400).json({ message: "can not apply same company twice" });
+        const companyArray = [choice01.company, choice02.company, choice03.company, choice04.company, choice05.company];
+        const uniqueCompanies = new Set(companyArray);
+        if (companyArray.length !== uniqueCompanies.size) {
+            return res.status(400).json({ error: "can not apply same company twice" });
         }
-
-        // // compare new inputs with already added values | oc - old companies
-        // const oc01 = user.companySelection01.companyId;
-        // const oc02 = user.companySelection02.companyId;
-        // const oc03 = user.companySelection03.companyId;
-
-        // if (company01 === oc01.toString() || company01 === oc02.toString() || company01 === oc03.toString()) {
-        //     return res.status(400).json({ message: "user already apply for company 01" });
-        // }
-        // if (company02 === oc01.toString() || company02 === oc02.toString() || company02 === oc03.toString()) {
-        //     return res.status(400).json({ message: "user already apply for company 02" });
-        // }
-        // if (company03 === oc01.toString() || company03 === oc02.toString() || company03 === oc03.toString()) {
-        //     return res.status(400).json({ message: "user already apply for company 03" });
-        // }
 
         const updatedUser = await Undergraduate.findByIdAndUpdate(
             userId,
             {
                 $set: {
-                    'companySelection01.companyId': company01,
-                    'companySelection01.jobRole': jobRole01,
-                    'companySelection02.companyId': company02,
-                    'companySelection02.jobRole': jobRole02,
-                    'companySelection03.companyId': company03,
-                    'companySelection03.jobRole': jobRole03,
+                    'companySelection.choice01.companyId': choice01.company,
+                    'companySelection.choice01.jobRole': choice01.jobRole,
+                    'companySelection.choice02.companyId': choice02.company,
+                    'companySelection.choice02.jobRole': choice02.jobRole,
+                    'companySelection.choice03.companyId': choice03.company,
+                    'companySelection.choice03.jobRole': choice03.jobRole,
+                    'companySelection.choice04.companyId': choice04.company,
+                    'companySelection.choice04.jobRole': choice04.jobRole,
+                    'companySelection.choice05.companyId': choice05.company,
+                    'companySelection.choice05.jobRole': choice05.jobRole,
 
                 }
             },
             { new: true }
         );
 
-        if (updatedUser) {
-            res.status(200).json(updatedUser);
+        if (!updatedUser) {
+            return res.status(400).json({error: "update failed"});
         }
-        else {
-            res.status(400).json("error");
-        }
+        
+        res.status(200).json(updatedUser);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
-    }
-});
-
-// Method = GET
-// Endpoint = "/undergraduate-dashboard"
-// Description = Undergraduate Dashboard
-module.exports.undergraduateDashboard = catchAsync(async (req, res) => {
-    try {
-        const userId = res.locals.user.id // 🛑 user id must get from jwt in future 🛑
-
-        // get all data exept password
-        const user = await Undergraduate.findById(userId).select('-password');
-
-        if (user) {
-            //get all companies
-            const companies = await Company.find();
-
-            res.status(200).json({ user, companies });
-        } else {
-            res.status(404).json({ message: "user not found!" });
-        }
-    } catch (err) {
-        res.status(500).json({ message: "server error!" });
     }
 });
 
@@ -743,7 +763,6 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
     }
 });
 
-
 //Method: GET
 //Endpoint: "/view-all-daily-reports"
 //Description: View all daily reports weekly vise
@@ -831,7 +850,6 @@ module.exports.editDailyReport = catchAsync(async (req, res) => {
         res.status(500).json(err);
     }
 });
-
 
 //Method: POST
 //Endpoint: "/edit-weekly-report-problem-section"
@@ -953,7 +971,6 @@ module.exports.editWeeklyReport = catchAsync(async (req, res) => {
         res.status(500).json(err);
     }
 });
-
 
 //Method: POST
 //Endpoint: "/edit-monthly-report-problem-section"
@@ -1107,7 +1124,6 @@ module.exports.deleteSoftSkill = catchAsync(async (req, res) => {
         res.status(500).json(err);
     }
 });
-
 
 //Method: POST
 //Endpoint: "/technology-skill"
@@ -1375,7 +1391,6 @@ module.exports.addEnglishSkill = catchAsync(async (req, res) => {
         res.status(500).json(err);
     }
 });
-
 
 //Method: GET
 //Endpoint: "/additional-information"

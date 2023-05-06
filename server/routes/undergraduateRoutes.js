@@ -8,11 +8,17 @@ const router = Router();
 router.route('/create-undergraduate')
     .post(undergraduateController.createUndergraduate)
 
-router.route('/view-undergraduate-profile/:undergraduateId')
+router.route('/get-undergraduate/:undergraduateId')
+    .get(undergraduateController.getUndergraduate)
+
+router.route('/view-undergraduate-profile')
     .get(undergraduateController.viewUndergraduateProfile)
 
 router.route('/update-undergraduate-profile')
     .patch(imageUpload, undergraduateController.updateUndergraduateProfile)
+
+router.route('/view-all-undergraduates')
+    .get(undergraduateController.viewAllUndergraduates)
 
 router.route('/view-intern-list')
     .get(undergraduateController.viewInternList)

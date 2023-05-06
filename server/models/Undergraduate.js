@@ -109,32 +109,52 @@ const undergraduateSchema = new mongoose.Schema({
             }],
         },
     },
-    companySelection01: {
-        companyId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: Company
+    companySelection: {
+        choice01: {
+            companyId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: Company
+            },
+            jobRole: {
+                type: String
+            }
         },
-        jobRole: {
-            type: String
-        }
-    },
-    companySelection02: {
-        companyId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: Company
+        choice02: {
+            companyId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: Company
+            },
+            jobRole: {
+                type: String
+            }
         },
-        jobRole: {
-            type: String
-        }
-    },
-    companySelection03: {
-        companyId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: Company
+        choice03: {
+            companyId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: Company
+            },
+            jobRole: {
+                type: String
+            }
         },
-        jobRole: {
-            type: String
-        }
+        choice04: {
+            companyId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: Company
+            },
+            jobRole: {
+                type: String
+            }
+        },
+        choice05: {
+            companyId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: Company
+            },
+            jobRole: {
+                type: String
+            }
+        },
     },
     //for update the status of intern application process
     // about companies that sent cv by department
