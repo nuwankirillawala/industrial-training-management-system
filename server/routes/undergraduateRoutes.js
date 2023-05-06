@@ -81,4 +81,8 @@ router.route('/technology-skill')
     .post(undergraduateController.addTechnologySkill)
     .delete(undergraduateController.deleteTechnologySkill)
 
+router.route('/certifications')
+    .post(undergraduateController.addCertifications)
+    .delete(undergraduateController.deleteCertifications)
+
 module.exports = router;

@@ -1169,3 +1169,62 @@ module.exports.deleteTechnologySkill = catchAsync(async (req, res) => {
     }
   });
   
+//Method: POST
+//Endpoint: "/certifications"
+//Description: Update the profile with additional information about undergraduate
+module.exports.addCertifications = catchAsync(async (req, res) => {
+    try {
+        const userId = req.body.id;
+        // const userId = res.locals.user.id;
+        const { name, issuedBy } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        const certifications = user.additionalInformation.certifications;
+        const existCertifications = certifications.filter(c => { return c.name !== name });
+        
+
+        existCertifications.push({ name, issuedBy });
+        user.additionalInformation.certifications = existCertifications;
+        user.save();
+
+        res.status(200).json({ certifications: user.additionalInformation.certifications });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+})
+
+//Method: DELETE
+//Endpoint: "/certifications"
+//Description: Update the profile with additional information about undergraduate
+module.exports.deleteCertifications = catchAsync(async (req, res) => {
+    try {
+      const userId = req.body.id;
+      // const userId = res.locals.user.id;
+      const { name } = req.body;
+  
+      const user = await Undergraduate.findById(userId);
+      if (!user) {
+        return res.status(400).json({ error: "user not found" });
+      }
+  
+      const certifications = user.additionalInformation.certifications;
+      const certificationIndex = certifications.findIndex((c) => {return c.name === name});
+      if (certificationIndex === -1) {
+        return res.status(400).json({ error: "certification not found" });
+      }
+  
+      certifications.splice(certificationIndex, 1);
+      user.additionalInformation.certifications = certifications;
+      user.save();
+  
+      res.status(200).json({ certifications: user.additionalInformation.certifications });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  });
