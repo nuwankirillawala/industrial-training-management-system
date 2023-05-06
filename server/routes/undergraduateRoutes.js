@@ -93,4 +93,7 @@ router.route('/projects')
     .post(undergraduateController.addProject)
     .delete(undergraduateController.deleteProject)
 
+router.route('/english-skill')
+    .post(undergraduateController.addEnglishSkill)
+
 module.exports = router;

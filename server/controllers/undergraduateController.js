@@ -1344,3 +1344,34 @@ module.exports.deleteProject = catchAsync(async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+//Method: POST
+//Endpoint: "/english-skill"
+//Description: Update the profile with additional information about undergraduate
+module.exports.addEnglishSkill = catchAsync(async (req, res) => {
+    try {
+        const userId = req.body.id;
+        // const userId = res.locals.user.id;
+        const { odinaryLevel, advancedLevel, level01, level02, courses } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        user.additionalInformation.englishSkill = {
+            odinaryLevel,
+            advancedLevel,
+            level01,
+            level02,
+            courses
+        };
+
+        user.save();
+
+        res.status(200).json({ englishSkill: user.additionalInformation.englishSkill });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+})
