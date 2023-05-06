@@ -24,7 +24,8 @@ router.route('/view-intern-list')
     .get(undergraduateController.viewInternList)
 
 router.route('/company-selection')
-    .patch(undergraduateController.companySelection)
+    .get(undergraduateController.getCompanySelection)
+    .patch(undergraduateController.updateCompanySelection)
 
 router.route('/undergraduate-dashboard')
     .get(checkUser, undergraduateController.undergraduateDashboard)

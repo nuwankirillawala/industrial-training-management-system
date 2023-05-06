@@ -169,11 +169,30 @@ module.exports.viewInternList = catchAsync(async (req, res) => {
     }
 });
 
+// Method: GET
+// Endpoint: "/company-selection"
+// Description: get company selections for internship
+// User: undergraduate
+module.exports.getCompanySelection = catchAsync(async (req, res) => {
+    try {
+        const companySelection = await Undergraduate.findById().select('companySelection');
+
+        if(!companySelection){
+            return res.status(400).json({error: "user company selection not found"});
+        }
+
+        res.status(200).json({ companySelection });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
 // Method: PATCH
 // Endpoint: "/company-selection"
 // Description: Select companies for internship
 // User: undergraduate
-module.exports.companySelection = catchAsync(async (req, res) => {
+module.exports.updateCompanySelection = catchAsync(async (req, res) => {
     try {
         const userId = res.locals.user.id;
         const { choice01, choice02, choice03, choice04, choice05 } = req.body; // choice01 = {company, jobRole}
