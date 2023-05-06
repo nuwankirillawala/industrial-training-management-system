@@ -96,4 +96,7 @@ router.route('/projects')
 router.route('/english-skill')
     .post(undergraduateController.addEnglishSkill)
 
+router.route('//additional-information')
+    .get(undergraduateController.getAdditionalInformation)
+
 module.exports = router;

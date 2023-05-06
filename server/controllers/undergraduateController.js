@@ -1374,4 +1374,25 @@ module.exports.addEnglishSkill = catchAsync(async (req, res) => {
         console.log(err);
         res.status(500).json(err);
     }
-})
+});
+
+
+//Method: GET
+//Endpoint: "/additional-information"
+//Description: Update the profile with additional information about undergraduate
+module.exports.getAdditionalInformation = catchAsync(async (req, res) => {
+    try {
+        const userId = req.body.id;
+        // const userId = res.locals.user.id;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        res.status(200).json({ additionalInformation: user.additionalInformation });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
