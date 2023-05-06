@@ -154,4 +154,68 @@ module.exports.updateAdminProfile = catchAsync(async (req, res) => {
 });
 
 
+//Method: GET
+//Endpoint: "/get-all-daily-reports/:undergraduateId"
+//Description: View all daily reports weekly vise
+module.exports.getAllDailyReports = catchAsync(async (req, res) => {
+    try {
+        // const userId = res.locals.user.id;
+        // const user = await Admin.findById(userId);
+        // if (!user) {
+        //     return res.status(400).json({ error: "user not found" });
+        // }
+
+        const undergraduateId = req.params.undergraduateId;
+        const undergraduate = await Undergraduate.findById(undergraduateId);
+        if (!undergraduate) {
+            return res.status(400).json({ error: "undergraduate not found" });
+        }
+
+        if (undergraduate.weeklyReports.length === 0) {
+            return res.status(400).json({ error: "no any reports" });
+        }
+
+        res.status(200).json({ dailyReports: undergraduate.weeklyReports });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+//Method: GET
+//Endpoint: "/get-daily-report/:undergraduateId/week/:weekNo"
+//Description: View a set of daily reports weekly vise
+module.exports.getDailyReport = catchAsync(async (req, res) => {
+    try {
+        // const userId = res.locals.user.id;
+        // const user = await Admin.findById(userId);
+        // if (!user) {
+        //     return res.status(400).json({ error: "user not found" });
+        // }
+
+        const undergraduateId = req.params.undergraduateId;
+        const weekNo = parseInt(req.params.weekNo);
+
+        const undergraduate = await Undergraduate.findById(undergraduateId);
+        if (!undergraduate) {
+            return res.status(400).json({ error: "undergraduate not found" });
+        }
+
+        if (undergraduate.weeklyReports.length === 0) {
+            return res.status(400).json({ error: "no daily reports found" });
+        }
+
+        const report = undergraduate.weeklyReports.findOne((report) => report.weekNumber === weekNo);
+
+        if (!report) {
+            return res.status(400).json({ error: "daily report found" });
+        }
+
+        res.status(200).json({ weeklyReport: report });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
 
