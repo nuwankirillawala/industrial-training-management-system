@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const undergraduateController = require('../controllers/undergraduateController');
 const { checkUser } = require('../middleware/authMiddleware');
-const {cvUpload, imageUpload} = require('../middleware/uploadMiddleware');
+const { cvUpload, imageUpload } = require('../middleware/uploadMiddleware');
 
 const router = Router();
 
@@ -72,5 +72,8 @@ router.route('/edit-weekly-report-problem-section')
 
 router.route('/upload-cv')
     .post(cvUpload, undergraduateController.uploadCV)
+
+router.route('/add-soft-skill')
+    .post(undergraduateController.addSoftSkill)
 
 module.exports = router;

@@ -69,6 +69,34 @@ const undergraduateSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: Result
     },
+    additionalInformation: {
+        softSkills: [{
+            type: String
+        }],
+        technologies: [{
+            name: { type: String },
+            level: {type: String}
+        }],
+        certifications: [{
+            name: {type: String},
+            issuedBy: {type: String}
+        }],
+        extraActivities: [{
+            name: {type: String},
+            year: {type: String},
+            description: {type: String}
+        }],
+        projects: [{
+            name: {type: String},
+            year: {type: String},
+            languages: {type: String},
+            description: {type: String},
+            links: {
+                url: {type: String},
+                description: {type: String}
+            },
+        }],
+    },
     companySelection01: {
         companyId: {
             type: mongoose.Schema.Types.ObjectId,

@@ -1023,4 +1023,51 @@ module.exports.uploadCV = catchAsync(async (req, res) => {
     }
 })
 
+//Method: POST
+//Endpoint: "/update-additional-information"
+//Description: Update the profile with additional information about undergraduate
+module.exports.updateAdditionalInformation = catchAsync(async (req, res) => {
+    try {
+        const userId = req.body.id;
+        // const userId = res.locals.user.id;
+        const { addInfo } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+//Method: POST
+//Endpoint: "/add-soft-skill"
+//Description: Update the profile with additional information about undergraduate
+module.exports.addSoftSkill = catchAsync(async (req, res) => {
+    try {
+        const userId = req.body.id;
+        // const userId = res.locals.user.id;
+        const { skill } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        const softSkills = user.additionalInformation.softSkills;
+        softSkills.push(skill);
+        user.additionalInformation.softSkills = softSkills;
+        user.save();
+
+        res.status(200).json({softSkills: user.additionalInformation.softSkills});
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+
 
