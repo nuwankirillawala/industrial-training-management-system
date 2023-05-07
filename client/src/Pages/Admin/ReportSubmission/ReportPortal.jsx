@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Stack, Grid, Button, Typography, Divider } from '@mui/material'
 import { Tile } from '../../../components/card/Tile'
-import { DailyReportList } from './DailyReportList'
+import { ReportList } from './ReportList'
 
 export const ReportPortal = () => {
 
@@ -122,7 +122,7 @@ export const ReportPortal = () => {
         </Grid>}
 
     {selectReportType === false &&
-        <DailyReportList 
+        <ReportList 
             reportType = {reportType}
             setSelectReportType = {setSelectReportType}
             selectReportType = {selectReportType}

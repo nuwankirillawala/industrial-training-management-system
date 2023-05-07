@@ -741,6 +741,7 @@ module.exports.updateInternshipPeriod = catchAsync(async (req, res) => {
 module.exports.viewAllDailyReports = catchAsync(async (req, res) => {
     try {
         const userId = req.body.id;
+        // const userId = res.locals.user.id;
         const user = await Undergraduate.findById(userId);
         if (!user) {
             return res.status(400).json({ error: "user not found" });
