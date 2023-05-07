@@ -19,10 +19,4 @@ router.route('/admin-profile/:id')
 router.route('/update-admin-profile')
     .patch(imageUpload, adminController.updateAdminProfile)
 
-router.route('/get-all-daily-reports/:undergraduateId')
-    .get(adminController.getAllDailyReports)
-
-router.route('/get-daily-report/:undergraduateId/week/:weekNo')
-    .get(adminController.getDailyReport);
-
 module.exports = router;

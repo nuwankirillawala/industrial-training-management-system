@@ -43,7 +43,7 @@ router.route('/edit-note')
     .patch(undergraduateController.editNote)
 
 router.route('/upload-resultsheet')
-    .post(excelsheetUpload ,undergraduateController.uploadResultSheetAndAddResult)
+    .post(excelsheetUpload, undergraduateController.uploadResultSheetAndAddResult)
 
 router.route('/set-weighted-gpa')
     .post(undergraduateController.setWeightedGPA)
@@ -55,7 +55,7 @@ router.route('/add-intern-status')
 router.route('/update-intern-status')
     .patch(undergraduateController.updateInternStatus)
 
-router.route('/assign-supervisor')
+router.route('/assign-supervisor/:undergraduateId')
     .get(undergraduateController.assignSupervisorGET)
     .patch(undergraduateController.assignSupervisorPATCH)
 
@@ -65,14 +65,20 @@ router.route('/update-internship')
 router.route('/view-all-daily-reports')
     .get(undergraduateController.viewAllDailyReports)
 
-router.route('/view-daily-report')
+router.route('/view-daily-report/:weekNo')
     .get(undergraduateController.viewDailyReport);
 
 router.route('/edit-daily-report')
     .post(undergraduateController.editDailyReport)
 
 router.route('/edit-weekly-report-problem-section')
-    .post(undergraduateController.editDailyProblemSection)
+    .post(undergraduateController.editDailyReportProblemSection)
+
+router.route('/get-all-daily-reports/:undergraduateId')
+    .get(undergraduateController.getAllDailyReports)
+
+router.route('/get-daily-report/:undergraduateId/week/:weekNo')
+    .get(undergraduateController.getDailyReport)
 
 router.route('/upload-cv')
     .post(cvUpload, undergraduateController.uploadCV)
