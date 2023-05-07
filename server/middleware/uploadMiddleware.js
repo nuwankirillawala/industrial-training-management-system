@@ -25,6 +25,7 @@ const excelStorage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + "-" + file.originalname);
+        // cb(null, 'resultdata.xlsx');
     }
 })
 
@@ -48,7 +49,7 @@ const imageFileFilter = (req, file, cb) => {
 };
 
 const excelFileFilter = (req, file, cb) => {
-    if(file.mimetype === 'application/vnd.ms-excel' || file.mimetype === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+    if(file.mimetype === 'application/vnd.ms-excel' || file.mimetype === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.mimetype === '/xlsx/') {
         cb(null, true);
     }
     else {
@@ -58,6 +59,6 @@ const excelFileFilter = (req, file, cb) => {
 
 const cvUpload = multer({ storage: pdfCVStorage, fileFilter: pdfFileFilter}).single('cv-file');
 const imageUpload = multer({ storage: imageStorage, fileFilter: imageFileFilter}).single('profile-image');
-const excelsheetUpload = multer({ storage: excelStorage, fileFilter: excelFileFilter});
+const excelsheetUpload = multer({ storage: excelStorage, fileFilter: excelFileFilter}).single('result-sheet');
 
 module.exports = {cvUpload, imageUpload, excelsheetUpload};

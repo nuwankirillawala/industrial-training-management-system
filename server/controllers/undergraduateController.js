@@ -1,11 +1,14 @@
 const Undergraduate = require('../models/Undergraduate');
 const Company = require('../models/Company');
+const Result = require('../models/Result');
+const Supervisor = require('../models/Supervisor');
 const handleErrors = require('../utils/appErrors');
 const { default: mongoose } = require('mongoose');
 const catchAsync = require('../utils/catchAsync');
-const Supervisor = require('../models/Supervisor');
 const { startOfWeek, endOfWeek, addWeeks, format, addDays, startOfMonth, endOfMonth, getWeeksInMonth, addMonths } = require('date-fns');
 const fs = require('fs');
+const path = require('path');
+const xlsx = require('xlsx');
 
 // Method: POST
 // Endpoint: "/create-undergraduate"
@@ -177,8 +180,8 @@ module.exports.getCompanySelection = catchAsync(async (req, res) => {
     try {
         const companySelection = await Undergraduate.findById().select('companySelection');
 
-        if(!companySelection){
-            return res.status(400).json({error: "user company selection not found"});
+        if (!companySelection) {
+            return res.status(400).json({ error: "user company selection not found" });
         }
 
         res.status(200).json({ companySelection });
@@ -204,7 +207,7 @@ module.exports.updateCompanySelection = catchAsync(async (req, res) => {
         const foundCompany05 = await Company.findById(choice05.company);
 
         if (!foundCompany01 || !foundCompany02 || !foundCompany03 || !foundCompany04 || !foundCompany05) {
-            return res.status(404).json({ error: "company not found" });
+            return res.status(400).json({ error: "company not found" });
         }
 
         // check user inputs are unique or not
@@ -235,9 +238,9 @@ module.exports.updateCompanySelection = catchAsync(async (req, res) => {
         );
 
         if (!updatedUser) {
-            return res.status(400).json({error: "update failed"});
+            return res.status(400).json({ error: "update failed" });
         }
-        
+
         res.status(200).json(updatedUser);
     } catch (err) {
         console.log(err);
@@ -245,53 +248,57 @@ module.exports.updateCompanySelection = catchAsync(async (req, res) => {
     }
 });
 
-// Method = PATCH
-// Endpoint = "/add-note"
-// Description = Add a note
+// Method: POST
+// Endpoint: "/add-note"
+// Description: Add a note
+// User: undergraduate
 module.exports.addNote = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
-
+        const userId = res.locals.user.id;
         const { title, content } = req.body;
 
         if (!content) {
-            res.status(400).json({ message: "Please add some content" });
+            return res.status(400).json({ error: "Please add some content" });
         }
-        else {
-            const newNote = { title, content };
-            const user = await Undergraduate.findByIdAndUpdate(userId, { $push: { notes: newNote } }, { new: true });
 
-            if (!user) {
-                res.status(404).json({ message: "user not found!" });
-            }
-            else {
-                res.status(200).json(user.notes);
-            }
+        let newTitle = title;
+
+        if (!newTitle) {
+            newTitle = content.substring(0, 15);
         }
+
+        const newNote = { title: newTitle, content };
+
+        const user = await Undergraduate.findByIdAndUpdate(userId, { $push: { notes: newNote } }, { new: true });
+        if (!user) {
+            return res.status(400).json({ error: "user not found!" });
+        }
+
+        res.status(200).json({ notes: user.notes });
     } catch (err) {
         res.status(500).json(err);
     }
 });
-// Method = GET
-// Endpoint = "/view-notes"
-// Description = View notes
-module.exports.viewNotes = catchAsync(async (req, res) => {
+
+// Method: GET
+// Endpoint: "/get-all-notes"
+// Description: get all notes
+// User: undergraduate
+module.exports.getAllNotes = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
+        const userId = res.locals.user.id;
 
         const user = await Undergraduate.findById(userId).select('-password');
-
         if (!user) {
-            res.status(404).json({ message: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
-        else {
-            const notes = user.notes;
-            if (!notes) {
-                res.status(404).json({ message: "notes not found" });
-            } else {
-                res.status(200).json(notes);
-            }
+
+        const notes = user.notes;
+        if (!notes) {
+            return res.status(400).json({ error: "notes not found" });
         }
+
+        res.status(200).json(notes);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -300,26 +307,25 @@ module.exports.viewNotes = catchAsync(async (req, res) => {
 });
 
 // Method: GET
-// Endpoint = "/view-note"
-// Description = View a note
-module.exports.viewNote = catchAsync(async (req, res) => {
+// Endpoint: "/get-note/:noteId"
+// Description: get a note
+// User: undergraduate
+module.exports.getNote = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
-        const noteId = req.body.noteId // 🛑 noteId can also parse and get from req.params 🛑
+        const userId = res.locals.user.id;
+        const noteId = req.params.noteId;
 
         const user = await Undergraduate.findById(userId).select('-password');
-
         if (!user) {
-            res.status(404).json({ message: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
-        else {
-            const note = user.notes.id(noteId);
-            if (!note) {
-                res.status(404).json({ message: "note not found" });
-            } else {
-                res.status(200).json(note);
-            }
+
+        const note = user.notes.id(noteId);
+        if (!note) {
+            return res.status(400).json({ error: "note not found" });
         }
+
+        res.status(200).json(note);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -327,36 +333,30 @@ module.exports.viewNote = catchAsync(async (req, res) => {
 
 });
 
-// Method = GET
+// Method = PATCH
 // Endpoint = "/edit-note"
 // Description = Edit a note
+// User: undergraduate
 module.exports.editNote = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
+        const userId = res.locals.user.id;
         const { noteId, newTitle, newContent } = req.body;
 
-        const user = await Undergraduate.findById(userId).select('-password');
-
-        if (!user) {
-            res.status(404).json({ message: "user not found" });
-        }
-        else {
-            const updatedUser = await Undergraduate.findOneAndUpdate(
-                { _id: userId, "notes._id": noteId },
+        const updatedUser = await Undergraduate.findOneAndUpdate(
+            { _id: userId, "notes._id": noteId },
+            {
+                $set:
                 {
-                    $set:
-                    {
-                        "notes.$.title": newTitle,
-                        "notes.$.content": newContent
-                    }
-                }, { new: true });
+                    "notes.$.title": newTitle,
+                    "notes.$.content": newContent
+                }
+            }, { new: true });
 
-            if (!user) {
-                res.status(404).json({ message: "error in updating note" });
-            } else {
-                res.status(200).json(updatedUser.notes);
-            }
+        if (!updatedUser) {
+            return res.status(400).json({ error: "update faiiled" });
         }
+
+        res.status(200).json(updatedUser.notes);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -364,87 +364,43 @@ module.exports.editNote = catchAsync(async (req, res) => {
 });
 
 // Method: POST
-// Endpoint: "/add-result"
-// Description: Add results of undergraduate
-module.exports.addResult = catchAsync(async (req, res) => {
+// Endpoint: "/upload-resultsheet"
+// Description: Upload resultsheet and add results of undergraduate
+// User: admin
+module.exports.uploadResultSheetAndAddResult = catchAsync(async (req, res) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-        // //set the storage engine for multer
-        // const storage = multer.diskStorage({
-        //     destination: (req, res, cb) => {
-        //         cb(null, '../files/');
-        //     },
-        //     filename: (req, file, cb) => {
-        //         // cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-        //         cb(null, file.fieldname + '-' + Date.now() + ".xlsx");
-
-        //     }
-        // });
-
-        // //initialize multer middleware with storage engine and filter
-        // const upload = multer({
-        //     storage: storage,
-        //     // fileFilter: (req, file, cb) => {
-        //     //     const filetypes = /xlsx/;
-        //     //     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-        //     //     const mimetype = filetypes.test(file.mimetype);
-        //     //     if (extname && mimetype) {
-        //     //         return cb(null, true);
-        //     //     } else {
-        //     //         console.log(file);
-        //     //         cb('Error! Please upload a valid .xlsx file');
-        //     //     }
-        //     // }
-        // });
-
-        // // handle file uploads
-        // let filePath;
-        // upload.single('file')(req, res, (err) => {
-        //     console.log(req.file);
-        //     if (err) {
-        //         console.log(err);
-        //         return res.status(500).json(err);
-        //     }
-        //     filePath = req.file.path;
-        //     console.log("File uploaded successfully");
-        //     console.log(filePath);
-
-        //     // convert xlsx file into a json file
-        //     const resultbook = xlsx.readFile(path.join(__dirname, filePath));
-        //     const resultSheet = resultbook.Sheets[resultbook.SheetNames[0]];
-
-        //     const resultDoc = xlsx.utils.sheet_to_json(resultSheet);
-        //     console.log(resultDoc);
-
-        //     for (const result of resultDoc) {
-        //         const doc = new Result(result);
-        //         doc.save((err, createdResult) => {
-        //             if (err) {
-        //                 console.log(err.message);
-        //             }
-        //             console.log("Saved document", createdResult);
-        //             res.status(200).json(createdResult);
-        //         })
-        //     }
-        // })
-
         // convert xlsx file into a json file
-        const resultbook = xlsx.readFile(path.join(__dirname, '../files/resultdata.xlsx'));
-        const resultSheet = resultbook.Sheets[resultbook.SheetNames[0]];
+        const excelFolder = '../files/excel';
+        const files = fs.readdirSync(excelFolder)
+            .filter(file => path.extname(file) === '.xlsx')
+            .map(file => ({
+                name: file,
+                time: fs.statSync(path.join(excelFolder, file)).mtime.getTime()
+            }))
+            .sort((a, b) => b.time - a.time);
 
+        if (files.length === 0) {
+            return res.status(400).json({ error: 'excel file not found' });
+        }
+
+        const filePath = path.join(excelFolder, files[0].name);
+        const resultbook = xlsx.readFile(filePath);
+
+        const resultSheet = resultbook.Sheets[resultbook.SheetNames[0]];
+        console.log(`Loaded ${resultbook.SheetNames.length} sheets from ${filePath}`);
+        
         const resultJson = xlsx.utils.sheet_to_json(resultSheet);
         console.log(resultJson);
 
         const results = await Result.create(resultJson, { session });
 
-        // need to consider handling multiple documents saving in DB. like transaction ⚡
-
         for (const result of results) {
             const filter = { regNo: result.regNo };
             const updates = { $set: { results: result._id } };
             const user = await Undergraduate.findOneAndUpdate(filter, updates, { session });
-            console.log(user);
+
             if (!user) {
                 throw new Error(`Undergraduate with regNo ${result.regNo} not found!`);
             }

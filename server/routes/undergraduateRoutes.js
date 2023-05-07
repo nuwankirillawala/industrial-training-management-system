@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const undergraduateController = require('../controllers/undergraduateController');
 const { checkUser } = require('../middleware/authMiddleware');
-const { cvUpload, imageUpload } = require('../middleware/uploadMiddleware');
+const { cvUpload, imageUpload, excelsheetUpload } = require('../middleware/uploadMiddleware');
 
 const router = Router();
 
@@ -31,19 +31,19 @@ router.route('/undergraduate-dashboard')
     .get(checkUser, undergraduateController.undergraduateDashboard)
 
 router.route('/add-note')
-    .patch(undergraduateController.addNote)
+    .post(undergraduateController.addNote)
 
-router.route('/view-notes')
-    .get(undergraduateController.viewNotes)
+router.route('/get-all-notes')
+    .get(undergraduateController.getAllNotes)
 
-router.route('/view-note')
-    .get(undergraduateController.viewNote)
+router.route('/get-note/:noteId')
+    .get(undergraduateController.getNote)
 
 router.route('/edit-note')
     .patch(undergraduateController.editNote)
 
-router.route('/add-result')
-    .post(undergraduateController.addResult)
+router.route('/upload-resultsheet')
+    .post(excelsheetUpload ,undergraduateController.uploadResultSheetAndAddResult)
 
 router.route('/set-weighted-gpa')
     .post(undergraduateController.setWeightedGPA)
@@ -54,9 +54,6 @@ router.route('/add-intern-status')
 
 router.route('/update-intern-status')
     .patch(undergraduateController.updateInternStatus)
-
-router.route('/company-selection')
-    .patch(undergraduateController.companySelection)
 
 router.route('/assign-supervisor')
     .get(undergraduateController.assignSupervisorGET)
