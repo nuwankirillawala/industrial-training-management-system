@@ -97,15 +97,15 @@ const undergraduateSchema = new mongoose.Schema({
                 hosted: { type: String },
             },
         }],
-        englishSkill:{
-            odinaryLevel: {type: String},
-            advancedLevel: {type: String},
-            level01: {type: String},
-            level02: {type: String},
+        englishSkill: {
+            odinaryLevel: { type: String },
+            advancedLevel: { type: String },
+            level01: { type: String },
+            level02: { type: String },
             courses: [{
-                name: {type: String},
-                offeredBy: {type: String},
-                grade: {type: String}
+                name: { type: String },
+                offeredBy: { type: String },
+                grade: { type: String }
             }],
         },
     },
@@ -231,6 +231,9 @@ const undergraduateSchema = new mongoose.Schema({
             type: String,
             default: 'empty',
             enum: ['empty', 'saved', 'submitted']
+        },
+        reportPDF: {
+            type: String
         }
     }],
     monthlyReports: [{
@@ -280,9 +283,23 @@ const undergraduateSchema = new mongoose.Schema({
             type: String,
             default: 'empty',
             enum: ['empty', 'saved', 'submitted']
+        },
+        reportPDF: {
+            type: String
         }
     }],
     progressReport: {
+        nameOfEstablishment: {
+            type: String
+        },
+        trainingPeriod: {
+            startDate: {
+                type: Date
+            },
+            endDate: {
+                type: Date
+            }
+        },
         comments: {
             conduct: {
                 type: String
@@ -305,6 +322,60 @@ const undergraduateSchema = new mongoose.Schema({
                 type: Number
             }
         },
+        signatureOfSupervisor: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: Supervisor
+        },
+        reportPDF: {
+            type: String
+        }
+    },
+    finalFeedback: {
+        rating: {
+            attendanceAndPunctuality: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            communicationSkills: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            practicalApplication: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            problemSolvingSkills: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            multiPerspectiveView: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            teamWork: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            leadership: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            attitudeAndBehavior: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            ethicalBehavior: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            overallPerformance: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+        },
+        feedback:{
+            type: String
+        }
     }
 });
 
