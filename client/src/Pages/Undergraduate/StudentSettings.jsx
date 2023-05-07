@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Tile } from '../../components/card/Tile'
 import { Grid, Stack, Box, Typography, TextField, Button } from '@mui/material'
-import { Avatar } from '../../components/shared/Images/Avatar'
 import {Formik } from 'formik'
 import * as Yup from 'yup'
 import { ChangePassword } from '../../components/ChangePassword/ChangePassword'
 import { ChangeAvatar } from '../../components/ChangeAvatar/ChangeAvatar'
 import { StatusSnackBar } from '../../components/StatusSnackBar/StatusSnackBar'
+import axios from 'axios'
 
 // get current values form backend and set that valuse as default values in textfields
 
@@ -24,10 +24,30 @@ const studentValues = {
 export const StudentSettings = () => {
 
     const[profile,setProfile] = useState(studentValues);
+    // const [studentData , setStudentData] = useState([]);
+
+    // //fetch data
+    // const getStudentData = async() => {
+    //     try {
+    //       const res = await axios.get('http://localhost:5000/api/v1/undergraduate/view-undergraduate-profile');
+    //       if(res.data.status === 'success'){
+    //         console.log(res.data.data);
+    //         setStudentData(res.data)
+    //       }
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   }
+    
+    //   useEffect(()=> {
+    //     getStudentData();
+    //   }, [])
+    //   //End of fetch data
 
     //statusSnackBar state
     const [trigger, setTrigger] = useState({
         success: false,
+        error : false,
       });
       //End of statusSnackBar state
       const handleSnackBar = (key) => {
@@ -40,19 +60,26 @@ export const StudentSettings = () => {
    
     const handleFormSubmit = async (values) => {
         console.log(values);        
-        // const res = await axios.post(
-        //     "http://localhost:5000/api/v1/admin/create-admin", 
-        //     {   role : 'system-admin',
-        //         name : values.adminName,
-        //         email : values.adminEmail,
-        //         contactNo : values.adminContactNo,
-        //         staffId : values.adminStaffId,
-        //         password : values.adminPassword,
-        //    },
-        //     {withCredentials: true}
-        //     );
-  
-        handleSnackBar("success");
+        try{const res = await axios.patch(
+            "http://localhost:5000/api/v1/undergraduate/update-undergraduate-profile", 
+            {   
+                "id" : "63decbe168deaccef0e61740",
+                "email" : values.email,
+                "contactNo" : values.contactNo,
+                "linkdinURL" : values.linkedin,
+                "githubURL" : values.github
+           },
+            {withCredentials: true}
+            );
+        console.log("reponse : " ,res.status);
+           if(res.status === 200){
+               handleSnackBar("success");
+           }
+        }
+        catch(error){
+            console.log(error);
+            handleSnackBar("error");
+        }
     };
 
     const validationForm = Yup.object().shape({
@@ -311,7 +338,15 @@ export const StudentSettings = () => {
                               setTrigger={() => {
                                 handleSnackBar("success");
                               }}
-                              alertMessage={"Success"}
+                              alertMessage={"Update Successfully"}
+                            />
+                            <StatusSnackBar
+                              severity="error"
+                              trigger={trigger.error}
+                              setTrigger={() => {
+                                handleSnackBar("error");
+                              }}
+                              alertMessage={"Update Fail"}
                             />
                         </Box>
                     </Stack>

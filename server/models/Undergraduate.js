@@ -46,6 +46,9 @@ const undergraduateSchema = new mongoose.Schema({
         require: [true, 'Please enter a password'],
         minlength: [6, 'Minimum password length is 6']
     },
+    profileImage: {
+        type: String
+    },
     linkdinURL: {
         type: String
     },
@@ -66,32 +69,92 @@ const undergraduateSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: Result
     },
-    companySelection01:{
-        companyId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: Company
-        },
-        jobRole: {
+    additionalInformation: {
+        softSkills: [{
             type: String
-        }
+        }],
+        technologies: [{
+            name: { type: String },
+            level: { type: String }
+        }],
+        certifications: [{
+            name: { type: String },
+            issuedBy: { type: String }
+        }],
+        extraActivities: [{
+            name: { type: String },
+            year: { type: String },
+            description: { type: String }
+        }],
+        projects: [{
+            name: { type: String },
+            year: { type: String },
+            languages: { type: String },
+            description: { type: String },
+            links: {
+                design: { type: String },
+                github: { type: String },
+                hosted: { type: String },
+            },
+        }],
+        englishSkill:{
+            odinaryLevel: {type: String},
+            advancedLevel: {type: String},
+            level01: {type: String},
+            level02: {type: String},
+            courses: [{
+                name: {type: String},
+                offeredBy: {type: String},
+                grade: {type: String}
+            }],
+        },
     },
-    companySelection02:{
-        companyId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: Company
+    companySelection: {
+        choice01: {
+            companyId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: Company
+            },
+            jobRole: {
+                type: String
+            }
         },
-        jobRole: {
-            type: String
-        }
-    },
-    companySelection03:{
-        companyId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: Company
+        choice02: {
+            companyId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: Company
+            },
+            jobRole: {
+                type: String
+            }
         },
-        jobRole: {
-            type: String
-        }
+        choice03: {
+            companyId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: Company
+            },
+            jobRole: {
+                type: String
+            }
+        },
+        choice04: {
+            companyId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: Company
+            },
+            jobRole: {
+                type: String
+            }
+        },
+        choice05: {
+            companyId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: Company
+            },
+            jobRole: {
+                type: String
+            }
+        },
     },
     //for update the status of intern application process
     // about companies that sent cv by department
@@ -104,31 +167,36 @@ const undergraduateSchema = new mongoose.Schema({
             type: String
         },
         status: {
-            type: String
+            type: String,
+            enum: ['cv-sent', 'called', 'selected', 'not-selected']
         }
     }],
-    // update if undergaduate select for internship through department
-    internalInternShip: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Company
-    },
-    // upadate if undergraduate select for internship outside
-    externalInternship: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Company
+    // update if undergaduate select for internship
+    internship: {
+        company: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: Company
+        },
+        jobRole: {
+            type: String
+        },
+        type: {
+            type: String,
+            enum: ['internal', 'external']
+        },
+        internshipStart: {
+            type: Date
+        },
+        internshipEnd: {
+            type: Date
+        }
     },
     supervisor: {
         type: mongoose.Schema.Types.ObjectId,
         ref: Supervisor
     },
-    internshipStart:{
-        type: Date
-    },
-    internshipEnd:{
-        type: Date
-    },
-    weeklyReports:[{
-        weekNumber:{
+    weeklyReports: [{
+        weekNumber: {
             type: Number,
             required: true
         },
@@ -138,8 +206,8 @@ const undergraduateSchema = new mongoose.Schema({
         weekEndDate: {
             type: Date
         },
-        dailyReports:[{
-            dayNumber:{
+        dailyReports: [{
+            dayNumber: {
                 type: Number,
                 required: true
             },
@@ -153,20 +221,20 @@ const undergraduateSchema = new mongoose.Schema({
             approvalStatus: {
                 type: String,
                 default: 'empty',
-                enum: ['approved', 'rejected', 'pending', 'edited','empty']
+                enum: ['approved', 'rejected', 'pending', 'edited', 'empty']
             }
         }],
         problemSection: {
             type: String
         },
-        reportStatus:{
+        reportStatus: {
             type: String,
             default: 'empty',
             enum: ['empty', 'saved', 'submitted']
         }
     }],
-    monthlyReports:[{
-        monthNumber:{
+    monthlyReports: [{
+        monthNumber: {
             type: Number,
             required: true
         },
@@ -176,8 +244,8 @@ const undergraduateSchema = new mongoose.Schema({
         weekEndDate: {
             type: Date
         },
-        weeklyReports:[{
-            weekNumber:{
+        weeklyReports: [{
+            weekNumber: {
                 type: Number,
                 required: true
             },
@@ -193,7 +261,7 @@ const undergraduateSchema = new mongoose.Schema({
             approvalStatus: {
                 type: String,
                 default: 'empty',
-                enum: ['approved', 'rejected', 'pending', 'edited','empty']
+                enum: ['approved', 'rejected', 'pending', 'edited', 'empty']
             }
         }],
         problemSection: {
@@ -205,10 +273,10 @@ const undergraduateSchema = new mongoose.Schema({
             },
             spprovalStatus: {
                 type: String,
-                enum: ['approved', 'not-approved']
+                enum: ['approved', 'not-approved', 'pending', 'empty']
             }
         },
-        reportStatus:{
+        reportStatus: {
             type: String,
             default: 'empty',
             enum: ['empty', 'saved', 'submitted']
@@ -220,18 +288,18 @@ const undergraduateSchema = new mongoose.Schema({
                 type: String
             },
             attitude: {
-                type: String 
+                type: String
             },
             attendance: {
-                type: String 
+                type: String
             }
         },
-        leaves:{
+        leaves: {
             total: {
                 type: Number
-            }, 
+            },
             authorized: {
-                type: Number 
+                type: Number
             },
             unauthorized: {
                 type: Number
@@ -253,24 +321,6 @@ undergraduateSchema.post('save', function (doc, next) {
     next();
 });
 
-// undergraduateSchema.statics.login = async function (email, password) {
-//     const undergraduate = await this.findOne({ email });
-//     if (undergraduate) {
-//         const auth = await bcrypt.compare(password, undergraduate.password);
-//         if (auth) {
-//             return undergraduate;
-//         }
-//         // throw Error('incorrect password');
-//         else{
-//             return "incorrect password";
-//         }
-//     }
-//     // throw Error('incorrect email');
-//     else{
-//         return "incorrect email";
-//     }
-    
-// }
 
 const Undergraduate = mongoose.model('undergraduate', undergraduateSchema);
 

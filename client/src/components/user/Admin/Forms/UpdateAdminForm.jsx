@@ -1,32 +1,68 @@
 import { TextField, Stack, Button, Typography } from "@mui/material"
 import React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Tile } from "../../../card/Tile"
 import { Formik } from "formik"
 import * as yup from "yup"
 import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
 import axios from 'axios';
 
-const Admin = {
-    adminName: '',
-    adminEmail: '',
-    adminContactNo: '',
-    adminStaffId: '',
-    adminRole: ''
-}
-
-export const UpdateAdminForm = () => {
-    const [SnackbarOpen, setSnackbarOpen] = useState(false)
-
-    const handleSnackBar = (key) => {
-        setSnackbarOpen((prevState) => {
-            let newState = { ...prevState };
-            newState[key] = !newState[key];
-            return newState;
-        });
-    };
 
 
+export const UpdateAdminForm = ({userId}) => {
+    const [userData, setUserData] = useState({
+        name: '',
+        email:'',
+        contactNo: '',
+        staffId :'',
+        adminRole: ''
+    });
+
+    const getUserData = async () => {
+        try {
+            // console.log(userId)
+            const res = await axios.get(`http://localhost:5000/api/v1/admin/admin-profile/${userId}`);
+
+            if (res.status === 200) {
+                setUserData({
+                    name:res.data.user.name,
+                    email:res.data.user.email,
+                    contactNo: res.data.user.contactNo,
+                    staffId : res.data.user.staffId,
+                    adminRole: res.data.user.adminRole
+                });
+                
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        getUserData();
+    }, [])
+
+
+    const Admin = {
+        adminName: userData.name,
+        adminEmail: '',
+        adminContactNo: '',
+        adminStaffId: '',
+        adminRole: ''
+    }
+//statusSnackBar state
+const [trigger, setTrigger] = useState({
+    success: false,
+    error : false,
+  });
+
+//End of statusSnackBar state
+  const handleSnackBar = (key) => {
+    setTrigger((prevState) => {
+      let newState = { ...prevState };
+      newState[key] = !newState[key];
+      return newState;
+    });
+  };
 
     const validation = yup.object().shape({
         adminName: yup.string(),
@@ -37,27 +73,33 @@ export const UpdateAdminForm = () => {
     })
 
 
+
     const handleFormSubmit = async (values) => {
-        // alert(JSON.stringify(values));  //working //convert object to a json file
-        handleSnackBar("success");
-        // console.log(values);  // working
+        console.log(values);  // working
+
         try {
             const res = await axios.patch("http://localhost:5000/api/v1/admin/update-admin-profile",
-                {
-                    _id: '6666',   //id, _id, userID
-                    role: values.adminRole,
-                    name: values.adminName,
-                    email: values.adminEmail,
-                    contactNo: values.adminContactNo,
-                    staffId: values.adminStaffId,
-                },
-                { withCredentials: true }
-
+            {
+                id: userId,   //id, _id, userID
+                name: values.adminName === "" ? userData.name : values.adminName,
+                role: values.adminRole === "" ? userData.role : values.adminRole,
+                email: values.adminEmail === "" ? userData.email : values.adminEmail,
+                contactNo: values.adminContactNo === "" ? userData.contactNo : values.adminContactNo,
+                staffId: values.adminStaffId === "" ? userData.staffId : values.adminStaffId
+            },
+            { withCredentials: true }
             );
-            console.log(res.data)
+            console.log(res.status);
+
+            if(res.status === 200){
+                handleSnackBar("success");
+            }else{
+                handleSnackBar("error");
+            }
         }
         catch (error) {
-            console.log(error)
+            console.log(error);
+            handleSnackBar("error");
         }
     }
 
@@ -91,8 +133,9 @@ export const UpdateAdminForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        value={values.adminName} //if u use User here it will not let change text
+                                        placeholder={userData.name} //if u use User here it will not let change text
                                         name="adminName"
+                                        value={values.adminName}
                                         error={!!touched.adminName && !!errors.adminName}
                                         helperText={touched.adminName && errors.adminName}
                                     />
@@ -108,6 +151,7 @@ export const UpdateAdminForm = () => {
                                         fullWidth
                                         variant="outlined"
                                         type="text"
+                                        placeholder={userData.email}
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         value={values.adminEmail} //if u use User here it will not let change text
@@ -127,6 +171,7 @@ export const UpdateAdminForm = () => {
                                         fullWidth
                                         variant="outlined"
                                         type="text"
+                                        placeholder={userData.contactNo}
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         value={values.adminContactNo} //if u use User here it will not let change text
@@ -147,6 +192,7 @@ export const UpdateAdminForm = () => {
                                         fullWidth
                                         variant="outlined"
                                         type="text"
+                                        placeholder={userData.staffId}
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         value={values.adminStaffId}
@@ -166,6 +212,7 @@ export const UpdateAdminForm = () => {
                                         fullWidth
                                         variant="outlined"
                                         type="text"
+                                        placeholder={userData.adminRole}
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         value={values.adminRole}
@@ -185,12 +232,21 @@ export const UpdateAdminForm = () => {
                 )}
             </Formik>
             <StatusSnackBar
-                trigger={SnackbarOpen.success}
-                setTrigger={() => {
-                    handleSnackBar("success");
-                }}
-                severity='success'
-                alertMessage={' submitted '}></StatusSnackBar>
+              severity="success"
+              trigger={trigger.success}
+              setTrigger={() => {
+                handleSnackBar("success");
+              }}
+              alertMessage={"Update Succefully"}
+            />
+            <StatusSnackBar
+              severity="error"
+              trigger={trigger.error}
+              setTrigger={() => {
+                handleSnackBar("error");
+              }}
+              alertMessage={"Update Fail"}
+            />
         </Tile>
 
     )

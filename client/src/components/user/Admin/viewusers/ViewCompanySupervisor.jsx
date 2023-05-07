@@ -28,7 +28,7 @@ export const ViewCompanySupervisor = () => {
 
 
     const Column = [
-        { columnName: 'Admin Name' },
+        { columnName: 'Supervisor Name' },
         { columnName: '  Email' },
         { columnName: '  Job Role' }
     ]

@@ -14,6 +14,7 @@ const multer = require('multer');
 const searchUsers = require('../utils/searchUsers');
 const setCreditValue = require('../utils/setCreditValue');
 const gradeValue = require('../utils/gradeValue');
+const fs = require('fs');
 
 
 // Method = POST
@@ -24,9 +25,9 @@ module.exports.createAdmin = catchAsync(async (req, res) => {
         const { role, name, email, contactNo, staffId, password } = req.body;
         const user = await Admin.create({ role, name, email, contactNo, staffId, password });
 
-        if(!user){
+        if (!user) {
             return res.status(400).json({
-                status : "error",
+                status: "error",
                 message: "error! can't create the user!"
             });
         }
@@ -40,7 +41,7 @@ module.exports.createAdmin = catchAsync(async (req, res) => {
         const errors = handleErrors(err);
         console.log({ errors });
         res.status(500).json({
-            starus : "error",
+            starus: "error",
             message: "This user allready created",
             data: errors
         });
@@ -100,7 +101,7 @@ module.exports.searchUsers = catchAsync(async (req, res) => {
 // Description = view admin profile
 module.exports.adminProfile = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
+        const userId = req.params.id;
         const user = await Admin.findById(userId);
 
         if (!user) {
@@ -118,32 +119,36 @@ module.exports.adminProfile = catchAsync(async (req, res) => {
 // Description = Update admin profile
 module.exports.updateAdminProfile = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
+        const userId = res.locals.user.id;
         const { role, name, email, contactNo, staffId } = req.body;
 
-        const filter = { _id: userId };
-        const update = { $set: { role, name, email, contactNo, staffId } };
-        const options = { new: true };
+        const filePath = `files/images/${req.file.filename}`;
+        fs.renameSync(req.file.path, filePath);
 
-        // findbyIdAndUpdate mongoose⚡
+        if (!filePath) {
+            console.log('image not uploaded');
+        }
 
-        await Admin.updateOne(filter, update, options)
-            .then(async () => {
-                const user = await Admin.findOne(filter);
-                if (!user) {
-                    return res.status(400).json({ message: "user not exists" });
-                }
-                res.status(200).json(user);
-            })
-            .catch((error) => {
-                console.log(error.message);
-                res.status(400).json(error);
-            });
+        const user = await Admin.findByIdAndUpdate(
+            userId,
+            {
+                role,
+                name,
+                email,
+                contactNo,
+                staffId,
+                profileImage: filePath
+            },
+            { new: true }
+        );
+        
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        res.status(200).json(user);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
-
-
-

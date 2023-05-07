@@ -87,13 +87,14 @@ export const DailyReportForm = () => {
                 <Typography align="center" variant="h6" fontWeight="bold" paddingBottom={'20px'} color="#536dfe"> Daily Report</Typography>
                 <Divider orientation="horizontal" />
                 <Stack direction={'column'} spacing={5} justifyContent={'center'} padding="8px">
-                    <Stack direction="row" spacing={10} justifyContent={'space-between'}>
-                        <Stack direction="row" spacing={3}>
+                    <Stack direction="row" spacing={10} > {/* justifyContent={'space-between'} */}
+                        <Typography >Week No :</Typography><TextField type="number" varient="outlined" InputProps={{ inputProps: { min: 1, step: 1 } }}></TextField>
+                        {/* <Stack direction="row" spacing={3}>
                             <Typography >Week start <br />date :</Typography><TextField type="date" varient="outlined" ></TextField>
                         </Stack>
                         <Stack direction="row" spacing={3} >
                             <Typography >Week end <br />date :</Typography><TextField type="date" varient="outlined" ></TextField>
-                        </Stack>
+                        </Stack> */}
                     </Stack>
 
                     <Divider orientation="horizontal" />

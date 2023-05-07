@@ -1,26 +1,58 @@
-import React from 'react'
+import React , {useState, useEffect} from 'react'
 import { Tile } from '../../card/Tile'
 import { Grid, Typography, FormControl, InputLabel, Select, MenuItem, Button, Stack, Box } from '@mui/material'
-import { useState } from 'react'
 import { Formik } from 'formik'
+import axios from 'axios'
 
 const CompanyChoice = {
     firstCompany : '',
-    firstRoll : '',
+    firstRole : '',
     secondCompany : '',
-    secondRoll : '',
+    secondRole : '',
     thirdCompany : '',
-    thirdRoll : ''
+    thirdRole : ''
 }
 
 export const StudentCompanyChoice = () => {
 
     const[choice,setChoice] = useState(CompanyChoice);
+    const [companyList , setCompanyList] = useState([]);
+
+        //fetch data
+        const getCompanyList = async() => {
+            try {
+              const res = await axios.get('http://localhost:5000/api/v1/company/intern-process-company-list');
+              if(res.data.status === 'success'){
+                console.log(res.data.data);
+                setCompanyList(res.data.data);
+              }
+            } catch (error) {
+              console.log(error)
+            }
+          }
+        
+          useEffect(()=> {
+            getCompanyList();
+          }, [])
+          //End of fetch data
 
     const handleOnSubmit = async (values) => {
-        console.log(values);
-        await new Promise((r) => setTimeout(r, 500));
-        alert(JSON.stringify(values, null, 2));
+        try{
+            const res = await axios.patch('http://localhost:5000/api/v1/undergraduate/company-selection',
+            {
+                id : "640ac55788b5c24f7a66706b",
+                company01 :values.firstCompany,
+                jobRole01 :values.firstRole,
+                company02 :values.secondCompany,
+                jobRole02 :values.secondRole,
+                company03 :values.thirdCompany,
+                jobRole03 :values.thirdRole
+            });
+            console.log(res.status)
+        }
+        catch (error){
+            console.log(error);
+        }
     }
 
   return (
@@ -64,10 +96,10 @@ export const StudentCompanyChoice = () => {
                                                         onChange={handleChange}
                                                         label="Company"
                                                     >
-                                                        <MenuItem value="none"><em>None</em></MenuItem>
-                                                        <MenuItem value='wso2'>WSO2</MenuItem>
-                                                        <MenuItem value='99x'>99X</MenuItem>
-                                                        <MenuItem value='creative'>Ceative</MenuItem>
+                                                       <MenuItem value="none"><em>None</em></MenuItem>
+                                                        {companyList.map((company)=>(
+                                                            <MenuItem value={company._id}>{company.name}</MenuItem>
+                                                        ))}
                                                     </Select>
                                             </FormControl>
                                         </Stack>
@@ -79,10 +111,10 @@ export const StudentCompanyChoice = () => {
                                                 <InputLabel>Job Role</InputLabel>
                                                 <Select 
                                                     variant="outlined"
-                                                    labelId="firstRoll"
-                                                    id="firstRoll"
-                                                    name="firstRoll"
-                                                    value={values.firstRoll}
+                                                    labelId="firstRole"
+                                                    id="firstRole"
+                                                    name="firstRole"
+                                                    value={values.firstRole}
                                                     onChange={handleChange}
                                                     label="Job Role">
                                                     <MenuItem value="none"><em>None</em></MenuItem>
@@ -110,9 +142,9 @@ export const StudentCompanyChoice = () => {
                                                     onChange={handleChange}
                                                     label="Job Role">
                                                     <MenuItem value="none"><em>None</em></MenuItem>
-                                                    <MenuItem value={'wso2'}>WSO2</MenuItem>
-                                                    <MenuItem value={'99x'}>99X</MenuItem>
-                                                    <MenuItem value={'creative'}>Ceative</MenuItem>
+                                                    {companyList.map((company)=>(
+                                                        <MenuItem value={company._id}>{company.name}</MenuItem>
+                                                    ))}
                                                 </Select>
                                             </FormControl>
                                         </Stack>
@@ -121,10 +153,10 @@ export const StudentCompanyChoice = () => {
                                                 <InputLabel>Job Role</InputLabel>
                                                 <Select 
                                                     variant="outlined"
-                                                    labelId="secondRoll"
-                                                    id="secondRoll"
-                                                    name="secondRoll"
-                                                    value={values.secondRoll}
+                                                    labelId="secondRole"
+                                                    id="secondRole"
+                                                    name="secondRole"
+                                                    value={values.secondRole}
                                                     onChange={handleChange}
                                                     label="Job Role">
                                                     <MenuItem value="none"><em>None</em></MenuItem>
@@ -152,9 +184,9 @@ export const StudentCompanyChoice = () => {
                                                     onChange={handleChange}
                                                     label="Comapny">
                                                     <MenuItem value="none"><em>None</em></MenuItem>
-                                                    <MenuItem value={'wso2'}>WSO2</MenuItem>
-                                                    <MenuItem value={'99x'}>99X</MenuItem>
-                                                    <MenuItem value={'creative'}>Ceative</MenuItem>
+                                                    {companyList.map((company)=>(
+                                                        <MenuItem value={company._id}>{company.name}</MenuItem>
+                                                    ))}
                                                 </Select>
                                             </FormControl>
                                         </Stack>
@@ -163,10 +195,10 @@ export const StudentCompanyChoice = () => {
                                                 <InputLabel>Job Role</InputLabel>
                                                 <Select 
                                                     variant="outlined"
-                                                    labelId="thirdRoll"
-                                                    id="thirdRoll"
-                                                    name="thirdRoll"
-                                                    value={values.thirdRoll}
+                                                    labelId="thirdRole"
+                                                    id="thirdRole"
+                                                    name="thirdRole"
+                                                    value={values.thirdRole}
                                                     onChange={handleChange}
                                                     label="Job Role">
                                                     <MenuItem value="none"><em>None</em></MenuItem>

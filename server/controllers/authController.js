@@ -8,6 +8,8 @@ const handleErrors = require('../utils/appErrors');
 const catchAsync = require('../utils/catchAsync');
 const dotenv = require('dotenv');
 const { authenticateUser } = require('../utils/auth');
+const bcrypt = require('bcrypt');
+
 
 dotenv.config();
 
@@ -70,19 +72,20 @@ module.exports.logout = catchAsync((req, res) => {
 module.exports.resetPassword = catchAsync(async (req, res) => {
     // get user by email
     try {
-        let user = await Admin.findOne({ email: req.body.email });
-        if (!user) {
-            user = await Undergraduate.findOne({ email: req.body.email });
-            if (!user) {
-                user = await Alumni.findOne({ email: req.body.email });
-                if (!user) {
-                    user = await Supervisor.findOne({ email: req.body.email });
-                    if (!user) {
-                        return res.status(400).json({ message: 'Email not found!' });
-                    }
-                }
+        const userModelList = [Undergraduate, Admin, Supervisor, Alumni];
+        let user;
+        for (let i = 0; i < userModelList.length; i++) {
+            const userModel = userModelList[i];
+            user = await userModel.findOne({ email: req.body.email });
+            if (user) {
+                break;
             }
         }
+
+        if (!user) {
+            return res.status(400).json({ error: 'Email not found!' });
+        }
+
         // create password reset token
         const token = jwt.sign({ _id: user }, process.env.JWT_SECRET, { expiresIn: 1000 * 60 * 30 });
         const resetLink = `http://localhost:5000/reset-password/${token}`;
@@ -105,47 +108,49 @@ module.exports.resetPassword = catchAsync(async (req, res) => {
         res.status(200).json({ message: 'Password reset link sent to your email' });
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ error: 'Server error' });
     }
 });
 
 module.exports.resetPasswordToken = catchAsync(async (req, res) => {
     try {
         const decoded = jwt.verify(req.params.token, process.env.JWT_SECRET);
-        let user = await Admin.findById(decoded._id);
-        if (!user) {
-            user = await Undergraduate.findById(decoded._id);
-            if (!user) {
-                user = await Alumni.findById(decoded._id);
-                if (!user) {
-                    user = await Supervisor.findById(decoded._id);
-                    if (!user) {
-                        return res.status(400).json({ message: 'Token is invalid' });
-                    }
-                }
+        const userModelList = [Undergraduate, Admin, Supervisor, Alumni];
+        let user;
+        for (let i = 0; i < userModelList.length; i++) {
+            const userModel = userModelList[i];
+            user = await userModel.findById(decoded._id);
+            if (user) {
+                break;
             }
         }
+
+        if (!user) {
+            return res.status(400).json({ error: 'Token is invalid' });
+        }
+
         //render the password reset form
         res.status(200).json({ message: `password update form for user: ${user._id}` });
     } catch (err) {
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ error: 'Server error' });
     }
 });
 
-module.exports.updatePassword = catchAsync(async (req, res) => {
+module.exports.updateResetPassword = catchAsync(async (req, res) => {
     try {
-        let user = await Admin.findById(req.body.userId);
-        if (!user) {
-            user = await Undergraduate.findById(req.body.userId);
-            if (!user) {
-                user = await Alumni.findById(req.body.userId);
-                if (!user) {
-                    user = await Supervisor.findById(req.body.userId);
-                    if (!user) {
-                        return res.status(400).json({ message: 'Token is invalid' });
-                    }
-                }
+
+        const userModelList = [Undergraduate, Admin, Supervisor, Alumni];
+        let user;
+        for (let i = 0; i < userModelList.length; i++) {
+            const userModel = userModelList[i];
+            user = await userModel.findById(req.body.userId);
+            if (user) {
+                break;
             }
+        }
+
+        if (!user) {
+            return res.status(400).json({ error: 'Token is invalid' });
         }
 
         user.password = req.body.password;
@@ -155,6 +160,40 @@ module.exports.updatePassword = catchAsync(async (req, res) => {
 
         res.status(200).json({ message: 'Password updated successfully' });
     } catch (err) {
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ error: 'Server error' });
     }
 });
+
+module.exports.updatePassword = catchAsync(async (req, res) => {
+    try {
+        const { userId, oldPassword, newPassword } = req.body;
+
+        const userModelList = [Undergraduate, Admin, Supervisor, Alumni];
+        let user;
+        for (let i = 0; i < userModelList.length; i++) {
+            const userModel = userModelList[i];
+            user = await userModel.findById(userId);
+            if (user) {
+                break;
+            }
+        }
+
+        if (!user) {
+            return res.status(400).json({ error: 'user not found' });
+        }
+
+        const auth = await bcrypt.compare(oldPassword, user.password);
+
+        if (!auth) {
+            return res.status(400).json({ error: "password is incorrect" });
+        }
+
+        user.password = newPassword;
+        await user.save();
+
+        res.status(200).json({message: "password updated successfully"});
+
+    } catch (err) {
+
+    }
+})

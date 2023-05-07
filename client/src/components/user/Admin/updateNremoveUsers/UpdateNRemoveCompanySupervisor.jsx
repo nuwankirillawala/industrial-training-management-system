@@ -6,34 +6,46 @@ import { useState, useEffect } from "react";
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { Tile } from "../../../card/Tile";
 import Dialogbox from "../../../Dialogbox/Dialogbox";
+import axios from "axios";
 
 
 export const UpdateNRemoveCompanySupervisor = () => {
-
-    const [Column, setColumn] = useState([])
     const [Records, setRecords] = useState([])
 
+    const getSupervisorData = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/supervisor');
+            console.log(res);
+            if (res.status === 200) {
+                console.log(res.data.users);
+                setRecords(res.data.users)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
-        fetch('https://dummyjson.com/products')  //url need to changed into json url(this is dummy data from a site)
-            .then(result => result.json())
-            .then(data => {
-                setColumn(Object.keys(data.products[0])) //products(word) need to changed according json 
-                setRecords(data.products)
-            })
+        getSupervisorData();
     }, [])
 
+    const Column = [
+        { columnName: 'Supervisor Name' },
+        { columnName: '  Email' },
+        { columnName: '  Job Role' }
+    ]
 
     return (
         <>
             <Typography variant="PageTitle">Update or Remove Company Supervisor</Typography>
             <Tile>
                 <Stack>
-                    <Table>
+                    <Table sx={{ border: '1px solid #4665D2' }}>
                         <TableHead>
                             <TableRow>
                                 {Column.map((c, i) =>
                                     <TableCell key={i}>
-                                        {c}
+                                        <Typography fontWeight={'bold'}>{c.columnName}</Typography>
                                     </TableCell>
                                 )}
                             </TableRow>
@@ -42,9 +54,9 @@ export const UpdateNRemoveCompanySupervisor = () => {
 
                             {Records.map((r, i) =>
                                 <TableRow key={i} >
-                                    <TableCell >   {r.id}  </TableCell>
-                                    <TableCell >   {r.title}  </TableCell>
-                                    <TableCell >   {r.description} </TableCell>
+                                    <TableCell >   {r.name}  </TableCell>
+                                    <TableCell >   {r.email}  </TableCell>
+                                    <TableCell >   {r.jobRole} </TableCell>
                                     <TableCell> <Dialogbox title="Update Company supervisor" btn_name="update"><UpdateCompanySupervisorForm /></Dialogbox></TableCell>
                                     <TableCell ><Dialogbox title="Remove Company supervisor" btn_name="remove"><RemoveUserForm /></Dialogbox>
 
