@@ -85,7 +85,8 @@ const AssignSupervisorForIntern = () => {
         <Button
           variant="itms"
           size="itms-small"
-          disabled={params.row.company === null ? true : false}
+          // disabled={params.row.company === null ? true : false}
+          disabled="true"
           onClick={() => handleCellClick(params.row.company)}
         >
           assign
@@ -117,7 +118,7 @@ const AssignSupervisorForIntern = () => {
                     Company Selections
                   </Typography>
                 </Box>
-                <Box width={"auto"}>
+                <Box height={530} width={"auto"}>
                   <DataGrid
                     rows={studentList.map((field) => {
                       return {
@@ -129,7 +130,6 @@ const AssignSupervisorForIntern = () => {
                     columns={studentColumn}
                     hideFooter={true}
                     disableColumnMenu={true}
-                    autoHeight={true}
                     getRowId={(row) => row.regNo}
                   />
                 </Box>
