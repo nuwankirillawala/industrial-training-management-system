@@ -1083,6 +1083,60 @@ module.exports.editMonthlyLeaveRecord = catchAsync(async (req, res) => {
     }
 });
 
+// Method: GET
+// Endpoint: "/get-all-monthly-reports/:undergraduateId"
+// Description: View all monthly reports
+// User: admin
+module.exports.getAllMonthlyReports = catchAsync(async (req, res) => {
+    try {
+        const undergraduateId = req.params.undergraduateId;
+        const undergraduate = await Undergraduate.findById(undergraduateId);
+        if (!undergraduate) {
+            return res.status(400).json({ error: "undergraduate not found" });
+        }
+
+        if (undergraduate.monthlyReports.length === 0) {
+            return res.status(400).json({ error: "no any monthly reports" });
+        }
+
+        res.status(200).json({ monthlyReports: undergraduate.monthlyReports });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// Method: GET
+// Endpoint: "/get-monthly-report/:undergraduateId/month/:monthNo"
+// Description: View monthly a report
+// User: admin
+module.exports.getMonthlyReport = catchAsync(async (req, res) => {
+    try {
+        const undergraduateId = req.params.undergraduateId;
+        const monthNo = parseInt(req.params.monthNo);
+
+        const undergraduate = await Undergraduate.findById(undergraduateId);
+        if (!undergraduate) {
+            return res.status(400).json({ error: "undergraduate not found" });
+        }
+
+        if (undergraduate.monthlyReports.length === 0) {
+            return res.status(400).json({ error: "no any monthly reports found" });
+        }
+
+        const report = undergraduate.monthlyReports.findOne((report) => report.monthNumber === monthNo);
+
+        if (!report) {
+            return res.status(400).json({ error: "monthly report found" });
+        }
+
+        res.status(200).json({ monthlyReport: report });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
 //Method: POST
 //Endpoint: "/upload-cv"
 //Description: upload the cv as the pdf to local files
