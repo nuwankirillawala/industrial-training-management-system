@@ -3,82 +3,87 @@ import { Stack, Grid, Button, Typography, Box, Divider} from '@mui/material'
 import { Tile } from '../../../components/card/Tile'
 import { DataGrid } from "@mui/x-data-grid";
 import { DailyReport } from './DailyReport';
-import { ReportPortal } from './ReportPortal';
 import {FinalFeedback} from './FinalFeedback'
+import axios from 'axios'
 
-const jsonData = [
-  {
-    "id" : "SC/2019/11120",
-    "name" : "gavesh madushan"
-    
-  },
 
-  {
-      "id" : "SC/2019/11121",
-      "name" : "madushan gavesh"
-  },
-
-  {
-      "id" : "SC/2019/11122",
-      "name" : "G.M.Sooriyaarachchi"
-  }
-]
-
-const reportData = [
-  {
-    "id" : "firstWeek",
-    "report" : [
-      {
-          "monday" : "monday report data",
-          "tuesday" : "tuesday report data",
-          "wednesday" : "wednesday report data"
-      }
-    ]
-  },
-
-  {
-      "id" : "secondtWeek",
-      "report" : [
-        {
-          "monday" : "monday report data",
-          "tuesday" : "tuesday report data",
-          "wednesday" : "wednesday report data"
-      }
-    ]
-  },
-
-  {
-      "id" : "thirdWeek",
-      "report" : [
-        {
-          "monday" : "monday report data",
-          "tuesday" : "tuesday report data",
-          "wednesday" : "wednesday report data"
-      }
-    ]
-  }
+export const ReportList = ({reportType, setSelectReportType, selectReportType}) => {
   
-]
-
-
-
-
-export const DailyReportList = ({reportType, setSelectReportType, selectReportType}) => {
-  
-  const [rows, setRows] = useState([]);
+  const [studentId, setStudentId] = useState();
+  const [reportId, setReportId] = useState();
   const [selectStudent, setSelectStudent] = useState(false);
   const [selectReport, setSelectReport] = useState(false);
+  const [studentList , setStudentList] = useState([
+    {
+        "role": "",
+        "_id": "",
+        "name": "",
+        "regNo": "",
+        "email": "",
+        "password": "",
+        "__v": 0,
+        "weightedGPA": "",
+        "notes": [],
+        "internStatus": [],
+        "weeklyReports": [],
+        "monthlyReports": []
+    }]);
+  const [reportList, setReportList] = useState([]);
+
+  //fetch data
+
+  const getStudentList = async() => {
+      try{
+        const res = await axios.get("http://localhost:5000/api/v1/admin/view-all-users/undergraduate");
+        if(res.status===200){
+          console.log(res.data.users)
+          setStudentList(res.data.users);
+        }
+      }
+      catch (err) {
+        console.log(err);
+      }
+  }
+
+  useEffect(() => {
+    getStudentList();
+  },[])
+
+
+  useEffect
+
+//end fetch
+
 
 
   const selectRowData = (params) => {
     try {
-      const  usersid = params.row.id;
-      setSelectStudent(true);
-      console.log({selectStudent});
-    } catch (error) {
-      console.log(error);
+        const  userid = params.row.id;
+        setSelectStudent(true);
+        setStudentId(userid);
+        console.log(params.row.name);
+        console.log(userid);  
+        const getReportList = async() => {
+            console.log("report data")
+            try{
+              const res = await axios.get("http://localhost:5000/api/v1/undergraduate/view-daily-report");
+              if(res.status===200){
+                console.log(res)
+                setReportList(res);
+              }
+            }
+            catch (err) {
+              console.log(err);
+            }
+        }
+        getReportList();
+
+    }
+    catch (error) {
+        console.log(error);
     }
   };
+
   const selectReportData = (params) => {
     try {
       const  reportid = params.row.id;
@@ -103,7 +108,7 @@ export const DailyReportList = ({reportType, setSelectReportType, selectReportTy
       editable: false,
     },
     {
-      field: "id",
+      field: "regNo",
       headerName: "Student ID",
       width: 120,
       editable: false,
@@ -113,29 +118,13 @@ export const DailyReportList = ({reportType, setSelectReportType, selectReportTy
 
   const reportColumns = [
     {
-      field : "id",
+      field : "studentId",
       headerName : 'Date',
       editable : false,
       width : 200,
     }
   ]
 
-//   ///API call
-//   useEffect(() => {
-//     const getData = async () => {
-//       try {
-//         const {
-//           data: {
-//             data: { data },
-//           },
-//         } = await getAllUsers();
-//         setRows(data);
-//       } catch (error) {
-//         console.log(error);
-//       }
-//     };
-//     getData();
-//   }, []);
 
   return (
   <Stack>
@@ -145,10 +134,10 @@ export const DailyReportList = ({reportType, setSelectReportType, selectReportTy
         <Typography variant='PageTitle'>{reportType}</Typography>
       </Grid>
 
-{/* student list and report list */}
       <Grid item md={12}>
           <Grid container spacing={1}>
-            <Grid item md={3}>
+{/* student list in here */}
+            <Grid item md={3} minWidth={'340px'}>
               <Tile>
                 <Stack direction={'column'} spacing={4} height={'76vh'}>
 
@@ -183,7 +172,10 @@ export const DailyReportList = ({reportType, setSelectReportType, selectReportTy
                       {selectStudent === false && (
 
                         <DataGrid
-                          rows={jsonData}
+                          rows={studentList.map((student) => {
+                            return { name: student.name, regNo: student.regNo, id: student._id};
+                          })}
+                          // rows
                           columns={studentColumns}
                           onRowClick={selectRowData}
                           getRowId={(row) => row.id}
@@ -196,8 +188,10 @@ export const DailyReportList = ({reportType, setSelectReportType, selectReportTy
                       {selectStudent === true && (
 
                         <DataGrid
-                          //rows={rows}
-                          rows={reportData}
+                          // rows
+                          rows={reportList.map((reoprt) => {
+                            return {};
+                          })}
                           columns={reportColumns}
                           rowsPerPageOptions={[]}
                           onRowClick={selectReportData}

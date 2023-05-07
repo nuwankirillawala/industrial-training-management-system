@@ -114,7 +114,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path='select-student' element={<Admin.SelectStudent />} />
 
             <Route path='daily-report' element={<Admin.DailyReport />} />
-            <Route path='daily-report-list' element={<Admin.DailyReportList />} />
+            <Route path='report-list' element={<Admin.ReportList />} />
             <Route path='final-feedback' element={<Admin.FinalFeedback />} />
             <Route path='final-feedback-list' element={<Admin.FinalFeedbackList />} />
             <Route path='report-portal' element={<Admin.ReportPortal />} />
