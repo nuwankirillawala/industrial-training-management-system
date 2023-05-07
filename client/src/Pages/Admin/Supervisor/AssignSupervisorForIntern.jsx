@@ -1,10 +1,56 @@
 import { Box, Stack, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Tile } from "../../../components/card/Tile";
+import axios from "axios";
 
 const AssignSupervisorForIntern = () => {
-  //column for data grid
+  //State for fetched data
+  const [studentList, setStudentList] = useState([]);
+  //End of state
 
+  //Fetching data
+  const getStudentList = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/v1/undergraduate/view-intern-list"
+      );
+      if (res.status === 200) {
+        console.log(res.data.users);
+        setStudentList(res.data.users);
+      } else {
+        console.log(res.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getStudentList();
+  }, []);
+  //End of fetching data
+
+  //column for data grid
+  const studentColumn = [
+    {
+      field: "regNo",
+      headerName: "Student Number",
+      width: 150,
+      editable: false,
+    },
+    {
+      field: "name",
+      headerName: "Student Name",
+      width: 150,
+      editable: false,
+    },
+    {
+      field: "company",
+      headerName: "Company assigned",
+      width: 150,
+      editable: false,
+    },
+  ];
   //End of column for data grid
 
   return (
