@@ -29,6 +29,9 @@ const adminSchema = new mongoose.Schema({
         type: String,
         require: [true, 'Please enter a password'],
         minlength: [6, 'Minimum password length is 6']
+    },
+    profileImage: {
+        type: String
     }
 });
 
@@ -44,18 +47,6 @@ adminSchema.post('save', function (doc, next) {
     console.log(`New ${doc.adminRole}: ${doc.name} was created`, doc);
     next();
 });
-
-// adminSchema.statics.login = async function (email, password) {
-//     const admin = await this.findOne({ email });
-//     if (admin) {
-//         const auth = await bcrypt.compare(password, admin.password);
-//         if (auth) {
-//             return admin;
-//         }
-//         throw Error('incorrect password');
-//     }
-//     throw Error('incorrect email');
-// }
 
 const Admin = mongoose.model('admin', adminSchema);
 

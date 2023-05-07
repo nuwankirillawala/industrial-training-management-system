@@ -1,42 +1,49 @@
 const { Router } = require('express');
 const undergraduateController = require('../controllers/undergraduateController');
 const { checkUser } = require('../middleware/authMiddleware');
-const cvUpload = require('../middleware/uploadMiddleware');
+const { cvUpload, imageUpload, excelsheetUpload } = require('../middleware/uploadMiddleware');
 
 const router = Router();
 
 router.route('/create-undergraduate')
     .post(undergraduateController.createUndergraduate)
 
-router.route('/view-undergraduate-profile/:undergraduateId')
+router.route('/get-undergraduate/:undergraduateId')
+    .get(undergraduateController.getUndergraduate)
+
+router.route('/view-undergraduate-profile')
     .get(undergraduateController.viewUndergraduateProfile)
 
 router.route('/update-undergraduate-profile')
-    .patch(undergraduateController.updateUndergraduateProfile)
+    .patch(imageUpload, undergraduateController.updateUndergraduateProfile)
+
+router.route('/view-all-undergraduates')
+    .get(undergraduateController.viewAllUndergraduates)
 
 router.route('/view-intern-list')
     .get(undergraduateController.viewInternList)
 
 router.route('/company-selection')
-    .patch(undergraduateController.companySelection)
+    .get(undergraduateController.getCompanySelection)
+    .patch(undergraduateController.updateCompanySelection)
 
 router.route('/undergraduate-dashboard')
     .get(checkUser, undergraduateController.undergraduateDashboard)
 
 router.route('/add-note')
-    .patch(undergraduateController.addNote)
+    .post(undergraduateController.addNote)
 
-router.route('/view-notes')
-    .get(undergraduateController.viewNotes)
+router.route('/get-all-notes')
+    .get(undergraduateController.getAllNotes)
 
-router.route('/view-note')
-    .get(undergraduateController.viewNote)
+router.route('/get-note/:noteId')
+    .get(undergraduateController.getNote)
 
 router.route('/edit-note')
     .patch(undergraduateController.editNote)
 
-router.route('/add-result')
-    .post(undergraduateController.addResult)
+router.route('/upload-resultsheet')
+    .post(excelsheetUpload, undergraduateController.uploadResultSheetAndAddResult)
 
 router.route('/set-weighted-gpa')
     .post(undergraduateController.setWeightedGPA)
@@ -45,32 +52,61 @@ router.route('/set-weighted-gpa')
 router.route('/add-intern-status')
     .patch(undergraduateController.addInternStatus)
 
-router.route('/edit-intern-status')
-    .patch(undergraduateController.editInternStatus)
+router.route('/update-intern-status')
+    .patch(undergraduateController.updateInternStatus)
 
-router.route('/company-selection')
-    .patch(undergraduateController.companySelection)
-
-router.route('/assign-supervisor')
+router.route('/assign-supervisor/:undergraduateId')
     .get(undergraduateController.assignSupervisorGET)
     .patch(undergraduateController.assignSupervisorPATCH)
 
-router.route('/update-internship-period')
-    .patch(undergraduateController.updateInternshipPeriod)
+router.route('/update-internship')
+    .patch(undergraduateController.updateInternship)
 
 router.route('/view-all-daily-reports')
     .get(undergraduateController.viewAllDailyReports)
 
-router.route('/view-daily-report')
+router.route('/view-daily-report/:weekNo')
     .get(undergraduateController.viewDailyReport);
 
 router.route('/edit-daily-report')
     .post(undergraduateController.editDailyReport)
 
 router.route('/edit-weekly-report-problem-section')
-    .post(undergraduateController.editDailyProblemSection)
+    .post(undergraduateController.editDailyReportProblemSection)
+
+router.route('/get-all-daily-reports/:undergraduateId')
+    .get(undergraduateController.getAllDailyReports)
+
+router.route('/get-daily-report/:undergraduateId/week/:weekNo')
+    .get(undergraduateController.getDailyReport)
 
 router.route('/upload-cv')
-    .post(cvUpload.single('cv-file'), undergraduateController.uploadCV)
+    .post(cvUpload, undergraduateController.uploadCV)
+
+router.route('/soft-skill')
+    .post(undergraduateController.addSoftSkill)
+    .delete(undergraduateController.deleteSoftSkill)
+
+router.route('/technology-skill')
+    .post(undergraduateController.addTechnologySkill)
+    .delete(undergraduateController.deleteTechnologySkill)
+
+router.route('/certifications')
+    .post(undergraduateController.addCertifications)
+    .delete(undergraduateController.deleteCertifications)
+
+router.route('/extra-activities')
+    .post(undergraduateController.addExtraActivities)
+    .delete(undergraduateController.deleteExtraActivities)
+
+router.route('/projects')
+    .post(undergraduateController.addProject)
+    .delete(undergraduateController.deleteProject)
+
+router.route('/english-skill')
+    .post(undergraduateController.addEnglishSkill)
+
+router.route('/additional-information')
+    .get(undergraduateController.getAdditionalInformation)
 
 module.exports = router;
