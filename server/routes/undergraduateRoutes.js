@@ -62,6 +62,8 @@ router.route('/assign-supervisor/:undergraduateId')
 router.route('/update-internship')
     .patch(undergraduateController.updateInternship)
 
+// ############################## Daily Reports ##############################
+
 router.route('/view-all-daily-reports')
     .get(undergraduateController.viewAllDailyReports)
 
@@ -79,6 +81,23 @@ router.route('/get-all-daily-reports/:undergraduateId')
 
 router.route('/get-daily-report/:undergraduateId/week/:weekNo')
     .get(undergraduateController.getDailyReport)
+
+// ############################## Monthly Reports ##############################
+
+router.route('/view-all-monthly-reports')
+    .get(undergraduateController.viewAllMonthlyReports)
+
+router.route('/view-monthly-report/:monthNo')
+    .get(undergraduateController.viewMonthlyReport);
+
+router.route('/edit-monthly-report-week')
+    .post(undergraduateController.editMonthlyReportWeek)
+
+router.route('/edit-monthly-report-problem-section')
+    .post(undergraduateController.editMonthlyProblemSection)
+
+router.route('/edit-monthly-leave-record')
+    .post(undergraduateController.editMonthlyLeaveRecord)
 
 router.route('/upload-cv')
     .post(cvUpload, undergraduateController.uploadCV)

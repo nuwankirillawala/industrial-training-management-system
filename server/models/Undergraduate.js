@@ -271,7 +271,7 @@ const undergraduateSchema = new mongoose.Schema({
             absentDays: {
                 type: Number
             },
-            spprovalStatus: {
+            approvalStatus: {
                 type: String,
                 enum: ['approved', 'not-approved', 'pending', 'empty']
             }

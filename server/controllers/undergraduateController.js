@@ -743,6 +743,8 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
     }
 });
 
+// ############################## Daily Reports ##############################
+
 // Method: GET
 // Endpoint: "/view-all-daily-reports"
 // Description: View all daily reports weekly vise
@@ -922,121 +924,159 @@ module.exports.getDailyReport = catchAsync(async (req, res) => {
     }
 });
 
-//Method: GET
-//Endpoint: "/view-all-monthly-reports"
-//Description: View all monthly reports
+// ############################## Monthly Reports ##############################
+
+// Method: GET
+// Endpoint: "/view-all-monthly-reports"
+// Description: View all monthly reports
+// User: undergraduate
 module.exports.viewAllMonthlyReports = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
+        const userId = res.locals.user.id;
         const user = await Undergraduate.findById(userId);
         if (!user) {
             return res.status(400).json({ error: "user not found" });
         }
 
-        if (user.weeklyReports.length === 0) {
-            return res.status(400).json({ message: "please set the internship" });
+        if (user.monthlyReports.length === 0) {
+            return res.status(400).json({ error: "please set the internship" });
         }
 
-        res.status(200).json({ dailyReports: user.weeklyReports });
+        res.status(200).json({ monthlyReports: user.monthlyReports });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
 
-//Method: GET
-//Endpoint: "/view-monthly-report"
-//Description: View a monthly
+// Method: GET
+// Endpoint: "/view-monthly-report/:monthNo"
+// Description: View a monthly report
+// User: undergraduate
 module.exports.viewMonthlyReport = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const weekNo = req.body.weekNumber;
-        const weekNo = parseInt(req.body.weekNumber);
+        const userId = res.locals.user.id;
+        const monthNo = parseInt(req.params.monthNo);
         const user = await Undergraduate.findById(userId);
         if (!user) {
             return res.status(400).json({ error: "user not found" });
         }
 
-        if (user.weeklyReports.length === 0) {
-            return res.status(400).json({ message: "please set the internship" });
+        if (user.monthlyReports.length === 0) {
+            return res.status(400).json({ error: "please set the internship" });
         }
 
-        const report = user.weeklyReports.filter((report) => report.weekNumber === weekNo);
+        const report = user.monthlyReports.filter((report) => report.monthNumber === monthNo);
 
-        res.status(200).json({ weeklyReport: report });
+        res.status(200).json({ monthlyReport: report });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
 
-//Method: POST
-//Endpoint: "/edit-monthly-report-week"
-//Description: edit a weekly report in monthly report
-module.exports.editWeeklyReport = catchAsync(async (req, res) => {
+// Method: POST
+// Endpoint: "/edit-monthly-report-week"
+// Description: edit a weekly report in monthly report
+// User: undergraduate
+module.exports.editMonthlyReportWeek = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        const { weekNo, dayNo, reportContent } = req.body;
-        // const weekNo = parseInt(req.body.weekNumber);
-        // const dayNo = parseInt(req.body.dayNumber);
+        const userId = res.locals.user.id;
+        const { weekNo, monthNo, reportContent } = req.body;
+
         const user = await Undergraduate.findById(userId);
         if (!user) {
             return res.status(400).json({ error: "user not found" });
         }
 
-        if (user.weeklyReports.length === 0) {
-            return res.status(400).json({ message: "please set the internship" });
+        if (user.monthlyReports.length === 0) {
+            return res.status(400).json({ error: "please set the internship" });
         }
 
-        const weeklyReport = user.weeklyReports.find((report) => report.weekNumber === weekNo);
-        if (!weeklyReport) {
+        const monthlyReport = user.monthlyReports.find((report) => report.monthNumber === monthNo);
+        if (!monthlyReport) {
+            return res.status(400).json({ error: "moonthly report not found" });
+        }
+
+        const weeklyReport = monthlyReport.weeklyReports.find((report) => report.weekNumber === weekNo);
+        if (!dailyReport) {
             return res.status(400).json({ error: "weekly report not found" });
         }
 
-        const dailyReport = weeklyReport.dailyReports.find((report) => report.dayNumber === dayNo);
-        if (!dailyReport) {
-            return res.status(400).json({ error: "daily report not found" });
-        }
-
-        dailyReport.content = reportContent;
-        dailyReport.approvalStatus = 'edited';
-        weeklyReport.reportStatus = 'saved';
+        weeklyReport.content = reportContent;
+        weeklyReport.approvalStatus = 'edited';
+        monthlyReport.reportStatus = 'saved';
         await user.save();
 
-        res.status(200).json({ dailyReport });
+        res.status(200).json({ monthlyReport });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
 
-//Method: POST
-//Endpoint: "/edit-monthly-report-problem-section"
-//Description: 
+// Method: POST
+// Endpoint: "/edit-monthly-report-problem-section"
+// Description: edit monthly report problem encountered and solution section
+// User: undergraduate
 module.exports.editMonthlyProblemSection = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        const { weekNo, problemContent } = req.body;
+        const userId = res.locals.user.id;
+        const { monthNo, problemContent } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
             return res.status(400).json({ error: "user not found" });
         }
 
-        if (user.weeklyReports.length === 0) {
-            return res.status(400).json({ message: "please set the internship" });
+        if (user.monthlyReports.length === 0) {
+            return res.status(400).json({ error: "please set the internship" });
         }
 
-        const weeklyReport = user.weeklyReports.find((report) => report.weekNumber === weekNo);
-        if (!weeklyReport) {
-            return res.status(400).json({ error: "weekly report not found" });
+        const monthlyReport = user.monthlyReports.find((report) => report.monthNumber === monthNo);
+        if (!monthlyReport) {
+            return res.status(400).json({ error: "monthly report not found" });
         }
 
-        weeklyReport.problemSection = problemContent;
-        weeklyReport.reportStatus = 'saved';
+        monthlyReport.problemSection = problemContent;
+        monthlyReport.reportStatus = 'saved';
         await user.save();
 
-        res.status(200).json({ weeklyReport });
+        res.status(200).json({ monthlyReport });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// Method: POST
+// Endpoint: "/edit-monthly-leave-record"
+// Description: edit nomber of leaves in month
+// User: undergraduate
+module.exports.editMonthlyLeaveRecord = catchAsync(async (req, res) => {
+    try {
+        const userId = res.locals.user.id;
+        const { monthNo, absentDays } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        if (user.monthlyReports.length === 0) {
+            return res.status(400).json({ error: "please set the internship" });
+        }
+
+        const monthlyReport = user.monthlyReports.find((report) => report.monthNumber === monthNo);
+        if (!monthlyReport) {
+            return res.status(400).json({ error: "monthly report not found" });
+        }
+
+        monthlyReport.leaveRecord.absentDays = absentDays;
+        monthlyReport.reportStatus = 'saved';
+        await user.save();
+
+        res.status(200).json({ monthlyReport });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
