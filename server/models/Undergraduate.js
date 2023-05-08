@@ -111,7 +111,7 @@ const undergraduateSchema = new mongoose.Schema({
     },
     companySelection: {
         choice01: {
-            companyId: {
+            company: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: Company
             },
@@ -120,7 +120,7 @@ const undergraduateSchema = new mongoose.Schema({
             }
         },
         choice02: {
-            companyId: {
+            company: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: Company
             },
@@ -129,7 +129,7 @@ const undergraduateSchema = new mongoose.Schema({
             }
         },
         choice03: {
-            companyId: {
+            company: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: Company
             },
@@ -138,7 +138,7 @@ const undergraduateSchema = new mongoose.Schema({
             }
         },
         choice04: {
-            companyId: {
+            company: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: Company
             },
@@ -147,7 +147,7 @@ const undergraduateSchema = new mongoose.Schema({
             }
         },
         choice05: {
-            companyId: {
+            company: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: Company
             },

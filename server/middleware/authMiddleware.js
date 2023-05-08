@@ -10,6 +10,8 @@ const checkUser = (req, res, next) => {
 
     // 1) check for the JWT token
     req.cookies?.jwt ? (token = req.cookies.jwt) : token = null;
+    // const token = req.cookies.jwt
+
     console.log('jwt token', token);
 
     if (!token) {

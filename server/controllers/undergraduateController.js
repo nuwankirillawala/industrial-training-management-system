@@ -177,7 +177,8 @@ module.exports.viewInternList = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.getCompanySelection = catchAsync(async (req, res) => {
     try {
-        const companySelection = await Undergraduate.findById().select('companySelection');
+        const userId = req.user.id;
+        const companySelection = await Undergraduate.findById(userId).select('companySelection');
 
         if (!companySelection) {
             return res.status(400).json({ error: "user company selection not found" });
@@ -197,6 +198,7 @@ module.exports.getCompanySelection = catchAsync(async (req, res) => {
 module.exports.updateCompanySelection = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
+        // const userId = res.locals.user.id;
         const { choice01, choice02, choice03, choice04, choice05 } = req.body; // choice01 = {company, jobRole}
 
         const foundCompany01 = await Company.findById(choice01.company);
@@ -219,22 +221,21 @@ module.exports.updateCompanySelection = catchAsync(async (req, res) => {
         const updatedUser = await Undergraduate.findByIdAndUpdate(
             userId,
             {
-                $set: {
-                    'companySelection.choice01.companyId': choice01.company,
-                    'companySelection.choice01.jobRole': choice01.jobRole,
-                    'companySelection.choice02.companyId': choice02.company,
-                    'companySelection.choice02.jobRole': choice02.jobRole,
-                    'companySelection.choice03.companyId': choice03.company,
-                    'companySelection.choice03.jobRole': choice03.jobRole,
-                    'companySelection.choice04.companyId': choice04.company,
-                    'companySelection.choice04.jobRole': choice04.jobRole,
-                    'companySelection.choice05.companyId': choice05.company,
-                    'companySelection.choice05.jobRole': choice05.jobRole,
-
-                }
+              $set: {
+                "companySelection.choice01.company": choice01.company,
+                "companySelection.choice01.jobRole": choice01.jobRole,
+                "companySelection.choice02.company": choice02.company,
+                "companySelection.choice02.jobRole": choice02.jobRole,
+                "companySelection.choice03.company": choice03.company,
+                "companySelection.choice03.jobRole": choice03.jobRole,
+                "companySelection.choice04.company": choice04.company,
+                "companySelection.choice04.jobRole": choice04.jobRole,
+                "companySelection.choice05.company": choice05.company,
+                "companySelection.choice05.jobRole": choice05.jobRole,
+              },
             },
             { new: true }
-        );
+          );
 
         if (!updatedUser) {
             return res.status(400).json({ error: "update failed" });
