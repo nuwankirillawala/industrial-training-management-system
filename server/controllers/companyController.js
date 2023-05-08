@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const Company = require("../models/Company");
 const Undergraduate = require("../models/Undergraduate");
 const handleErrors = require("../utils/appErrors");
@@ -22,7 +23,7 @@ module.exports.createCompany = catchAsync(async (req, res) => {
 });
 
 // Method: POST
-// Endpoint: "//:companyID/add-contact-person"
+// Endpoint: "/:companyID/add-contact-person"
 // Description: add a contact person for a company
 // User: Admin
 module.exports.addContactPerson = catchAsync(async (req, res) => {
@@ -105,8 +106,10 @@ module.exports.internProcessCompanyList = catchAsync(async (req, res) => {
 // Description: Create a intern lists
 // User: Admin
 module.exports.internProcess = catchAsync(async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
-        const candidates = await Undergraduate.find().populate('companySelection01');
+        const candidates = await Undergraduate.find().session(session);
         const weightedGPAList = await quickSortByWGPA(candidates);
 
         for (let i = 0; i < weightedGPAList.length; i++) {
@@ -114,59 +117,102 @@ module.exports.internProcess = catchAsync(async (req, res) => {
             const candidate = weightedGPAList[i];
 
             // check company slection is done by candidate // may be unnessasry
-            if (!candidate.companySelection01) {
+            if (!candidate.companySelection.choice01) {
                 console.log('user not enter company selection');
                 continue;
             }
 
             //get company selections from candidate
-            const company01 = await Company.findOne({ _id: candidate.companySelection01.companyId, connectedForIntern: true });
-            const company02 = await Company.findOne({ _id: candidate.companySelection02.companyId, connectedForIntern: true });
-            const company03 = await Company.findOne({ _id: candidate.companySelection03.companyId, connectedForIntern: true });
+            const company01 = await Company.findOne({ _id: candidate.companySelection.choice01.company, connectedForIntern: true }).session(session);
+            const company02 = await Company.findOne({ _id: candidate.companySelection.choice02.company, connectedForIntern: true }).session(session);
+            const company03 = await Company.findOne({ _id: candidate.companySelection.choice03.company, connectedForIntern: true }).session(session);
+            const company04 = await Company.findOne({ _id: candidate.companySelection.choice04.company, connectedForIntern: true }).session(session);
+            const company05 = await Company.findOne({ _id: candidate.companySelection.choice05.company, connectedForIntern: true }).session(session);
+
 
             console.log(company01, company02, company03);
 
             // check if company selections are available or not
-            if (!company01 || !company02 || !company03) {
+            if (!company01 || !company02 || !company03 || !company05 || !company05) {
                 console.log("Some company selections are not connected for internships");
                 continue;
             }
 
+            let companyCount = 0;
+
             // check candidate for first selection
-            if (company01.applicationList.length < company01.applicationListSize) {
-                company01.applicationList.push({ candidate: candidate._id });
+            if (companyCount < 3 && company01 && company01.internApplications.recommendations.length < company01.internApplications.applicationListSize) {
+                company01.internApplications.recommendations.push({ candidate: candidate._id });
                 company01.save((err, doc) => {
                     if (err) {
                         return console.log(err);
                     }
                     console.log(doc);
-                })
+                }).session(session);
+                companyCount++;
             }
+
             // check candidate for second selection
-            else if (company02.applicationList.length < company02.applicationListSize) {
-                company02.applicationList.push({ candidate: candidate._id });
+            if (companyCount < 3 && company02 && company02.internApplications.recommendations.length < company02.internApplications.applicationListSize) {
+                company02.internApplications.recommendations.push({ candidate: candidate._id });
                 company02.save((err, doc) => {
                     if (err) {
                         return console.log(err);
                     }
                     console.log(doc);
-                })
+                }).session(session);
+                companyCount++;
             }
+
             // check candidate for third selection
-            else if (company03.applicationList.length < company03.applicationListSize) {
-                company03.applicationList.push({ candidate: candidate._id });
+            if (companyCount < 3 && company03 && company03.internApplications.recommendations.length < company03.internApplications.applicationListSize) {
+                company03.internApplications.recommendations.push({ candidate: candidate._id });
                 company03.save((err, doc) => {
                     if (err) {
                         return console.log(err);
                     }
                     console.log(doc);
-                })
-            } else {
-                console.log("list full");
+                }).session(session);
+                companyCount++;
+            }
+
+            if (companyCount < 3 && company04 && company04.internApplications.recommendations.length < company04.internApplications.applicationListSize) {
+                company04.internApplications.recommendations.push({ candidate: candidate._id });
+                company04.save((err, doc) => {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    console.log(doc);
+                }).session(session);
+                companyCount++;
+            }
+
+            if (companyCount < 3 && company05 && company05.internApplications.recommendations.length < company05.internApplications.applicationListSize) {
+                company05.internApplications.recommendations.push({ candidate: candidate._id });
+                company05.save((err, doc) => {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    console.log(doc);
+                }).session(session);
+                companyCount++;
             }
         }
+
+        const recommendations = await Company.find().select('internApplications.recommendations').session(session);
+
+        await session.commitTransaction();
+
+        res.status(201).json({
+            message: "recommadation generation successfully completed",
+            recommendations,
+        });
     } catch (err) {
+        session.abortTransaction();
         console.log(err);
+        res.status(500).json(err);
+    } finally{
+        session.endSession();
     }
 })
 
@@ -206,10 +252,12 @@ module.exports.updateCompanyInternApplicationList = catchAsync(async (req, res) 
         }
 
         candidateList.forEach((candidate) => {
-            while (company.applicationListSize >= company.applicationList.length) {
-                company.applicationList.push({ candidate: candidate.id })
+            while (company.internApplications.applicationListSize >= company.internApplications.applicationList.length) {
+                company.internApplications.applicationList.push({ candidate: candidate.id })
             }
         })
+
+        company.internApplications.applicationStatus = 'saved';
 
         await company.save();
 
@@ -237,11 +285,13 @@ module.exports.addCandidateToApplicationList = catchAsync(async (req, res) => {
             return res.status(404).json({ error: "candidate not found" });
         }
 
-        if (company.applicationList.length >= company.applicationListSize) {
+        if (company.internApplications.applicationList.length >= company.internApplications.applicationListSize) {
             return res.status(400).json({ error: "company application list is full. " });
         }
 
-        company.applicationList.push(candidate._id);
+        company.internApplications.applicationList.push(candidate._id);
+        company.internApplications.applicationStatus = 'saved';
+
         await company.save();
 
         res.status(201).json({ company });
