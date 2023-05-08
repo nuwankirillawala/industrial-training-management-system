@@ -48,7 +48,7 @@ module.exports.getUndergraduate = catchAsync(async (req, res) => {
         const user = await Undergraduate.findById(userId).select('-password');
 
         if (!user) {
-            res.status(400).json({ error: "user not found!" })
+            res.status(404).json({ error: "user not found!" })
         }
         else {
             res.status(200).json({ user });
@@ -65,16 +65,15 @@ module.exports.getUndergraduate = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.viewUndergraduateProfile = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         console.log(userId);
         const user = await Undergraduate.findById(userId).select('-password');
 
         if (!user) {
-            res.status(400).json({ error: "user not found!" })
+            return res.status(404).json({ error: "user not found!" })
         }
-        else {
-            res.status(200).json(user);
-        }
+
+        res.status(200).json(user);
     } catch (err) {
         console.log(err);
         res.status(500).json({ err })
@@ -87,7 +86,7 @@ module.exports.viewUndergraduateProfile = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { email, contactNo, linkdinURL, githubURL, internStatus } = req.body;
 
         const filePath = `files/images/${req.file.filename}`;
@@ -114,7 +113,7 @@ module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
             return res.status(400).json({ error: "user not found" });
         }
 
-        res.status(200).json(user);
+        res.status(201).json(user);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -127,7 +126,7 @@ module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.undergraduateDashboard = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id
+        const userId = req.user.id;
 
         const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
@@ -178,7 +177,8 @@ module.exports.viewInternList = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.getCompanySelection = catchAsync(async (req, res) => {
     try {
-        const companySelection = await Undergraduate.findById().select('companySelection');
+        const userId = req.user.id;
+        const companySelection = await Undergraduate.findById(userId).select('companySelection');
 
         if (!companySelection) {
             return res.status(400).json({ error: "user company selection not found" });
@@ -197,7 +197,8 @@ module.exports.getCompanySelection = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.updateCompanySelection = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
+        // const userId = res.locals.user.id;
         const { choice01, choice02, choice03, choice04, choice05 } = req.body; // choice01 = {company, jobRole}
 
         const foundCompany01 = await Company.findById(choice01.company);
@@ -207,7 +208,7 @@ module.exports.updateCompanySelection = catchAsync(async (req, res) => {
         const foundCompany05 = await Company.findById(choice05.company);
 
         if (!foundCompany01 || !foundCompany02 || !foundCompany03 || !foundCompany04 || !foundCompany05) {
-            return res.status(400).json({ error: "company not found" });
+            return res.status(404).json({ error: "company not found" });
         }
 
         // check user inputs are unique or not
@@ -220,28 +221,27 @@ module.exports.updateCompanySelection = catchAsync(async (req, res) => {
         const updatedUser = await Undergraduate.findByIdAndUpdate(
             userId,
             {
-                $set: {
-                    'companySelection.choice01.companyId': choice01.company,
-                    'companySelection.choice01.jobRole': choice01.jobRole,
-                    'companySelection.choice02.companyId': choice02.company,
-                    'companySelection.choice02.jobRole': choice02.jobRole,
-                    'companySelection.choice03.companyId': choice03.company,
-                    'companySelection.choice03.jobRole': choice03.jobRole,
-                    'companySelection.choice04.companyId': choice04.company,
-                    'companySelection.choice04.jobRole': choice04.jobRole,
-                    'companySelection.choice05.companyId': choice05.company,
-                    'companySelection.choice05.jobRole': choice05.jobRole,
-
-                }
+              $set: {
+                "companySelection.choice01.company": choice01.company,
+                "companySelection.choice01.jobRole": choice01.jobRole,
+                "companySelection.choice02.company": choice02.company,
+                "companySelection.choice02.jobRole": choice02.jobRole,
+                "companySelection.choice03.company": choice03.company,
+                "companySelection.choice03.jobRole": choice03.jobRole,
+                "companySelection.choice04.company": choice04.company,
+                "companySelection.choice04.jobRole": choice04.jobRole,
+                "companySelection.choice05.company": choice05.company,
+                "companySelection.choice05.jobRole": choice05.jobRole,
+              },
             },
             { new: true }
-        );
+          );
 
         if (!updatedUser) {
             return res.status(400).json({ error: "update failed" });
         }
 
-        res.status(200).json(updatedUser);
+        res.status(201).json(updatedUser);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -254,7 +254,7 @@ module.exports.updateCompanySelection = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.addNote = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { title, content } = req.body;
 
         if (!content) {
@@ -274,7 +274,7 @@ module.exports.addNote = catchAsync(async (req, res) => {
             return res.status(400).json({ error: "user not found!" });
         }
 
-        res.status(200).json({ notes: user.notes });
+        res.status(201).json({ notes: user.notes });
     } catch (err) {
         res.status(500).json(err);
     }
@@ -286,7 +286,7 @@ module.exports.addNote = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.getAllNotes = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
 
         const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
@@ -312,7 +312,7 @@ module.exports.getAllNotes = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.getNote = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const noteId = req.params.noteId;
 
         const user = await Undergraduate.findById(userId).select('-password');
@@ -322,7 +322,7 @@ module.exports.getNote = catchAsync(async (req, res) => {
 
         const note = user.notes.id(noteId);
         if (!note) {
-            return res.status(400).json({ error: "note not found" });
+            return res.status(404).json({ error: "note not found" });
         }
 
         res.status(200).json(note);
@@ -339,7 +339,7 @@ module.exports.getNote = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.editNote = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { noteId, newTitle, newContent } = req.body;
 
         const updatedUser = await Undergraduate.findOneAndUpdate(
@@ -356,7 +356,7 @@ module.exports.editNote = catchAsync(async (req, res) => {
             return res.status(400).json({ error: "update faiiled" });
         }
 
-        res.status(200).json(updatedUser.notes);
+        res.status(201).json(updatedUser.notes);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -410,7 +410,7 @@ module.exports.uploadResultSheetAndAddResult = catchAsync(async (req, res) => {
         }
 
         await session.commitTransaction();
-        res.status(200).json(results);
+        res.status(201).json(results);
 
     } catch (err) {
         await session.abortTransaction();
@@ -513,7 +513,7 @@ module.exports.addInternStatus = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.updateInternStatus = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { companyId, newStatus } = req.body;
 
         const user = await Undergraduate.findById(userId);
@@ -544,7 +544,7 @@ module.exports.updateInternStatus = catchAsync(async (req, res) => {
             return res.status(400).json({ error: "update failed" });
         }
 
-        res.status(200).json(updatedUser.internStatus);
+        res.status(201).json(updatedUser.internStatus);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -553,20 +553,24 @@ module.exports.updateInternStatus = catchAsync(async (req, res) => {
 
 // Method: GET
 // Endpoint: "/assign-supervisor/:undergraduateId"
-// Description: Send companies and supervisors for assign-supervisor form
+// Description: get companies and supervisors for assign-supervisor form
 // User: admin
 module.exports.assignSupervisorGET = catchAsync(async (req, res) => {
     try {
         const userId = req.params.undergraduateId;
 
         const user = await Undergraduate.findById(userId).select("-password");
-        const companies = await Company.find();
-        const supervisors = await Supervisor.find();
         if (!user) {
-            return res.status(400).json({ error: "undergraduate not found!" });
+            return res.status(404).json({ error: "undergraduate not found!" });
         }
-        console.log(companies, supervisors);
-        res.status(200).json({ companies, supervisors });
+
+        const company = await Company.findById(user.internship.company).populate('supervisors');
+        if (!company) {
+            return res.status(404).json({ error: "company not found!" });
+        }
+
+        console.log(company);
+        res.status(200).json({ user, company });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -578,34 +582,49 @@ module.exports.assignSupervisorGET = catchAsync(async (req, res) => {
 // Description: Assign a supervisor for undergraduate
 // User: admin
 module.exports.assignSupervisorPATCH = catchAsync(async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
         const userId = req.params.undergraduateId;
         const { supervisorId } = req.body;
 
-        const user = await Undergraduate.findById(userId).select("-password");
+        const user = await Undergraduate.findById(userId).select("-password").session(session);
         if (!user) {
-            return res.status(400).json({ error: "undergraduate not found!" });
+            await session.abortTransaction();
+            return res.status(404).json({ error: "undergraduate not found!" });
         }
+        console.log(user.name);
 
-        if (user.supervisor) {
-            return res.status(400).json({ error: "User already assigned to a sipervisor", supervisor: user.supervisor });
-        }
-
-        const supervisor = await Supervisor.findById(supervisorId);
+        const supervisor = await Supervisor.findById(supervisorId).session(session);
         if (!supervisor) {
-            return res.status(400).json({ error: "supervisor not found" });
+            await session.abortTransaction();
+            return res.status(404).json({ error: "supervisor not found" });
         }
+        console.log(supervisor);
 
-        const assignment = await user.updateOne({ supervisor }, { new: true });
-        if (!assignment) {
-            return res.status(400).json({ error: "error happen when updating user" })
-        }
+        user.supervisor = supervisor._id;
+
+
+        const currentInterns = supervisor.interns.filter((id) => {
+            return !id.equals(user._id);
+        });
+
+        currentInterns.push(user);
+        supervisor.interns = currentInterns;
+
+        await user.save({ session });
+        await supervisor.save({ session });
+
+        await session.commitTransaction();
 
         console.log(user);
-        res.status(200).json({ message: "assigned supervisor successfully", user });
+        res.status(201).json({ message: "assigned supervisor successfully", supervisor });
     } catch (err) {
+        await session.abortTransaction();
         console.log(err);
         res.status(500).json(err);
+    } finally {
+        session.endSession();
     }
 });
 
@@ -614,22 +633,27 @@ module.exports.assignSupervisorPATCH = catchAsync(async (req, res) => {
 // Description: Update intern start date and end date, then generate empty weekly reports
 // User: undergraduate
 module.exports.updateInternship = catchAsync(async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { companyId, jobRole, type, internshipStart, internshipEnd } = req.body;
 
-        const user = await Undergraduate.findById(userId);
-        const company = await Company.findById(companyId);
+        const user = await Undergraduate.findById(userId).session(session);
+        const company = await Company.findById(companyId).session(session);
         if (!user) {
-            return res.status(400).json({ error: "user not found!" });
+            await session.abortTransaction();
+            return res.status(404).json({ error: "user not found!" });
         }
 
         if (!internshipStart || !internshipEnd) {
+            await session.abortTransaction();
             return res.status(400).json({ error: "Please add intern start date and end date" });
         }
 
         if (!company) {
-            return res.status(400).json({ error: "company not found!" });
+            await session.abortTransaction();
+            return res.status(404).json({ error: "company not found!" });
         }
 
         // Generate empty weekly reports for the intern
@@ -733,15 +757,26 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
         user.internship.type = type;
         user.weeklyReports = emptyWeeklyReports;
         user.monthlyReports = emptyMonthlyReports;
+        const companyInterns = company.interns;
+        companyInterns.push(user);
 
-        await user.save();
-        res.status(200).json({ message: "internship update successfully", candidate });
+        await user.save({ session });
+        await company.save({ session });
+
+        await session.commitTransaction();
+
+        res.status(201).json({ message: "internship update successfully", candidate });
 
     } catch (err) {
+        await session.abortTransaction();
         console.log(err);
         res.status(500).json(err);
+    } finally {
+        session.endSession();
     }
 });
+
+// ############################## Daily Reports ##############################
 
 // Method: GET
 // Endpoint: "/view-all-daily-reports"
@@ -749,10 +784,10 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.viewAllDailyReports = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         if (user.weeklyReports.length === 0) {
@@ -772,11 +807,11 @@ module.exports.viewAllDailyReports = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.viewDailyReport = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const weekNo = parseInt(req.params.weekNo);
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         if (user.weeklyReports.length === 0) {
@@ -798,14 +833,14 @@ module.exports.viewDailyReport = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.editDailyReport = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         // const weekNo = parseInt(req.params.weekNo);
         const { weekNo, dayNo, reportContent } = req.body;
         // const dayNo = parseInt(req.body.dayNumber);
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         if (user.weeklyReports.length === 0) {
@@ -814,12 +849,12 @@ module.exports.editDailyReport = catchAsync(async (req, res) => {
 
         const weeklyReport = user.weeklyReports.find((report) => report.weekNumber === weekNo);
         if (!weeklyReport) {
-            return res.status(400).json({ error: "weekly report not found" });
+            return res.status(404).json({ error: "weekly report not found" });
         }
 
         const dailyReport = weeklyReport.dailyReports.find((report) => report.dayNumber === dayNo);
         if (!dailyReport) {
-            return res.status(400).json({ error: "daily report not found" });
+            return res.status(404).json({ error: "daily report not found" });
         }
 
         dailyReport.content = reportContent;
@@ -827,7 +862,7 @@ module.exports.editDailyReport = catchAsync(async (req, res) => {
         weeklyReport.reportStatus = 'saved';
         await user.save();
 
-        res.status(200).json({ dailyReport });
+        res.status(201).json({ dailyReport });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -840,12 +875,12 @@ module.exports.editDailyReport = catchAsync(async (req, res) => {
 // User: undergraduate 
 module.exports.editDailyReportProblemSection = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { weekNo, problemContent } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         if (user.weeklyReports.length === 0) {
@@ -854,14 +889,47 @@ module.exports.editDailyReportProblemSection = catchAsync(async (req, res) => {
 
         const weeklyReport = user.weeklyReports.find((report) => report.weekNumber === weekNo);
         if (!weeklyReport) {
-            return res.status(400).json({ error: "weekly report not found" });
+            return res.status(404).json({ error: "weekly report not found" });
         }
 
         weeklyReport.problemSection = problemContent;
         weeklyReport.reportStatus = 'saved';
         await user.save();
 
-        res.status(200).json({ weeklyReport });
+        res.status(201).json({ weeklyReport });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// Method: PATCH
+// Endpoint: "/submit-daily-report"
+// Description: Submit the daily report
+// User: undergraduate 
+module.exports.submitDailyReport = catchAsync(async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { weekNo } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: "user not found" });
+        }
+
+        if (user.weeklyReports.length === 0) {
+            return res.status(400).json({ message: "please set the internship" });
+        }
+
+        const weeklyReport = user.weeklyReports.find((report) => report.weekNumber === weekNo);
+        if (!weeklyReport) {
+            return res.status(404).json({ error: "weekly report not found" });
+        }
+
+        weeklyReport.reportStatus = 'pending';
+        await user.save();
+
+        res.status(201).json({ weeklyReport });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -877,11 +945,11 @@ module.exports.getAllDailyReports = catchAsync(async (req, res) => {
         const undergraduateId = req.params.undergraduateId;
         const undergraduate = await Undergraduate.findById(undergraduateId);
         if (!undergraduate) {
-            return res.status(400).json({ error: "undergraduate not found" });
+            return res.status(404).json({ error: "undergraduate not found" });
         }
 
         if (undergraduate.weeklyReports.length === 0) {
-            return res.status(400).json({ error: "no any reports" });
+            return res.status(404).json({ error: "no any reports" });
         }
 
         res.status(200).json({ dailyReports: undergraduate.weeklyReports });
@@ -902,17 +970,17 @@ module.exports.getDailyReport = catchAsync(async (req, res) => {
 
         const undergraduate = await Undergraduate.findById(undergraduateId);
         if (!undergraduate) {
-            return res.status(400).json({ error: "undergraduate not found" });
+            return res.status(404).json({ error: "undergraduate not found" });
         }
 
         if (undergraduate.weeklyReports.length === 0) {
-            return res.status(400).json({ error: "no daily reports found" });
+            return res.status(404).json({ error: "no daily reports found" });
         }
 
         const report = undergraduate.weeklyReports.findOne((report) => report.weekNumber === weekNo);
 
         if (!report) {
-            return res.status(400).json({ error: "daily report found" });
+            return res.status(404).json({ error: "daily report found" });
         }
 
         res.status(200).json({ weeklyReport: report });
@@ -922,130 +990,258 @@ module.exports.getDailyReport = catchAsync(async (req, res) => {
     }
 });
 
-//Method: GET
-//Endpoint: "/view-all-monthly-reports"
-//Description: View all monthly reports
+// ############################## Monthly Reports ##############################
+
+// Method: GET
+// Endpoint: "/view-all-monthly-reports"
+// Description: View all monthly reports
+// User: undergraduate
 module.exports.viewAllMonthlyReports = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
+        const userId = req.user.id;
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
-        if (user.weeklyReports.length === 0) {
-            return res.status(400).json({ message: "please set the internship" });
+        if (user.monthlyReports.length === 0) {
+            return res.status(400).json({ error: "please set the internship" });
         }
 
-        res.status(200).json({ dailyReports: user.weeklyReports });
+        res.status(200).json({ monthlyReports: user.monthlyReports });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
 
-//Method: GET
-//Endpoint: "/view-monthly-report"
-//Description: View a monthly
+// Method: GET
+// Endpoint: "/view-monthly-report/:monthNo"
+// Description: View a monthly report
+// User: undergraduate
 module.exports.viewMonthlyReport = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const weekNo = req.body.weekNumber;
-        const weekNo = parseInt(req.body.weekNumber);
+        const userId = req.user.id;
+        const monthNo = parseInt(req.params.monthNo);
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
-        if (user.weeklyReports.length === 0) {
-            return res.status(400).json({ message: "please set the internship" });
+        if (user.monthlyReports.length === 0) {
+            return res.status(400).json({ error: "please set the internship" });
         }
 
-        const report = user.weeklyReports.filter((report) => report.weekNumber === weekNo);
+        const report = user.monthlyReports.filter((report) => report.monthNumber === monthNo);
 
-        res.status(200).json({ weeklyReport: report });
+        res.status(200).json({ monthlyReport: report });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
 
-//Method: POST
-//Endpoint: "/edit-monthly-report-week"
-//Description: edit a weekly report in monthly report
-module.exports.editWeeklyReport = catchAsync(async (req, res) => {
+// Method: POST
+// Endpoint: "/edit-monthly-report-week"
+// Description: edit a weekly report in monthly report
+// User: undergraduate
+module.exports.editMonthlyReportWeek = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        const { weekNo, dayNo, reportContent } = req.body;
-        // const weekNo = parseInt(req.body.weekNumber);
-        // const dayNo = parseInt(req.body.dayNumber);
+        const userId = req.user.id;
+        const { weekNo, monthNo, reportContent } = req.body;
+
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
-        if (user.weeklyReports.length === 0) {
-            return res.status(400).json({ message: "please set the internship" });
+        if (user.monthlyReports.length === 0) {
+            return res.status(400).json({ error: "please set the internship" });
         }
 
-        const weeklyReport = user.weeklyReports.find((report) => report.weekNumber === weekNo);
-        if (!weeklyReport) {
-            return res.status(400).json({ error: "weekly report not found" });
+        const monthlyReport = user.monthlyReports.find((report) => report.monthNumber === monthNo);
+        if (!monthlyReport) {
+            return res.status(404).json({ error: "moonthly report not found" });
         }
 
-        const dailyReport = weeklyReport.dailyReports.find((report) => report.dayNumber === dayNo);
+        const weeklyReport = monthlyReport.weeklyReports.find((report) => report.weekNumber === weekNo);
         if (!dailyReport) {
-            return res.status(400).json({ error: "daily report not found" });
+            return res.status(404).json({ error: "weekly report not found" });
         }
 
-        dailyReport.content = reportContent;
-        dailyReport.approvalStatus = 'edited';
-        weeklyReport.reportStatus = 'saved';
+        weeklyReport.content = reportContent;
+        weeklyReport.approvalStatus = 'edited';
+        monthlyReport.reportStatus = 'saved';
         await user.save();
 
-        res.status(200).json({ dailyReport });
+        res.status(201).json({ monthlyReport });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
 
-//Method: POST
-//Endpoint: "/edit-monthly-report-problem-section"
-//Description: 
+// Method: POST
+// Endpoint: "/edit-monthly-report-problem-section"
+// Description: edit monthly report problem encountered and solution section
+// User: undergraduate
 module.exports.editMonthlyProblemSection = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        const { weekNo, problemContent } = req.body;
+        const userId = req.user.id;
+        const { monthNo, problemContent } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(401).json({ error: "user not found" });
         }
 
-        if (user.weeklyReports.length === 0) {
-            return res.status(400).json({ message: "please set the internship" });
+        if (user.monthlyReports.length === 0) {
+            return res.status(400).json({ error: "please set the internship" });
         }
 
-        const weeklyReport = user.weeklyReports.find((report) => report.weekNumber === weekNo);
-        if (!weeklyReport) {
-            return res.status(400).json({ error: "weekly report not found" });
+        const monthlyReport = user.monthlyReports.find((report) => report.monthNumber === monthNo);
+        if (!monthlyReport) {
+            return res.status(401).json({ error: "monthly report not found" });
         }
 
-        weeklyReport.problemSection = problemContent;
-        weeklyReport.reportStatus = 'saved';
+        monthlyReport.problemSection = problemContent;
+        monthlyReport.reportStatus = 'saved';
         await user.save();
 
-        res.status(200).json({ weeklyReport });
+        res.status(201).json({ monthlyReport });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
 
-//Method: POST
-//Endpoint: "/upload-cv"
-//Description: upload the cv as the pdf to local files
+// Method: POST
+// Endpoint: "/edit-monthly-leave-record"
+// Description: edit nomber of leaves in month
+// User: undergraduate
+module.exports.editMonthlyLeaveRecord = catchAsync(async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { monthNo, absentDays } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: "user not found" });
+        }
+
+        if (user.monthlyReports.length === 0) {
+            return res.status(400).json({ error: "please set the internship" });
+        }
+
+        const monthlyReport = user.monthlyReports.find((report) => report.monthNumber === monthNo);
+        if (!monthlyReport) {
+            return res.status(404).json({ error: "monthly report not found" });
+        }
+
+        monthlyReport.leaveRecord.absentDays = absentDays;
+        monthlyReport.reportStatus = 'saved';
+        await user.save();
+
+        res.status(201).json({ monthlyReport });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// Method: PATCH
+// Endpoint: "/submit-monthly-report"
+// Description: edit nomber of leaves in month
+// User: undergraduate
+module.exports.submitMonthlyReport = catchAsync(async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { monthNo } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: "user not found" });
+        }
+
+        if (user.monthlyReports.length === 0) {
+            return res.status(400).json({ error: "please set the internship" });
+        }
+
+        const monthlyReport = user.monthlyReports.find((report) => report.monthNumber === monthNo);
+        if (!monthlyReport) {
+            return res.status(404).json({ error: "monthly report not found" });
+        }
+
+        monthlyReport.reportStatus = 'pending';
+        await user.save();
+
+        res.status(201).json({ monthlyReport });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// Method: GET
+// Endpoint: "/get-all-monthly-reports/:undergraduateId"
+// Description: View all monthly reports
+// User: admin
+module.exports.getAllMonthlyReports = catchAsync(async (req, res) => {
+    try {
+        const undergraduateId = req.params.undergraduateId;
+        const undergraduate = await Undergraduate.findById(undergraduateId);
+        if (!undergraduate) {
+            return res.status(404).json({ error: "undergraduate not found" });
+        }
+
+        if (undergraduate.monthlyReports.length === 0) {
+            return res.status(404).json({ error: "no any monthly reports" });
+        }
+
+        res.status(200).json({ monthlyReports: undergraduate.monthlyReports });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// Method: GET
+// Endpoint: "/get-monthly-report/:undergraduateId/month/:monthNo"
+// Description: View monthly a report
+// User: admin
+module.exports.getMonthlyReport = catchAsync(async (req, res) => {
+    try {
+        const undergraduateId = req.params.undergraduateId;
+        const monthNo = parseInt(req.params.monthNo);
+
+        const undergraduate = await Undergraduate.findById(undergraduateId);
+        if (!undergraduate) {
+            return res.status(404).json({ error: "undergraduate not found" });
+        }
+
+        if (undergraduate.monthlyReports.length === 0) {
+            return res.status(404).json({ error: "no any monthly reports found" });
+        }
+
+        const report = undergraduate.monthlyReports.findOne((report) => report.monthNumber === monthNo);
+
+        if (!report) {
+            return res.status(404).json({ error: "monthly report found" });
+        }
+
+        res.status(200).json({ monthlyReport: report });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// ############################## CV Application / Additional Information ##############################
+
+// Method: POST
+// Endpoint: "/upload-cv"
+// Description: upload the cv as the pdf to local files
+// User: undergraduate
 module.exports.uploadCV = catchAsync(async (req, res) => {
     try {
         const filePath = `files/pdf/${req.file.filename}`;
@@ -1055,7 +1251,7 @@ module.exports.uploadCV = catchAsync(async (req, res) => {
             console.log('not uploaded');
         }
 
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
 
         const user = await Undergraduate.findByIdAndUpdate(
             userId,
@@ -1064,11 +1260,11 @@ module.exports.uploadCV = catchAsync(async (req, res) => {
         );
 
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         console.log('success');
-        res.status(200).json({
+        res.status(201).json({
             user,
             message: "CV uploaded successfully"
         });
@@ -1078,38 +1274,18 @@ module.exports.uploadCV = catchAsync(async (req, res) => {
     }
 })
 
-//Method: POST
-//Endpoint: "/update-additional-information"
-//Description: Update the profile with additional information about undergraduate
-module.exports.updateAdditionalInformation = catchAsync(async (req, res) => {
-    try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
-        const { addInfo } = req.body;
-
-        const user = await Undergraduate.findById(userId);
-        if (!user) {
-            return res.status(400).json({ error: "user not found" });
-        }
-
-    } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
-    }
-});
-
-//Method: POST
-//Endpoint: "/soft-skill"
-//Description: Update the profile with additional information about undergraduate
+// Method: POST
+// Endpoint: "/soft-skill"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.addSoftSkill = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { skill } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const softSkills = user.additionalInformation.softSkills
@@ -1125,56 +1301,56 @@ module.exports.addSoftSkill = catchAsync(async (req, res) => {
         user.additionalInformation.softSkills = softSkills;
         user.save();
 
-        res.status(200).json({ softSkills: user.additionalInformation.softSkills });
+        res.status(201).json({ softSkills: user.additionalInformation.softSkills });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
 
-//Method: DELETE
-//Endpoint: "/soft-skill"
-//Description: Update the profile with additional information about undergraduate
+// Method: DELETE
+// Endpoint: "/soft-skill"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.deleteSoftSkill = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { skill } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const softSkills = user.additionalInformation.softSkills;
         const skillIndex = softSkills.indexOf(skill);
         if (skillIndex === -1) {
-            return res.status(400).json({ error: "soft skill not found" });
+            return res.status(404).json({ error: "soft skill not found" });
         }
 
         softSkills.splice(skillIndex, 1);
         user.additionalInformation.softSkills = softSkills;
         user.save();
 
-        res.status(200).json({ softSkills: user.additionalInformation.softSkills });
+        res.status(203).json({ softSkills: user.additionalInformation.softSkills });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
 
-//Method: POST
-//Endpoint: "/technology-skill"
-//Description: Update the profile with additional information about undergraduate
+// Method: POST
+// Endpoint: "/technology-skill"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.addTechnologySkill = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { name, level } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const technologies = user.additionalInformation.technologies;
@@ -1184,56 +1360,56 @@ module.exports.addTechnologySkill = catchAsync(async (req, res) => {
         user.additionalInformation.technologies = existTechnologies;
         user.save();
 
-        res.status(200).json({ technologies: user.additionalInformation.technologies });
+        res.status(201).json({ technologies: user.additionalInformation.technologies });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 })
 
-//Method: DELETE
-//Endpoint: "/technology-skill"
-//Description: Update the profile with additional information about undergraduate
+// Method: DELETE
+// Endpoint: "/technology-skill"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.deleteTechnologySkill = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { name } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const technologies = user.additionalInformation.technologies;
         const skillIndex = technologies.findIndex((tech) => { return tech.name === name });
         if (skillIndex === -1) {
-            return res.status(400).json({ error: "technology skill not found" });
+            return res.status(404).json({ error: "technology skill not found" });
         }
 
         technologies.splice(skillIndex, 1);
         user.additionalInformation.technologies = technologies;
         user.save();
 
-        res.status(200).json({ technologies: user.additionalInformation.technologies });
+        res.status(203).json({ technologies: user.additionalInformation.technologies });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
 
-//Method: POST
-//Endpoint: "/certifications"
-//Description: Update the profile with additional information about undergraduate
+// Method: POST
+// Endpoint: "/certifications"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.addCertifications = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { name, issuedBy } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const certifications = user.additionalInformation.certifications;
@@ -1243,56 +1419,56 @@ module.exports.addCertifications = catchAsync(async (req, res) => {
         user.additionalInformation.certifications = existCertifications;
         user.save();
 
-        res.status(200).json({ certifications: user.additionalInformation.certifications });
+        res.status(201).json({ certifications: user.additionalInformation.certifications });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 })
 
-//Method: DELETE
-//Endpoint: "/certifications"
-//Description: Update the profile with additional information about undergraduate
+// Method: DELETE
+// Endpoint: "/certifications"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.deleteCertifications = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { name } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const certifications = user.additionalInformation.certifications;
         const certificationIndex = certifications.findIndex((c) => { return c.name === name });
         if (certificationIndex === -1) {
-            return res.status(400).json({ error: "certification not found" });
+            return res.status(404).json({ error: "certification not found" });
         }
 
         certifications.splice(certificationIndex, 1);
         user.additionalInformation.certifications = certifications;
         user.save();
 
-        res.status(200).json({ certifications: user.additionalInformation.certifications });
+        res.status(203).json({ certifications: user.additionalInformation.certifications });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
 
-//Method: POST
-//Endpoint: "/extra-activities"
-//Description: Update the profile with additional information about undergraduate
+// Method: POST
+// Endpoint: "/extra-activities"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.addExtraActivities = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { name, year, description } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const extraActivities = user.additionalInformation.extraActivities;
@@ -1302,56 +1478,56 @@ module.exports.addExtraActivities = catchAsync(async (req, res) => {
         user.additionalInformation.extraActivities = existExtraActivities;
         user.save();
 
-        res.status(200).json({ extraActivities: user.additionalInformation.extraActivities });
+        res.status(201).json({ extraActivities: user.additionalInformation.extraActivities });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 })
 
-//Method: DELETE
-//Endpoint: "/extra-activities"
-//Description: Update the profile with additional information about undergraduate
+// Method: DELETE
+// Endpoint: "/extra-activities"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.deleteExtraActivities = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { name } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const extraActivities = user.additionalInformation.extraActivities;
         const extraActivitiesIndex = extraActivities.findIndex((a) => { return a.name === name });
         if (extraActivitiesIndex === -1) {
-            return res.status(400).json({ error: "extra activity not found" });
+            return res.status(404).json({ error: "extra activity not found" });
         }
 
         extraActivities.splice(extraActivitiesIndex, 1);
         user.additionalInformation.extraActivities = extraActivities;
         user.save();
 
-        res.status(200).json({ extraActivities: user.additionalInformation.extraActivities });
+        res.status(203).json({ extraActivities: user.additionalInformation.extraActivities });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
 
-//Method: POST
-//Endpoint: "/projects"
-//Description: Update the profile with additional information about undergraduate
+// Method: POST
+// Endpoint: "/projects"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.addProject = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { name, year, description, languages, links } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const projects = user.additionalInformation.projects;
@@ -1361,56 +1537,56 @@ module.exports.addProject = catchAsync(async (req, res) => {
         user.additionalInformation.projects = existProjects;
         user.save();
 
-        res.status(200).json({ projects: user.additionalInformation.projects });
+        res.status(201).json({ projects: user.additionalInformation.projects });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 })
 
-//Method: DELETE
-//Endpoint: "/projects"
-//Description: Update the profile with additional information about undergraduate
+// Method: DELETE
+// Endpoint: "/projects"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.deleteProject = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { name } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const projects = user.additionalInformation.projects;
         const projectsIndex = projects.findIndex((a) => { return a.name === name });
         if (projectsIndex === -1) {
-            return res.status(400).json({ error: "project not found" });
+            return res.status(404).json({ error: "project not found" });
         }
 
         projects.splice(projectsIndex, 1);
         user.additionalInformation.projects = projects;
         user.save();
 
-        res.status(200).json({ projects: user.additionalInformation.projects });
+        res.status(203).json({ projects: user.additionalInformation.projects });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
 
-//Method: POST
-//Endpoint: "/english-skill"
-//Description: Update the profile with additional information about undergraduate
+// Method: POST
+// Endpoint: "/english-skill"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.addEnglishSkill = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { odinaryLevel, advancedLevel, level01, level02, courses } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         user.additionalInformation.englishSkill = {
@@ -1423,24 +1599,24 @@ module.exports.addEnglishSkill = catchAsync(async (req, res) => {
 
         user.save();
 
-        res.status(200).json({ englishSkill: user.additionalInformation.englishSkill });
+        res.status(201).json({ englishSkill: user.additionalInformation.englishSkill });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
     }
 });
 
-//Method: GET
-//Endpoint: "/additional-information"
-//Description: Update the profile with additional information about undergraduate
+// Method: GET
+// Endpoint: "/additional-information"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.getAdditionalInformation = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        const userId = req.user.id;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         res.status(200).json({ additionalInformation: user.additionalInformation });
@@ -1449,3 +1625,162 @@ module.exports.getAdditionalInformation = catchAsync(async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+
+// ############################## Progress Report ##############################
+
+// Method: POST
+// Endpoint: "/progress-report/:internId"
+// Description: add the progress report for industrial training
+// User: supervisor
+module.exports.addProgressReport = catchAsync(async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await Supervisor.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: "user not found" });
+        }
+
+        const internId = req.params.internId;
+        const { establishment, startDate, endDate, comments, leaves, status } = req.body;
+        // comments = {conduct, attendance, attitude}
+        // leaves = {total, authorized, unauthorized}
+        // status = 'saved' or 'submitted'
+
+        const intern = await Undergraduate.findById(internId);
+        if (!intern) {
+            return res.status(404).json({ error: "intern not found" });
+        }
+
+
+        if (!intern.supervisor === user._id) {
+            return res.status(400).json({ error: "this intern is not assigned to you" });
+        }
+
+        intern.progressReport.establishment = establishment;
+        intern.progressReport.trainingPeriod.startDate = startDate;
+        intern.progressReport.trainingPeriod.endDate = endDate;
+        intern.progressReport.comments.conduct = comments.conduct;
+        intern.progressReport.comments.attitude = comments.attitude;
+        intern.progressReport.comments.attendance = comments.attendance;
+        intern.progressReport.leaves.total = leaves.total;
+        intern.progressReport.leaves.authorized = leaves.authorized;
+        intern.progressReport.leaves.unauthorized = leaves.unauthorized;
+        intern.progressReport.signatureOfSupervisor = intern.supervisor;
+        intern.progressReport.reportStatus = status;
+
+        await intern.save();
+
+
+        res.status(201).json({ progressReport: intern.progressReport });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// Method: GET
+// Endpoint: "/progress-report/:internId"
+// Description: get the progress report for industrial training
+// User: supervisor, admin, undergraduate
+module.exports.getProgressReport = catchAsync(async (req, res) => {
+    try {
+        const internId = req.params.internId;
+
+        const intern = await Undergraduate.findById(internId);
+        if (!intern) {
+            return res.status(404).json({ error: "intern not found" });
+        }
+
+        res.status(200).json({ progressReport: intern.progressReport });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// ############################## Final Feedback ##############################
+
+// Method: POST
+// Endpoint: "/final-feedback/:internId"
+// Description: add the final feedback report for industrial training
+// User: supervisor
+module.exports.addFinalFeedback = catchAsync(async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await Supervisor.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: "user not found" });
+        }
+
+        const internId = req.params.internId;
+        const {
+            attendanceAndPunctuality,
+            communicationSkills,
+            practicalApplication,
+            problemSolvingSkills,
+            multiPerspectiveView,
+            teamWork,
+            leadership,
+            attitudeAndBehavior,
+            ethicalBehavior,
+            overallPerformance,
+            feedback
+        } = req.body;
+        // all rating values must be 1, 2, 3 or 4
+        // feedback must be a String
+
+        const intern = await Undergraduate.findById(internId);
+        if (!intern) {
+            return res.status(404).json({ error: "intern not found" });
+        }
+
+
+        if (!intern.supervisor === user._id) {
+            return res.status(400).json({ error: "this intern is not assigned to you" });
+        }
+
+        intern.finalFeedback.rating = {
+            attendanceAndPunctuality,
+            communicationSkills,
+            practicalApplication,
+            problemSolvingSkills,
+            multiPerspectiveView,
+            teamWork,
+            leadership,
+            attitudeAndBehavior,
+            ethicalBehavior,
+            overallPerformance,
+        };
+        intern.finalFeedback.feedback = feedback;
+
+        await intern.save();
+
+
+        res.status(201).json({ finalFeedback: intern.finalFeedback });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// Method: GET
+// Endpoint: "/final-feedback/:internId"
+// Description: get the final feedback report for industrial training
+// User: supervisor, admin
+module.exports.getFinalFeedback = catchAsync(async (req, res) => {
+    try {
+        const internId = req.params.internId;
+
+        const intern = await Undergraduate.findById(internId);
+        if (!intern) {
+            return res.status(400).json({ error: "intern not found" });
+        }
+
+        res.status(200).json({ finalFeedback: intern.finalFeedback });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+

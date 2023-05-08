@@ -20,15 +20,7 @@ router.route('/update-undergraduate-profile')
 router.route('/view-all-undergraduates')
     .get(undergraduateController.viewAllUndergraduates)
 
-router.route('/view-intern-list')
-    .get(undergraduateController.viewInternList)
-
-router.route('/company-selection')
-    .get(undergraduateController.getCompanySelection)
-    .patch(undergraduateController.updateCompanySelection)
-
-router.route('/undergraduate-dashboard')
-    .get(checkUser, undergraduateController.undergraduateDashboard)
+// ############################## Private Notes ##############################
 
 router.route('/add-note')
     .post(undergraduateController.addNote)
@@ -41,6 +33,18 @@ router.route('/get-note/:noteId')
 
 router.route('/edit-note')
     .patch(undergraduateController.editNote)
+
+// ############################## Intern Process ##############################
+
+router.route('/view-intern-list')
+    .get(undergraduateController.viewInternList)
+
+router.route('/company-selection')
+    .get(undergraduateController.getCompanySelection)
+    .patch(undergraduateController.updateCompanySelection)
+
+router.route('/undergraduate-dashboard')
+    .get(checkUser, undergraduateController.undergraduateDashboard)
 
 router.route('/upload-resultsheet')
     .post(excelsheetUpload, undergraduateController.uploadResultSheetAndAddResult)
@@ -62,6 +66,8 @@ router.route('/assign-supervisor/:undergraduateId')
 router.route('/update-internship')
     .patch(undergraduateController.updateInternship)
 
+// ############################## Daily Reports ##############################
+
 router.route('/view-all-daily-reports')
     .get(undergraduateController.viewAllDailyReports)
 
@@ -74,11 +80,42 @@ router.route('/edit-daily-report')
 router.route('/edit-weekly-report-problem-section')
     .post(undergraduateController.editDailyReportProblemSection)
 
+router.route('/submit-daily-report')
+    .patch(undergraduateController.submitDailyReport)
+
 router.route('/get-all-daily-reports/:undergraduateId')
     .get(undergraduateController.getAllDailyReports)
 
 router.route('/get-daily-report/:undergraduateId/week/:weekNo')
     .get(undergraduateController.getDailyReport)
+
+// ############################## Monthly Reports ##############################
+
+router.route('/view-all-monthly-reports')
+    .get(undergraduateController.viewAllMonthlyReports)
+
+router.route('/view-monthly-report/:monthNo')
+    .get(undergraduateController.viewMonthlyReport);
+
+router.route('/edit-monthly-report-week')
+    .post(undergraduateController.editMonthlyReportWeek)
+
+router.route('/edit-monthly-report-problem-section')
+    .post(undergraduateController.editMonthlyProblemSection)
+
+router.route('/edit-monthly-leave-record')
+    .post(undergraduateController.editMonthlyLeaveRecord)
+
+router.route('/submit-monthly-report')
+    .patch(undergraduateController.submitMonthlyReport)
+
+router.route('/get-all-monthly-reports/:undergraduateId')
+    .get(undergraduateController.getAllMonthlyReports)
+
+router.route('/get-monthly-report/:undergraduateId/month/:monthNo')
+    .get(undergraduateController.getDailyReport)
+
+// ############################## CV Application ##############################
 
 router.route('/upload-cv')
     .post(cvUpload, undergraduateController.uploadCV)
@@ -108,5 +145,18 @@ router.route('/english-skill')
 
 router.route('/additional-information')
     .get(undergraduateController.getAdditionalInformation)
+
+// ############################## Progress Report ##############################
+
+router.route('progress-report/:internId')
+    .post(undergraduateController.addProgressReport)
+    .get(undergraduateController.getProgressReport)
+
+// ############################## Final Feedback ##############################
+
+router.route('final-feedback/:internId')
+    .post(undergraduateController.addFinalFeedback)
+    .get(undergraduateController.getFinalFeedback)
+
 
 module.exports = router;

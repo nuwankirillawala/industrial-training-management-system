@@ -97,21 +97,21 @@ const undergraduateSchema = new mongoose.Schema({
                 hosted: { type: String },
             },
         }],
-        englishSkill:{
-            odinaryLevel: {type: String},
-            advancedLevel: {type: String},
-            level01: {type: String},
-            level02: {type: String},
+        englishSkill: {
+            odinaryLevel: { type: String },
+            advancedLevel: { type: String },
+            level01: { type: String },
+            level02: { type: String },
             courses: [{
-                name: {type: String},
-                offeredBy: {type: String},
-                grade: {type: String}
+                name: { type: String },
+                offeredBy: { type: String },
+                grade: { type: String }
             }],
         },
     },
     companySelection: {
         choice01: {
-            companyId: {
+            company: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: Company
             },
@@ -120,7 +120,7 @@ const undergraduateSchema = new mongoose.Schema({
             }
         },
         choice02: {
-            companyId: {
+            company: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: Company
             },
@@ -129,7 +129,7 @@ const undergraduateSchema = new mongoose.Schema({
             }
         },
         choice03: {
-            companyId: {
+            company: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: Company
             },
@@ -138,7 +138,7 @@ const undergraduateSchema = new mongoose.Schema({
             }
         },
         choice04: {
-            companyId: {
+            company: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: Company
             },
@@ -147,7 +147,7 @@ const undergraduateSchema = new mongoose.Schema({
             }
         },
         choice05: {
-            companyId: {
+            company: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: Company
             },
@@ -193,7 +193,7 @@ const undergraduateSchema = new mongoose.Schema({
     },
     supervisor: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: Supervisor
+        ref: "Supervisor"
     },
     weeklyReports: [{
         weekNumber: {
@@ -231,6 +231,9 @@ const undergraduateSchema = new mongoose.Schema({
             type: String,
             default: 'empty',
             enum: ['empty', 'saved', 'submitted']
+        },
+        reportPDF: {
+            type: String
         }
     }],
     monthlyReports: [{
@@ -271,7 +274,7 @@ const undergraduateSchema = new mongoose.Schema({
             absentDays: {
                 type: Number
             },
-            spprovalStatus: {
+            approvalStatus: {
                 type: String,
                 enum: ['approved', 'not-approved', 'pending', 'empty']
             }
@@ -280,9 +283,23 @@ const undergraduateSchema = new mongoose.Schema({
             type: String,
             default: 'empty',
             enum: ['empty', 'saved', 'submitted']
+        },
+        reportPDF: {
+            type: String
         }
     }],
     progressReport: {
+        establishment: {
+            type: String
+        },
+        trainingPeriod: {
+            startDate: {
+                type: Date
+            },
+            endDate: {
+                type: Date
+            }
+        },
         comments: {
             conduct: {
                 type: String
@@ -305,13 +322,73 @@ const undergraduateSchema = new mongoose.Schema({
                 type: Number
             }
         },
+        signatureOfSupervisor: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: Supervisor
+        },
+        reportStatus: {
+            type: String,
+            enum: ['saved', 'submitted']
+        },
+        reportPDF: {
+            type: String
+        }
+    },
+    finalFeedback: {
+        rating: {
+            attendanceAndPunctuality: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            communicationSkills: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            practicalApplication: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            problemSolvingSkills: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            multiPerspectiveView: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            teamWork: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            leadership: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            attitudeAndBehavior: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            ethicalBehavior: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+            overallPerformance: {
+                type: Number,
+                enum: [1, 2, 3, 4]
+            },
+        },
+        feedback: {
+            type: String
+        }
     }
 });
 
 // encrypt user password
 undergraduateSchema.pre('save', async function (next) {
-    const salt = await bcrypt.genSalt();
-    this.password = await bcrypt.hash(this.password, salt);
+    if (this.password) {
+        const salt = await bcrypt.genSalt();
+        this.password = bcrypt.hash(this.password, salt);
+    }
     next();
 });
 

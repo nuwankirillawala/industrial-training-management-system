@@ -1,41 +1,58 @@
 const jwt = require('jsonwebtoken');
-const dotenv =  require('dotenv');
+const dotenv = require('dotenv');
 
 dotenv.config();
 
-//check current user
+// check current user
 
-const checkUser = (req, res, next) =>
- {
-    // console.log('request', req);
-    const token = req.cookies.jwt;
+const checkUser = (req, res, next) => {
+    let token;
+
+    // 1) check for the JWT token
+    req.cookies?.jwt ? (token = req.cookies.jwt) : token = null;
+    // const token = req.cookies.jwt
+
     console.log('jwt token', token);
-    if (token) {
-        jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
-            if (err) {
-                console.log({'err': err.message});
-                res.locals.user = null;
-                next();
-            } else {
-                console.log({'decodedToken': decodedToken});
-                const user = {
-                    id: decodedToken.id,
-                    role: decodedToken.role,
-                };
-                console.log(user);
-                
-                if(!user){
-                    res.locals.user = null;
-                }
-                
-                res.locals.user = user;
-                next();
-            }
-        })
-    } else {
+
+    if (!token) {
+        const error = new Error("You are not logged in! Please login again")
+        error.status = 401;
         res.locals.user = null;
+        return next(error);
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, async (error, currentUser) => {
+        if (error) {
+            console.log({ 'error': error.message });
+            res.locals.user = null;
+
+            const error = new Error("user is not available")
+            error.status = 401;
+            return next(error);
+        }
+        const user = {
+            id: currentUser.id,
+            role: currentUser.role,
+        };
+
+        req.user = user;
+        res.locals.user = user;
+        next();
+    })
+
+}
+
+// restrict routes to users
+const restrictedTo = (...roles) => {
+    return (req, res, next) => {
+        // roles = ['system-admin', 'department-coordinator', 'supervisor', 'undergraduate', 'alumni']
+        if (!roles.includes(req.user.role)) {
+            const error = new Error("You don't have permission to perform this action!")
+            error.status = 403;
+            return next(error);
+        }
         next();
     }
 }
 
-module.exports = { checkUser };
+module.exports = { checkUser, restrictedTo };

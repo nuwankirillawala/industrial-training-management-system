@@ -23,8 +23,9 @@ const supervisorSchema = new mongoose.Schema({
         type: String
     },
     company: {
+        // type: String,
         type: mongoose.Schema.Types.ObjectId,
-        ref: Company,
+        ref: 'Company',
         required: [true, 'Please enter the company']
     },
     jobRole: {
@@ -34,7 +35,11 @@ const supervisorSchema = new mongoose.Schema({
         type: String,
         require: [true, 'Please enter a password'],
         minlength: [6, 'Minimum password length is 6']
-    }
+    },
+    interns: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Undergraduate'
+    }]
 });
 
 // encrypt user password
