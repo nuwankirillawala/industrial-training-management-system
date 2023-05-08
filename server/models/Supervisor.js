@@ -23,8 +23,9 @@ const supervisorSchema = new mongoose.Schema({
         type: String
     },
     company: {
+        // type: String,
         type: mongoose.Schema.Types.ObjectId,
-        ref: Company,
+        ref: 'Company',
         required: [true, 'Please enter the company']
     },
     jobRole: {
