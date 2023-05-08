@@ -13,14 +13,12 @@ const data = [
 const SupervisorList = () => {
   //State for selected company
   const [selectedCompany, setSelectedCompany] = useState("");
-  //End of state for selected company
+
   //state for the company list
   const [companyList, setCompanyList] = useState([]);
-  //end of state for the company list
 
   //state for the supervisor list
   const [supervisorList, setSupervisorList] = useState([]);
-  //End of state for the supervisor list
 
   //state for errors
   const [errorDetails, setErrorDetails] = useState("");
