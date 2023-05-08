@@ -12,10 +12,11 @@ const AssignSupervisorForIntern = () => {
   const [selectedStudent, setSelectedStudent] = useState("");
 
   //State for fetched company list
-  const [companyList, setCompanyList] = useState([]);
+  // const [companyList, setCompanyList] = useState([]);
   //End of state
 
   //Fetching data
+  //function for get intern student list
   const getStudentList = async () => {
     try {
       const res = await axios.get(
@@ -32,15 +33,17 @@ const AssignSupervisorForIntern = () => {
     }
   };
 
-  const getCompanyList = async () => {
+  //function for get company and supervisor details
+  const getSupervisor = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/v1/company/intern-process-company-list"
+        `http://localhost:5000/api/v1/undergraduate/assign-supervisor/${selectedStudent}`
       );
       if (res.status === 200) {
-        // console.log(res.data.data);
-        setCompanyList(res.data.data);
-      } else console.log(res.message);
+        console.log(res.body);
+      } else {
+        console.log(res.message);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -48,14 +51,19 @@ const AssignSupervisorForIntern = () => {
 
   useEffect(() => {
     getStudentList();
-    getCompanyList();
   }, []);
+
+  useEffect(() => {
+    getSupervisor();
+  }, [selectedStudent]);
   //End of fetching data
 
   //Handle cellclick fuction
   const handleCellClick = (key) => {
     console.log(`Cell clicked: ${key}`);
-    setSelectedStudent(key);
+    let id = studentList.find((item) => item.regNo === key)._id;
+    // console.log(id);
+    setSelectedStudent(id);
     // console.log(selectedStudent);
   };
   //End of handle cellClick function
@@ -72,11 +80,11 @@ const AssignSupervisorForIntern = () => {
       headerName: "Student Name",
       editable: false,
     },
-    {
-      field: "company",
-      headerName: "Company assigned",
-      editable: false,
-    },
+    // {
+    //   field: "company",
+    //   headerName: "Company assigned",
+    //   editable: false,
+    // },
     {
       field: "assign",
       headerName: "Supervisor assign",
@@ -86,8 +94,8 @@ const AssignSupervisorForIntern = () => {
           variant="itms"
           size="itms-small"
           // disabled={params.row.company === null ? true : false}
-          disabled="true"
-          onClick={() => handleCellClick(params.row.company)}
+          // disabled
+          onClick={() => handleCellClick(params.row.regNo)}
         >
           assign
         </Button>
