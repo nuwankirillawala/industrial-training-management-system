@@ -48,7 +48,7 @@ module.exports.getUndergraduate = catchAsync(async (req, res) => {
         const user = await Undergraduate.findById(userId).select('-password');
 
         if (!user) {
-            res.status(400).json({ error: "user not found!" })
+            res.status(404).json({ error: "user not found!" })
         }
         else {
             res.status(200).json({ user });
@@ -65,16 +65,15 @@ module.exports.getUndergraduate = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.viewUndergraduateProfile = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         console.log(userId);
         const user = await Undergraduate.findById(userId).select('-password');
 
         if (!user) {
-            res.status(400).json({ error: "user not found!" })
+            return res.status(404).json({ error: "user not found!" })
         }
-        else {
-            res.status(200).json(user);
-        }
+
+        res.status(200).json(user);
     } catch (err) {
         console.log(err);
         res.status(500).json({ err })
@@ -87,7 +86,7 @@ module.exports.viewUndergraduateProfile = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { email, contactNo, linkdinURL, githubURL, internStatus } = req.body;
 
         const filePath = `files/images/${req.file.filename}`;
@@ -114,7 +113,7 @@ module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
             return res.status(400).json({ error: "user not found" });
         }
 
-        res.status(200).json(user);
+        res.status(201).json(user);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -127,7 +126,7 @@ module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.undergraduateDashboard = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id
+        const userId = req.user.id;
 
         const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
@@ -197,7 +196,7 @@ module.exports.getCompanySelection = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.updateCompanySelection = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { choice01, choice02, choice03, choice04, choice05 } = req.body; // choice01 = {company, jobRole}
 
         const foundCompany01 = await Company.findById(choice01.company);
@@ -207,7 +206,7 @@ module.exports.updateCompanySelection = catchAsync(async (req, res) => {
         const foundCompany05 = await Company.findById(choice05.company);
 
         if (!foundCompany01 || !foundCompany02 || !foundCompany03 || !foundCompany04 || !foundCompany05) {
-            return res.status(400).json({ error: "company not found" });
+            return res.status(404).json({ error: "company not found" });
         }
 
         // check user inputs are unique or not
@@ -241,7 +240,7 @@ module.exports.updateCompanySelection = catchAsync(async (req, res) => {
             return res.status(400).json({ error: "update failed" });
         }
 
-        res.status(200).json(updatedUser);
+        res.status(201).json(updatedUser);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -254,7 +253,7 @@ module.exports.updateCompanySelection = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.addNote = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { title, content } = req.body;
 
         if (!content) {
@@ -274,7 +273,7 @@ module.exports.addNote = catchAsync(async (req, res) => {
             return res.status(400).json({ error: "user not found!" });
         }
 
-        res.status(200).json({ notes: user.notes });
+        res.status(201).json({ notes: user.notes });
     } catch (err) {
         res.status(500).json(err);
     }
@@ -286,7 +285,7 @@ module.exports.addNote = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.getAllNotes = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
 
         const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
@@ -312,7 +311,7 @@ module.exports.getAllNotes = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.getNote = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const noteId = req.params.noteId;
 
         const user = await Undergraduate.findById(userId).select('-password');
@@ -322,7 +321,7 @@ module.exports.getNote = catchAsync(async (req, res) => {
 
         const note = user.notes.id(noteId);
         if (!note) {
-            return res.status(400).json({ error: "note not found" });
+            return res.status(404).json({ error: "note not found" });
         }
 
         res.status(200).json(note);
@@ -339,7 +338,7 @@ module.exports.getNote = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.editNote = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { noteId, newTitle, newContent } = req.body;
 
         const updatedUser = await Undergraduate.findOneAndUpdate(
@@ -356,7 +355,7 @@ module.exports.editNote = catchAsync(async (req, res) => {
             return res.status(400).json({ error: "update faiiled" });
         }
 
-        res.status(200).json(updatedUser.notes);
+        res.status(201).json(updatedUser.notes);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -410,7 +409,7 @@ module.exports.uploadResultSheetAndAddResult = catchAsync(async (req, res) => {
         }
 
         await session.commitTransaction();
-        res.status(200).json(results);
+        res.status(201).json(results);
 
     } catch (err) {
         await session.abortTransaction();
@@ -513,7 +512,7 @@ module.exports.addInternStatus = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.updateInternStatus = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { companyId, newStatus } = req.body;
 
         const user = await Undergraduate.findById(userId);
@@ -544,7 +543,7 @@ module.exports.updateInternStatus = catchAsync(async (req, res) => {
             return res.status(400).json({ error: "update failed" });
         }
 
-        res.status(200).json(updatedUser.internStatus);
+        res.status(201).json(updatedUser.internStatus);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -561,12 +560,12 @@ module.exports.assignSupervisorGET = catchAsync(async (req, res) => {
 
         const user = await Undergraduate.findById(userId).select("-password");
         if (!user) {
-            return res.status(400).json({ error: "undergraduate not found!" });
+            return res.status(404).json({ error: "undergraduate not found!" });
         }
 
         const company = await Company.findById(user.internship.company).populate('supervisors');
         if (!company) {
-            return res.status(400).json({ error: "company not found!" });
+            return res.status(404).json({ error: "company not found!" });
         }
 
         console.log(company);
@@ -591,14 +590,14 @@ module.exports.assignSupervisorPATCH = catchAsync(async (req, res) => {
         const user = await Undergraduate.findById(userId).select("-password").session(session);
         if (!user) {
             await session.abortTransaction();
-            return res.status(400).json({ error: "undergraduate not found!" });
+            return res.status(404).json({ error: "undergraduate not found!" });
         }
         console.log(user.name);
 
         const supervisor = await Supervisor.findById(supervisorId).session(session);
         if (!supervisor) {
             await session.abortTransaction();
-            return res.status(400).json({ error: "supervisor not found" });
+            return res.status(404).json({ error: "supervisor not found" });
         }
         console.log(supervisor);
 
@@ -618,7 +617,7 @@ module.exports.assignSupervisorPATCH = catchAsync(async (req, res) => {
         await session.commitTransaction();
 
         console.log(user);
-        res.status(200).json({ message: "assigned supervisor successfully", supervisor });
+        res.status(201).json({ message: "assigned supervisor successfully", supervisor });
     } catch (err) {
         await session.abortTransaction();
         console.log(err);
@@ -636,14 +635,14 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { companyId, jobRole, type, internshipStart, internshipEnd } = req.body;
 
         const user = await Undergraduate.findById(userId).session(session);
         const company = await Company.findById(companyId).session(session);
         if (!user) {
             await session.abortTransaction();
-            return res.status(400).json({ error: "user not found!" });
+            return res.status(404).json({ error: "user not found!" });
         }
 
         if (!internshipStart || !internshipEnd) {
@@ -653,7 +652,7 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
 
         if (!company) {
             await session.abortTransaction();
-            return res.status(400).json({ error: "company not found!" });
+            return res.status(404).json({ error: "company not found!" });
         }
 
         // Generate empty weekly reports for the intern
@@ -765,7 +764,7 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
 
         await session.commitTransaction();
 
-        res.status(200).json({ message: "internship update successfully", candidate });
+        res.status(201).json({ message: "internship update successfully", candidate });
 
     } catch (err) {
         await session.abortTransaction();
@@ -784,10 +783,10 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.viewAllDailyReports = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         if (user.weeklyReports.length === 0) {
@@ -807,11 +806,11 @@ module.exports.viewAllDailyReports = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.viewDailyReport = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const weekNo = parseInt(req.params.weekNo);
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         if (user.weeklyReports.length === 0) {
@@ -833,14 +832,14 @@ module.exports.viewDailyReport = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.editDailyReport = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         // const weekNo = parseInt(req.params.weekNo);
         const { weekNo, dayNo, reportContent } = req.body;
         // const dayNo = parseInt(req.body.dayNumber);
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         if (user.weeklyReports.length === 0) {
@@ -849,12 +848,12 @@ module.exports.editDailyReport = catchAsync(async (req, res) => {
 
         const weeklyReport = user.weeklyReports.find((report) => report.weekNumber === weekNo);
         if (!weeklyReport) {
-            return res.status(400).json({ error: "weekly report not found" });
+            return res.status(404).json({ error: "weekly report not found" });
         }
 
         const dailyReport = weeklyReport.dailyReports.find((report) => report.dayNumber === dayNo);
         if (!dailyReport) {
-            return res.status(400).json({ error: "daily report not found" });
+            return res.status(404).json({ error: "daily report not found" });
         }
 
         dailyReport.content = reportContent;
@@ -862,7 +861,7 @@ module.exports.editDailyReport = catchAsync(async (req, res) => {
         weeklyReport.reportStatus = 'saved';
         await user.save();
 
-        res.status(200).json({ dailyReport });
+        res.status(201).json({ dailyReport });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -875,12 +874,12 @@ module.exports.editDailyReport = catchAsync(async (req, res) => {
 // User: undergraduate 
 module.exports.editDailyReportProblemSection = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { weekNo, problemContent } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         if (user.weeklyReports.length === 0) {
@@ -889,14 +888,14 @@ module.exports.editDailyReportProblemSection = catchAsync(async (req, res) => {
 
         const weeklyReport = user.weeklyReports.find((report) => report.weekNumber === weekNo);
         if (!weeklyReport) {
-            return res.status(400).json({ error: "weekly report not found" });
+            return res.status(404).json({ error: "weekly report not found" });
         }
 
         weeklyReport.problemSection = problemContent;
         weeklyReport.reportStatus = 'saved';
         await user.save();
 
-        res.status(200).json({ weeklyReport });
+        res.status(201).json({ weeklyReport });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -909,12 +908,12 @@ module.exports.editDailyReportProblemSection = catchAsync(async (req, res) => {
 // User: undergraduate 
 module.exports.submitDailyReport = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { weekNo } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         if (user.weeklyReports.length === 0) {
@@ -923,13 +922,13 @@ module.exports.submitDailyReport = catchAsync(async (req, res) => {
 
         const weeklyReport = user.weeklyReports.find((report) => report.weekNumber === weekNo);
         if (!weeklyReport) {
-            return res.status(400).json({ error: "weekly report not found" });
+            return res.status(404).json({ error: "weekly report not found" });
         }
 
         weeklyReport.reportStatus = 'pending';
         await user.save();
 
-        res.status(200).json({ weeklyReport });
+        res.status(201).json({ weeklyReport });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -945,11 +944,11 @@ module.exports.getAllDailyReports = catchAsync(async (req, res) => {
         const undergraduateId = req.params.undergraduateId;
         const undergraduate = await Undergraduate.findById(undergraduateId);
         if (!undergraduate) {
-            return res.status(400).json({ error: "undergraduate not found" });
+            return res.status(404).json({ error: "undergraduate not found" });
         }
 
         if (undergraduate.weeklyReports.length === 0) {
-            return res.status(400).json({ error: "no any reports" });
+            return res.status(404).json({ error: "no any reports" });
         }
 
         res.status(200).json({ dailyReports: undergraduate.weeklyReports });
@@ -970,17 +969,17 @@ module.exports.getDailyReport = catchAsync(async (req, res) => {
 
         const undergraduate = await Undergraduate.findById(undergraduateId);
         if (!undergraduate) {
-            return res.status(400).json({ error: "undergraduate not found" });
+            return res.status(404).json({ error: "undergraduate not found" });
         }
 
         if (undergraduate.weeklyReports.length === 0) {
-            return res.status(400).json({ error: "no daily reports found" });
+            return res.status(404).json({ error: "no daily reports found" });
         }
 
         const report = undergraduate.weeklyReports.findOne((report) => report.weekNumber === weekNo);
 
         if (!report) {
-            return res.status(400).json({ error: "daily report found" });
+            return res.status(404).json({ error: "daily report found" });
         }
 
         res.status(200).json({ weeklyReport: report });
@@ -998,10 +997,10 @@ module.exports.getDailyReport = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.viewAllMonthlyReports = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         if (user.monthlyReports.length === 0) {
@@ -1021,11 +1020,11 @@ module.exports.viewAllMonthlyReports = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.viewMonthlyReport = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const monthNo = parseInt(req.params.monthNo);
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         if (user.monthlyReports.length === 0) {
@@ -1047,12 +1046,12 @@ module.exports.viewMonthlyReport = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.editMonthlyReportWeek = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { weekNo, monthNo, reportContent } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         if (user.monthlyReports.length === 0) {
@@ -1061,12 +1060,12 @@ module.exports.editMonthlyReportWeek = catchAsync(async (req, res) => {
 
         const monthlyReport = user.monthlyReports.find((report) => report.monthNumber === monthNo);
         if (!monthlyReport) {
-            return res.status(400).json({ error: "moonthly report not found" });
+            return res.status(404).json({ error: "moonthly report not found" });
         }
 
         const weeklyReport = monthlyReport.weeklyReports.find((report) => report.weekNumber === weekNo);
         if (!dailyReport) {
-            return res.status(400).json({ error: "weekly report not found" });
+            return res.status(404).json({ error: "weekly report not found" });
         }
 
         weeklyReport.content = reportContent;
@@ -1074,7 +1073,7 @@ module.exports.editMonthlyReportWeek = catchAsync(async (req, res) => {
         monthlyReport.reportStatus = 'saved';
         await user.save();
 
-        res.status(200).json({ monthlyReport });
+        res.status(201).json({ monthlyReport });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -1087,12 +1086,12 @@ module.exports.editMonthlyReportWeek = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.editMonthlyProblemSection = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { monthNo, problemContent } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(401).json({ error: "user not found" });
         }
 
         if (user.monthlyReports.length === 0) {
@@ -1101,14 +1100,14 @@ module.exports.editMonthlyProblemSection = catchAsync(async (req, res) => {
 
         const monthlyReport = user.monthlyReports.find((report) => report.monthNumber === monthNo);
         if (!monthlyReport) {
-            return res.status(400).json({ error: "monthly report not found" });
+            return res.status(401).json({ error: "monthly report not found" });
         }
 
         monthlyReport.problemSection = problemContent;
         monthlyReport.reportStatus = 'saved';
         await user.save();
 
-        res.status(200).json({ monthlyReport });
+        res.status(201).json({ monthlyReport });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -1121,12 +1120,12 @@ module.exports.editMonthlyProblemSection = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.editMonthlyLeaveRecord = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { monthNo, absentDays } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         if (user.monthlyReports.length === 0) {
@@ -1135,14 +1134,14 @@ module.exports.editMonthlyLeaveRecord = catchAsync(async (req, res) => {
 
         const monthlyReport = user.monthlyReports.find((report) => report.monthNumber === monthNo);
         if (!monthlyReport) {
-            return res.status(400).json({ error: "monthly report not found" });
+            return res.status(404).json({ error: "monthly report not found" });
         }
 
         monthlyReport.leaveRecord.absentDays = absentDays;
         monthlyReport.reportStatus = 'saved';
         await user.save();
 
-        res.status(200).json({ monthlyReport });
+        res.status(201).json({ monthlyReport });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -1155,12 +1154,12 @@ module.exports.editMonthlyLeaveRecord = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.submitMonthlyReport = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { monthNo } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         if (user.monthlyReports.length === 0) {
@@ -1169,13 +1168,13 @@ module.exports.submitMonthlyReport = catchAsync(async (req, res) => {
 
         const monthlyReport = user.monthlyReports.find((report) => report.monthNumber === monthNo);
         if (!monthlyReport) {
-            return res.status(400).json({ error: "monthly report not found" });
+            return res.status(404).json({ error: "monthly report not found" });
         }
 
         monthlyReport.reportStatus = 'pending';
         await user.save();
 
-        res.status(200).json({ monthlyReport });
+        res.status(201).json({ monthlyReport });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -1191,11 +1190,11 @@ module.exports.getAllMonthlyReports = catchAsync(async (req, res) => {
         const undergraduateId = req.params.undergraduateId;
         const undergraduate = await Undergraduate.findById(undergraduateId);
         if (!undergraduate) {
-            return res.status(400).json({ error: "undergraduate not found" });
+            return res.status(404).json({ error: "undergraduate not found" });
         }
 
         if (undergraduate.monthlyReports.length === 0) {
-            return res.status(400).json({ error: "no any monthly reports" });
+            return res.status(404).json({ error: "no any monthly reports" });
         }
 
         res.status(200).json({ monthlyReports: undergraduate.monthlyReports });
@@ -1216,17 +1215,17 @@ module.exports.getMonthlyReport = catchAsync(async (req, res) => {
 
         const undergraduate = await Undergraduate.findById(undergraduateId);
         if (!undergraduate) {
-            return res.status(400).json({ error: "undergraduate not found" });
+            return res.status(404).json({ error: "undergraduate not found" });
         }
 
         if (undergraduate.monthlyReports.length === 0) {
-            return res.status(400).json({ error: "no any monthly reports found" });
+            return res.status(404).json({ error: "no any monthly reports found" });
         }
 
         const report = undergraduate.monthlyReports.findOne((report) => report.monthNumber === monthNo);
 
         if (!report) {
-            return res.status(400).json({ error: "monthly report found" });
+            return res.status(404).json({ error: "monthly report found" });
         }
 
         res.status(200).json({ monthlyReport: report });
@@ -1251,7 +1250,7 @@ module.exports.uploadCV = catchAsync(async (req, res) => {
             console.log('not uploaded');
         }
 
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
 
         const user = await Undergraduate.findByIdAndUpdate(
             userId,
@@ -1260,11 +1259,11 @@ module.exports.uploadCV = catchAsync(async (req, res) => {
         );
 
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         console.log('success');
-        res.status(200).json({
+        res.status(201).json({
             user,
             message: "CV uploaded successfully"
         });
@@ -1275,39 +1274,17 @@ module.exports.uploadCV = catchAsync(async (req, res) => {
 })
 
 // Method: POST
-// Endpoint: "/update-additional-information"
-// Description: Update the profile with additional information about undergraduate
-// User: undergraduate
-module.exports.updateAdditionalInformation = catchAsync(async (req, res) => {
-    try {
-        // const userId = req.body.id;
-        const userId = res.locals.user.id;
-        const { addInfo } = req.body;
-
-        const user = await Undergraduate.findById(userId);
-        if (!user) {
-            return res.status(400).json({ error: "user not found" });
-        }
-
-    } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
-    }
-});
-
-// Method: POST
 // Endpoint: "/soft-skill"
 // Description: Update the profile with additional information about undergraduate
 // User: undergraduate
 module.exports.addSoftSkill = catchAsync(async (req, res) => {
     try {
-        // const userId = req.body.id;
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { skill } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const softSkills = user.additionalInformation.softSkills
@@ -1323,7 +1300,7 @@ module.exports.addSoftSkill = catchAsync(async (req, res) => {
         user.additionalInformation.softSkills = softSkills;
         user.save();
 
-        res.status(200).json({ softSkills: user.additionalInformation.softSkills });
+        res.status(201).json({ softSkills: user.additionalInformation.softSkills });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -1336,26 +1313,25 @@ module.exports.addSoftSkill = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.deleteSoftSkill = catchAsync(async (req, res) => {
     try {
-        // const userId = req.body.id;
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { skill } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const softSkills = user.additionalInformation.softSkills;
         const skillIndex = softSkills.indexOf(skill);
         if (skillIndex === -1) {
-            return res.status(400).json({ error: "soft skill not found" });
+            return res.status(404).json({ error: "soft skill not found" });
         }
 
         softSkills.splice(skillIndex, 1);
         user.additionalInformation.softSkills = softSkills;
         user.save();
 
-        res.status(200).json({ softSkills: user.additionalInformation.softSkills });
+        res.status(203).json({ softSkills: user.additionalInformation.softSkills });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -1368,13 +1344,12 @@ module.exports.deleteSoftSkill = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.addTechnologySkill = catchAsync(async (req, res) => {
     try {
-        // const userId = req.body.id;
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { name, level } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const technologies = user.additionalInformation.technologies;
@@ -1384,7 +1359,7 @@ module.exports.addTechnologySkill = catchAsync(async (req, res) => {
         user.additionalInformation.technologies = existTechnologies;
         user.save();
 
-        res.status(200).json({ technologies: user.additionalInformation.technologies });
+        res.status(201).json({ technologies: user.additionalInformation.technologies });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -1397,26 +1372,25 @@ module.exports.addTechnologySkill = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.deleteTechnologySkill = catchAsync(async (req, res) => {
     try {
-        // const userId = req.body.id;
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { name } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const technologies = user.additionalInformation.technologies;
         const skillIndex = technologies.findIndex((tech) => { return tech.name === name });
         if (skillIndex === -1) {
-            return res.status(400).json({ error: "technology skill not found" });
+            return res.status(404).json({ error: "technology skill not found" });
         }
 
         technologies.splice(skillIndex, 1);
         user.additionalInformation.technologies = technologies;
         user.save();
 
-        res.status(200).json({ technologies: user.additionalInformation.technologies });
+        res.status(203).json({ technologies: user.additionalInformation.technologies });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -1429,13 +1403,12 @@ module.exports.deleteTechnologySkill = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.addCertifications = catchAsync(async (req, res) => {
     try {
-        // const userId = req.body.id;
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { name, issuedBy } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const certifications = user.additionalInformation.certifications;
@@ -1445,7 +1418,7 @@ module.exports.addCertifications = catchAsync(async (req, res) => {
         user.additionalInformation.certifications = existCertifications;
         user.save();
 
-        res.status(200).json({ certifications: user.additionalInformation.certifications });
+        res.status(201).json({ certifications: user.additionalInformation.certifications });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -1458,26 +1431,25 @@ module.exports.addCertifications = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.deleteCertifications = catchAsync(async (req, res) => {
     try {
-        // const userId = req.body.id;
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { name } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const certifications = user.additionalInformation.certifications;
         const certificationIndex = certifications.findIndex((c) => { return c.name === name });
         if (certificationIndex === -1) {
-            return res.status(400).json({ error: "certification not found" });
+            return res.status(404).json({ error: "certification not found" });
         }
 
         certifications.splice(certificationIndex, 1);
         user.additionalInformation.certifications = certifications;
         user.save();
 
-        res.status(200).json({ certifications: user.additionalInformation.certifications });
+        res.status(203).json({ certifications: user.additionalInformation.certifications });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -1490,13 +1462,12 @@ module.exports.deleteCertifications = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.addExtraActivities = catchAsync(async (req, res) => {
     try {
-        // const userId = req.body.id;
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { name, year, description } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const extraActivities = user.additionalInformation.extraActivities;
@@ -1506,7 +1477,7 @@ module.exports.addExtraActivities = catchAsync(async (req, res) => {
         user.additionalInformation.extraActivities = existExtraActivities;
         user.save();
 
-        res.status(200).json({ extraActivities: user.additionalInformation.extraActivities });
+        res.status(201).json({ extraActivities: user.additionalInformation.extraActivities });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -1519,26 +1490,25 @@ module.exports.addExtraActivities = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.deleteExtraActivities = catchAsync(async (req, res) => {
     try {
-        // const userId = req.body.id;
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { name } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const extraActivities = user.additionalInformation.extraActivities;
         const extraActivitiesIndex = extraActivities.findIndex((a) => { return a.name === name });
         if (extraActivitiesIndex === -1) {
-            return res.status(400).json({ error: "extra activity not found" });
+            return res.status(404).json({ error: "extra activity not found" });
         }
 
         extraActivities.splice(extraActivitiesIndex, 1);
         user.additionalInformation.extraActivities = extraActivities;
         user.save();
 
-        res.status(200).json({ extraActivities: user.additionalInformation.extraActivities });
+        res.status(203).json({ extraActivities: user.additionalInformation.extraActivities });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -1551,13 +1521,12 @@ module.exports.deleteExtraActivities = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.addProject = catchAsync(async (req, res) => {
     try {
-        // const userId = req.body.id;
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { name, year, description, languages, links } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const projects = user.additionalInformation.projects;
@@ -1567,7 +1536,7 @@ module.exports.addProject = catchAsync(async (req, res) => {
         user.additionalInformation.projects = existProjects;
         user.save();
 
-        res.status(200).json({ projects: user.additionalInformation.projects });
+        res.status(201).json({ projects: user.additionalInformation.projects });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -1580,26 +1549,25 @@ module.exports.addProject = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.deleteProject = catchAsync(async (req, res) => {
     try {
-        // const userId = req.body.id;
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { name } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const projects = user.additionalInformation.projects;
         const projectsIndex = projects.findIndex((a) => { return a.name === name });
         if (projectsIndex === -1) {
-            return res.status(400).json({ error: "project not found" });
+            return res.status(404).json({ error: "project not found" });
         }
 
         projects.splice(projectsIndex, 1);
         user.additionalInformation.projects = projects;
         user.save();
 
-        res.status(200).json({ projects: user.additionalInformation.projects });
+        res.status(203).json({ projects: user.additionalInformation.projects });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -1612,13 +1580,12 @@ module.exports.deleteProject = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.addEnglishSkill = catchAsync(async (req, res) => {
     try {
-        // const userId = req.body.id;
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { odinaryLevel, advancedLevel, level01, level02, courses } = req.body;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         user.additionalInformation.englishSkill = {
@@ -1631,7 +1598,7 @@ module.exports.addEnglishSkill = catchAsync(async (req, res) => {
 
         user.save();
 
-        res.status(200).json({ englishSkill: user.additionalInformation.englishSkill });
+        res.status(201).json({ englishSkill: user.additionalInformation.englishSkill });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -1644,11 +1611,11 @@ module.exports.addEnglishSkill = catchAsync(async (req, res) => {
 // User: undergraduate
 module.exports.getAdditionalInformation = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         res.status(200).json({ additionalInformation: user.additionalInformation });
@@ -1667,10 +1634,10 @@ module.exports.getAdditionalInformation = catchAsync(async (req, res) => {
 // User: supervisor
 module.exports.addProgressReport = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const user = await Supervisor.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const internId = req.params.internId;
@@ -1681,7 +1648,7 @@ module.exports.addProgressReport = catchAsync(async (req, res) => {
 
         const intern = await Undergraduate.findById(internId);
         if (!intern) {
-            return res.status(400).json({ error: "intern not found" });
+            return res.status(404).json({ error: "intern not found" });
         }
 
 
@@ -1704,7 +1671,7 @@ module.exports.addProgressReport = catchAsync(async (req, res) => {
         await intern.save();
 
 
-        res.status(200).json({ progressReport: intern.progressReport });
+        res.status(201).json({ progressReport: intern.progressReport });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -1721,7 +1688,7 @@ module.exports.getProgressReport = catchAsync(async (req, res) => {
 
         const intern = await Undergraduate.findById(internId);
         if (!intern) {
-            return res.status(400).json({ error: "intern not found" });
+            return res.status(404).json({ error: "intern not found" });
         }
 
         res.status(200).json({ progressReport: intern.progressReport });
@@ -1739,10 +1706,10 @@ module.exports.getProgressReport = catchAsync(async (req, res) => {
 // User: supervisor
 module.exports.addFinalFeedback = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const user = await Supervisor.findById(userId);
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         const internId = req.params.internId;
@@ -1764,7 +1731,7 @@ module.exports.addFinalFeedback = catchAsync(async (req, res) => {
 
         const intern = await Undergraduate.findById(internId);
         if (!intern) {
-            return res.status(400).json({ error: "intern not found" });
+            return res.status(404).json({ error: "intern not found" });
         }
 
 
@@ -1789,7 +1756,7 @@ module.exports.addFinalFeedback = catchAsync(async (req, res) => {
         await intern.save();
 
 
-        res.status(200).json({ finalFeedback: intern.finalFeedback });
+        res.status(201).json({ finalFeedback: intern.finalFeedback });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
