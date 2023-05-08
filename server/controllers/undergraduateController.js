@@ -565,10 +565,10 @@ module.exports.assignSupervisorGET = catchAsync(async (req, res) => {
         }
 
         const company = await Company.findById(user.internship.company).populate('supervisors');
-        if(!company){
+        if (!company) {
             return res.status(400).json({ error: "company not found!" });
         }
-        
+
         console.log(company);
         res.status(200).json({ user, company });
     } catch (err) {
@@ -582,37 +582,49 @@ module.exports.assignSupervisorGET = catchAsync(async (req, res) => {
 // Description: Assign a supervisor for undergraduate
 // User: admin
 module.exports.assignSupervisorPATCH = catchAsync(async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
         const userId = req.params.undergraduateId;
         const { supervisorId } = req.body;
 
         const user = await Undergraduate.findById(userId).select("-password");
         if (!user) {
+            await session.abortTransaction();
             return res.status(400).json({ error: "undergraduate not found!" });
         }
         console.log(user.name);
 
-        // if (user.supervisor) {
-        //     return res.status(400).json({ error: "User already assigned to a supervisor", supervisor: user.supervisor });
-        // }
-
         const supervisor = await Supervisor.findById(supervisorId);
         if (!supervisor) {
+            await session.abortTransaction();
             return res.status(400).json({ error: "supervisor not found" });
         }
         console.log(supervisor);
 
         user.supervisor = supervisor._id;
-        supervisor.interns.push(user);
 
-        await user.save();
-        await supervisor.save();
+
+        const currentInterns = supervisor.interns.filter((id) => {
+            return !id.equals(user._id);
+        });
+
+        currentInterns.push(user);
+        supervisor.interns = currentInterns;
+
+        await user.save({ session });
+        await supervisor.save({ session });
+
+        await session.commitTransaction();
 
         console.log(user);
         res.status(200).json({ message: "assigned supervisor successfully", supervisor });
     } catch (err) {
+        await session.abortTransaction();
         console.log(err);
         res.status(500).json(err);
+    } finally {
+        session.endSession();
     }
 });
 
@@ -1652,7 +1664,7 @@ module.exports.addProgressReport = catchAsync(async (req, res) => {
         }
 
         const internId = req.params.internId;
-        const {establishment, startDate, endDate, comments, leaves, status} = req.body;
+        const { establishment, startDate, endDate, comments, leaves, status } = req.body;
         // comments = {conduct, attendance, attitude}
         // leaves = {total, authorized, unauthorized}
         // status = 'saved' or 'submitted'
@@ -1663,10 +1675,10 @@ module.exports.addProgressReport = catchAsync(async (req, res) => {
         }
 
 
-        if(!intern.supervisor === user._id){
-            return res.status(400).json({error: "this intern is not assigned to you"});
+        if (!intern.supervisor === user._id) {
+            return res.status(400).json({ error: "this intern is not assigned to you" });
         }
-        
+
         intern.progressReport.establishment = establishment;
         intern.progressReport.trainingPeriod.startDate = startDate;
         intern.progressReport.trainingPeriod.endDate = endDate;
@@ -1746,10 +1758,10 @@ module.exports.addFinalFeedback = catchAsync(async (req, res) => {
         }
 
 
-        if(!intern.supervisor === user._id){
-            return res.status(400).json({error: "this intern is not assigned to you"});
+        if (!intern.supervisor === user._id) {
+            return res.status(400).json({ error: "this intern is not assigned to you" });
         }
-        
+
         intern.finalFeedback.rating = {
             attendanceAndPunctuality,
             communicationSkills,
@@ -1786,7 +1798,7 @@ module.exports.getFinalFeedback = catchAsync(async (req, res) => {
         if (!intern) {
             return res.status(400).json({ error: "intern not found" });
         }
-        
+
         res.status(200).json({ finalFeedback: intern.finalFeedback });
     } catch (err) {
         console.log(err);
