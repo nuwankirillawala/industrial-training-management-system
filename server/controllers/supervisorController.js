@@ -11,6 +11,7 @@ module.exports.createSupervisor = catchAsync(async (req, res) => {
     try {
         const { name, email, contactNo, company, jobRole, password } = req.body;
         const user = await Supervisor.create({ name, email, contactNo, company, jobRole, password });
+        // company = should be company object id
 
         if(!user){
             return res.status(400).json({error: "supervisor user creation failed"});

@@ -289,7 +289,7 @@ const undergraduateSchema = new mongoose.Schema({
         }
     }],
     progressReport: {
-        nameOfEstablishment: {
+        establishment: {
             type: String
         },
         trainingPeriod: {
@@ -325,6 +325,10 @@ const undergraduateSchema = new mongoose.Schema({
         signatureOfSupervisor: {
             type: mongoose.Schema.Types.ObjectId,
             ref: Supervisor
+        },
+        reportStatus: {
+            type: String,
+            enum: ['saved', 'submitted']
         },
         reportPDF: {
             type: String

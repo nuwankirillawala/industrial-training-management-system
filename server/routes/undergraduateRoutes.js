@@ -20,15 +20,7 @@ router.route('/update-undergraduate-profile')
 router.route('/view-all-undergraduates')
     .get(undergraduateController.viewAllUndergraduates)
 
-router.route('/view-intern-list')
-    .get(undergraduateController.viewInternList)
-
-router.route('/company-selection')
-    .get(undergraduateController.getCompanySelection)
-    .patch(undergraduateController.updateCompanySelection)
-
-router.route('/undergraduate-dashboard')
-    .get(checkUser, undergraduateController.undergraduateDashboard)
+// ############################## Private Notes ##############################
 
 router.route('/add-note')
     .post(undergraduateController.addNote)
@@ -41,6 +33,18 @@ router.route('/get-note/:noteId')
 
 router.route('/edit-note')
     .patch(undergraduateController.editNote)
+
+// ############################## Intern Process ##############################
+
+router.route('/view-intern-list')
+    .get(undergraduateController.viewInternList)
+
+router.route('/company-selection')
+    .get(undergraduateController.getCompanySelection)
+    .patch(undergraduateController.updateCompanySelection)
+
+router.route('/undergraduate-dashboard')
+    .get(checkUser, undergraduateController.undergraduateDashboard)
 
 router.route('/upload-resultsheet')
     .post(excelsheetUpload, undergraduateController.uploadResultSheetAndAddResult)
@@ -98,6 +102,14 @@ router.route('/edit-monthly-report-problem-section')
 
 router.route('/edit-monthly-leave-record')
     .post(undergraduateController.editMonthlyLeaveRecord)
+
+router.route('/get-all-monthly-reports/:undergraduateId')
+    .get(undergraduateController.getAllMonthlyReports)
+
+router.route('/get-monthly-report/:undergraduateId/month/:monthNo')
+    .get(undergraduateController.getDailyReport)
+
+// ############################## CV Application ##############################
 
 router.route('/upload-cv')
     .post(cvUpload, undergraduateController.uploadCV)

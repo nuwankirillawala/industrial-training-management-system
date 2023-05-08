@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { isEmail } = require('validator');
-const Undergraduate = require('../models/Undergraduate');
+const Undergraduate = require('./Undergraduate');
+const Supervisor = require('./Supervisor');
 
 const companySchema = new mongoose.Schema({
     name: {
@@ -60,6 +61,14 @@ const companySchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Undergraduate'
         }
+    }],
+    supervisors: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Supervisor
+    }],
+    interns: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Undergraduate'
     }]
 });
 

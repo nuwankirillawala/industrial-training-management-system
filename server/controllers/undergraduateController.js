@@ -553,20 +553,24 @@ module.exports.updateInternStatus = catchAsync(async (req, res) => {
 
 // Method: GET
 // Endpoint: "/assign-supervisor/:undergraduateId"
-// Description: Send companies and supervisors for assign-supervisor form
+// Description: get companies and supervisors for assign-supervisor form
 // User: admin
 module.exports.assignSupervisorGET = catchAsync(async (req, res) => {
     try {
         const userId = req.params.undergraduateId;
 
         const user = await Undergraduate.findById(userId).select("-password");
-        const companies = await Company.find();
-        const supervisors = await Supervisor.find();
         if (!user) {
             return res.status(400).json({ error: "undergraduate not found!" });
         }
-        console.log(companies, supervisors);
-        res.status(200).json({ companies, supervisors });
+
+        const company = await Company.findById(user.internship.company).populate('supervisors');
+        if(!company){
+            return res.status(400).json({ error: "company not found!" });
+        }
+        
+        console.log(company);
+        res.status(200).json({ user, company });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -733,8 +737,12 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
         user.internship.type = type;
         user.weeklyReports = emptyWeeklyReports;
         user.monthlyReports = emptyMonthlyReports;
+        const companyInterns = company.interns;
+        companyInterns.push(user);
 
         await user.save();
+        await company.save();
+        
         res.status(200).json({ message: "internship update successfully", candidate });
 
     } catch (err) {
@@ -1137,9 +1145,12 @@ module.exports.getMonthlyReport = catchAsync(async (req, res) => {
     }
 });
 
-//Method: POST
-//Endpoint: "/upload-cv"
-//Description: upload the cv as the pdf to local files
+// ############################## CV Application / Additional Information ##############################
+
+// Method: POST
+// Endpoint: "/upload-cv"
+// Description: upload the cv as the pdf to local files
+// User: undergraduate
 module.exports.uploadCV = catchAsync(async (req, res) => {
     try {
         const filePath = `files/pdf/${req.file.filename}`;
@@ -1172,13 +1183,14 @@ module.exports.uploadCV = catchAsync(async (req, res) => {
     }
 })
 
-//Method: POST
-//Endpoint: "/update-additional-information"
-//Description: Update the profile with additional information about undergraduate
+// Method: POST
+// Endpoint: "/update-additional-information"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.updateAdditionalInformation = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        // const userId = req.body.id;
+        const userId = res.locals.user.id;
         const { addInfo } = req.body;
 
         const user = await Undergraduate.findById(userId);
@@ -1192,13 +1204,14 @@ module.exports.updateAdditionalInformation = catchAsync(async (req, res) => {
     }
 });
 
-//Method: POST
-//Endpoint: "/soft-skill"
-//Description: Update the profile with additional information about undergraduate
+// Method: POST
+// Endpoint: "/soft-skill"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.addSoftSkill = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        // const userId = req.body.id;
+        const userId = res.locals.user.id;
         const { skill } = req.body;
 
         const user = await Undergraduate.findById(userId);
@@ -1226,13 +1239,14 @@ module.exports.addSoftSkill = catchAsync(async (req, res) => {
     }
 });
 
-//Method: DELETE
-//Endpoint: "/soft-skill"
-//Description: Update the profile with additional information about undergraduate
+// Method: DELETE
+// Endpoint: "/soft-skill"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.deleteSoftSkill = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        // const userId = req.body.id;
+        const userId = res.locals.user.id;
         const { skill } = req.body;
 
         const user = await Undergraduate.findById(userId);
@@ -1257,13 +1271,14 @@ module.exports.deleteSoftSkill = catchAsync(async (req, res) => {
     }
 });
 
-//Method: POST
-//Endpoint: "/technology-skill"
-//Description: Update the profile with additional information about undergraduate
+// Method: POST
+// Endpoint: "/technology-skill"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.addTechnologySkill = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        // const userId = req.body.id;
+        const userId = res.locals.user.id;
         const { name, level } = req.body;
 
         const user = await Undergraduate.findById(userId);
@@ -1285,13 +1300,14 @@ module.exports.addTechnologySkill = catchAsync(async (req, res) => {
     }
 })
 
-//Method: DELETE
-//Endpoint: "/technology-skill"
-//Description: Update the profile with additional information about undergraduate
+// Method: DELETE
+// Endpoint: "/technology-skill"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.deleteTechnologySkill = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        // const userId = req.body.id;
+        const userId = res.locals.user.id;
         const { name } = req.body;
 
         const user = await Undergraduate.findById(userId);
@@ -1316,13 +1332,14 @@ module.exports.deleteTechnologySkill = catchAsync(async (req, res) => {
     }
 });
 
-//Method: POST
-//Endpoint: "/certifications"
-//Description: Update the profile with additional information about undergraduate
+// Method: POST
+// Endpoint: "/certifications"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.addCertifications = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        // const userId = req.body.id;
+        const userId = res.locals.user.id;
         const { name, issuedBy } = req.body;
 
         const user = await Undergraduate.findById(userId);
@@ -1344,13 +1361,14 @@ module.exports.addCertifications = catchAsync(async (req, res) => {
     }
 })
 
-//Method: DELETE
-//Endpoint: "/certifications"
-//Description: Update the profile with additional information about undergraduate
+// Method: DELETE
+// Endpoint: "/certifications"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.deleteCertifications = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        // const userId = req.body.id;
+        const userId = res.locals.user.id;
         const { name } = req.body;
 
         const user = await Undergraduate.findById(userId);
@@ -1375,13 +1393,14 @@ module.exports.deleteCertifications = catchAsync(async (req, res) => {
     }
 });
 
-//Method: POST
-//Endpoint: "/extra-activities"
-//Description: Update the profile with additional information about undergraduate
+// Method: POST
+// Endpoint: "/extra-activities"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.addExtraActivities = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        // const userId = req.body.id;
+        const userId = res.locals.user.id;
         const { name, year, description } = req.body;
 
         const user = await Undergraduate.findById(userId);
@@ -1403,13 +1422,14 @@ module.exports.addExtraActivities = catchAsync(async (req, res) => {
     }
 })
 
-//Method: DELETE
-//Endpoint: "/extra-activities"
-//Description: Update the profile with additional information about undergraduate
+// Method: DELETE
+// Endpoint: "/extra-activities"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.deleteExtraActivities = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        // const userId = req.body.id;
+        const userId = res.locals.user.id;
         const { name } = req.body;
 
         const user = await Undergraduate.findById(userId);
@@ -1434,13 +1454,14 @@ module.exports.deleteExtraActivities = catchAsync(async (req, res) => {
     }
 });
 
-//Method: POST
-//Endpoint: "/projects"
-//Description: Update the profile with additional information about undergraduate
+// Method: POST
+// Endpoint: "/projects"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.addProject = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        // const userId = req.body.id;
+        const userId = res.locals.user.id;
         const { name, year, description, languages, links } = req.body;
 
         const user = await Undergraduate.findById(userId);
@@ -1462,13 +1483,14 @@ module.exports.addProject = catchAsync(async (req, res) => {
     }
 })
 
-//Method: DELETE
-//Endpoint: "/projects"
-//Description: Update the profile with additional information about undergraduate
+// Method: DELETE
+// Endpoint: "/projects"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.deleteProject = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        // const userId = req.body.id;
+        const userId = res.locals.user.id;
         const { name } = req.body;
 
         const user = await Undergraduate.findById(userId);
@@ -1493,13 +1515,14 @@ module.exports.deleteProject = catchAsync(async (req, res) => {
     }
 });
 
-//Method: POST
-//Endpoint: "/english-skill"
-//Description: Update the profile with additional information about undergraduate
+// Method: POST
+// Endpoint: "/english-skill"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.addEnglishSkill = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        // const userId = req.body.id;
+        const userId = res.locals.user.id;
         const { odinaryLevel, advancedLevel, level01, level02, courses } = req.body;
 
         const user = await Undergraduate.findById(userId);
@@ -1524,13 +1547,13 @@ module.exports.addEnglishSkill = catchAsync(async (req, res) => {
     }
 });
 
-//Method: GET
-//Endpoint: "/additional-information"
-//Description: Update the profile with additional information about undergraduate
+// Method: GET
+// Endpoint: "/additional-information"
+// Description: Update the profile with additional information about undergraduate
+// User: undergraduate
 module.exports.getAdditionalInformation = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
-        // const userId = res.locals.user.id;
+        const userId = res.locals.user.id;
 
         const user = await Undergraduate.findById(userId);
         if (!user) {
