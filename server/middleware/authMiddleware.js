@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-//check current user
+// check current user
 
 const checkUser = (req, res, next) => {
     let token;
@@ -40,16 +40,17 @@ const checkUser = (req, res, next) => {
 
 }
 
+// restrict routes to users
 const restrictedTo = (...roles) => {
     return (req, res, next) => {
         // roles = ['system-admin', 'department-coordinator', 'supervisor', 'undergraduate', 'alumni']
         if (!roles.includes(req.user.role)) {
             const error = new Error("You don't have permission to perform this action!")
-            error.status = 403; // forbidden
+            error.status = 403;
             return next(error);
         }
         next();
     }
 }
 
-module.exports = { checkUser };
+module.exports = { checkUser, restrictedTo };

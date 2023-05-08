@@ -593,7 +593,7 @@ module.exports.assignSupervisorPATCH = catchAsync(async (req, res) => {
         console.log(user.name);
 
         // if (user.supervisor) {
-        //     return res.status(400).json({ error: "User already assigned to a sipervisor", supervisor: user.supervisor });
+        //     return res.status(400).json({ error: "User already assigned to a supervisor", supervisor: user.supervisor });
         // }
 
         const supervisor = await Supervisor.findById(supervisorId);
@@ -604,7 +604,7 @@ module.exports.assignSupervisorPATCH = catchAsync(async (req, res) => {
 
         user.supervisor = supervisor._id;
         supervisor.interns.push(user);
-        
+
         await user.save();
         await supervisor.save();
 
@@ -881,6 +881,39 @@ module.exports.editDailyReportProblemSection = catchAsync(async (req, res) => {
     }
 });
 
+// Method: PATCH
+// Endpoint: "/submit-daily-report"
+// Description: Submit the daily report
+// User: undergraduate 
+module.exports.submitDailyReport = catchAsync(async (req, res) => {
+    try {
+        const userId = res.locals.user.id;
+        const { weekNo } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        if (user.weeklyReports.length === 0) {
+            return res.status(400).json({ message: "please set the internship" });
+        }
+
+        const weeklyReport = user.weeklyReports.find((report) => report.weekNumber === weekNo);
+        if (!weeklyReport) {
+            return res.status(400).json({ error: "weekly report not found" });
+        }
+
+        weeklyReport.reportStatus = 'pending';
+        await user.save();
+
+        res.status(200).json({ weeklyReport });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
 // Method: GET
 // Endpoint: "/get-all-daily-reports/:undergraduateId"
 // Description: View all daily reports weekly vise
@@ -1085,6 +1118,39 @@ module.exports.editMonthlyLeaveRecord = catchAsync(async (req, res) => {
 
         monthlyReport.leaveRecord.absentDays = absentDays;
         monthlyReport.reportStatus = 'saved';
+        await user.save();
+
+        res.status(200).json({ monthlyReport });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// Method: PATCH
+// Endpoint: "/submit-monthly-report"
+// Description: edit nomber of leaves in month
+// User: undergraduate
+module.exports.submitMonthlyReport = catchAsync(async (req, res) => {
+    try {
+        const userId = res.locals.user.id;
+        const { monthNo } = req.body;
+
+        const user = await Undergraduate.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        if (user.monthlyReports.length === 0) {
+            return res.status(400).json({ error: "please set the internship" });
+        }
+
+        const monthlyReport = user.monthlyReports.find((report) => report.monthNumber === monthNo);
+        if (!monthlyReport) {
+            return res.status(400).json({ error: "monthly report not found" });
+        }
+
+        monthlyReport.reportStatus = 'pending';
         await user.save();
 
         res.status(200).json({ monthlyReport });
@@ -1569,3 +1635,162 @@ module.exports.getAdditionalInformation = catchAsync(async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+
+// ############################## Progress Report ##############################
+
+// Method: POST
+// Endpoint: "/progress-report/:internId"
+// Description: add the progress report for industrial training
+// User: supervisor
+module.exports.addProgressReport = catchAsync(async (req, res) => {
+    try {
+        const userId = res.locals.user.id;
+        const user = await Supervisor.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        const internId = req.params.internId;
+        const {establishment, startDate, endDate, comments, leaves, status} = req.body;
+        // comments = {conduct, attendance, attitude}
+        // leaves = {total, authorized, unauthorized}
+        // status = 'saved' or 'submitted'
+
+        const intern = await Undergraduate.findById(internId);
+        if (!intern) {
+            return res.status(400).json({ error: "intern not found" });
+        }
+
+
+        if(!intern.supervisor === user._id){
+            return res.status(400).json({error: "this intern is not assigned to you"});
+        }
+        
+        intern.progressReport.establishment = establishment;
+        intern.progressReport.trainingPeriod.startDate = startDate;
+        intern.progressReport.trainingPeriod.endDate = endDate;
+        intern.progressReport.comments.conduct = comments.conduct;
+        intern.progressReport.comments.attitude = comments.attitude;
+        intern.progressReport.comments.attendance = comments.attendance;
+        intern.progressReport.leaves.total = leaves.total;
+        intern.progressReport.leaves.authorized = leaves.authorized;
+        intern.progressReport.leaves.unauthorized = leaves.unauthorized;
+        intern.progressReport.signatureOfSupervisor = intern.supervisor;
+        intern.progressReport.reportStatus = status;
+
+        await intern.save();
+
+
+        res.status(200).json({ progressReport: intern.progressReport });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// Method: GET
+// Endpoint: "/progress-report/:internId"
+// Description: get the progress report for industrial training
+// User: supervisor, admin, undergraduate
+module.exports.getProgressReport = catchAsync(async (req, res) => {
+    try {
+        const internId = req.params.internId;
+
+        const intern = await Undergraduate.findById(internId);
+        if (!intern) {
+            return res.status(400).json({ error: "intern not found" });
+        }
+
+        res.status(200).json({ progressReport: intern.progressReport });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// ############################## Final Feedback ##############################
+
+// Method: POST
+// Endpoint: "/final-feedback/:internId"
+// Description: add the final feedback report for industrial training
+// User: supervisor
+module.exports.addFinalFeedback = catchAsync(async (req, res) => {
+    try {
+        const userId = res.locals.user.id;
+        const user = await Supervisor.findById(userId);
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        const internId = req.params.internId;
+        const {
+            attendanceAndPunctuality,
+            communicationSkills,
+            practicalApplication,
+            problemSolvingSkills,
+            multiPerspectiveView,
+            teamWork,
+            leadership,
+            attitudeAndBehavior,
+            ethicalBehavior,
+            overallPerformance,
+            feedback
+        } = req.body;
+        // all rating values must be 1, 2, 3 or 4
+        // feedback must be a String
+
+        const intern = await Undergraduate.findById(internId);
+        if (!intern) {
+            return res.status(400).json({ error: "intern not found" });
+        }
+
+
+        if(!intern.supervisor === user._id){
+            return res.status(400).json({error: "this intern is not assigned to you"});
+        }
+        
+        intern.finalFeedback.rating = {
+            attendanceAndPunctuality,
+            communicationSkills,
+            practicalApplication,
+            problemSolvingSkills,
+            multiPerspectiveView,
+            teamWork,
+            leadership,
+            attitudeAndBehavior,
+            ethicalBehavior,
+            overallPerformance,
+        };
+        intern.finalFeedback.feedback = feedback;
+
+        await intern.save();
+
+
+        res.status(200).json({ finalFeedback: intern.finalFeedback });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// Method: GET
+// Endpoint: "/final-feedback/:internId"
+// Description: get the final feedback report for industrial training
+// User: supervisor, admin
+module.exports.getFinalFeedback = catchAsync(async (req, res) => {
+    try {
+        const internId = req.params.internId;
+
+        const intern = await Undergraduate.findById(internId);
+        if (!intern) {
+            return res.status(400).json({ error: "intern not found" });
+        }
+        
+        res.status(200).json({ finalFeedback: intern.finalFeedback });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+

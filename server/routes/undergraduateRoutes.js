@@ -80,6 +80,9 @@ router.route('/edit-daily-report')
 router.route('/edit-weekly-report-problem-section')
     .post(undergraduateController.editDailyReportProblemSection)
 
+router.route('/submit-daily-report')
+    .patch(undergraduateController.submitDailyReport)
+
 router.route('/get-all-daily-reports/:undergraduateId')
     .get(undergraduateController.getAllDailyReports)
 
@@ -102,6 +105,9 @@ router.route('/edit-monthly-report-problem-section')
 
 router.route('/edit-monthly-leave-record')
     .post(undergraduateController.editMonthlyLeaveRecord)
+
+router.route('/submit-monthly-report')
+    .patch(undergraduateController.submitMonthlyReport)
 
 router.route('/get-all-monthly-reports/:undergraduateId')
     .get(undergraduateController.getAllMonthlyReports)
@@ -139,5 +145,18 @@ router.route('/english-skill')
 
 router.route('/additional-information')
     .get(undergraduateController.getAdditionalInformation)
+
+// ############################## Progress Report ##############################
+
+router.route('progress-report/:internId')
+    .post(undergraduateController.addProgressReport)
+    .get(undergraduateController.getProgressReport)
+
+// ############################## Final Feedback ##############################
+
+router.route('final-feedback/:internId')
+    .post(undergraduateController.addFinalFeedback)
+    .get(undergraduateController.getFinalFeedback)
+
 
 module.exports = router;
