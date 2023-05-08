@@ -588,14 +588,14 @@ module.exports.assignSupervisorPATCH = catchAsync(async (req, res) => {
         const userId = req.params.undergraduateId;
         const { supervisorId } = req.body;
 
-        const user = await Undergraduate.findById(userId).select("-password");
+        const user = await Undergraduate.findById(userId).select("-password").session(session);
         if (!user) {
             await session.abortTransaction();
             return res.status(400).json({ error: "undergraduate not found!" });
         }
         console.log(user.name);
 
-        const supervisor = await Supervisor.findById(supervisorId);
+        const supervisor = await Supervisor.findById(supervisorId).session(session);
         if (!supervisor) {
             await session.abortTransaction();
             return res.status(400).json({ error: "supervisor not found" });
@@ -633,21 +633,26 @@ module.exports.assignSupervisorPATCH = catchAsync(async (req, res) => {
 // Description: Update intern start date and end date, then generate empty weekly reports
 // User: undergraduate
 module.exports.updateInternship = catchAsync(async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
         const userId = res.locals.user.id;
         const { companyId, jobRole, type, internshipStart, internshipEnd } = req.body;
 
-        const user = await Undergraduate.findById(userId);
-        const company = await Company.findById(companyId);
+        const user = await Undergraduate.findById(userId).session(session);
+        const company = await Company.findById(companyId).session(session);
         if (!user) {
+            await session.abortTransaction();
             return res.status(400).json({ error: "user not found!" });
         }
 
         if (!internshipStart || !internshipEnd) {
+            await session.abortTransaction();
             return res.status(400).json({ error: "Please add intern start date and end date" });
         }
 
         if (!company) {
+            await session.abortTransaction();
             return res.status(400).json({ error: "company not found!" });
         }
 
@@ -755,14 +760,19 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
         const companyInterns = company.interns;
         companyInterns.push(user);
 
-        await user.save();
-        await company.save();
+        await user.save({ session });
+        await company.save({ session });
+
+        await session.commitTransaction();
 
         res.status(200).json({ message: "internship update successfully", candidate });
 
     } catch (err) {
+        await session.abortTransaction();
         console.log(err);
         res.status(500).json(err);
+    } finally {
+        session.endSession();
     }
 });
 
