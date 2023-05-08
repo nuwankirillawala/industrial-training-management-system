@@ -590,23 +590,26 @@ module.exports.assignSupervisorPATCH = catchAsync(async (req, res) => {
         if (!user) {
             return res.status(400).json({ error: "undergraduate not found!" });
         }
+        console.log(user.name);
 
-        if (user.supervisor) {
-            return res.status(400).json({ error: "User already assigned to a sipervisor", supervisor: user.supervisor });
-        }
+        // if (user.supervisor) {
+        //     return res.status(400).json({ error: "User already assigned to a sipervisor", supervisor: user.supervisor });
+        // }
 
         const supervisor = await Supervisor.findById(supervisorId);
         if (!supervisor) {
             return res.status(400).json({ error: "supervisor not found" });
         }
+        console.log(supervisor);
 
-        const assignment = await user.updateOne({ supervisor }, { new: true });
-        if (!assignment) {
-            return res.status(400).json({ error: "error happen when updating user" })
-        }
+        user.supervisor = supervisor._id;
+        supervisor.interns.push(user);
+        
+        await user.save();
+        await supervisor.save();
 
         console.log(user);
-        res.status(200).json({ message: "assigned supervisor successfully", user });
+        res.status(200).json({ message: "assigned supervisor successfully", supervisor });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -742,7 +745,7 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
 
         await user.save();
         await company.save();
-        
+
         res.status(200).json({ message: "internship update successfully", candidate });
 
     } catch (err) {

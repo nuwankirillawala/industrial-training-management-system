@@ -193,7 +193,7 @@ const undergraduateSchema = new mongoose.Schema({
     },
     supervisor: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: Supervisor
+        ref: "Supervisor"
     },
     weeklyReports: [{
         weekNumber: {
@@ -377,7 +377,7 @@ const undergraduateSchema = new mongoose.Schema({
                 enum: [1, 2, 3, 4]
             },
         },
-        feedback:{
+        feedback: {
             type: String
         }
     }
@@ -385,8 +385,10 @@ const undergraduateSchema = new mongoose.Schema({
 
 // encrypt user password
 undergraduateSchema.pre('save', async function (next) {
-    const salt = await bcrypt.genSalt();
-    this.password = await bcrypt.hash(this.password, salt);
+    if (this.password) {
+        const salt = await bcrypt.genSalt();
+        this.password = bcrypt.hash(this.password, salt);
+    }
     next();
 });
 
