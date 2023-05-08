@@ -54,7 +54,7 @@ const InternProcessCompany = () => {
 
   const handleSave = async () => {
     console.log(company, selectedStudents);
-    const res = await axios.post("http://localhost:5000/api/v1/company/update-company-intern-application-list", { companyId: company._id, candidateList: selectedStudents }, { withCredentials: true })
+    const res = await axios.post("http://localhost:5000/api/v1/company/intern-process-company", { companyId: company._id, candidateList: selectedStudents }, { withCredentials: true })
     if (res) {
       setDialogData(res.data);
       setDialogOpen(true);

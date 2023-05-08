@@ -5,13 +5,13 @@ const catchAsync = require("../utils/catchAsync");
 const quickSortByWGPA = require('../utils/quickSortByWGPA');
 
 
-// Method = POST
-// Endpoint = "/create-company"
-// Description = create a company
+// Method: POST
+// Endpoint: "/create-company"
+// Description: create a company
+// User: Admin
 module.exports.createCompany = catchAsync(async (req, res) => {
     try {
         const { name, email, contactNo, address, internSeats, description, connectedForIntern } = req.body;
-        //const {criteria01} = req.body.rating;
         const company = await Company.create({ name, email, contactNo, address, internSeats, description, connectedForIntern });
         res.status(201).json({ company: company._id });
     } catch (err) {
@@ -21,9 +21,10 @@ module.exports.createCompany = catchAsync(async (req, res) => {
     }
 });
 
-// Method = POST
-// Endpoint = "//:companyID/add-contact-person"
-// Description = add a contact person for a company
+// Method: POST
+// Endpoint: "//:companyID/add-contact-person"
+// Description: add a contact person for a company
+// User: Admin
 module.exports.addContactPerson = catchAsync(async (req, res) => {
     try {
         const contactPersonData = req.body;
@@ -54,9 +55,10 @@ module.exports.addContactPerson = catchAsync(async (req, res) => {
     }
 });
 
-// Method = PATCH
-// Endpoint = "/:companyID/edit-rating"
-// Description = edit company ratings
+// Method: PATCH
+// Endpoint: "/:companyID/edit-rating"
+// Description: edit company ratings
+// User: Admin, Alumni
 module.exports.editCompanyRating = catchAsync(async (req, res) => {
     try {
         const companyID = req.params.companyID;
@@ -78,6 +80,7 @@ module.exports.editCompanyRating = catchAsync(async (req, res) => {
 // Method: GET
 // Endpoint: "/intern-process-company-list"
 // Description: View companies that select for intern application process
+// User: Admin, Undergraduate
 module.exports.internProcessCompanyList = catchAsync(async (req, res) => {
     try {
         const companyList = await Company.find({ connectedForIntern: true });
@@ -88,9 +91,10 @@ module.exports.internProcessCompanyList = catchAsync(async (req, res) => {
 
         // res.status(200).json({companyList});
         res.status(200).json({
-            status : "success",
-            length : companyList.length,
-            data : companyList});
+            status: "success",
+            length: companyList.length,
+            data: companyList
+        });
     } catch (err) {
         res.status(500).json(err);
     }
@@ -99,6 +103,7 @@ module.exports.internProcessCompanyList = catchAsync(async (req, res) => {
 // Method: PATCH
 // Endpoint: "/intern-process"
 // Description: Create a intern lists
+// User: Admin
 module.exports.internProcess = catchAsync(async (req, res) => {
     try {
         const candidates = await Undergraduate.find().populate('companySelection01');
@@ -109,7 +114,7 @@ module.exports.internProcess = catchAsync(async (req, res) => {
             const candidate = weightedGPAList[i];
 
             // check company slection is done by candidate // may be unnessasry
-            if(!candidate.companySelection01){
+            if (!candidate.companySelection01) {
                 console.log('user not enter company selection');
                 continue;
             }
@@ -136,7 +141,7 @@ module.exports.internProcess = catchAsync(async (req, res) => {
                     }
                     console.log(doc);
                 })
-            } 
+            }
             // check candidate for second selection
             else if (company02.applicationList.length < company02.applicationListSize) {
                 company02.applicationList.push({ candidate: candidate._id });
@@ -146,7 +151,7 @@ module.exports.internProcess = catchAsync(async (req, res) => {
                     }
                     console.log(doc);
                 })
-            } 
+            }
             // check candidate for third selection
             else if (company03.applicationList.length < company03.applicationListSize) {
                 company03.applicationList.push({ candidate: candidate._id });
@@ -168,49 +173,78 @@ module.exports.internProcess = catchAsync(async (req, res) => {
 
 // Method: GET
 // Endpoint: "/intern-process-company"
-// Description: 
+// Description: get companies that offer internships through university
+// User: Admin, Undergraduate
 module.exports.internProcessCompany = catchAsync(async (req, res) => {
     try {
         const companyId = req.body.companyId;
         const company = await Company.findById(companyId);
         const users = await Undergraduate.find().select('name regNo gpa weightedGPA internStatus');
-        
-        if(!company){
-            return res.status(400).json({message: "Can't find the company"});
+
+        if (!company) {
+            return res.status(400).json({ message: "Can't find the company" });
         }
         console.log(company, users);
-        res.status(200).json({company, users});
+        res.status(200).json({ company, users });
     } catch (err) {
         res.status(500).json(err);
     }
 });
 
 // Method: POST
-// Endpoint: "update-company-intern-application-list"
-// Description: 
+// Endpoint: "/intern-process-company"
+// Description: add candidates to the company list
+// User: Admin
 module.exports.updateCompanyInternApplicationList = catchAsync(async (req, res) => {
     try {
-        const {companyId, candidateList} = req.body;
-        console.log(companyId, candidateList);
+        const { companyId, candidateList } = req.body;
 
         const company = await Company.findById(companyId);
-        console.log(company);
-        if(!company){
-            return res.status(404).json({error: 'Company not found!'});
+
+        if (!company) {
+            return res.status(404).json({ error: 'Company not found!' });
         }
-        console.log(company.applicationList);
-        company.applicationList = [];
-        console.log(company.applicationList);
 
         candidateList.forEach((candidate) => {
-            console.log("candidate", candidate);
-            company.applicationList.push({candidate: candidate.id})
+            while (company.applicationListSize >= company.applicationList.length) {
+                company.applicationList.push({ candidate: candidate.id })
+            }
         })
-        console.log(company.applicationList);
 
         await company.save();
-        console.log(company);
-        res.status(200).json({company});
+
+        res.status(201).json({ company });
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+// Method: PATCH
+// Endpoint: "/intern-process-student"
+// Description: add candidate to the company list
+// User: Admin
+module.exports.addCandidateToApplicationList = catchAsync(async (req, res) => {
+    try {
+        const { companyId, candidateId } = req.body;
+
+        const company = await Company.findById(companyId);
+        if (!company) {
+            return res.status(404).json({ error: 'Company not found!' });
+        }
+
+        const candidate = await Undergraduate.findById(candidateId);
+        if (!candidate) {
+            return res.status(404).json({ error: "candidate not found" });
+        }
+
+        if (company.applicationList.length >= company.applicationListSize) {
+            return res.status(400).json({ error: "company application list is full. " });
+        }
+
+        company.applicationList.push(candidate._id);
+        await company.save();
+
+        res.status(201).json({ company });
     } catch (err) {
         res.status(500).json(err);
     }
