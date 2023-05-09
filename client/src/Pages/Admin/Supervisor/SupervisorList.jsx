@@ -12,7 +12,10 @@ const data = [
 
 const SupervisorList = () => {
   //State for selected company
-  const [selectedCompany, setSelectedCompany] = useState("");
+  const [selectedCompany, setSelectedCompany] = useState({
+    id: "",
+    name: "",
+  });
 
   //state for the company list
   const [companyList, setCompanyList] = useState([]);
@@ -43,6 +46,7 @@ const SupervisorList = () => {
       if (res.status === 200) {
         console.log(res.data.data);
         res.data && setCompanyList(res.data.data);
+        setSupervisorList(res.data.data.supervisors);
       } else {
         setErrorDetails(res.message);
       }
@@ -60,29 +64,36 @@ const SupervisorList = () => {
   //End of fetch company list
 
   //Fetch supervisor List
-  // const getSupervisorDetails = async () => {
-  //   try {
-  //     const res = await axios.get(
-  //       "http://localhost:5000/api/v1/admin/view-all-users/supervisor"
-  //     );
-  //     if (res.status == 200) {
-  //       console.log(res.data);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const getSupervisorDetails = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/v1/admin/view-all-users/supervisor",
+        { withCredentials: true }
+      );
+      if (res.status == 200) {
+        console.log(res.data.users);
+        let rawSupervisorList = res.data.users;
+        setSupervisorList(
+          rawSupervisorList.filter(
+            (item) => item.company === selectedCompany.id
+          )
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  // useEffect(() => {
-  //   getSupervisorDetails();
-  // }, [selectedCompany]);
+  useEffect(() => {
+    getSupervisorDetails();
+  }, [selectedCompany]);
   //End of Fetch supervisor list
 
   //Handle cellClick function
-  const handleCellClick = (key) => {
+  const handleCellClick = (company, key) => {
     console.log(`Cell clicked: ${key}`);
-    setSelectedCompany(key);
-    console.log(selectedCompany);
+    setSelectedCompany({ id: key, name: company });
+    // console.log(selectedCompany);
   };
   //End of handle cellClick function
 
@@ -102,7 +113,7 @@ const SupervisorList = () => {
         <Button
           variant="itms"
           size="itms-small"
-          onClick={() => handleCellClick(params.row.name)}
+          onClick={() => handleCellClick(params.row.name, params.row._id)}
         >
           select
         </Button>
@@ -114,29 +125,29 @@ const SupervisorList = () => {
   //column list supervisors
   const supervisorColumn = [
     {
-      field: "id",
+      field: "name",
       headerName: "Name",
       flex: 1,
       editable: false,
     },
     {
-      field: "company",
+      field: "jobRole",
       headerName: "Position",
       flex: 1,
       editable: false,
     },
-    // {
-    //   field: "contactNo",
-    //   headerName: "Contact Number",
-    //   flex: 1,
-    //   editable: false,
-    // },
-    // {
-    //   field: "Email",
-    //   headerName: "Email Address",
-    //   flex: 1,
-    //   editable: false,
-    // },
+    {
+      field: "contactNo",
+      headerName: "Contact Number",
+      flex: 1,
+      editable: false,
+    },
+    {
+      field: "email",
+      headerName: "Email Address",
+      flex: 1,
+      editable: false,
+    },
   ];
   //End of column list supervisors
 
@@ -186,21 +197,21 @@ const SupervisorList = () => {
                     Supervisor List
                   </Typography>
                 </Box>
-                {selectedCompany !== "" && (
+                {selectedCompany.name !== "" && (
                   <Stack direction={"column"} spacing={2}>
                     <Box>
                       <Typography>
-                        Supervisors assigned to : {selectedCompany}
+                        Supervisors assigned to : {selectedCompany.name}
                       </Typography>
                     </Box>
                     <Box>
                       <DataGrid
-                        rows={data}
+                        rows={supervisorList}
                         columns={supervisorColumn}
                         hideFooter={true}
                         disableColumnMenu={true}
                         autoHeight={true}
-                        getRowId={(row) => row.id}
+                        getRowId={(row) => row._id}
                       />
                     </Box>
                   </Stack>

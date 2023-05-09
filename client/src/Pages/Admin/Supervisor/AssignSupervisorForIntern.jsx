@@ -97,9 +97,10 @@ const AssignSupervisorForIntern = () => {
   };
   //End of handle cellClick function for the cell button
 
-  //handle click for the supervisor select
+  //handle click for the supervisor select                                                    End Point
   const handleSubmit = (key) => {
-    // console.log(`supervisor id: ${key}`);            End point here
+    console.log(`supervisor id: ${key}`);
+    setSelectedSupervisor(key);
   };
   //End of handle click for the supervisor select
 
