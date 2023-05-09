@@ -66,6 +66,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path="manage-company" element={<ManageCompany />} />
             <Route path="add-company" element={<AddCompany />} />
             <Route path="department-studentprofile" element={<DepartmentStudentProfile />} />
+            <Route path="noticeform" element={<NoticeForm />} />
 
             {/* student routes */}
             <Route path="student-dashboard" element={<StudentDashboard />} />
@@ -123,7 +124,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path='view-result-sheet' element={<Admin.ViewResultsheet />} />
 
             <Route path='assign-supervisor-for-intern' element={<Admin.AssignSupervisorForIntern />} />
-            <Route path='supervisor-list' element={<Admin.SupervisorList />} />
+            <Route path='supervisor-list' element={<Admin.SupervisorList />} />            
             {/* end of admin routes */}
         </Route>
 

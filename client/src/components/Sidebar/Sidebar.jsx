@@ -8,7 +8,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { Unilogo } from '../shared/Images/Unilogo';
 import { Grid } from '@mui/material';
 import { useState } from 'react';
-import { Apartment, ArrowBack, Article, Assessment, Ballot, ChevronLeft, Dashboard, LocationCity, Logout, Margin, Menu, Notifications, NotificationsNone, Settings } from '@mui/icons-material';
+import { Apartment, ArrowBack, Article, Assessment, Ballot, ChevronLeft, Create, Dashboard, LocationCity, Logout, Margin, Menu, Notifications, NotificationsNone, Settings } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import MuiDrawer from '@mui/material/Drawer';
@@ -162,6 +162,12 @@ const users = [
         primaryText: 'Notice',
         icon: <Notifications />,
         element: '/notice'
+      },
+      {
+        id: 6,
+        primaryText: 'Notice Form',
+        icon: <Create />,
+        element: '/noticeform' 
       }
     ]
   },
@@ -258,7 +264,7 @@ export default function Sidebar() {
     setOpen(!open);
   };
 
-  const [currentUser, setCurrentUser] = useState(users[2]);
+  const [currentUser, setCurrentUser] = useState(users[1]);
   
   const handleCurrentUserItem = (user, element) => {
     setCurrentUser(user);
