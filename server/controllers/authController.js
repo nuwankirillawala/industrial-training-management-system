@@ -64,10 +64,18 @@ module.exports.getProfile = catchAsync(async (req, res) => {
     }
 })
 
-module.exports.logout = catchAsync((req, res) => {
-    res.cookie('jwt', '', { maxAge: 1 });
-    res.redirect('/login');
-});
+module.exports.logout = (req, res) => {
+    res.cookie('jwt', '', {
+        maxAge: 1,
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict'
+    });
+
+    console.log('User logged out');
+    res.status(204).send();
+};
+
 
 module.exports.resetPassword = catchAsync(async (req, res) => {
     // get user by email
@@ -191,7 +199,7 @@ module.exports.updatePassword = catchAsync(async (req, res) => {
         user.password = newPassword;
         await user.save();
 
-        res.status(200).json({message: "password updated successfully"});
+        res.status(200).json({ message: "password updated successfully" });
 
     } catch (err) {
 

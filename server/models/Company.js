@@ -52,16 +52,28 @@ const companySchema = new mongoose.Schema({
             type: String
         }
     }],
-    applicationListSize: {
-        type: Number,
-        default: 10
-    },
-    applicationList: [{
-        candidate: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Undergraduate'
+    internApplications:{
+        applicationListSize: {
+            type: Number,
+            default: 10
+        },
+        applicationList: [{
+            candidate: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Undergraduate'
+            }
+        }],
+        recommendations: [{
+            candidate: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Undergraduate'
+            }
+        }],
+        applicationStatus: {
+            type: String,
+            enum: ['saved', 'sent']
         }
-    }],
+    },
     supervisors: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: Supervisor

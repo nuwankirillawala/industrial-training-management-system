@@ -89,17 +89,22 @@ const AuthState = (props) => {
     // logout 
     const logout = async () => {
         dispatch({ type: SET_LOADING });
-
+      
         try {
-            const res = await axios.get('http://localhost:5000/api/v1/auth/logout');
-            console.log('logout', res);
-
-            dispatch({ type: LOGOUT })
+          console.log('before logout');
+          const res = await axios.get('http://localhost:5000/api/v1/auth/logout', {withCredentials: true});
+          console.log('logout', res);
+          
+          // Remove userCookie
+          Cookies.remove('userCookie');
+      
+          dispatch({ type: LOGOUT })
         } catch (err) {
-            console.log(err);
-            dispatch({ type: LOGOUT });
+          console.log(err);
+          dispatch({ type: LOGOUT });
         }
-    }
+      }
+      
 
     // login
     const loginUser = async ({ email, password }) => {

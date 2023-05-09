@@ -18,7 +18,8 @@ const checkUser = (req, res, next) => {
         const error = new Error("You are not logged in! Please login again")
         error.status = 401;
         res.locals.user = null;
-        return next(error);
+        return res.status(401).json({ error: "You are not logged in! Please login again" });
+        // return next(error);
     }
 
     jwt.verify(token, process.env.JWT_SECRET, async (error, currentUser) => {
@@ -28,7 +29,8 @@ const checkUser = (req, res, next) => {
 
             const error = new Error("user is not available")
             error.status = 401;
-            return next(error);
+            return res.status(401).json({ error: "user is not available" });
+            // return next(error);
         }
         const user = {
             id: currentUser.id,
@@ -39,6 +41,7 @@ const checkUser = (req, res, next) => {
         res.locals.user = user;
         next();
     })
+    // next();
 
 }
 

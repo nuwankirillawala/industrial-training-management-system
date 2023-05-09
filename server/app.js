@@ -26,7 +26,7 @@ app.use(cookieParser());
 
 // routes
 app.get('*', checkUser);
-app.get('/', (req, res) => { });
+// app.get('/', (req, res) => { });
 app.get("/test", (req, res) => {
     res.send("Success");
 });

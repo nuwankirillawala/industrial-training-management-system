@@ -26,7 +26,7 @@ module.exports.createSupervisor = catchAsync(async (req, res) => {
         console.log(updatedCompany);
 
         if (!updatedCompany) {
-            return res.status(400).json({ error: "update failed" });
+            return res.status(404).json({ error: "update failed" });
         }
 
         res.status(200).json({
@@ -41,3 +41,4 @@ module.exports.createSupervisor = catchAsync(async (req, res) => {
         res.status(500).json({ errors });
     }
 });
+

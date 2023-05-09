@@ -196,18 +196,21 @@ module.exports.getCompanySelection = catchAsync(async (req, res) => {
 // Description: Select companies for internship
 // User: undergraduate
 module.exports.updateCompanySelection = catchAsync(async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
         const userId = req.user.id;
         // const userId = res.locals.user.id;
         const { choice01, choice02, choice03, choice04, choice05 } = req.body; // choice01 = {company, jobRole}
 
-        const foundCompany01 = await Company.findById(choice01.company);
-        const foundCompany02 = await Company.findById(choice02.company);
-        const foundCompany03 = await Company.findById(choice03.company);
-        const foundCompany04 = await Company.findById(choice04.company);
-        const foundCompany05 = await Company.findById(choice05.company);
+        const foundCompany01 = await Company.findById(choice01.company).session(session);
+        const foundCompany02 = await Company.findById(choice02.company).session(session);
+        const foundCompany03 = await Company.findById(choice03.company).session(session);
+        const foundCompany04 = await Company.findById(choice04.company).session(session);
+        const foundCompany05 = await Company.findById(choice05.company).session(session);
 
         if (!foundCompany01 || !foundCompany02 || !foundCompany03 || !foundCompany04 || !foundCompany05) {
+            await session.abortTransaction();
             return res.status(404).json({ error: "company not found" });
         }
 
@@ -215,36 +218,43 @@ module.exports.updateCompanySelection = catchAsync(async (req, res) => {
         const companyArray = [choice01.company, choice02.company, choice03.company, choice04.company, choice05.company];
         const uniqueCompanies = new Set(companyArray);
         if (companyArray.length !== uniqueCompanies.size) {
+            await session.abortTransaction();
             return res.status(400).json({ error: "can not apply same company twice" });
         }
 
         const updatedUser = await Undergraduate.findByIdAndUpdate(
             userId,
             {
-              $set: {
-                "companySelection.choice01.company": choice01.company,
-                "companySelection.choice01.jobRole": choice01.jobRole,
-                "companySelection.choice02.company": choice02.company,
-                "companySelection.choice02.jobRole": choice02.jobRole,
-                "companySelection.choice03.company": choice03.company,
-                "companySelection.choice03.jobRole": choice03.jobRole,
-                "companySelection.choice04.company": choice04.company,
-                "companySelection.choice04.jobRole": choice04.jobRole,
-                "companySelection.choice05.company": choice05.company,
-                "companySelection.choice05.jobRole": choice05.jobRole,
-              },
+                $set: {
+                    "companySelection.choice01.company": choice01.company,
+                    "companySelection.choice01.jobRole": choice01.jobRole,
+                    "companySelection.choice02.company": choice02.company,
+                    "companySelection.choice02.jobRole": choice02.jobRole,
+                    "companySelection.choice03.company": choice03.company,
+                    "companySelection.choice03.jobRole": choice03.jobRole,
+                    "companySelection.choice04.company": choice04.company,
+                    "companySelection.choice04.jobRole": choice04.jobRole,
+                    "companySelection.choice05.company": choice05.company,
+                    "companySelection.choice05.jobRole": choice05.jobRole,
+                },
             },
             { new: true }
-          );
+        ).session(session);
 
         if (!updatedUser) {
+            await session.abortTransaction();
             return res.status(400).json({ error: "update failed" });
         }
 
+        await session.commitTransaction();
+
         res.status(201).json(updatedUser);
     } catch (err) {
+        await session.abortTransaction();
         console.log(err);
         res.status(500).json(err);
+    } finally {
+        session.endSession();
     }
 });
 

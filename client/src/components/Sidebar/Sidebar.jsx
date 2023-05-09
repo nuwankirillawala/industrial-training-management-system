@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Hidden, IconButton, List, ListItemButton, ListItemIcon, Stack, Toolbar, useTheme } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Hidden, IconButton, List, ListItemButton, ListItemIcon, Stack, Toolbar, useTheme } from '@mui/material';
 // import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
@@ -8,10 +8,12 @@ import ListItemText from '@mui/material/ListItemText';
 import { Unilogo } from '../shared/Images/Unilogo';
 import { Grid } from '@mui/material';
 import { useState } from 'react';
-import { Apartment, ArrowBack, Article, Assessment, Ballot, ChevronLeft, Dashboard, LocationCity, Logout, Margin, Menu, Notifications, NotificationsNone, Settings } from '@mui/icons-material';
+import { Apartment, ArrowBack, Article, Assessment, Ballot, ChevronLeft, Create, Dashboard, LocationCity, Logout, Margin, Menu, Notifications, NotificationsNone, Settings } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import MuiDrawer from '@mui/material/Drawer';
+import useAuth from '../../Hooks/useAuth';
+
 
 const drawerWidth = 240;
 
@@ -162,6 +164,12 @@ const users = [
         primaryText: 'Notice',
         icon: <Notifications />,
         element: '/notice'
+      },
+      {
+        id: 6,
+        primaryText: 'Notice Form',
+        icon: <Create />,
+        element: '/noticeform' 
       }
     ]
   },
@@ -219,7 +227,7 @@ const controlItems = [
     id: 3,
     label: 'Log out',
     icon: <Logout />,
-    page : '/login'
+    page : '/logout'
   }
 ];
 
@@ -253,21 +261,64 @@ export default function Sidebar() {
   // });
 
   const [open, setOpen] = useState(true);
+  const {logout} = useAuth();
 
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
-  const [currentUser, setCurrentUser] = useState(users[2]);
+  const [currentUser, setCurrentUser] = useState(users[1]);
   
   const handleCurrentUserItem = (user, element) => {
     setCurrentUser(user);
     navigate(element);
   };
 
+
+  const [openLogoutDialogBox, setOpenLogoutDialogBox] = useState(false);
+  
+    const handleLogout = (e) => {
+      e.preventDefault();
+      setOpenLogoutDialogBox(true);
+    };
+
+    const handleLogoutSubmit = async (e) => {
+      e.preventDefault();
+      await logout();
+      navigate('/login');
+    };
+  
+    const handleClose = () => {
+      setOpenLogoutDialogBox(false);
+    };
+
   return (
     <Box sx={{ display: 'flex'}}>
       <CssBaseline />
+
+
+
+      <Dialog
+          open={openLogoutDialogBox}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Logout?"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+            Are you sure you want to log out?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleLogoutSubmit} autoFocus>
+              Logout
+            </Button>
+          </DialogActions>
+        </Dialog>
 
       {/* <ThemeProvider theme={theme}>
         <AppBar
@@ -405,7 +456,7 @@ export default function Sidebar() {
                 <ListItemButton
                   key={controlItem.id}
                   sx={buttonStyles}
-                  onClick={() => handleControlItem(controlItem.page)}
+                  onClick={(e) => controlItem.id = 3 ? handleLogout(e) : handleControlItem(controlItem.page)}
                   >
                     {!open ? (
                       <ListItemIconWrapper sx={{ color: 'inherit' }}>
