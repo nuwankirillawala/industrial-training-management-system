@@ -162,7 +162,7 @@ module.exports.viewAllUndergraduates = catchAsync(async (req, res) => {
 // User: admin
 module.exports.viewInternList = catchAsync(async (req, res) => {
     try {
-        const users = await Undergraduate.find().select('name regNo gpa weightedGPA internStatus');
+        const users = await Undergraduate.find().select('name regNo gpa weightedGPA internStatus internship');
 
         res.status(200).json({ users });
     } catch (err) {
@@ -580,7 +580,7 @@ module.exports.assignSupervisorGET = catchAsync(async (req, res) => {
         }
 
         console.log(company);
-        res.status(200).json({ user, company });
+        res.status(200).json({ company });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);

@@ -37,7 +37,8 @@ const SupervisorList = () => {
   const getCompanyDetails = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/v1/company/intern-process-company-list"
+        "http://localhost:5000/api/v1/company/intern-process-company-list",
+        { withCredentials: true }
       );
       if (res.status === 200) {
         console.log(res.data.data);
@@ -90,13 +91,13 @@ const SupervisorList = () => {
     {
       field: "name",
       headerName: "Company Name ",
-      width: 150,
+      flex: 1,
       editable: false,
     },
     {
       field: "actions",
       headerName: "Actions",
-      width: 120,
+      flex: 1,
       renderCell: (params) => (
         <Button
           variant="itms"
@@ -115,25 +116,25 @@ const SupervisorList = () => {
     {
       field: "id",
       headerName: "Name",
-      width: "120",
+      flex: 1,
       editable: false,
     },
     {
       field: "company",
       headerName: "Position",
-      width: "120",
+      flex: 1,
       editable: false,
     },
     // {
     //   field: "contactNo",
     //   headerName: "Contact Number",
-    //   width: "120",
+    //   flex: 1,
     //   editable: false,
     // },
     // {
     //   field: "Email",
     //   headerName: "Email Address",
-    //   width: "120",
+    //   flex: 1,
     //   editable: false,
     // },
   ];
