@@ -15,14 +15,12 @@ router.route('/:companyID/edit-rating')
 router.route('/intern-process-company-list')
     .get(companyController.internProcessCompanyList)
 
-router.route('/update-company-intern-application-list')
+router.route('/intern-process-company')
+    .get(companyController.internProcessCompany)
     .post(companyController.updateCompanyInternApplicationList)
 
-router.route('/intern-process-company')
-    .post(companyController.internProcessCompany)
-
-router.route('/intern-process-company')
-    .post(companyController.internProcessCompany)
+router.route('/intern-process-student')
+    .patch(companyController.addCandidateToApplicationList)
 
 router.route('/intern-process')
     .patch(companyController.internProcess)

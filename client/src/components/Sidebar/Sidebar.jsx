@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Hidden, IconButton, List, ListItemButton, ListItemIcon, Stack, Toolbar, useTheme } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Hidden, IconButton, List, ListItemButton, ListItemIcon, Stack, Toolbar, useTheme } from '@mui/material';
 // import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
@@ -12,6 +12,8 @@ import { Apartment, ArrowBack, Article, Assessment, Ballot, ChevronLeft, Dashboa
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import MuiDrawer from '@mui/material/Drawer';
+import useAuth from '../../Hooks/useAuth';
+
 
 const drawerWidth = 240;
 
@@ -219,7 +221,7 @@ const controlItems = [
     id: 3,
     label: 'Log out',
     icon: <Logout />,
-    page : '/login'
+    page : '/logout'
   }
 ];
 
@@ -253,6 +255,7 @@ export default function Sidebar() {
   // });
 
   const [open, setOpen] = useState(true);
+  const {logout} = useAuth();
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -265,9 +268,51 @@ export default function Sidebar() {
     navigate(element);
   };
 
+
+  const [openLogoutDialogBox, setOpenLogoutDialogBox] = useState(false);
+  
+    const handleLogout = (e) => {
+      e.preventDefault();
+      setOpenLogoutDialogBox(true);
+    };
+
+    const handleLogoutSubmit = async (e) => {
+      e.preventDefault();
+      await logout();
+      navigate('/login');
+    };
+  
+    const handleClose = () => {
+      setOpenLogoutDialogBox(false);
+    };
+
   return (
     <Box sx={{ display: 'flex'}}>
       <CssBaseline />
+
+
+
+      <Dialog
+          open={openLogoutDialogBox}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Logout?"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+            Are you sure you want to log out?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleLogoutSubmit} autoFocus>
+              Logout
+            </Button>
+          </DialogActions>
+        </Dialog>
 
       {/* <ThemeProvider theme={theme}>
         <AppBar
@@ -405,7 +450,7 @@ export default function Sidebar() {
                 <ListItemButton
                   key={controlItem.id}
                   sx={buttonStyles}
-                  onClick={() => handleControlItem(controlItem.page)}
+                  onClick={(e) => controlItem.id = 3 ? handleLogout(e) : handleControlItem(controlItem.page)}
                   >
                     {!open ? (
                       <ListItemIconWrapper sx={{ color: 'inherit' }}>
