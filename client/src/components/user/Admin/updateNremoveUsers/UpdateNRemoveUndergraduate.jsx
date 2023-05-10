@@ -71,7 +71,7 @@ export const UpdateNRemoveUndergraduate = () => {
                                     {/*  <TableCell >   {r.linkdinURL} </TableCell>
                                     <TableCell >   {r.internStatus}   </TableCell>
                                     <TableCell >   {r.supervisor}  </TableCell> */}
-                                    <TableCell> <Dialogbox title="Update Undergraduate" btn_name="update"><UpdateUndergraduateForm /></Dialogbox></TableCell>
+                                    <TableCell> <Dialogbox title="Update Undergraduate" btn_name="update"><UpdateUndergraduateForm userId={r._id} /></Dialogbox></TableCell>
                                     <TableCell> <Dialogbox title="Remove Undergraduate" btn_name="remove"><RemoveUserForm /></Dialogbox></TableCell>
                                 </TableRow>
                             )}
