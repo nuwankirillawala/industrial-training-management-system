@@ -20,7 +20,10 @@ const AssignSupervisorForIntern = () => {
   const getStudentList = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/v1/undergraduate/view-intern-list"
+        "http://localhost:5000/api/v1/undergraduate/view-intern-list",
+        {
+          withCredentials: true,
+        }
       );
       if (res.status === 200) {
         // console.log(res.data.users);
@@ -40,7 +43,7 @@ const AssignSupervisorForIntern = () => {
         `http://localhost:5000/api/v1/undergraduate/assign-supervisor/${selectedStudent}`
       );
       if (res.status === 200) {
-        console.log(res.body);
+        console.log(res.body.company);
       } else {
         console.log(res.message);
       }
@@ -80,11 +83,6 @@ const AssignSupervisorForIntern = () => {
       headerName: "Student Name",
       editable: false,
     },
-    // {
-    //   field: "company",
-    //   headerName: "Company assigned",
-    //   editable: false,
-    // },
     {
       field: "assign",
       headerName: "Supervisor assign",
@@ -93,7 +91,7 @@ const AssignSupervisorForIntern = () => {
         <Button
           variant="itms"
           size="itms-small"
-          // disabled={params.row.company === null ? true : false}
+          {...(params.row.companyId && disabled)}
           // disabled
           onClick={() => handleCellClick(params.row.regNo)}
         >
@@ -132,7 +130,7 @@ const AssignSupervisorForIntern = () => {
                       return {
                         regNo: field.regNo,
                         name: field.name,
-                        // company: field.name,
+                        companyId: field.internship.company,
                       };
                     })}
                     columns={studentColumn}
