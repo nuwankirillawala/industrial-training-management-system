@@ -16,7 +16,7 @@ export const UpdateNRemoveUndergraduate = () => {
 
     const getUndergraduateData = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/undergraduate');
+            const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/undergraduate', { withCredentials: true });
             console.log(res);
             if (res.status === 200) {
                 console.log(res.data.users);
@@ -71,7 +71,7 @@ export const UpdateNRemoveUndergraduate = () => {
                                     {/*  <TableCell >   {r.linkdinURL} </TableCell>
                                     <TableCell >   {r.internStatus}   </TableCell>
                                     <TableCell >   {r.supervisor}  </TableCell> */}
-                                    <TableCell> <Dialogbox title="Update Undergraduate" btn_name="update"><UpdateUndergraduateForm /></Dialogbox></TableCell>
+                                    <TableCell> <Dialogbox title="Update Undergraduate" btn_name="update"><UpdateUndergraduateForm userId={r._id} /></Dialogbox></TableCell>
                                     <TableCell> <Dialogbox title="Remove Undergraduate" btn_name="remove"><RemoveUserForm /></Dialogbox></TableCell>
                                 </TableRow>
                             )}

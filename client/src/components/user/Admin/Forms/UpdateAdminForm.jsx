@@ -7,31 +7,30 @@ import * as yup from "yup"
 import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
 import axios from 'axios';
 
-
-
-export const UpdateAdminForm = ({userId}) => {
+export const UpdateAdminForm = ({ userId }) => {
     const [userData, setUserData] = useState({
         name: '',
-        email:'',
+        email: '',
         contactNo: '',
-        staffId :'',
+        staffId: '',
         adminRole: ''
     });
 
     const getUserData = async () => {
         try {
-            // console.log(userId)
-            const res = await axios.get(`http://localhost:5000/api/v1/admin/admin-profile/${userId}`);
+            console.log(userId)
+            const res = await axios.get(`http://localhost:5000/api/v1/admin/admin-profile/${userId}`,
+                { withCredentials: true });
 
             if (res.status === 200) {
                 setUserData({
-                    name:res.data.user.name,
-                    email:res.data.user.email,
+                    name: res.data.user.name,
+                    email: res.data.user.email,
                     contactNo: res.data.user.contactNo,
-                    staffId : res.data.user.staffId,
-                    adminRole: res.data.user.adminRole
+                    staffId: res.data.user.staffId,
+                    adminRole: res.data.user.role
                 });
-                
+
             }
         } catch (error) {
             console.log(error)
@@ -42,27 +41,29 @@ export const UpdateAdminForm = ({userId}) => {
     }, [])
 
 
+
+    //statusSnackBar state
+    const [trigger, setTrigger] = useState({
+        success: false,
+        error: false,
+    });
+
+    //End of statusSnackBar state
+    const handleSnackBar = (key) => {
+        setTrigger((prevState) => {
+            let newState = { ...prevState };
+            newState[key] = !newState[key];
+            return newState;
+        });
+    };
+
     const Admin = {
-        adminName: userData.name,
+        adminName: '',
         adminEmail: '',
         adminContactNo: '',
         adminStaffId: '',
         adminRole: ''
     }
-//statusSnackBar state
-const [trigger, setTrigger] = useState({
-    success: false,
-    error : false,
-  });
-
-//End of statusSnackBar state
-  const handleSnackBar = (key) => {
-    setTrigger((prevState) => {
-      let newState = { ...prevState };
-      newState[key] = !newState[key];
-      return newState;
-    });
-  };
 
     const validation = yup.object().shape({
         adminName: yup.string(),
@@ -76,24 +77,23 @@ const [trigger, setTrigger] = useState({
 
     const handleFormSubmit = async (values) => {
         console.log(values);  // working
-
         try {
             const res = await axios.patch("http://localhost:5000/api/v1/admin/update-admin-profile",
-            {
-                id: userId,   //id, _id, userID
-                name: values.adminName === "" ? userData.name : values.adminName,
-                role: values.adminRole === "" ? userData.role : values.adminRole,
-                email: values.adminEmail === "" ? userData.email : values.adminEmail,
-                contactNo: values.adminContactNo === "" ? userData.contactNo : values.adminContactNo,
-                staffId: values.adminStaffId === "" ? userData.staffId : values.adminStaffId
-            },
-            { withCredentials: true }
+                {
+                    id: userId,
+                    name: values.adminName === "" ? userData.name : values.adminName,
+                    role: values.adminRole === "" ? userData.role : values.adminRole,
+                    email: values.adminEmail === "" ? userData.email : values.adminEmail,
+                    contactNo: values.adminContactNo === "" ? userData.contactNo : values.adminContactNo,
+                    staffId: values.adminStaffId === "" ? userData.staffId : values.adminStaffId
+                },
+                { withCredentials: true }
             );
             console.log(res.status);
 
-            if(res.status === 200){
+            if (res.status === 200) {
                 handleSnackBar("success");
-            }else{
+            } else {
                 handleSnackBar("error");
             }
         }
@@ -133,7 +133,7 @@ const [trigger, setTrigger] = useState({
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        placeholder={userData.name} //if u use User here it will not let change text
+                                        placeholder={userData.name}
                                         name="adminName"
                                         value={values.adminName}
                                         error={!!touched.adminName && !!errors.adminName}
@@ -154,7 +154,7 @@ const [trigger, setTrigger] = useState({
                                         placeholder={userData.email}
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        value={values.adminEmail} //if u use User here it will not let change text
+                                        value={values.adminEmail}
                                         name="adminEmail"
                                         error={!!touched.adminEmail && !!errors.adminEmail}
                                         helperText={touched.adminEmail && errors.adminEmail}
@@ -174,7 +174,7 @@ const [trigger, setTrigger] = useState({
                                         placeholder={userData.contactNo}
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        value={values.adminContactNo} //if u use User here it will not let change text
+                                        value={values.adminContactNo}
                                         name="adminContactNo"
                                         error={!!touched.adminContactNo && !!errors.adminContactNo}
                                         helperText={touched.adminContactNo && errors.adminContactNo}
@@ -232,20 +232,20 @@ const [trigger, setTrigger] = useState({
                 )}
             </Formik>
             <StatusSnackBar
-              severity="success"
-              trigger={trigger.success}
-              setTrigger={() => {
-                handleSnackBar("success");
-              }}
-              alertMessage={"Update Succefully"}
+                severity="success"
+                trigger={trigger.success}
+                setTrigger={() => {
+                    handleSnackBar(" Update success");
+                }}
+                alertMessage={"Update Succefully"}
             />
             <StatusSnackBar
-              severity="error"
-              trigger={trigger.error}
-              setTrigger={() => {
-                handleSnackBar("error");
-              }}
-              alertMessage={"Update Fail"}
+                severity="error"
+                trigger={trigger.error}
+                setTrigger={() => {
+                    handleSnackBar("error");
+                }}
+                alertMessage={"Update Fail"}
             />
         </Tile>
 

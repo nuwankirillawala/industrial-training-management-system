@@ -7,21 +7,14 @@ export const ViewAdmin = () => {
     const [Records, setRecords] = useState([])
     const [singleAdmin, setSingleAdmin] = useState([])
 
-    // useEffect(() => {
-    //     fetch('https://dummyjson.com/products')  //url need to changed into json url(this is dummy data from a site)
-    //         .then(result => result.json())
-    //         .then(data => {
-    //           setRecords(data.products)
-    //         })
-    // }, [])
-
     const getAdminData = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/admin');
+            const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/admin', { withCredentials: true });
             console.log(res);
             if (res.status === 200) {
                 console.log(res.data.users);
-                setRecords(res.data.users)
+                const filteredRecords = res.data.users.filter(record => record.role === 'system-admin');
+                setRecords(filteredRecords);
             }
         } catch (error) {
             console.log(error)
@@ -46,6 +39,12 @@ export const ViewAdmin = () => {
     }
 
     useEffect(() => fetchUser, []);
+    const Column = [
+        { columnName: 'Admin Name' },
+        { columnName: '  Email' },
+        { columnName: '  ContactNo' },
+        { columnName: '  Staff ID' }
+    ]
 
     return (
         <Grid spacing={1} container>
@@ -67,12 +66,11 @@ export const ViewAdmin = () => {
 
                         <TableBody>
                             {Records.map((r, i) =>
-                                <TableRow clickable key={i} onClick={() => setSingleAdmin(r)}>
+                                <TableRow key={i} onClick={() => setSingleAdmin(r)}>
                                     <TableCell >   {r.name}  </TableCell>
                                     <TableCell>   {r.email}  </TableCell>
                                     <TableCell>   {r.contactNo} </TableCell>
                                     <TableCell >   {r.staffId} </TableCell>
-                                    <TableCell >   {r.jobRole} </TableCell>
                                 </TableRow>
                             )}
                         </TableBody>
@@ -91,7 +89,6 @@ export const ViewAdmin = () => {
                             <Stack direction={'row'}> <Typography width={'135px'}> Staff ID </Typography><Typography>{singleAdmin.staffId} </Typography></Stack>
                             <Stack direction={'row'}> <Typography width={'135px'}> E-mail</Typography><Typography> {singleAdmin.email} </Typography></Stack>
                             <Stack direction={'row'}> <Typography width={'135px'}> Contact Number</Typography><Typography>{singleAdmin.contactNo} </Typography></Stack>
-                            <Stack direction={'row'}> <Typography width={'135px'}> Job Role</Typography><Typography>{singleAdmin.jobRole} </Typography></Stack>
                         </Stack>
                     )}
                 </Stack>

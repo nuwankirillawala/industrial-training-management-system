@@ -14,7 +14,7 @@ export const UpdateNRemoveCompanySupervisor = () => {
 
     const getSupervisorData = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/supervisor');
+            const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/supervisor', { withCredentials: true });
             console.log(res);
             if (res.status === 200) {
                 console.log(res.data.users);
