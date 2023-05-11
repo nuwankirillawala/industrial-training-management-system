@@ -36,7 +36,7 @@ import SelectCompany from './InternProcess/SelectCompany';
 import SelectStudent from './InternProcess/SelectStudent'; 
 
 import { DailyReport } from './ReportSubmission/DailyReport';
-import { DailyReportList } from './ReportSubmission/DailyReportList';
+import { ReportList } from './ReportSubmission/ReportList';
 import { FinalFeedback } from './ReportSubmission/FinalFeedback';
 import FinalFeedbackList from './ReportSubmission/FinalFeedbackList';
 import { ReportPortal } from './ReportSubmission/ReportPortal';
@@ -80,7 +80,7 @@ export {
     SelectCompany,
     SelectStudent,
     DailyReport,
-    DailyReportList,
+    ReportList,
     FinalFeedback,
     FinalFeedbackList,
     ReportPortal,

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { InputBase, IconButton, Typography, Grid, List, ListItemText, ListItemButton, Paper, Box } from '@mui/material';
+import { InputBase, IconButton, Typography, Grid, List, ListItemText, ListItemButton, Paper, ListItemSecondaryAction, Toolbar } from '@mui/material';
 import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -62,10 +62,72 @@ const notices = [
 export default function Notice () {
     
     const [displayText, setDisplayText] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filteredNotices, setFilteredNotices] = useState(notices);
+    const [selectedNotice, setSelectedNotice] = useState(null);
+
+    const handleSearch = (event) => {
+        event.preventDefault();
+        const filtered = notices.filter((notice) =>
+            notice.primary.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            notice.secondary.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            notice.ternary.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredNotices(filtered);
+        if (searchQuery === '') {
+            setSelectedNotice(null);
+            setDisplayText('');
+        } else if (filtered.length === 1) {
+            setSelectedNotice(filtered[0]);
+            setDisplayText(filtered[0].ternary);
+        } else {
+            setSelectedNotice(null);
+            setDisplayText('There are many results');
+        }
+    };
+
+    const handleSearchQueryChange = (event) => {
+        const query = event.target.value;
+        setSearchQuery(query);
+
+        // if (query === '') {
+        //     setFilteredNotices(notices);
+        //     setSelectedNotice(null);
+        //     return;
+        // }
+
+        const filtered = notices.filter((notice) =>
+            notice.primary.toLowerCase().includes(query.toLowerCase()) ||
+            notice.secondary.toLowerCase().includes(query.toLowerCase()) ||
+            notice.ternary.toLowerCase().includes(query.toLowerCase())
+        );
+        setFilteredNotices(filtered);
+    };
 
     const handleClick = (notice) => {
         setDisplayText(notice.ternary);
-    }    
+        // setSelectedNotice(notice)
+    };
+
+    const getCurrentDate = () => {
+        const date = new Date();
+        return date.toLocaleDateString();
+    };
+
+    const searchStyles = {
+        position: 'sticky',
+        zIndex: 1,
+        transform: 'translate(-5%, 0)',
+        minWidth: '250px',
+        top: 0,
+        marginBottom: 2
+    };
+
+    const listStyles = {
+        height: 500,
+        width: 438,
+        overflow: 'auto'
+    };
 
     return (
 
@@ -82,40 +144,40 @@ export default function Notice () {
                 md={4}
             >
                 <Tile
-                    height={'88vh'}
+                    height={'88vh'} sx={{overflowY: 'hidden'}}
                 >
                     {/* Search bar & Search button */}
-                    {/* <Box position={'sticky'}> */}
-                    <Paper
-                      component={'form'}
-                      sx={{ p: '2px 4px', display: 'flex', alignItems: "center", width: 270, /*marginBottom: 0*/}}
-                    >
-                        <InputBase
-                            sx={{ ml: 1, flex: 1 }}
-                            placeholder='Search...'
-                            inputProps={{ 'aria-label': 'Search' }}
-                        />
-                        <IconButton type='button' sx={{ p: '10px', marginLeft: '10px', bgcolor: 'black' }} aria-label='search'>
-                            <SearchIcon
-                                sx={{
-                                    color:'white',
-                                    "&:hover":{ color:'black' }
-                                }}
+                    <Toolbar sx={searchStyles}>
+                        <Paper
+                            component={'form'}
+                            sx={{ p: '2px 4px', display: 'flex', alignItems: "center", width: 270 }}
+                        >
+                            <InputBase
+                                sx={{ ml: 1, flex: 1 }}
+                                placeholder='Search...'
+                                onChange={handleSearchQueryChange}
                             />
-                        </IconButton>
-                    </Paper>
+                                <IconButton type='submit' sx={{ p: '10px', marginLeft: '10px', bgcolor: 'black' }} aria-label='search' onClick={handleSearch}>
+                                    <SearchIcon
+                                        sx={{
+                                            color:'white',
+                                            "&:hover":{ color:'black' }
+                                        }}
+                                    />
+                                </IconButton>
+                        </Paper>
 
-                    {/* Refresh button */}
-                    <Paper sx={{ borderRadius: 20, width: 45, position: 'relative', bottom: 46, left: 280 }} elevation={0}>
-                        <IconButton color='primary' sx={{ p: '10px', bgcolor: 'black', left: 0.5 }} aria-label='refresh' >
-                            <RefreshIcon />
-                        </IconButton>
-                    </Paper>
-                    {/* </Box> */}
+                        {/* Refresh button */}
+                        <Paper sx={{ borderRadius: 20, width: 45, position: 'relative', top: 0, left: 10 }} elevation={0}>
+                            <IconButton color='primary' sx={{ p: '10px', bgcolor: 'black', left: 0.5 }} aria-label='refresh' onClick={() => {setFilteredNotices(notices); setSelectedNotice(null); setDisplayText('')}}>
+                                <RefreshIcon />
+                            </IconButton>
+                        </Paper>
+                    </Toolbar>
 
                     {/* List item buttons */}
-                    <List>
-                        {notices.map((notice, index) => (
+                    <List sx={ listStyles }>
+                        {filteredNotices.map((notice, index) => (
                             <ListItemButton
                                 key={index}
                                 onClick={() => handleClick(notice)}
@@ -124,6 +186,9 @@ export default function Notice () {
                                     primary={notice.primary}
                                     secondary={notice.secondary}
                                 />
+                                <ListItemSecondaryAction>
+                                    <Typography variant='caption' color={'black'}>{getCurrentDate()}</Typography>
+                                </ListItemSecondaryAction>
                             </ListItemButton>
                         ))}
                     </List>
@@ -150,7 +215,7 @@ export default function Notice () {
                                 justifyContent:'center'
                             }}
                         >
-                            {displayText}
+                            {selectedNotice ? selectedNotice.ternary : displayText}
                         </Typography>
                     </List>
                 </Tile>

@@ -1,15 +1,55 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { Typography, Button, Grid, Select, MenuItem, Stack, Box } from '@mui/material'
 import { Tile } from '../../card/Tile'
 import { Formik } from 'formik'
+import axios  from 'axios';
 
 export const StudentPrivateCompanyStatus = ({pageNo,setPage,companyState,setCompanyState}) => {
 
-    const handleOnSubmit = async (values) => {
-        console.log(values);
-        await new Promise((r) => setTimeout(r, 500));
-        alert(JSON.stringify(values, null, 2));
-      };
+    const [companyData , setCompanyData] = useState([]);
+
+    //fetch data
+    const getCompanyList = async() => {
+        try {
+          const res = await axios.get('http://localhost:5000/api/v1/company/intern-process-company-list');
+          if(res.data.status === 'success'){
+            console.log(res.data.data);
+            setCompanyData(res.data.data)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    
+      useEffect(()=> {
+        getCompanyList();
+      }, [])
+      //End of fetch data
+
+        const handleOnSubmit = async (values) => {
+            // console.log(values);        
+            try{
+              const res = await axios.post(
+                "http://localhost:5000/api/v1/undergraduate/edit-intern-status", 
+                { companyId : values.companyName,
+                    newStatus : values.newStatus
+                },
+              {withCredentials: true}
+              );
+              if(res.status === 'success') {
+                handleSnackBar("success");
+                setMessage("User created successfullly");
+                // alert('You data submited')
+              } else {
+                handleSnackBar("error");
+                setMessage("User not created");
+                // alert('fail to post')
+              }
+    
+            } catch(error){
+    c
+            }
+        };
 
   return (
     <Tile>
@@ -68,9 +108,10 @@ export const StudentPrivateCompanyStatus = ({pageNo,setPage,companyState,setComp
                                                     fullWidth
                                                 >
                                                     <MenuItem value="none"><em>None</em></MenuItem>
-                                                    <MenuItem value={'wso2'}>WSO2</MenuItem>
-                                                    <MenuItem value={'99x'}>99X</MenuItem>
-                                                    <MenuItem value={'cordjen'}>Cordjen</MenuItem>
+                                                    {companyData.map((company)=>(
+                                                        <MenuItem value={company._id}>{company.name}</MenuItem>
+                                                    ))}
+
                                                 </Select>
                                             </Stack>
                                         </Stack>

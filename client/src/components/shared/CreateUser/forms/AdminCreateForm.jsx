@@ -31,8 +31,12 @@ export const AdminCreateForm = () => {
     //statusSnackBar state
       const [trigger, setTrigger] = useState({
         success: false,
+        error : false,
       });
-      //End of statusSnackBar state
+    //snackBar message state
+      const [message, setMessage] = useState(null);
+
+    //End of statusSnackBar state
       const handleSnackBar = (key) => {
         setTrigger((prevState) => {
           let newState = { ...prevState };
@@ -42,21 +46,50 @@ export const AdminCreateForm = () => {
       };
    
     const handleFormSubmit = async (values) => {
-        console.log(values);        
-        const res = await axios.post(
+        // console.log(values);        
+        try{
+          const res = await axios.post(
             "http://localhost:5000/api/v1/admin/create-admin", 
-            {   role : 'system-admin',
-                name : values.adminName,
-                email : values.adminEmail,
-                contactNo : values.adminContactNo,
-                staffId : values.adminStaffId,
-                password : values.adminPassword,
-           },
-            {withCredentials: true}
-            );
-  
-        handleSnackBar("success");
+            { role : 'system-admin',
+              name : values.adminName,
+              email : values.adminEmail,
+              contactNo : values.adminContactNo,
+              staffId : values.adminStaffId,
+              password : values.adminPassword,
+            },
+          {withCredentials: true}
+          );
+          if(res.status === 'success') {
+            handleSnackBar("success");
+            setMessage("User created successfullly");
+            // alert('You data submited')
+          } else {
+            handleSnackBar("error");
+            setMessage("User not created");
+            // alert('fail to post')
+          }
+
+        } catch(error){
+c
+        }
     };
+
+    const handleReset = () => {
+      <StatusSnackBar
+      severity="error"
+      trigger={trigger.error}
+      setTrigger={() => {
+        handleSnackBar("error");
+      }}
+      alertMessage={message}>
+        <Button onClick={handleOk}>ok</Button>
+        <Button>cancel</Button>
+      </StatusSnackBar>
+    }
+
+    const handleOk = (values, form) => {
+      form.resetForm();
+    }
 
     const validation = yup.object().shape({
         // adminName : yup.string(),
@@ -81,6 +114,7 @@ export const AdminCreateForm = () => {
                 <Box width={'70%'}>
                 <Formik
                     onSubmit={handleFormSubmit}
+                    onReset={handleReset}
                     initialValues={User}
                     validationSchema={validation}
                 >
@@ -278,8 +312,17 @@ export const AdminCreateForm = () => {
                       setTrigger={() => {
                         handleSnackBar("success");
                       }}
-                      alertMessage={"Success"}
+                      alertMessage={message}
                     />
+
+                    {/* <StatusSnackBar
+                      severity="error"
+                      trigger={trigger.error}
+                      setTrigger={() => {
+                        handleSnackBar("error");
+                      }}
+                      alertMessage={message}
+                    /> */}
                 </Box>
                 </Stack>
             </Grid>

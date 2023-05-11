@@ -10,27 +10,47 @@ import { RemoveCompanyForm } from "../../components/user/Admin/Forms/RemoveCompa
 import { Navigate, useNavigate } from 'react-router-dom';
 
 export const ManageCompany = () => {
-
-    const [Column, setColumn] = useState([])
     const [Records, setRecords] = useState([])
     const [singleCompany, setSingleCompany] = useState([])
 
     const navigate = useNavigate()
 
+    const getAllCompanyData = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/api/v1/');
+            console.log(res);
+            if (res.status === 200) {
+                console.log(res.data.users);
+                setRecords(res.data.users)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
-        fetch('https://dummyjson.com/products')  //url need to changed into json url(this is dummy data from a site)
-            .then(result => result.json())
-            .then(data => {
-                setColumn(Object.keys(data.products[0])) //products(word) need to changed according json 
-                setRecords(data.products)
-            })
+        getAllCompanyData();
     }, [])
+
+    const Column = [
+        { columnName: 'Company Name' },
+        { columnName: 'Email' },
+        { columnName: 'ContactNo' },
+        { columnName: 'Address' },
+        { columnName: 'No of Intern seats' },
+        { columnName: 'Company Description' },
+        { columnName: 'Rating' },
+        { columnName: 'Contact Person Name' },
+        { columnName: 'Contact Person Email' },
+        { columnName: 'Contact person Contact' },
+        { columnName: 'Contact person post' }
+    ]
 
 
     return (
         <Grid container>
             <Grid item sm={12} md={12}>
-                <Typography variant="subtitle1">Add new Company</Typography>
+                <Typography variant="PageTitle">Add new Company</Typography>
             </Grid>
 
             <Grid item sm={12} md={12}>
@@ -42,37 +62,38 @@ export const ManageCompany = () => {
                 </Tile>
             </Grid>
 
-            <Grid item sm={12} md={12}>
-                <Typography variant="subtitle1">Manage Company</Typography>
+            <Grid item sm={12} md={12} paddingTop={'10px'}>
+                <Typography variant="PageTitle">Manage Company</Typography>
             </Grid>
+            <Grid item md={12} sm={12} ><Typography variant='body2' paddingLeft={'20px'}> Click the row for get company wise details in right side</Typography> </Grid>
 
             <Grid item sm={12} md={12} >
                 <Grid container spacing={2}>
                     <Grid item sm={8} md={8}>
                         <Tile>
                             <Stack>
-                                <Table>
+                                <Table sx={{ border: '1px solid #4665D2' }}>
                                     <TableHead>
                                         <TableRow>
                                             {Column.map((c, i) =>
                                                 <TableCell key={i}>
-                                                    {c}
+                                                    <Typography fontWeight={'bold'}> {c.columnName}</Typography>
                                                 </TableCell>
                                             )}
                                         </TableRow>
                                     </TableHead>
-                                    <TableBody>
+                                    {/* <TableBody>
 
                                         {Records.map((r, i) =>
                                             <TableRow key={i} onClick={() => setSingleCompany(r)}>
-                                                <TableCell >   {r.id}  </TableCell>
+                                                 <TableCell >   {r.id}  </TableCell>
                                                 <TableCell >   {r.title}  </TableCell>
                                                 <TableCell >   {r.description} </TableCell>
                                                 <TableCell> <Dialogbox title="Update Company" btn_name="update"><UpdateCompanyForm /></Dialogbox></TableCell>
                                                 <TableCell> <Dialogbox title="Remove Company" btn_name="remove"><RemoveCompanyForm /></Dialogbox></TableCell>
                                             </TableRow> //id,title,description need to change as json file
                                         )}
-                                    </TableBody>
+                                    </TableBody> */}
                                 </Table>
 
                             </Stack>
@@ -83,15 +104,20 @@ export const ManageCompany = () => {
                         <Tile>
                             <Stack direction={'column'}>
                                 <Typography fontWeight={'bold'} paddingTop={'15px'} paddingBottom={'15px'}>Company full details</Typography>
-                                <Divider orientation="horizontal" />
+                                <Divider orientation="horizontal" color="#4665D2" />
                                 {singleCompany && (
-                                    <Stack direction={'column'}>
+                                    <Stack direction={'column'} spacing={2}>
                                         <Stack direction={'row'}>  <Typography width={'135px'}> CompanyName </Typography><Typography> {singleCompany.id} </Typography></Stack>
                                         <Stack direction={'row'}> <Typography width={'135px'}> E-mail </Typography><Typography>{singleCompany.title} </Typography></Stack>
                                         <Stack direction={'row'}> <Typography width={'135px'}> EContact Number</Typography><Typography> {singleCompany.title} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> Comapny Address</Typography><Typography>{singleCompany.title} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> Comapny Description</Typography><Typography>{singleCompany.title} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> Comapny Rating</Typography><Typography>{singleCompany.title} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}> Address</Typography><Typography>{singleCompany.title} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}> No of Intern Seats</Typography><Typography>{singleCompany.title} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}> Description</Typography><Typography>{singleCompany.title} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}>Rating</Typography><Typography>{singleCompany.title} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Name</Typography><Typography>{singleCompany.title} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Email</Typography><Typography>{singleCompany.title} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Contact</Typography><Typography>{singleCompany.title} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}>Contact person post</Typography><Typography>{singleCompany.title} </Typography></Stack>
                                     </Stack>
                                 )}
                             </Stack>

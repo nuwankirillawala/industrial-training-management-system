@@ -47,13 +47,14 @@ const InternProcessCompany = () => {
   };
 
   const handleRemoveStudent = (student) => {
+    console.log(typeof students);
     setStudents([...students, student]);
     setSelectedStudents(selectedStudents.filter(s => s.regNo !== student.regNo));
   };
 
   const handleSave = async () => {
     console.log(company, selectedStudents);
-    const res = await axios.post("http://localhost:5000/api/v1/company/update-company-intern-application-list", { companyId: company._id, candidateList: selectedStudents }, { withCredentials: true })
+    const res = await axios.post("http://localhost:5000/api/v1/company/intern-process-company", { companyId: company._id, candidateList: selectedStudents }, { withCredentials: true })
     if (res) {
       setDialogData(res.data);
       setDialogOpen(true);
@@ -91,6 +92,7 @@ const InternProcessCompany = () => {
     students.map((user) => {
       return {
         id: user._id,
+        _id: user._id,
         regNo: user.regNo,
         name: user.name,
         gpa: user.gpa,
@@ -120,6 +122,7 @@ const InternProcessCompany = () => {
     selectedStudents.map((user) => {
       return {
         id: user._id,
+        _id: user._id,
         regNo: user.regNo,
         name: user.name,
         gpa: user.gpa,

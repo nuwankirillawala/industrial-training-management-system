@@ -1,7 +1,8 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tile } from "../../../components/card/Tile";
 import { DataGrid } from "@mui/x-data-grid";
+import axios from "axios";
 
 const data = [
   { id: 1, company: "A" },
@@ -10,26 +11,86 @@ const data = [
 ];
 
 const SupervisorList = () => {
+  //State for selected company
+  const [selectedCompany, setSelectedCompany] = useState("");
+
+  //state for the company list
+  const [companyList, setCompanyList] = useState([]);
+
+  //state for the supervisor list
+  const [supervisorList, setSupervisorList] = useState([]);
+
+  //state for errors
+  const [errorDetails, setErrorDetails] = useState("");
+  //End of state
+
+  const NoRowsOverlay = () => {
+    return (
+      <Stack height="100%" alignItems="center" justifyContent="center">
+        <Typography variant="body2">{errorDetails}</Typography>
+      </Stack>
+    );
+  };
+  //end of test
+
+  //Fetch company list
+  const getCompanyDetails = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/v1/company/intern-process-company-list"
+      );
+      if (res.status === 200) {
+        console.log(res.data.data);
+        res.data && setCompanyList(res.data.data);
+      } else {
+        setErrorDetails(res.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+      setErrorDetails(error.message);
+      console.log(typeof errorDetails);
+    }
+  };
+
+  useEffect(() => {
+    getCompanyDetails();
+    // console.log(companyList);
+  }, []);
+  //End of fetch company list
+
+  //Fetch supervisor List
+  // const getSupervisorDetails = async () => {
+  //   try {
+  //     const res = await axios.get(
+  //       "http://localhost:5000/api/v1/admin/view-all-users/supervisor"
+  //     );
+  //     if (res.status == 200) {
+  //       console.log(res.data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getSupervisorDetails();
+  // }, [selectedCompany]);
+  //End of Fetch supervisor list
+
   //Handle cellClick function
   const handleCellClick = (key) => {
     console.log(`Cell clicked: ${key}`);
-    setSelectedCompany(data.find((element) => element.id === key)?.company);
+    setSelectedCompany(key);
     console.log(selectedCompany);
   };
   //End of handle cellClick function
 
-  //column list
-  const column = [
+  //column list company
+  const companyColumn = [
     {
-      field: "id",
-      headerName: "ID",
-      width: 80,
-      editable: false,
-    },
-    {
-      field: "company",
+      field: "name",
       headerName: "Company Name ",
-      width: 120,
+      width: 150,
       editable: false,
     },
     {
@@ -40,21 +101,46 @@ const SupervisorList = () => {
         <Button
           variant="itms"
           size="itms-small"
-          onClick={() => handleCellClick(params.row.id)}
+          onClick={() => handleCellClick(params.row.name)}
         >
           select
         </Button>
       ),
     },
   ];
-  //End of column list
+  //End of column list company
 
-  //State for selected company
-  const [selectedCompany, setSelectedCompany] = useState("");
-  //End of state for selected company
+  //column list supervisors
+  const supervisorColumn = [
+    {
+      field: "id",
+      headerName: "Name",
+      width: "120",
+      editable: false,
+    },
+    {
+      field: "company",
+      headerName: "Position",
+      width: "120",
+      editable: false,
+    },
+    // {
+    //   field: "contactNo",
+    //   headerName: "Contact Number",
+    //   width: "120",
+    //   editable: false,
+    // },
+    // {
+    //   field: "Email",
+    //   headerName: "Email Address",
+    //   width: "120",
+    //   editable: false,
+    // },
+  ];
+  //End of column list supervisors
 
   return (
-    <Box sx={{ height: "88vh", width: "83vw" }}>
+    <Box sx={{ height: "88vh" }}>
       <Box sx={{ width: "100%" }}>
         <Typography
           variant="h6"
@@ -62,12 +148,12 @@ const SupervisorList = () => {
           marginBottom={"5px"}
           paddingLeft={"15px"}
         >
-          Add Supervisors
+          View Supervisors
         </Typography>
       </Box>
       <Box sx={{ height: "100%", width: "100%" }}>
         <Stack direction={"row"} spacing={1} height={"100%"} width={"100%"}>
-          <Tile sx={{ height: "100%", width: "30%" }}>
+          <Tile sx={{ height: "100%", width: "50%" }}>
             <Box height={"100%"}>
               <Stack direction={"column"} height={"100%"} spacing={1}>
                 <Box>
@@ -75,32 +161,48 @@ const SupervisorList = () => {
                     Company Selection
                   </Typography>
                 </Box>
-                <Box width={340}>
+                <Box width={"auto"}>
                   <DataGrid
-                    rows={data}
-                    columns={column}
+                    rows={companyList}
+                    columns={companyColumn}
                     hideFooter={true}
                     disableColumnMenu={true}
                     autoHeight={true}
+                    getRowId={(row) => row._id}
+                    slots={{
+                      noRowsOverlay: NoRowsOverlay,
+                    }}
                   />
                 </Box>
               </Stack>
             </Box>
           </Tile>
-          <Tile sx={{ height: "100%", width: "70%" }}>
+          <Tile sx={{ height: "100%", width: "50%" }}>
             <Box>
               <Stack direction={"column"} spacing={1}>
                 <Box>
                   <Typography align="center" fontWeight={"bold"}>
-                    Add Supervisors
+                    Supervisor List
                   </Typography>
                 </Box>
                 {selectedCompany !== "" && (
-                  <Box>
-                    <Typography>
-                      Add Supervisors to the company : {selectedCompany}
-                    </Typography>
-                  </Box>
+                  <Stack direction={"column"} spacing={2}>
+                    <Box>
+                      <Typography>
+                        Supervisors assigned to : {selectedCompany}
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <DataGrid
+                        rows={data}
+                        columns={supervisorColumn}
+                        hideFooter={true}
+                        disableColumnMenu={true}
+                        autoHeight={true}
+                        getRowId={(row) => row.id}
+                      />
+                    </Box>
+                  </Stack>
                 )}
               </Stack>
             </Box>

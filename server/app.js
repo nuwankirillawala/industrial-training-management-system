@@ -26,18 +26,18 @@ app.use(cookieParser());
 
 // routes
 app.get('*', checkUser);
-app.get('/', (req, res) => { });
+// app.get('/', (req, res) => { });
 app.get("/test", (req, res) => {
     res.send("Success");
 });
 
 app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/admin', adminRoutes);
-app.use('/api/v1/undergraduate', undergraduateRoutes);
-app.use('/api/v1/supervisor', supervisorRoutes);
-app.use('/api/v1/alumni', alumniRoutes);
-app.use('/api/v1/company', companyRoutes);
-app.use('/api/v1/notice', noticeRoutes);
+app.use('/api/v1/admin', checkUser, adminRoutes);
+app.use('/api/v1/undergraduate', checkUser, undergraduateRoutes);
+app.use('/api/v1/supervisor', checkUser, supervisorRoutes);
+app.use('/api/v1/alumni', checkUser, alumniRoutes);
+app.use('/api/v1/company', checkUser, companyRoutes);
+app.use('/api/v1/notice', checkUser, noticeRoutes);
 
 
 

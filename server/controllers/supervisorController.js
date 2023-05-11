@@ -1,4 +1,6 @@
+const Company = require("../models/Company");
 const Supervisor = require("../models/Supervisor");
+const Undergraduate = require("../models/Undergraduate");
 const handleErrors = require("../utils/appErrors");
 const catchAsync = require("../utils/catchAsync");
 
@@ -9,14 +11,28 @@ module.exports.createSupervisor = catchAsync(async (req, res) => {
     try {
         const { name, email, contactNo, company, jobRole, password } = req.body;
         const user = await Supervisor.create({ name, email, contactNo, company, jobRole, password });
+        // company = should be company object id
 
         if(!user){
-            return res.status(400).json({message: "error! can't create the user!"});
+            return res.status(400).json({error: "supervisor user creation failed"});
         }
 
-        res.status(201).json({
+        const updatedCompany = await Company.findByIdAndUpdate(
+            company,
+            { $addToSet: { supervisors: user._id } },
+            { new: true }
+        );
+        console.log(user);
+        console.log(updatedCompany);
+
+        if (!updatedCompany) {
+            return res.status(404).json({ error: "update failed" });
+        }
+
+        res.status(200).json({
             user: user._id,
             type: user.role,
+            updatedCompany,
             message: "supervisor created successfullly"
         });
     } catch (err) {
@@ -25,3 +41,4 @@ module.exports.createSupervisor = catchAsync(async (req, res) => {
         res.status(500).json({ errors });
     }
 });
+

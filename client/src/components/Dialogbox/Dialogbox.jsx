@@ -22,7 +22,7 @@ export default function Dialogbox({ children, title, btn_name }) {
 
     return (
         <div>
-            <Button variant="outlined" onClick={handleClickOpen}>
+            <Button variant="itms" size="itms-small" onClick={handleClickOpen}>
                 {btn_name}
             </Button>
             <Dialog open={open} >
@@ -32,7 +32,7 @@ export default function Dialogbox({ children, title, btn_name }) {
                 </Stack>
                 <DialogContent>
                     <DialogContentText>
-                        Dialogbox Content
+                        {/* if u want you can add instructions here without Typography */}
                     </DialogContentText>
                     {children}
 

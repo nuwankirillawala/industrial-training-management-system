@@ -4,9 +4,12 @@ import { useState, useEffect, useRef } from "react"
 import { Tile } from "../../../card/Tile"
 import { Formik } from "formik"
 import * as yup from "yup"
+import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
+import axios from "axios"
+
 
 const User = {
-    alumniName: 'ajith',
+    alumniName: '',
     alumniEmail: '',
     alumniContactNo: '',
     alumniRegNo: '', //not allowed to change
@@ -14,7 +17,15 @@ const User = {
 }
 
 export const UpdateAlumniForm = () => {
-    //add axios while integrate to get initial values
+    const [SnackbarOpen, setSnackbarOpen] = useState(false)
+
+    const handleSnackBar = (key) => {
+        setSnackbarOpen((prevState) => {
+            let newState = { ...prevState };
+            newState[key] = !newState[key];
+            return newState;
+        });
+    };
 
     const validation = yup.object().shape({
         alumniName: yup.string(),
@@ -24,9 +35,29 @@ export const UpdateAlumniForm = () => {
     })
 
 
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = async (values) => {
         alert(JSON.stringify(values));//convert object to a json file, this popup may omitt @ the integration
-        alert("your data is submitted");
+        console.log(values)
+        try {
+            const res = await axios.patch("http://localhost:5000/api/v1/alumni/update-alumni-profile",
+                {
+                    id: userId,   //id, _id, userID
+                    name: values.alumniName,
+                    email: values.alumniEmail,
+                    contactNo: values.alumniContactNo,
+                    regNo: values.adminStaffId,
+                    graduatedYear: values.alumniGraduatedYear
+                },
+                { withCredentials: true }
+
+            );
+            console.log(res.status);
+            handleSnackBar("success");
+        }
+        catch (error) {
+            console.log(error)
+        }
+        handleSnackBar("success");
     }
 
 
@@ -133,6 +164,13 @@ export const UpdateAlumniForm = () => {
                     </form>
                 )}
             </Formik>
+            <StatusSnackBar
+                trigger={SnackbarOpen.success}
+                setTrigger={() => {
+                    handleSnackBar("success");
+                }}
+                severity='success'
+                alertMessage={' submitted '}></StatusSnackBar>
         </Tile>
 
     )

@@ -37,6 +37,7 @@ import Sidebar from './components/Sidebar/Sidebar';
 
 import * as Admin from './Pages/Admin';
 import { DepartmentStudentProfile } from './Pages/Department/DepartmentStudentProfile'
+import NoticeForm from './components/shared/Notice/NoticeForm'
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path='/' element={<RootLayout />}>
@@ -65,6 +66,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path="manage-company" element={<ManageCompany />} />
             <Route path="add-company" element={<AddCompany />} />
             <Route path="department-studentprofile" element={<DepartmentStudentProfile />} />
+            <Route path="noticeform" element={<NoticeForm />} />
 
             {/* student routes */}
             <Route path="student-dashboard" element={<StudentDashboard />} />
@@ -113,7 +115,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path='select-student' element={<Admin.SelectStudent />} />
 
             <Route path='daily-report' element={<Admin.DailyReport />} />
-            <Route path='daily-report-list' element={<Admin.DailyReportList />} />
+            <Route path='report-list' element={<Admin.ReportList />} />
             <Route path='final-feedback' element={<Admin.FinalFeedback />} />
             <Route path='final-feedback-list' element={<Admin.FinalFeedbackList />} />
             <Route path='report-portal' element={<Admin.ReportPortal />} />
@@ -122,7 +124,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path='view-result-sheet' element={<Admin.ViewResultsheet />} />
 
             <Route path='assign-supervisor-for-intern' element={<Admin.AssignSupervisorForIntern />} />
-            <Route path='supervisor-list' element={<Admin.SupervisorList />} />
+            <Route path='supervisor-list' element={<Admin.SupervisorList />} />            
             {/* end of admin routes */}
         </Route>
 
@@ -142,6 +144,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path='test' element={<Test />} />
             <Route path='testsidebar' element={<Sidebar />} />
             <Route path="daily-report-form" element={<DailyReportForm />} />
+            <Route path='testnoticeform' element={<NoticeForm />} />
 
         </Route>
 

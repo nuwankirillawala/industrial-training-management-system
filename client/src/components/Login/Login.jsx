@@ -1,7 +1,7 @@
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import './Login.css'
 import { Unilogo } from '../../components/shared/Images/Unilogo';
-import { Button, Checkbox, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
+import { Button, Checkbox, CircularProgress, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -12,6 +12,7 @@ import { VisibilityOff, Visibility } from '@mui/icons-material/';
 
 const Login = () => {
     // we have update error handling, responsiveness.
+    const [loginLoading, setLoginLoading] = useState(false)
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [password, setPassword] = useState('');
@@ -31,9 +32,12 @@ const Login = () => {
     const handleSubmit = async (e) => {
         try {
             e.preventDefault();
+            setLoginLoading(true);
             await loginUser({ email, password });
         } catch (err) {
             console.log(err);
+        } finally {
+            setLoginLoading(false);
         }
     }
 
@@ -199,14 +203,16 @@ const Login = () => {
                                 <p><a href="/">Forgot Password</a></p>
                             </div>
 
-                            <Button
+                            {loginLoading ?  
+                            <CircularProgress />
+                            : <Button
                                 type="submit"
                                 variant="contained"
                                 size="large"
                                 sx={{ borderRadius: '15px', width: '100%', marginTop: '16px' }}
                             >
                                 LOGIN
-                            </Button>
+                            </Button>}
                         </form>
                     </div>
                 </div>

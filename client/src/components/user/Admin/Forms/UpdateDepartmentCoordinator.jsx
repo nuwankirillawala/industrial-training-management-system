@@ -1,36 +1,104 @@
-import { TextField, Stack, Button, Typography, Select } from "@mui/material"
+import { TextField, Stack, Button, Typography, Select, MenuItem } from "@mui/material"
 import React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Tile } from "../../../card/Tile"
 import { Formik } from "formik"
 import * as yup from "yup"
+import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
+import axios from "axios"
 
+export const UpdateDepartmentCoordinator = ({ userId }) => {
+    const [userData, setUserData] = useState({
+        name: '',
+        email: '',
+        contactNo: '',
+        staffId: '',
+        coordinatorRole: ''
+    });
 
-const departmentCoordinator = {
-    departmentCoordinatorName: '',
-    departmentCoordinatorEmail: '',
-    departmentCoordinatorContactNo: '',
-    departmentCoordinatorStaffId: '',
-    //departmentCoordinatorPassword : '',
-    departmentCoordinatorPosition: ''
-}
+    const getUserData = async () => {
+        try {
+            console.log(userId)
+            const res = await axios.get(`http://localhost:5000/api/v1/admin/admin-profile/${userId}`,
+                { withCredentials: true });
 
-export const UpdateDepartmentCoordinator = () => {
-    //add axios while integrate to get initial values
+            if (res.status === 200) {
+                setUserData({
+                    name: res.data.user.name,
+                    email: res.data.user.email,
+                    contactNo: res.data.user.contactNo,
+                    staffId: res.data.user.staffId,
+                    coordinatorRole: res.data.user.role
+                });
 
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        getUserData();
+    }, [])
+
+    //statusSnackBar state
+    const [trigger, setTrigger] = useState({
+        success: false,
+        error: false,
+    });
+
+    //End of statusSnackBar state
+    const handleSnackBar = (key) => {
+        setTrigger((prevState) => {
+            let newState = { ...prevState };
+            newState[key] = !newState[key];
+            return newState;
+        });
+    };
+
+    const departmentCoordinator = {
+        departmentCoordinatorName: '',
+        departmentCoordinatorEmail: '',
+        departmentCoordinatorContactNo: '',
+        departmentCoordinatorStaffId: '',
+        //departmentCoordinatorPosition: ''
+    }
     const validation = yup.object().shape({
         departmentCoordinatorName: yup.string(),
         departmentCoordinatorEmail: yup.string().email("Invalid Email"),
         departmentCoordinatorContactNo: yup.string().length(10, "must contain 10 digits"),
         departmentCoordinatorStaffId: yup.string(),
-        departmentCoordinatorPosition: yup.string()
+        // departmentCoordinatorPosition: yup.string()
     })
 
 
-    const handleFormSubmit = (values) => {
-        alert(JSON.stringify(values));//convert object to a json file, this popup may omitt @ the integration
-        alert("your data is submitted");
+    const handleFormSubmit = async (values) => {
+        console.log(values);
+        try {
+            const res = await axios.patch("http://localhost:5000/api/v1/admin/update-admin-profile",
+                {
+                    id: userId,
+                    name: values.departmentCoordinatorName,/* === "" ? userData.name : values.departmentCoordinatorName, */
+                    role: userData.role, /* values.departmentCoordinatorPosition  === "" ? userData.role : values.adminRole, */
+                    email: values.departmentCoordinatorEmail, /* === "" ? userData.email : values.adminEmail, */
+                    contactNo: values.departmentCoordinatorContactNo, /* === "" ? userData.contactNo : values.adminContactNo, */
+                    staffId: values.departmentCoordinatorStaffId /* === "" ? userData.staffId : values.adminStaffId */
+                },
+                { withCredentials: true }
+            );
+            console.log(res.status);
+
+            if (res.status === 200) {
+                handleSnackBar("success");
+            } else {
+                handleSnackBar("error");
+            }
+        }
+        catch (error) {
+            console.log(error);
+            handleSnackBar("error");
+        }
     }
+
 
 
     return (
@@ -62,6 +130,7 @@ export const UpdateDepartmentCoordinator = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
+                                        placeholder={userData.name}
                                         value={values.departmentCoordinatorName} //if u use User here it will not let change text
                                         name="departmentCoordinatorName"
                                         error={!!touched.departmentCoordinatorName && !!errors.departmentCoordinatorName}
@@ -81,7 +150,8 @@ export const UpdateDepartmentCoordinator = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        value={values.departmentCoordinatorEmail} //if u use User here it will not let change text
+                                        placeholder={userData.email}
+                                        value={values.departmentCoordinatorEmail}
                                         name="departmentCoordinatorEmail"
                                         error={!!touched.departmentCoordinatorEmail && !!errors.departmentCoordinatorEmail}
                                         helperText={touched.departmentCoordinatorEmail && errors.departmentCoordinatorEmail}
@@ -100,7 +170,8 @@ export const UpdateDepartmentCoordinator = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        value={values.departmentCoordinatorContactNo} //if u use User here it will not let change text
+                                        placeholder={userData.contactNo}
+                                        value={values.departmentCoordinatorContactNo}
                                         name="departmentCoordinatorContactNo"
                                         error={!!touched.departmentCoordinatorContactNo && !!errors.departmentCoordinatorContactNo}
                                         helperText={touched.departmentCoordinatorContactNo && errors.departmentCoordinatorContactNo}
@@ -120,6 +191,7 @@ export const UpdateDepartmentCoordinator = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
+                                        placeholder={userData.staffId}
                                         value={values.departmentCoordinatorStaffId}
                                         name="departmentCoordinatorStaffId"
                                         error={!!touched.departmentCoordinatorStaffId && !!errors.departmentCoordinatorStaffId}
@@ -128,7 +200,7 @@ export const UpdateDepartmentCoordinator = () => {
                                 </Stack>
                             </Stack>
 
-                            <Stack direction="row" spacing={2}>
+                            {/* <Stack direction="row" spacing={2}>
                                 <Stack width='150px'>
                                     <Typography variant="body1">Position</Typography>
                                 </Stack>
@@ -139,20 +211,21 @@ export const UpdateDepartmentCoordinator = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
+                                        placeholder={userData.coordinatorRole}
                                         value={values.departmentCoordinatorPosition}
                                         name="departmentCoordinatorPosition"
                                         error={!!touched.departmentCoordinatorPosition && !!errors.departmentCoordinatorPosition}
-                                        helperText={touched.departmentCoordinatorPosition && errors.departmentCoordinatorPosition}
-                                    ><MenuItem value="Proffer">Proffer</MenuItem>
-                                        <MenuItem value="SiniorLec1">Sinior Lecture 1</MenuItem>
-                                        <MenuItem value="SiniorLec2">Sinior Lecture 2</MenuItem>
-                                        <MenuItem value="SiniorLec3">Sinior Lecture 3</MenuItem>
+                                        helperText={touched.departmentCoordinatorPosition && errors.departmentCoordinatorPosition}>
+                                        <MenuItem value="Proffer">Proffessor</MenuItem>
+                                        <MenuItem value="SeniorLec1">Senior Lecture 1</MenuItem>
+                                        <MenuItem value="SeniorLec2">Senior Lecture 2</MenuItem>
+                                        <MenuItem value="SeniorLec3">Senior Lecture 3</MenuItem>
                                         <MenuItem value="Lecture">Lecture</MenuItem>
-                                        <MenuItem value="Prbeshanary">Prbeshanary</MenuItem>
+                                        <MenuItem value="Probeshanary">Probeshanary</MenuItem>
                                     </Select>
                                 </Stack>
                             </Stack>
-
+ */}
                             <Stack direction="row" display={'flex'} justifyContent="flex-end" paddingRight={'0px'}>
                                 <Button variant="itms" type="submit"  >Submit</Button>
                                 <Button variant="itms" type="reset"  >Reset</Button>
@@ -161,6 +234,22 @@ export const UpdateDepartmentCoordinator = () => {
                     </form>
                 )}
             </Formik>
+            <StatusSnackBar
+                severity="success"
+                trigger={trigger.success}
+                setTrigger={() => {
+                    handleSnackBar(" Update success");
+                }}
+                alertMessage={"Update Succefully"}
+            />
+            <StatusSnackBar
+                severity="error"
+                trigger={trigger.error}
+                setTrigger={() => {
+                    handleSnackBar("error");
+                }}
+                alertMessage={"Update Fail"}
+            />
         </Tile>
 
     )

@@ -6,4 +6,7 @@ const router = Router();
 router.route('/create-alumni')
     .post(alumniController.createAlumni)
 
+router.route('/update-alumni-profile')
+    .patch(alumniController.updateAlumniProfile)
+
 module.exports = router;

@@ -4,6 +4,7 @@ import { Tile } from '../../../card/Tile'
 import { useState, useEffect } from "react"  //ref attribute -> an element to access it directly in the DOM.
 import { Stack } from "@mui/system"
 import { Formik } from "formik"
+import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
 
 
 const RemoveCompanydata = {
@@ -11,6 +12,15 @@ const RemoveCompanydata = {
 }
 
 export const RemoveCompanyForm = () => {
+    const [SnackbarOpen, setSnackbarOpen] = useState(false)
+
+    const handleSnackBar = (key) => {
+        setSnackbarOpen((prevState) => {
+            let newState = { ...prevState };
+            newState[key] = !newState[key];
+            return newState;
+        });
+    };
 
     //const [YesNoValue, setYesNoValue] = useState();
     // const handleYesNo = (text) => {
@@ -19,6 +29,7 @@ export const RemoveCompanyForm = () => {
     const handleFormSubmit = (values) => { // send req only if 'yes'
         alert(JSON.stringify(values));
         console.log(values)
+        handleSnackBar("success");
     }
     return (
         <Tile width={'450px'} >
@@ -45,6 +56,13 @@ export const RemoveCompanyForm = () => {
                         </Stack>
                     </form>)}
             </Formik>
+            <StatusSnackBar
+                trigger={SnackbarOpen.success}
+                setTrigger={() => {
+                    handleSnackBar("success");
+                }}
+                severity='success'
+                alertMessage={'  Company successfully removed  '}></StatusSnackBar>
         </Tile >
 
     )
