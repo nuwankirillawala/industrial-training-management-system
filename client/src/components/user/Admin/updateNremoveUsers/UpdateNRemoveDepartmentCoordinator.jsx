@@ -62,7 +62,7 @@ export const UpdateNRemoveDepartmentCoordinator = () => {
                                     <TableCell >   {r.email}  </TableCell>
                                     <TableCell >   {r.contactNo}  </TableCell>
                                     <TableCell >   {r.staffId} </TableCell>
-                                    <TableCell> <Dialogbox title="Update Department Coordinator" btn_name="update"><UpdateDepartmentCoordinator /></Dialogbox></TableCell>
+                                    <TableCell> <Dialogbox title="Update Department Coordinator" btn_name="update"><UpdateDepartmentCoordinator userId={r._id} /></Dialogbox></TableCell>
                                     <TableCell> <Dialogbox title="Remove Department Coordinator" btn_name="remove"><RemoveUserForm /></Dialogbox></TableCell>
                                 </TableRow> //id,title,description need to change as json file
                             )}

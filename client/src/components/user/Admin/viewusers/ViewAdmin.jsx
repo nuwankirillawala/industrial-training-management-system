@@ -25,7 +25,20 @@ export const ViewAdmin = () => {
         getAdminData();
     }, [])
 
+    const fetchUser = async () =>{
+        try{
+            const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/admin')
+            if(res.status){
+                setSingleUser(JSON.stringify(res.data))
+            }
+            console.log(res)
+        }
+        catch(err){
 
+        }
+    }
+
+    useEffect(() => fetchUser, []);
     const Column = [
         { columnName: 'Admin Name' },
         { columnName: '  Email' },
