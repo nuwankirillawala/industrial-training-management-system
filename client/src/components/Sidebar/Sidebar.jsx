@@ -456,7 +456,7 @@ export default function Sidebar() {
                 <ListItemButton
                   key={controlItem.id}
                   sx={buttonStyles}
-                  onClick={(e) => controlItem.id = 3 ? handleLogout(e) : handleControlItem(controlItem.page)}
+                  onClick={(e) => controlItem.id === 3 ? handleLogout(e) : handleControlItem(controlItem.page)}
                   >
                     {!open ? (
                       <ListItemIconWrapper sx={{ color: 'inherit' }}>
