@@ -150,13 +150,13 @@ router.route('/additional-information')
 
 router.route('progress-report/:internId')
     .post(restrictedTo(['supervisor']), undergraduateController.addProgressReport)
-    .get(restrictedTo(['system-admin', 'department-coordinator'],'supervisor'), undergraduateController.getProgressReport)
+    .get(restrictedTo(['system-admin', 'department-coordinator','supervisor']), undergraduateController.getProgressReport)
 
 // ############################## Final Feedback ##############################
 
 router.route('final-feedback/:internId')
     .post(restrictedTo(['supervisor']), undergraduateController.addFinalFeedback)
-    .get(restrictedTo(['system-admin', 'department-coordinator'],'supervisor'), undergraduateController.getFinalFeedback)
+    .get(restrictedTo(['system-admin', 'department-coordinator','supervisor']), undergraduateController.getFinalFeedback)
 
     // get report admin supervisor have differnt perspectives
 
