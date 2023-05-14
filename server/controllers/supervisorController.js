@@ -29,7 +29,7 @@ module.exports.createSupervisor = catchAsync(async (req, res) => {
             return res.status(404).json({ error: "update failed" });
         }
 
-        res.status(200).json({
+        res.status(201).json({
             user: user._id,
             type: user.role,
             updatedCompany,
@@ -42,3 +42,30 @@ module.exports.createSupervisor = catchAsync(async (req, res) => {
     }
 });
 
+// Method = PATCH
+// Endpoint = "/update-supervisor"
+// Description = Update supervisor profile
+module.exports.updateSupervisor = catchAsync(async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { name, email, contactNo, company, jobRole } = req.body;
+
+        const update = { $set: { name, email, contactNo, company, jobRole } };
+        const options = { new: true };
+
+        const user = await Supervisor.findByIdAndUpdate(
+            userId,
+            update,
+            options
+        );
+        
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        res.status(201).json(user);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});

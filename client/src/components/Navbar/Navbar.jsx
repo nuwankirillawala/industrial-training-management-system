@@ -83,7 +83,10 @@ export default function Navbar() {
         position="fixed"
         elevation={0}
         sx={{
-          bgcolor: "#000080", //90a4ae, 4B6A88
+          // bgcolor: "rgba(255, 255, 255, 0.8)", //90a4ae, 4B6A88 #000080
+          backdropFilter: 'blur(5px)',
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+          backgroundColor: 'rgba(255, 255, 255, 0.8)',
           width: {
             sm: `calc(100% - ${drawerWidth}px)`
           },
@@ -98,7 +101,7 @@ export default function Navbar() {
           <Stack direction="row" spacing='5px'>
             {isNotifications ? (
               <Box>
-                <IconButton onClick={handleNotificationOpen} style={{ color: 'white' }} >
+                <IconButton onClick={handleNotificationOpen} style={{ color: '#4665D2' }} >
                   <Badge color="red" variant="dot" sx={{ top: '50%' }} // red defined in rootlayout
                     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}          >
                     <NotificationsNoneIcon fontSize="large" />
@@ -126,7 +129,7 @@ export default function Navbar() {
 
             <Box>
               <IconButton onClick={handleProfileMenu}>
-                <Avatar sx={{ height: '40px', marginRight: '10px' }} />
+                <Avatar sx={{ height: '40px', marginRight: '10px', color: '#4665D2' }} />
               </IconButton>
               <Menu
                 id="basic-menu"
