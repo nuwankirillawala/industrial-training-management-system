@@ -6,7 +6,11 @@ const { deleteExistingResultSheet } = require('../middleware/deleteMiddleware');
 
 const router = Router();
 
-router.route('/upload-resultsheet')
+router.route('/upload')
     .post(restrictedTo('system-admin', 'department-coordinator'), deleteExistingResultSheet, excelsheetUpload, resultController.uploadResultSheetAndAddResult)
+
+router.route('/all')
+    .get(restrictedTo('system-admin', 'department-coordinator'), resultController.getResults)
+
 
 module.exports = router;

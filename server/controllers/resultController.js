@@ -109,3 +109,21 @@ module.exports.uploadResultSheetAndAddResult = catchAsync(async (req, res) => {
 });
 
 
+// Method: GET
+// Endpoint: "/get-all"
+// Description: get all results
+// User: admin
+
+module.exports.getResults = catchAsync( async(req, res) => {
+  try {
+    const results = await Result.find();
+
+    if(!results){
+      return res.status(404).json({error: "results not found"});
+    }
+    res.status(200).json(results);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+})
