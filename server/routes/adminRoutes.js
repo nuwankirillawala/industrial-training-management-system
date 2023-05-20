@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const adminController = require('../controllers/adminController');
 const { imageUpload } = require('../middleware/uploadMiddleware');
+const { deleteExistingImage } = require('../middleware/deleteMiddleware');
 
 const router = Router();
 
@@ -12,7 +13,7 @@ router.route('/profile')
     .patch(adminController.updateAdminProfile)
 
 router.route('/profile/image')
-    .patch(imageUpload, adminController.updateAdminProfileImage)
+    .patch(deleteExistingImage, imageUpload, adminController.updateAdminProfileImage)
 
 router.route('/users/:userType')
     .get(adminController.viewAllUsers)

@@ -3,6 +3,7 @@ const Supervisor = require("../models/Supervisor");
 const Undergraduate = require("../models/Undergraduate");
 const handleErrors = require("../utils/appErrors");
 const catchAsync = require("../utils/catchAsync");
+const fs = require('fs');
 
 // Method = POST
 // Endpoint = "/create-supervisor"
@@ -70,6 +71,43 @@ module.exports.updateSupervisor = catchAsync(async (req, res) => {
     }
 });
 
+// Method = PATCH
+// Endpoint = "/profile/image"
+// Description = Update profile image
+module.exports.updateProfileImage = catchAsync(async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const filePath = `files/images/${req.file.filename}`;
+        fs.renameSync(req.file.path, filePath);
+
+        if (!filePath) {
+            console.log('image not uploaded');
+        }
+
+        console.log(filePath);
+
+        const user = await Supervisor.findByIdAndUpdate(
+            userId,
+            {$set: {
+                profileImage: filePath
+            }},
+            { new: true }
+        );
+
+        console.log(user);
+
+        if (!user) {
+            return res.status(404).json({ error: "user not found" });
+        }
+
+        res.status(201).json({profileImage: user.profileImage});
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
 // Method: GET
 // Endpoint: "/profile"
 // Description: view supervisor profile
@@ -80,7 +118,7 @@ module.exports.getSupervisor = catchAsync(async (req, res) => {
         const user = await Supervisor.findById(userId);
         
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         res.status(200).json(user);
@@ -100,7 +138,7 @@ module.exports.getAllSupervisors = catchAsync(async (req, res) => {
         const user = await Supervisor.find();
         
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         res.status(200).json(user);
@@ -120,7 +158,7 @@ module.exports.viewSupervisor = catchAsync(async (req, res) => {
         const user = await Supervisor.findById(userId);
         
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         res.status(200).json(user);
