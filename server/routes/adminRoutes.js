@@ -13,10 +13,13 @@ router.route('/view-all-users/:userType')
 router.route('/search-users/:userType')
     .get(adminController.searchUsers)
 
-router.route('/admin-profile/:id')
+router.route('/admin-profile')
     .get(adminController.adminProfile)
 
-router.route('/update-admin-profile')
+router.route('/update-admin')
+    .patch(adminController.updateAdminProfile)
+
+router.route('/update-admin-profile-image')
     .patch(imageUpload, adminController.updateAdminProfile)
 
 module.exports = router;
