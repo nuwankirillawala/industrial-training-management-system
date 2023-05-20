@@ -69,3 +69,63 @@ module.exports.updateSupervisor = catchAsync(async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+// Method: GET
+// Endpoint: "/profile"
+// Description: view supervisor profile
+module.exports.getSupervisor = catchAsync(async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const user = await Supervisor.findById(userId);
+        
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        res.status(200).json(user);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// Method: GET
+// Endpoint: "/users"
+// Description: view all supervisor
+module.exports.getAllSupervisors = catchAsync(async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const user = await Supervisor.find();
+        
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        res.status(200).json(user);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// Method: GET
+// Endpoint: "/userId"
+// Description: view a supervisor
+module.exports.viewSupervisor = catchAsync(async (req, res) => {
+    try {
+        const userId = req.params.userId;
+
+        const user = await Supervisor.findById(userId);
+        
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        res.status(200).json(user);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
