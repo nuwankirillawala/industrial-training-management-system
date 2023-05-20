@@ -4,22 +4,21 @@ const { imageUpload } = require('../middleware/uploadMiddleware');
 
 const router = Router();
 
-router.route('/create-admin')
+router.route('/create')
     .post(adminController.createAdmin)
 
-router.route('/view-all-users/:userType')
-    .get(adminController.viewAllUsers)
-
-router.route('/search-users/:userType')
-    .get(adminController.searchUsers)
-
-router.route('/admin-profile')
+router.route('/profile')
     .get(adminController.adminProfile)
-
-router.route('/update-admin')
     .patch(adminController.updateAdminProfile)
 
-router.route('/update-admin-profile-image')
+router.route('/profile/image')
     .patch(imageUpload, adminController.updateAdminProfileImage)
+
+router.route('/users/:userType')
+    .get(adminController.viewAllUsers)
+
+router.route('/users/search/:userType')
+    .get(adminController.searchUsers)
+
 
 module.exports = router;
