@@ -1,5 +1,6 @@
 const multer = require('multer');
 const fs = require('fs');
+const path = require('path');
 const Admin = require('../models/Admin');
 const Undergraduate = require('../models/Undergraduate');
 const Supervisor = require('../models/Supervisor');
@@ -39,4 +40,31 @@ const deleteExistingImage = async (req, res, next) => {
     }
 };
 
-module.exports = { deleteExistingImage };
+const deleteExistingResultSheet = (req, res, next) => {
+  const excelFolderPath = 'files/excel';
+
+  fs.readdir(excelFolderPath, (err, files) => {
+    if (err) {
+      console.error('Error reading directory:', err);
+      return next(err);
+    }
+
+    // Iterate over the files in the folder
+    files.forEach((file) => {
+      const filePath = path.join(excelFolderPath, file);
+
+      // Delete each file
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.error('Error deleting file:', err);
+        } else {
+          console.log('File deleted:', filePath);
+        }
+      });
+    });
+
+    next();
+  });
+};
+
+module.exports = { deleteExistingImage, deleteExistingResultSheet };

@@ -24,6 +24,7 @@ const excelStorage = multer.diskStorage({
         cb(null, 'files/excel');
     },
     filename: (req, file, cb) => {
+        console.log(file.originalname);
         cb(null, Date.now() + "-" + file.originalname);
         // cb(null, 'resultdata.xlsx');
     }
