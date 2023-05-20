@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const undergraduateController = require('../controllers/undergraduateController');
 const { restrictedTo } = require('../middleware/authMiddleware');
-const { cvUpload, imageUpload, excelsheetUpload } = require('../middleware/uploadMiddleware');
+const { cvUpload, imageUpload } = require('../middleware/uploadMiddleware');
 
 const router = Router();
 
@@ -45,9 +45,6 @@ router.route('/company-selection')
 
 router.route('/undergraduate-dashboard')
     .get(restrictedTo('undergraduate'), undergraduateController.undergraduateDashboard)
-
-router.route('/upload-resultsheet')
-    .post(restrictedTo('system-admin', 'department-coordinator'), excelsheetUpload, undergraduateController.uploadResultSheetAndAddResult)
 
 router.route('/set-weighted-gpa')
     .post(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.setWeightedGPA)

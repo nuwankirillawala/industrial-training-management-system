@@ -1,6 +1,5 @@
 const Undergraduate = require('../models/Undergraduate');
 const Company = require('../models/Company');
-const Result = require('../models/Result');
 const Supervisor = require('../models/Supervisor');
 const handleErrors = require('../utils/appErrors');
 const { default: mongoose } = require('mongoose');
@@ -8,7 +7,6 @@ const catchAsync = require('../utils/catchAsync');
 const { startOfWeek, endOfWeek, addWeeks, format, addDays, startOfMonth, endOfMonth, getWeeksInMonth, addMonths } = require('date-fns');
 const fs = require('fs');
 const path = require('path');
-const xlsx = require('xlsx');
 
 // Method: POST
 // Endpoint: "/create-undergraduate"
@@ -370,63 +368,6 @@ module.exports.editNote = catchAsync(async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
-    }
-});
-
-// Method: POST
-// Endpoint: "/upload-resultsheet"
-// Description: Upload resultsheet and add results of undergraduate
-// User: admin
-module.exports.uploadResultSheetAndAddResult = catchAsync(async (req, res) => {
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    try {
-        // convert xlsx file into a json file
-        const excelFolder = '../files/excel';
-        const files = fs.readdirSync(excelFolder)
-            .filter(file => path.extname(file) === '.xlsx')
-            .map(file => ({
-                name: file,
-                time: fs.statSync(path.join(excelFolder, file)).mtime.getTime()
-            }))
-            .sort((a, b) => b.time - a.time);
-
-        if (files.length === 0) {
-            return res.status(400).json({ error: 'excel file not found' });
-        }
-
-        const filePath = path.join(excelFolder, files[0].name);
-        const resultbook = xlsx.readFile(filePath);
-
-        const resultSheet = resultbook.Sheets[resultbook.SheetNames[0]];
-        console.log(`Loaded ${resultbook.SheetNames.length} sheets from ${filePath}`);
-
-        const resultJson = xlsx.utils.sheet_to_json(resultSheet);
-        console.log(resultJson);
-
-        const results = await Result.create(resultJson, { session });
-
-        for (const result of results) {
-            const filter = { regNo: result.regNo };
-            const updates = { $set: { results: result._id } };
-            const user = await Undergraduate.findOneAndUpdate(filter, updates, { session });
-
-            if (!user) {
-                throw new Error(`Undergraduate with regNo ${result.regNo} not found!`);
-            }
-
-            console.log(`Result ${result._id} saved for student ${user._id}`);
-
-        }
-
-        await session.commitTransaction();
-        res.status(201).json(results);
-
-    } catch (err) {
-        await session.abortTransaction();
-        console.log(err);
-    } finally {
-        session.endSession();
     }
 });
 
