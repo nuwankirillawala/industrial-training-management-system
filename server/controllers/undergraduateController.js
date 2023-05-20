@@ -61,7 +61,7 @@ module.exports.getUndergraduate = catchAsync(async (req, res) => {
 // Endpoint: "/view-undergraduate-profile"
 // Description: View Undegraduate Profile
 // User: undergraduate
-module.exports.viewUndergraduateProfile = catchAsync(async (req, res) => {
+module.exports.viewProfile = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
         console.log(userId);
@@ -79,13 +79,45 @@ module.exports.viewUndergraduateProfile = catchAsync(async (req, res) => {
 });
 
 // Method: PATCH
-// Endpoint: "/update-undergraduate-profile"
+// Endpoint: "/update-undergraduate"
 // Description: Update undergraduate profile
 // User: undergraduate
-module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
+module.exports.updateProfile = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
         const { email, contactNo, linkdinURL, githubURL, internStatus } = req.body;
+
+        const user = await Undergraduate.findByIdAndUpdate(
+            userId,
+            {
+                email,
+                contactNo,
+                linkdinURL,
+                githubURL,
+                internStatus,
+            },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        res.status(201).json(user);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+
+// Method: PATCH
+// Endpoint: "/update-undergraduate-profile-image"
+// Description: Update undergraduate profile
+// User: undergraduate
+module.exports.updateProfileImage = catchAsync(async (req, res) => {
+    try {
+        const userId = req.user.id;
 
         const filePath = `files/images/${req.file.filename}`;
         fs.renameSync(req.file.path, filePath);
@@ -97,14 +129,9 @@ module.exports.updateUndergraduateProfile = catchAsync(async (req, res) => {
         const user = await Undergraduate.findByIdAndUpdate(
             userId,
             {
-                email,
-                contactNo,
-                linkdinURL,
-                githubURL,
-                internStatus,
                 profileImage: filePath
             },
-            { new: true }
+            // { new: true }
         );
 
         if (!user) {
@@ -143,7 +170,7 @@ module.exports.undergraduateDashboard = catchAsync(async (req, res) => {
 // Endpoint: "/view-all-undergraduates"
 // Description: View all undergraduates
 // User: admin
-module.exports.viewAllUndergraduates = catchAsync(async (req, res) => {
+module.exports.viewAll = catchAsync(async (req, res) => {
     try {
         const users = await Undergraduate.find();
 

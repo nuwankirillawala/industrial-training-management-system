@@ -2,23 +2,28 @@ const { Router } = require('express');
 const undergraduateController = require('../controllers/undergraduateController');
 const { restrictedTo } = require('../middleware/authMiddleware');
 const { cvUpload, imageUpload } = require('../middleware/uploadMiddleware');
+const { deleteExistingImage } = require('../middleware/deleteMiddleware');
 
 const router = Router();
 
-router.route('/create-undergraduate')
+router.route('/create')
     .post(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.createUndergraduate)
 
-router.route('/get-undergraduate/:undergraduateId')
+router.route('/view/:undergraduateId')
     .get(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.getUndergraduate)
 
-router.route('/view-undergraduate-profile')
-    .get(restrictedTo('undergraduate'), undergraduateController.viewUndergraduateProfile)
+router.route('/get')
+    .get(restrictedTo('undergraduate'), undergraduateController.viewProfile)
 
-router.route('/update-undergraduate-profile')
-    .patch(restrictedTo('undergraduate'), imageUpload, undergraduateController.updateUndergraduateProfile)
+router.route('/update')
+    .patch(restrictedTo('undergraduate'), undergraduateController.updateProfile)
 
-router.route('/view-all-undergraduates')
-    .get(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.viewAllUndergraduates)
+router.route('/update-profile-image')
+    .patch(restrictedTo('undergraduate'), deleteExistingImage, imageUpload, undergraduateController.updateProfileImage)
+
+
+router.route('/view-all')
+    .get(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.viewAll)
 
 // ############################## Private Notes ##############################
 
@@ -147,14 +152,14 @@ router.route('/additional-information')
 
 router.route('progress-report/:internId')
     .post(restrictedTo('supervisor'), undergraduateController.addProgressReport)
-    .get(restrictedTo('system-admin', 'department-coordinator','supervisor'), undergraduateController.getProgressReport)
+    .get(restrictedTo('system-admin', 'department-coordinator', 'supervisor'), undergraduateController.getProgressReport)
 
 // ############################## Final Feedback ##############################
 
 router.route('final-feedback/:internId')
     .post(restrictedTo('supervisor'), undergraduateController.addFinalFeedback)
-    .get(restrictedTo('system-admin', 'department-coordinator','supervisor'), undergraduateController.getFinalFeedback)
+    .get(restrictedTo('system-admin', 'department-coordinator', 'supervisor'), undergraduateController.getFinalFeedback)
 
-    // get report admin supervisor have differnt perspectives
+// get report admin supervisor have differnt perspectives
 
 module.exports = router;

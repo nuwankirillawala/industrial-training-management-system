@@ -20,6 +20,6 @@ router.route('/update-admin')
     .patch(adminController.updateAdminProfile)
 
 router.route('/update-admin-profile-image')
-    .patch(imageUpload, adminController.updateAdminProfile)
+    .patch(imageUpload, adminController.updateAdminProfileImage)
 
 module.exports = router;

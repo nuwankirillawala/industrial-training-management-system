@@ -171,7 +171,7 @@ module.exports.updateAdminProfileImage = catchAsync(async (req, res) => {
             return res.status(400).json({ error: "user not found" });
         }
 
-        res.status(200).json(user);
+        res.status(200).json(user.profileImage);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
