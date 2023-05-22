@@ -24,6 +24,9 @@ router.route('/profile/image')
 router.route('/all')
     .get(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.viewAll)
 
+router.route('/dashboard')
+    .patch(undergraduateController.undergraduateDashboard)
+
 // ############################## Private Notes ##############################
 
 router.route('/note/add')
@@ -46,9 +49,6 @@ router.route('/intern/list')
 router.route('/intern/company-selection')
     .get(restrictedTo('undergraduate'), undergraduateController.getCompanySelection)
     .patch(restrictedTo('undergraduate'), undergraduateController.updateCompanySelection)
-
-router.route('/undergraduate-dashboard')
-    .get(restrictedTo('undergraduate'), undergraduateController.undergraduateDashboard)
 
 router.route('/intern/set-weighted-gpa')
     .post(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.setWeightedGPA)
