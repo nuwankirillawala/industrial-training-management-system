@@ -32,27 +32,23 @@ module.exports.createAlumni = catchAsync(async (req, res) => {
 // Description = Update alumni profile
 module.exports.updateAlumniProfile = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
+        const userId = req.user.id;
         const { name, email, contactNo, regNo, graduatedYear } = req.body;
 
-        const filter = { _id: userId };
         const update = { $set: { name, email, contactNo, regNo, graduatedYear } };
         const options = { new: true };
 
-        // findbyIdAndUpdate mongoose⚡
+        const user = await Alumni.findByIdAndUpdate(
+            userId,
+            update,
+            options
+        );
+        
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
 
-        await Admin.updateOne(filter, update, options)
-            .then(async () => {
-                const user = await Alumni.findOne(filter);
-                if (!user) {
-                    return res.status(400).json({ message: "user not exists" });
-                }
-                res.status(200).json(user);
-            })
-            .catch((error) => {
-                console.log(error.message);
-                res.status(400).json(error);
-            });
+        res.status(201).json(user);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);

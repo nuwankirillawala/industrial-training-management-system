@@ -10,24 +10,16 @@ import axios from "axios";
 
 
 export const UpdateNRemoveAdmin = () => {
-
     const [Records, setRecords] = useState([])
 
-
-    // useEffect(() => {
-    //     fetch('api/v1/admin/view-all-users/admin')  ////api/v1/admin/view-all-users/:userType
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             console.log(data)
-    //         })
-    // }, [])
     const getAdminData = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/admin');
+            const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/admin', { withCredentials: true });
             console.log(res);
             if (res.status === 200) {
                 console.log(res.data.users);
-                setRecords(res.data.users)
+                const filteredRecords = res.data.users.filter(record => record.role === 'system-admin');
+                setRecords(filteredRecords);
             }
         } catch (error) {
             console.log(error)
@@ -42,8 +34,7 @@ export const UpdateNRemoveAdmin = () => {
         { columnName: 'Admin Name' },
         { columnName: ' Email' },
         { columnName: ' Contact No' },
-        { columnName: ' Staff ID' },
-        { columnName: ' Job Role' }
+        { columnName: ' Staff ID' }
     ]
 
     return (
@@ -70,7 +61,6 @@ export const UpdateNRemoveAdmin = () => {
                                     <TableCell >   {r.email}  </TableCell>
                                     <TableCell >   {r.contactNo}  </TableCell>
                                     <TableCell >   {r.staffId} </TableCell>
-                                    <TableCell >   {r.jobRole} </TableCell>
                                     <TableCell> <Dialogbox title="Update Administrator" btn_name="update"><UpdateAdminForm userId={r._id} /></Dialogbox></TableCell>
                                     <TableCell> <Dialogbox title="Remove Administrator" btn_name="remove"><RemoveUserForm /></Dialogbox></TableCell>
                                 </TableRow> //id,title,description need to change as json file

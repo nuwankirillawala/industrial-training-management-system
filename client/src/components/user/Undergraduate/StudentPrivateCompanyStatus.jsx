@@ -13,7 +13,7 @@ export const StudentPrivateCompanyStatus = ({pageNo,setPage,companyState,setComp
         try {
           const res = await axios.get('http://localhost:5000/api/v1/company/intern-process-company-list');
           if(res.data.status === 'success'){
-            // console.log(res.data.data);
+            console.log(res.data.data);
             setCompanyData(res.data.data)
           }
         } catch (error) {
@@ -31,8 +31,7 @@ export const StudentPrivateCompanyStatus = ({pageNo,setPage,companyState,setComp
             try{
               const res = await axios.post(
                 "http://localhost:5000/api/v1/undergraduate/edit-intern-status", 
-                {   _id : values._id,
-                    companyId : values.companyName,
+                { companyId : values.companyName,
                     newStatus : values.newStatus
                 },
               {withCredentials: true}

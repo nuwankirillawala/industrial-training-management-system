@@ -38,6 +38,7 @@ import Sidebar from './components/Sidebar/Sidebar';
 import * as Admin from './Pages/Admin';
 import { DepartmentStudentProfile } from './Pages/Department/DepartmentStudentProfile'
 import NoticeForm from './components/shared/Notice/NoticeForm'
+import DeleteNotice from './components/shared/Notice/DeleteNotice'
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path='/' element={<RootLayout />}>
@@ -66,6 +67,8 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path="manage-company" element={<ManageCompany />} />
             <Route path="add-company" element={<AddCompany />} />
             <Route path="department-studentprofile" element={<DepartmentStudentProfile />} />
+            <Route path="noticeform" element={<NoticeForm />} />
+            <Route path='deletenotices' element={<DeleteNotice />} />
 
             {/* student routes */}
             <Route path="student-dashboard" element={<StudentDashboard />} />
@@ -123,7 +126,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path='view-result-sheet' element={<Admin.ViewResultsheet />} />
 
             <Route path='assign-supervisor-for-intern' element={<Admin.AssignSupervisorForIntern />} />
-            <Route path='supervisor-list' element={<Admin.SupervisorList />} />
+            <Route path='supervisor-list' element={<Admin.SupervisorList />} />            
             {/* end of admin routes */}
         </Route>
 
@@ -144,6 +147,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path='testsidebar' element={<Sidebar />} />
             <Route path="daily-report-form" element={<DailyReportForm />} />
             <Route path='testnoticeform' element={<NoticeForm />} />
+            <Route path='testdeletenotices' element={<DeleteNotice />} />
 
         </Route>
 

@@ -12,37 +12,58 @@ import axios from 'axios'
 
 const studentValues = {
     firstName : '',
-    lastName : '',
-    fullName : '',
+    // lastName : '',
+    // fullName : '',
     regNo : '',
     email : '',
     contactNo : '',
     linkedin : '',
-    github : ''
+    github : '',
+    internStatus : ''
 }
 
 export const StudentSettings = () => {
 
     const[profile,setProfile] = useState(studentValues);
-    // const [studentData , setStudentData] = useState([]);
+    const [studentData , setStudentData] = useState({
+        firstName : '',
+        // lastName : '',
+        // fullName : '',
+        regNo : '',
+        email : '',
+        contactNo : '',
+        linkedin : '',
+        github : '',
+        internStatus : ''
+    });
 
-    // //fetch data
-    // const getStudentData = async() => {
-    //     try {
-    //       const res = await axios.get('http://localhost:5000/api/v1/undergraduate/view-undergraduate-profile');
-    //       if(res.data.status === 'success'){
-    //         console.log(res.data.data);
-    //         setStudentData(res.data)
-    //       }
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   }
+    //fetch data
+    const getStudentData = async() => {
+        try {
+            const res = await axios.get("http://localhost:5000/api/v1/undergraduate/view-undergraduate-profile",{withCredentials:true});
+            if(res.status === 200){
+              console.log("responce :",res.data);
+            setStudentData({
+                firstName : res.data.name,
+                //  lastName : '',
+                // fullName : '',
+                regNo : res.data.regNo,
+                email : res.data.email,
+                contactNo : res.data.contactNo,
+                linkedin : res.data.linkdinURL,
+                github : res.data.githubURL,
+                internStatus : "cv-send"
+            })
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
     
-    //   useEffect(()=> {
-    //     getStudentData();
-    //   }, [])
-    //   //End of fetch data
+      useEffect(()=> {
+        getStudentData();
+      }, [])
+      //End of fetch data
 
     //statusSnackBar state
     const [trigger, setTrigger] = useState({
@@ -61,14 +82,15 @@ export const StudentSettings = () => {
     const handleFormSubmit = async (values) => {
         console.log(values);        
         try{const res = await axios.patch(
-            "http://localhost:5000/api/v1/undergraduate/update-undergraduate-profile", 
-            {   
-                "id" : "63decbe168deaccef0e61740",
-                "email" : values.email,
-                "contactNo" : values.contactNo,
-                "linkdinURL" : values.linkedin,
-                "githubURL" : values.github
-           },
+            "http://localhost:5000/api/v1/undergraduate/update-undergraduate-profile",{withCredentials : true}, 
+            {
+                // name: values.adminName === "" ? studentData.name : values.adminName,
+                email: values.email === "" ? studentData.email : values.email,
+                contactNo: values.contactNo === "" ? studentData.contactNo : values.contactNo,
+                githubURL: values.githubURL === "" ? studentData.github : values.githubURL,
+                linkedin: values.linkedin === "" ? studentData.linkedin : values.linkedin,
+                internStatus: values.internStatus === "" ? studentData.internStatus : values.internStatus,
+            },
             {withCredentials: true}
             );
         console.log("reponse : " ,res.status);
@@ -170,7 +192,7 @@ export const StudentSettings = () => {
                                                 <TextField
                                                     variant='outlined'
                                                     size='small'
-                                                    defaultValue="Kamal"
+                                                    placeholder={studentData.firstName}
                                                     type='text'
                                                     name='firstName'
                                                     fullWidth
@@ -182,7 +204,7 @@ export const StudentSettings = () => {
                                                     />
                                             </Stack>
                                         </Stack>
-                                        <Stack direction={'row'}>
+                                        {/* <Stack direction={'row'}>
                                             <Stack minWidth={'200px'} flex={1}>
                                                 <Typography>Last Name</Typography>
                                             </Stack>
@@ -201,7 +223,8 @@ export const StudentSettings = () => {
                                                     helperText={touched.lastName && errors.lastName}
                                                 />
                                             </Stack>
-                                        </Stack>
+                                        </Stack> */}
+{/* 
                                         <Stack direction={'row'}>
                                             <Stack minWidth={'200px'} flex={1}>
                                                 <Typography>Name With Initials</Typography>
@@ -221,7 +244,8 @@ export const StudentSettings = () => {
                                                     helperText={touched.fullName && errors.fullName}
                                                     />
                                             </Stack>
-                                        </Stack>
+                                        </Stack> */}
+
                                         <Stack direction={'row'}>
                                             <Stack flex={1} minWidth={'200px'}>
                                                 <Typography>Registration Number</Typography>
@@ -231,7 +255,7 @@ export const StudentSettings = () => {
                                                     variant='outlined'
                                                     size='small'
                                                     type='text'
-                                                    defaultValue={'SC/2019/11100'}
+                                                    placeholder={studentData.regNo}
                                                     name='regNo'
                                                     fullWidth
                                                     value={values.regNo}
@@ -251,7 +275,7 @@ export const StudentSettings = () => {
                                                     variant='outlined'
                                                     size='small'
                                                     type='text'
-                                                    defaultValue={values.email}
+                                                    placeholder={studentData.email}
                                                     name='email'
                                                     fullWidth
                                                     value={values.email}
@@ -271,7 +295,7 @@ export const StudentSettings = () => {
                                                     variant='outlined'
                                                     size='small'
                                                     type='text'
-                                                    defaultValue={'0123456789'}
+                                                    placeholder={studentData.contactNo}
                                                     name='contactNo'
                                                     fullWidth
                                                     value={values.contactNo}
@@ -291,7 +315,7 @@ export const StudentSettings = () => {
                                                     variant='outlined'
                                                     size='small'
                                                     type='url'
-                                                    defaultValue={'www.linkedin.com'}
+                                                    placeholder={studentData.linkedin}
                                                     name='linkedin'
                                                     fullWidth
                                                     value={values.linkedin}
@@ -311,7 +335,7 @@ export const StudentSettings = () => {
                                                     variant='outlined'
                                                     size='small'
                                                     type='url'
-                                                    defaultValue={'www.github.com'}
+                                                    placeholder={studentData.githubURL}
                                                     name='github'
                                                     fullWidth
                                                     value={values.github}

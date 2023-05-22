@@ -46,7 +46,7 @@ export const StudentCompany = () => {
     //fetch data
     const getCompanyList = async() => {
         try {
-          const res = await axios.get('http://localhost:5000/api/v1/company/intern-process-company-list');
+          const res = await axios.get('http://localhost:5000/api/v1/company/intern-process-company-list',{withCredentials: true});
           if(res.data.status === 'success'){
             // console.log(res.data.data);
             setCompanyList(res.data.data);

@@ -7,11 +7,6 @@ import { DataGrid } from '@mui/x-data-grid'
 import { Divider } from '@mui/material'
 import Dialogbox from '../Dialogbox/Dialogbox'
 
-// const dailydetail = {
-//     weekStartDate: '',
-//     weekEndDate: '',
-//     Solutions: ''
-// }
 
 const mondayReport = {
     mondayReportData: ''
@@ -47,35 +42,42 @@ export const DailyReportForm = () => {
     const [saturdayvalues, setSaturdayValues] = useState(saturdayReport);
     const [sundayvalues, setSundayValues] = useState(sundayReport);
 
-    const [ReportDate, setReportDate] = useState('');
+    const [problemsEncountered, setProblemsEncountered] = useState('');
+    const [weekNo, setWeekNo] = useState('');
+    const [DayNo, setDayNo] = useState('');
 
     const handleMondaySubmit = (event) => {
         event.preventDefault();
-        console.log(mondayvalues, ReportDate);
+        console.log(weekNo, DayNo, mondayvalues);
     }
     const handleTuesdaySubmit = (event) => {
         event.preventDefault();
-        console.log(tuesdayvalues, ReportDate);
+        console.log(weekNo, DayNo, tuesdayvalues);
     }
     const handleWednesdaySubmit = (event) => {
         event.preventDefault();
-        console.log(wednesdayvalues, ReportDate);
+        console.log(weekNo, DayNo, wednesdayvalues);
     }
     const handleThursdaySubmit = (event) => {
         event.preventDefault();
-        console.log(thursdayvalues, ReportDate);
+        console.log(weekNo, DayNo, thursdayvalues);
     }
     const handleFridaySubmit = (event) => {
         event.preventDefault();
-        console.log(fridayvalues, ReportDate);
+        console.log(weekNo, DayNo, fridayvalues);
     }
     const handleSaturdaySubmit = (event) => {
         event.preventDefault();
-        console.log(saturdayvalues, ReportDate);
+        console.log(weekNo, DayNo, saturdayvalues);
     }
     const handleSundaySubmit = (event) => {
         event.preventDefault();
-        console.log(sundayvalues, ReportDate);
+        console.log(weekNo, DayNo, sundayvalues);
+    }
+    const fullPageSubmit = (event) => {
+        event.preventDefault();
+        console.log(mondayvalues, tuesdayvalues, wednesdayvalues, thursdayvalues, fridayvalues, saturdayvalues, sundayvalues, problemsEncountered, weekNo);
+
     }
     //if u save or submit, it need to send data to backend but if u submit deactivate the edit button.
 
@@ -83,18 +85,12 @@ export const DailyReportForm = () => {
         <Tile width={'1000px'}>
 
             {/* <form onSubmit={onSubmit}> */}
-            <form>
+            <form >
                 <Typography align="center" variant="h6" fontWeight="bold" paddingBottom={'20px'} color="#536dfe"> Daily Report</Typography>
                 <Divider orientation="horizontal" />
                 <Stack direction={'column'} spacing={5} justifyContent={'center'} padding="8px">
                     <Stack direction="row" spacing={10} > {/* justifyContent={'space-between'} */}
-                        <Typography >Week No :</Typography><TextField type="number" varient="outlined" InputProps={{ inputProps: { min: 1, step: 1 } }}></TextField>
-                        {/* <Stack direction="row" spacing={3}>
-                            <Typography >Week start <br />date :</Typography><TextField type="date" varient="outlined" ></TextField>
-                        </Stack>
-                        <Stack direction="row" spacing={3} >
-                            <Typography >Week end <br />date :</Typography><TextField type="date" varient="outlined" ></TextField>
-                        </Stack> */}
+                        <Typography onChange={(event) => setWeekNo(event.target.value)}>Week No :</Typography><TextField type="number" varient="outlined" InputProps={{ inputProps: { min: 1, step: 1 } }}></TextField>
                     </Stack>
 
                     <Divider orientation="horizontal" />
@@ -124,7 +120,7 @@ export const DailyReportForm = () => {
                                     <Typography>Monday</Typography>
                                 </Grid>
                                 <Grid item md={2.5}>
-                                    <TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)} ></TextField>
+                                    <TextField varient="outlined"  ></TextField>
                                 </Grid>
                                 <Grid item md={5}>
                                     <Typography style={{ wordWrap: 'break-word' }} >{mondayvalues.mondayReportData}</Typography>
@@ -135,7 +131,7 @@ export const DailyReportForm = () => {
                                         {/* <Dialogbox title="Update Administrator" btn_name="update" handleSubmit={handleSubmit} setMondayValues={setMondayValues} mondayvalues={mondayvalues}> */}
                                         <Grid container>
                                             <Grid item md={6}>
-                                                <form onSubmit={handleMondaySubmit}>
+                                                <form onSubmit={() => { setDayNo('1'), handleMondaySubmit }}>
                                                     <TextField
                                                         multiline
                                                         defaultValue={mondayvalues.mondayReportData}
@@ -160,7 +156,7 @@ export const DailyReportForm = () => {
                                     <Typography>Tuesday</Typography>
                                 </Grid>
                                 <Grid item md={2.5}>
-                                    <TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)}></TextField>
+                                    <TextField varient="outlined" ></TextField>
                                 </Grid>
                                 <Grid item md={5}>
                                     <Typography style={{ wordWrap: 'break-word' }}>{tuesdayvalues.tuesdayReportData}</Typography>
@@ -171,7 +167,7 @@ export const DailyReportForm = () => {
                                         {/* <Dialogbox title="Update Administrator" btn_name="update" handleSubmit={handleSubmit} setMondayValues={setMondayValues} mondayvalues={mondayvalues}> */}
                                         <Grid container>
                                             <Grid item md={6}>
-                                                <form onSubmit={handleTuesdaySubmit}>
+                                                <form onSubmit={() => { setDayNo('2'), handleTuesdaySubmit }}>
                                                     <TextField
                                                         multiline
                                                         defaultValue={tuesdayvalues.tuesdayReportData}
@@ -196,7 +192,7 @@ export const DailyReportForm = () => {
                                     <Typography>Wednesday</Typography>
                                 </Grid>
                                 <Grid item md={2.5}>
-                                    <TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)} ></TextField>
+                                    <TextField varient="outlined"  ></TextField>
                                 </Grid>
                                 <Grid item md={5}>
                                     <Typography style={{ wordWrap: 'break-word' }}>{wednesdayvalues.wednesdayReportData}</Typography>
@@ -207,7 +203,7 @@ export const DailyReportForm = () => {
                                         {/* <Dialogbox title="Update Administrator" btn_name="update" handleSubmit={handleSubmit} setMondayValues={setMondayValues} mondayvalues={mondayvalues}> */}
                                         <Grid container>
                                             <Grid item md={6}>
-                                                <form onSubmit={handleWednesdaySubmit}>
+                                                <form onSubmit={() => { setDayNo('3'), handleWednesdaySubmit }}>
                                                     <TextField
                                                         multiline
                                                         defaultValue={wednesdayvalues.wednesdayReportData}
@@ -232,7 +228,7 @@ export const DailyReportForm = () => {
                                     <Typography>Thursday</Typography>
                                 </Grid>
                                 <Grid item md={2.5}>
-                                    <TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)}></TextField>
+                                    <TextField varient="outlined" ></TextField>
                                 </Grid>
                                 <Grid item md={5}>
                                     <Typography style={{ wordWrap: 'break-word' }} >{thursdayvalues.thursdayReportData}</Typography>
@@ -243,7 +239,7 @@ export const DailyReportForm = () => {
                                         {/* <Dialogbox title="Update Administrator" btn_name="update" handleSubmit={handleSubmit} setMondayValues={setMondayValues} mondayvalues={mondayvalues}> */}
                                         <Grid container>
                                             <Grid item md={6}>
-                                                <form onSubmit={handleThursdaySubmit}>
+                                                <form onSubmit={() => { setDayNo('4'), handleThursdaySubmit }}>
                                                     <TextField
                                                         multiline
                                                         defaultValue={thursdayvalues.thursdayReportData}
@@ -268,7 +264,7 @@ export const DailyReportForm = () => {
                                     <Typography>Friday</Typography>
                                 </Grid>
                                 <Grid item md={2.5}>
-                                    <TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)}></TextField>
+                                    <TextField varient="outlined" ></TextField>
                                 </Grid>
                                 <Grid item md={5}>
                                     <Typography style={{ wordWrap: 'break-word' }}>{fridayvalues.fridayReportData}</Typography>
@@ -279,7 +275,7 @@ export const DailyReportForm = () => {
                                         {/* <Dialogbox title="Update Administrator" btn_name="update" handleSubmit={handleSubmit} setMondayValues={setMondayValues} mondayvalues={mondayvalues}> */}
                                         <Grid container>
                                             <Grid item md={6}>
-                                                <form onSubmit={handleFridaySubmit}>
+                                                <form onSubmit={() => { setDayNo('5'), handleFridaySubmit }}>
                                                     <TextField
                                                         multiline
                                                         defaultValue={fridayvalues.fridayReportData}
@@ -304,7 +300,7 @@ export const DailyReportForm = () => {
                                     <Typography>Saturday</Typography>
                                 </Grid>
                                 <Grid item md={2.5}>
-                                    <TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)} ></TextField>
+                                    <TextField varient="outlined"  ></TextField>
                                 </Grid>
                                 <Grid item md={5}>
                                     <Typography style={{ wordWrap: 'break-word' }} >{saturdayvalues.saturdayReportData}</Typography>
@@ -315,7 +311,7 @@ export const DailyReportForm = () => {
                                         {/* <Dialogbox title="Update Administrator" btn_name="update" handleSubmit={handleSubmit} setMondayValues={setMondayValues} mondayvalues={mondayvalues}> */}
                                         <Grid container>
                                             <Grid item md={6}>
-                                                <form onSubmit={handleSaturdaySubmit}>
+                                                <form onSubmit={() => { setDayNo('6'), handleSaturdaySubmit }}>
                                                     <TextField
                                                         multiline
                                                         defaultValue={saturdayvalues.saturdayReportData}
@@ -340,7 +336,7 @@ export const DailyReportForm = () => {
                                     <Typography>Sunday</Typography>
                                 </Grid>
                                 <Grid item md={2.5}>
-                                    <TextField type="date" varient="outlined" onChange={(event) => setReportDate(event.target.value)}></TextField>
+                                    <TextField varient="outlined" ></TextField>
                                 </Grid>
                                 <Grid item md={5}>
                                     <Typography style={{ wordWrap: 'break-word' }}>{sundayvalues.sundayReportData}</Typography>
@@ -351,7 +347,7 @@ export const DailyReportForm = () => {
                                         {/* <Dialogbox title="Update Administrator" btn_name="update" handleSubmit={handleSubmit} setMondayValues={setMondayValues} mondayvalues={mondayvalues}> */}
                                         <Grid container>
                                             <Grid item md={6}>
-                                                <form onSubmit={handleSundaySubmit}>
+                                                <form onSubmit={() => { setDayNo('7'), handleSundaySubmit }}>
                                                     <TextField
                                                         multiline
                                                         defaultValue={sundayvalues.sundayReportData}
@@ -387,8 +383,11 @@ export const DailyReportForm = () => {
                                 label="Multiline"
                                 multiline
                                 maxRows={6}
+                                onChange={(e) => {
+                                    setProblemsEncountered(e.target.value);
+                                }}
                             />
-                            <Button variant="itms" type="submit"  > Submit report</Button>
+                            <Button variant="itms" type="submit" onSubmit={fullPageSubmit} > Submit report</Button>
 
                         </Stack>
                     </Stack>
