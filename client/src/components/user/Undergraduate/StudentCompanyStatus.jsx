@@ -63,10 +63,10 @@ export const StudentCompanyStatus = ({pageNo,setPage,companyState,setCompanyStat
                                                                 placeholder="company"
                                                                 fullWidth
                                                             >
-                                                                <MenuItem value={''}>None</MenuItem>
+                                                                <MenuItem value={'cv-sent'} defaultChecked>Resume Sent</MenuItem>
                                                                 <MenuItem value={'called'}>Called</MenuItem>
-                                                                <MenuItem value={'notCalled'}>Not Called</MenuItem>
                                                                 <MenuItem value={'selected'}>Selected</MenuItem>
+                                                                <MenuItem value={'not-selected'}>Not Called</MenuItem>
                                                             </Select>
                                                         </FormControl>
                                                     </TableCell>
