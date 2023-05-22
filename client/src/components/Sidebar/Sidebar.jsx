@@ -8,12 +8,11 @@ import ListItemText from '@mui/material/ListItemText';
 import { Unilogo } from '../shared/Images/Unilogo';
 import { Grid } from '@mui/material';
 import { useState } from 'react';
-import { Apartment, ArrowBack, Article, Assessment, Ballot, ChevronLeft, Create, Dashboard, LocationCity, Logout, Margin, Menu, Notifications, NotificationsNone, Settings } from '@mui/icons-material';
+import { Apartment, ArrowBack, Article, Assessment, Ballot, ChevronLeft, Create, Dashboard, Delete, LocationCity, Logout, Margin, Menu, Notifications, NotificationsNone, Settings } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import MuiDrawer from '@mui/material/Drawer';
 import useAuth from '../../Hooks/useAuth';
-
 
 const drawerWidth = 240;
 
@@ -61,24 +60,6 @@ const ListItemIconWrapper = styled(ListItemIcon)({
   display: 'flex',
   justifyContent: 'center',
 });
-
-// const AppBar = styled(MuiAppBar, {
-//   shouldForwardProp: (prop) => prop !== 'open',
-// })(({ theme, open }) => ({
-//   zIndex: theme.zIndex.drawer +1,
-//   transition: theme.transitions.create(['margin', 'width'], {
-//     easing: theme.transitions.easing.sharp,
-//     duration: theme.transitions.duration.leavingScreen
-//   }),
-//   ...(open && {
-//     width: `calc(100% - ${drawerWidth}px)`,
-//     marginLeft: drawerWidth,
-//     transition: theme.transitions.create(['margin', 'width'], {
-//       easing: theme.transitions.easing.sharp,
-//       duration: theme.transitions.duration.enteringScreen
-//     })
-//   })
-// }));
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -170,6 +151,12 @@ const users = [
         primaryText: 'Notice Form',
         icon: <Create />,
         element: '/noticeform' 
+      },
+      {
+        id: 7,
+        primaryText: 'Delete Notices',
+        icon: <Delete />,
+        element: '/deletenotices'
       }
     ]
   },
@@ -245,21 +232,6 @@ export default function Sidebar() {
     }
   }
 
-  // const handleControlItems = (path) => {
-  //   history.push(path);
-  // }
-
-  // const theme = createTheme({
-  //   palette: {
-  //     secondary: {
-  //       main: '#ff3d00',  //#b80000
-  //     },
-  //     new: {
-  //       main: '#eeeeee',  //#b80000
-  //     },
-  //   },
-  // });
-
   const [open, setOpen] = useState(true);
   const {logout} = useAuth();
 
@@ -319,49 +291,6 @@ export default function Sidebar() {
             </Button>
           </DialogActions>
         </Dialog>
-
-      {/* <ThemeProvider theme={theme}>
-        <AppBar
-          position="fixed"
-          elevation={0}
-          sx={{
-            bgcolor: '#4665d2',
-            width: { sm: `calc(100% - ${drawerWidth}px)` },
-            ml: { sm: `${drawerWidth}px` },
-          }}
-          open={open}
-          >
-          <Toolbar >
-            <IconButton
-              onClick={ handleDrawerOpen }
-              edge='start'
-              sx={{ ...(open && { display: 'none' }) }}
-            >
-              <Menu />
-            </IconButton>
-            <Typography variant="body1" component="div" sx={{ flexGrow: 1, paddingLeft: '35px' }}>
-              <li key={products.id}> {Page}</li> 
-              {Page}
-            </Typography>
-            <Stack direction="row">
-              <IconButton color={isNotifications ? 'secondary' : 'new'} >
-                {isNotifications ? <NotificationsNone fontSize="large" /> : <NotificationsNone fontSize="large" />}
-              </IconButton>
-              <IconButton>
-                <img src={Image} style={{ height: '40px', marginRight: '10px' }} />
-              </IconButton>
-              <Stack justifyContent={'center'}>
-                <Typography variant="body1" sx={{ padding: "8px" }} >
-                  {Name}
-                </Typography>
-              </Stack>
-            </Stack>
-
-          </Toolbar>
-        </AppBar>
-      </ThemeProvider> */}
-
-      {/* <AppBar position='fixed' open={open}/> */}
 
       <Drawer
         sx={{
@@ -456,7 +385,7 @@ export default function Sidebar() {
                 <ListItemButton
                   key={controlItem.id}
                   sx={buttonStyles}
-                  onClick={(e) => controlItem.id = 3 ? handleLogout(e) : handleControlItem(controlItem.page)}
+                  onClick={(e) => controlItem.id === 3 ? handleLogout(e) : handleControlItem(controlItem.page)}
                   >
                     {!open ? (
                       <ListItemIconWrapper sx={{ color: 'inherit' }}>
@@ -477,17 +406,8 @@ export default function Sidebar() {
         </Stack>        
 
       </Drawer>
-
-      {/* <Main open={open} /> */}
       
     </Box>
   );
 
 }
-
-/*In general, you should use AppBar if you want a standard navigation bar
- with Material-UI styles, and use Toolbar if you want more control over 
- the layout and content of your navigation bar.*/
-
-/* if u export default => import Name
-if u export without default => import {Name}   */

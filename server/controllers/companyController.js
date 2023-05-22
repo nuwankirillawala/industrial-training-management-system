@@ -22,6 +22,59 @@ module.exports.createCompany = catchAsync(async (req, res) => {
     }
 });
 
+// Method: PATCH
+// Endpoint: "/:companyId/profile"
+// Description: update a company
+// User: Admin
+module.exports.updateCompanyProfile = catchAsync(async (req, res) => {
+    try {
+        const companyId = req.params.companyId;
+        const { name, email, contactNo, address, internSeats, description, connectedForIntern } = req.body;
+
+        const company = await Company.findByIdAndUpdate(
+            companyId,
+            { name, email, contactNo, address, internSeats, description, connectedForIntern }
+        );
+
+        if (!company) {
+            return res.status(404).json({ error: "company not found" });
+        }
+
+        res.status(201).json({
+            message: "company updated successfully",
+            company
+        });
+    } catch (err) {
+        const errors = handleErrors(err);
+        console.log(errors);
+        res.status(400).json({ errors });
+    }
+});
+
+// Method: GET
+// Endpoint: "/:companyId/profile"
+// Description: get a company
+// User: Admin
+module.exports.getCompanyProfile = catchAsync(async (req, res) => {
+    try {
+        const companyId = req.params.companyId;
+
+        const company = await Company.findById(companyId);
+
+        if (!company) {
+            return res.status(404).json({ error: "company not found" });
+        }
+
+        res.status(201).json({
+            company
+        });
+    } catch (err) {
+        // const errors = handleErrors(err);
+        console.log(errors);
+        res.status(400).json(err);
+    }
+});
+
 // Method: POST
 // Endpoint: "/:companyID/add-contact-person"
 // Description: add a contact person for a company
@@ -57,22 +110,63 @@ module.exports.addContactPerson = catchAsync(async (req, res) => {
 });
 
 // Method: PATCH
-// Endpoint: "/:companyID/edit-rating"
+// Endpoint: "/:companyID/rating"
 // Description: edit company ratings
 // User: Admin, Alumni
 module.exports.editCompanyRating = catchAsync(async (req, res) => {
     try {
-        const companyID = req.params.companyID;
-        console.log(companyID);
-        const c = Company.find();
-        console.log(c)
-        // Company.findById(companyID, (err, foundCompany) => {
-        //     if(err){
-        //         console.log(err);
-        //     } else {
-        //         console.log(foundCompany);
-        //     } 
-        // }) 
+        const companyId = req.params.companyId;
+        const {
+            culture,
+            work_life_balance,
+            opportunities_to_growth,
+            salary_and_benefits,
+            location,
+            projects,
+            mentorship,
+            reputation,
+            industry,
+            technology,
+            team_size,
+            values,
+            mission,
+            support,
+            experience,
+            total } = req.body;
+
+        const ratings = {
+            culture,
+            work_life_balance,
+            opportunities_to_growth,
+            salary_and_benefits,
+            location,
+            projects,
+            mentorship,
+            reputation,
+            industry,
+            technology,
+            team_size,
+            values,
+            mission,
+            support,
+            experience,
+            total
+        };
+
+        console.log(ratings);
+
+        const company = await Company.findByIdAndUpdate(companyId, {ratings}, { new: true });
+
+        if (!company) {
+            return res.status(404).json({ error: "company not found" });
+        }
+
+        console.log(company);
+
+        res.status(201).json({
+            mesage: "rating updated successfully",
+            ratings: company.ratings
+        });
     } catch (err) {
         console.log(err);
     }
@@ -199,7 +293,10 @@ module.exports.internProcess = catchAsync(async (req, res) => {
             }
         }
 
-        const recommendations = await Company.find().select('internApplications.recommendations').session(session);
+        const recommendations = await Company.find().select('internApplications.recommendations, name').populate({
+            path: 'internApplications.recommendations.candidate',
+            model: Undergraduate,
+          }).session(session);
 
         await session.commitTransaction();
 
@@ -211,7 +308,7 @@ module.exports.internProcess = catchAsync(async (req, res) => {
         session.abortTransaction();
         console.log(err);
         res.status(500).json(err);
-    } finally{
+    } finally {
         session.endSession();
     }
 })

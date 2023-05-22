@@ -10,6 +10,7 @@ const supervisorRoutes = require('./routes/supervisorRoutes');
 const alumniRoutes = require('./routes/alumniRoutes');
 const companyRoutes = require('./routes/companyRoutes');
 const noticeRoutes = require('./routes/noticeRoutes');
+const resultRoutes = require('./routes/resultRoutes')
 const { checkUser } = require('./middleware/authMiddleware.js');
 
 const app = express();
@@ -38,6 +39,7 @@ app.use('/api/v1/supervisor', checkUser, supervisorRoutes);
 app.use('/api/v1/alumni', checkUser, alumniRoutes);
 app.use('/api/v1/company', checkUser, companyRoutes);
 app.use('/api/v1/notice', checkUser, noticeRoutes);
+app.use('/api/v1/result', checkUser, resultRoutes);
 
 
 

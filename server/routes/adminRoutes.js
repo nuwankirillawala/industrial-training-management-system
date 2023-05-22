@@ -1,22 +1,25 @@
 const { Router } = require('express');
 const adminController = require('../controllers/adminController');
 const { imageUpload } = require('../middleware/uploadMiddleware');
+const { deleteExistingImage } = require('../middleware/deleteMiddleware');
 
 const router = Router();
 
-router.route('/create-admin')
+router.route('/create')
     .post(adminController.createAdmin)
 
-router.route('/view-all-users/:userType')
+router.route('/profile')
+    .get(adminController.adminProfile)
+    .patch(adminController.updateAdminProfile)
+
+router.route('/profile/image')
+    .patch(deleteExistingImage, imageUpload, adminController.updateAdminProfileImage)
+
+router.route('/users/:userType')
     .get(adminController.viewAllUsers)
 
-router.route('/search-users/:userType')
+router.route('/users/search/:userType')
     .get(adminController.searchUsers)
 
-router.route('/admin-profile/:id')
-    .get(adminController.adminProfile)
-
-router.route('/update-admin-profile')
-    .patch(imageUpload, adminController.updateAdminProfile)
 
 module.exports = router;

@@ -48,6 +48,8 @@ const checkUser = (req, res, next) => {
 // restrict routes to users
 const restrictedTo = (...roles) => {
     return (req, res, next) => {
+        console.log(roles);
+        console.log(req.user.role);
         // roles = ['system-admin', 'department-coordinator', 'supervisor', 'undergraduate', 'alumni']
         if (!roles.includes(req.user.role)) {
             // const error = new Error("You don't have permission to perform this action!")

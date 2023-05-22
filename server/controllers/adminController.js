@@ -101,7 +101,7 @@ module.exports.searchUsers = catchAsync(async (req, res) => {
 // Description = view admin profile
 module.exports.adminProfile = catchAsync(async (req, res) => {
     try {
-        const userId = req.params.id;
+        const userId = req.user.id;
         const user = await Admin.findById(userId);
 
         if (!user) {
@@ -119,8 +119,38 @@ module.exports.adminProfile = catchAsync(async (req, res) => {
 // Description = Update admin profile
 module.exports.updateAdminProfile = catchAsync(async (req, res) => {
     try {
-        const userId = res.locals.user.id;
+        const userId = req.user.id;
         const { role, name, email, contactNo, staffId } = req.body;
+
+        const user = await Admin.findByIdAndUpdate(
+            userId,
+            {
+                role,
+                name,
+                email,
+                contactNo,
+                staffId,
+            },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        res.status(200).json(user);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// Method = PATCH
+// Endpoint = "/update-admin-profile-image"
+// Description = Update admin profile image
+module.exports.updateAdminProfileImage = catchAsync(async (req, res) => {
+    try {
+        const userId = req.user.id;
 
         const filePath = `files/images/${req.file.filename}`;
         fs.renameSync(req.file.path, filePath);
@@ -132,21 +162,16 @@ module.exports.updateAdminProfile = catchAsync(async (req, res) => {
         const user = await Admin.findByIdAndUpdate(
             userId,
             {
-                role,
-                name,
-                email,
-                contactNo,
-                staffId,
                 profileImage: filePath
             },
             { new: true }
         );
-        
+
         if (!user) {
             return res.status(400).json({ error: "user not found" });
         }
 
-        res.status(200).json(user);
+        res.status(200).json(user.profileImage);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);

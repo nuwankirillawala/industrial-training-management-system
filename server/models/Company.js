@@ -47,11 +47,25 @@ const companySchema = new mongoose.Schema({
             type: String
         }
     }],
-    rating: [{
-        criteria01:{
-            type: String
-        }
-    }],
+    ratings: {
+        culture: {type: Number},
+        work_life_balance: {type: Number},
+        oppertunities_to_growth: {type: Number},
+        salary_and_benifits: {type: Number},
+        location: {type: Number},
+        projects: {type: Number},
+        mentorship: {type: Number},
+        reputation: {type: Number},
+        industry: {type: Number},
+        technology: {type: Number},
+        team_size: {type: Number},
+        values: {type: Number},
+        mission: {type: Number},
+        support: {type: Number},
+        experience: {type: Number},
+        total: {type: Number},
+
+    },
     internApplications:{
         applicationListSize: {
             type: Number,

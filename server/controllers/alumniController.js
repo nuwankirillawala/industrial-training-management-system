@@ -32,12 +32,11 @@ module.exports.createAlumni = catchAsync(async (req, res) => {
 // Description = Update alumni profile
 module.exports.updateAlumniProfile = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id;
+        const userId = req.user.id;
         const { name, email, contactNo, regNo, graduatedYear } = req.body;
+
         const update = { $set: { name, email, contactNo, regNo, graduatedYear } };
         const options = { new: true };
-
-        // findbyIdAndUpdate mongoose⚡
 
         const user = await Alumni.findByIdAndUpdate(
             userId,
@@ -49,7 +48,7 @@ module.exports.updateAlumniProfile = catchAsync(async (req, res) => {
             return res.status(400).json({ error: "user not found" });
         }
 
-        res.status(200).json(user);
+        res.status(201).json(user);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
