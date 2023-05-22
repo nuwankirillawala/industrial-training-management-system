@@ -5,13 +5,16 @@ import { Grid, Typography, Button, TextField, Stack, Select, MenuItem } from '@m
 import { Formik } from 'formik'
 import axios from 'axios'
 import * as yup from "yup"
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 const Internperiod = {
     companyName : '',
     startDate : '',
     endDate : '',
     jobRole : '',
-    supervisor : ''
+    type : ''
 }
 
 
@@ -24,7 +27,7 @@ export const StudentInternPeriod = ({pageNo, setPage}) => {
     //fetch data
     const getCompanyList = async() => {
         try {
-          const res = await axios.get('http://localhost:5000/api/v1/company/intern-process-company-list');
+          const res = await axios.get('http://localhost:5000/api/v1/company/intern-process-company-list',{withCredentials:true});
           if(res.data.status === 'success'){
             console.log(res.data.data);
             setCompanyList(res.data.data);
@@ -41,18 +44,21 @@ export const StudentInternPeriod = ({pageNo, setPage}) => {
 
     const validation = yup.object().shape({
         companyName : yup.string().required('required Field'),
-        startDate : yup.string().required('required Field'),
-        endDate : yup.string().required('required Field'),
         jobRole : yup.string().required('required Field'),
-        supervisor : yup.string().required('required Field')
+        type : yup.string().required('required Field'),
+        startDate : yup.string().required('required Field'),
+        endDate : yup.string().required('required Field')
     })
 
     const handleOnSubmit = async (values) => {
         console.log(values);
         try{
-            const res = await axios.patch('http://localhost:5000/api/v1/undergraduate/update-internship-period',
+            const res = await axios.patch('http://localhost:5000/api/v1/undergraduate/update-internship',{withCredentials:true},
             {
-                id : "640ac55788b5c24f7a66706b",
+                id : "63decbe168deaccef0e61740",
+                companyId : values.companyName,
+                jobRole : values.jobRole,
+                type : values.type,
                 internshipStart : values.startDate,
                 internshipEnd : values.endDate
             });
@@ -88,6 +94,28 @@ export const StudentInternPeriod = ({pageNo, setPage}) => {
                     })=>(
                         <form onSubmit={handleSubmit}>
                         <Stack direction={'column'} spacing={2}>
+
+                        <Stack direction={'row'} spacing={3}>
+                                <Stack flex={2}>
+                                    <Typography variant='body1'>Internship Type</Typography>
+                                </Stack>
+                                <Stack flex={3}>
+                                    <RadioGroup
+                                        defaultValue="internal"
+                                        row
+                                        variant='outlined'
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        name='type'
+                                        value={values.type}
+                                        error={!!touched.type && !!errors.type}
+                                        helperText={touched.type && errors.type}
+                                    >
+                                      <FormControlLabel value="internal" control={<Radio />} label="Internal" />
+                                      <FormControlLabel value="external" control={<Radio />} label="External" />
+                                    </RadioGroup>
+                                </Stack>
+                            </Stack>
                             
                             <Stack direction={'row'} spacing={3}>
                                 <Stack flex={2}>
@@ -174,31 +202,10 @@ export const StudentInternPeriod = ({pageNo, setPage}) => {
                                         id="jobRole"
                                         >
                                             <MenuItem value="none"><em>None</em></MenuItem>
-                                            <MenuItem value="se">Software Engineering</MenuItem>
-                                            <MenuItem value="ba">Business Anylist</MenuItem>
-                                            <MenuItem value="qa">Quality Achurence</MenuItem>
+                                            <MenuItem value="Software Engineering">Software Engineering</MenuItem>
+                                            <MenuItem value="Business Anylist">Business Anylist</MenuItem>
+                                            <MenuItem value="Quality Achurence">Quality Achurence</MenuItem>
                                     </Select>
-                                </Stack>
-                            </Stack>
-
-                            <Stack direction={'row'} spacing={3}>
-                                <Stack flex={2}>
-                                    <Typography variant='body1'>Company Supervisor</Typography>
-                                </Stack>
-                                <Stack flex={3}>
-                                    <TextField
-                                        variant='outlined'
-                                        // label='Intership End Date'
-                                        size='small'
-                                        fullWidth
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        name='supervisor'
-                                        value={values.supervisor}
-                                        error={!!touched.supervisor && !!errors.supervisor}
-                                        helperText={touched.supervisor && errors.supervisor}
-                                        type='text'
-                                        ></TextField>
                                 </Stack>
                             </Stack>
 
