@@ -16,7 +16,7 @@ router.route('/:companyId/contact-person')
 router.route('/:companyId/ratings')
     .patch(companyController.editCompanyRating)
 
-router.route('/intern-process/company-list')
+router.route('/intern-process-company-list')
     .get(companyController.internProcessCompanyList)
 
 router.route('/intern-process/company')

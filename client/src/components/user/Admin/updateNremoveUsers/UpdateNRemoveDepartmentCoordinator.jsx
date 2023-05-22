@@ -14,7 +14,7 @@ export const UpdateNRemoveDepartmentCoordinator = () => {
 
     const getCoordinatornData = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/v1/admin/users/admin', { withCredentials: true });
+            const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/admin', { withCredentials: true });
             console.log(res);
             if (res.status === 200) {
                 console.log(res.data.users);

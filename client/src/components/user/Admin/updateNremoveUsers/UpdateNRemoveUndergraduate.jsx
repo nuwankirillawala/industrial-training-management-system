@@ -16,7 +16,7 @@ export const UpdateNRemoveUndergraduate = () => {
 
     const getUndergraduateData = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/v1/admin/users/undergraduate', { withCredentials: true });
+            const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/undergraduate', { withCredentials: true });
             console.log(res);
             if (res.status === 200) {
                 console.log(res.data.users);

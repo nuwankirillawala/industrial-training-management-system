@@ -12,10 +12,7 @@ const data = [
 
 const SupervisorList = () => {
   //State for selected company
-  const [selectedCompany, setSelectedCompany] = useState({
-    id: "",
-    name: "",
-  });
+  const [selectedCompany, setSelectedCompany] = useState("");
 
   //state for the company list
   const [companyList, setCompanyList] = useState([]);
@@ -40,13 +37,11 @@ const SupervisorList = () => {
   const getCompanyDetails = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/v1/company/intern-process-company-list",
-        { withCredentials: true }
+        "http://localhost:5000/api/v1/company/intern-process-company-list"
       );
       if (res.status === 200) {
         console.log(res.data.data);
         res.data && setCompanyList(res.data.data);
-        setSupervisorList(res.data.data.supervisors);
       } else {
         setErrorDetails(res.message);
       }
@@ -64,36 +59,29 @@ const SupervisorList = () => {
   //End of fetch company list
 
   //Fetch supervisor List
-  const getSupervisorDetails = async () => {
-    try {
-      const res = await axios.get(
-        "http://localhost:5000/api/v1/admin/view-all-users/supervisor",
-        { withCredentials: true }
-      );
-      if (res.status == 200) {
-        console.log(res.data.users);
-        let rawSupervisorList = res.data.users;
-        setSupervisorList(
-          rawSupervisorList.filter(
-            (item) => item.company === selectedCompany.id
-          )
-        );
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getSupervisorDetails = async () => {
+  //   try {
+  //     const res = await axios.get(
+  //       "http://localhost:5000/api/v1/admin/view-all-users/supervisor"
+  //     );
+  //     if (res.status == 200) {
+  //       console.log(res.data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    getSupervisorDetails();
-  }, [selectedCompany]);
+  // useEffect(() => {
+  //   getSupervisorDetails();
+  // }, [selectedCompany]);
   //End of Fetch supervisor list
 
   //Handle cellClick function
-  const handleCellClick = (company, key) => {
+  const handleCellClick = (key) => {
     console.log(`Cell clicked: ${key}`);
-    setSelectedCompany({ id: key, name: company });
-    // console.log(selectedCompany);
+    setSelectedCompany(key);
+    console.log(selectedCompany);
   };
   //End of handle cellClick function
 
@@ -102,18 +90,18 @@ const SupervisorList = () => {
     {
       field: "name",
       headerName: "Company Name ",
-      flex: 1,
+      width: 150,
       editable: false,
     },
     {
       field: "actions",
       headerName: "Actions",
-      flex: 1,
+      width: 120,
       renderCell: (params) => (
         <Button
           variant="itms"
           size="itms-small"
-          onClick={() => handleCellClick(params.row.name, params.row._id)}
+          onClick={() => handleCellClick(params.row.name)}
         >
           select
         </Button>
@@ -125,29 +113,29 @@ const SupervisorList = () => {
   //column list supervisors
   const supervisorColumn = [
     {
-      field: "name",
+      field: "id",
       headerName: "Name",
-      flex: 1,
+      width: "120",
       editable: false,
     },
     {
-      field: "jobRole",
+      field: "company",
       headerName: "Position",
-      flex: 1,
+      width: "120",
       editable: false,
     },
-    {
-      field: "contactNo",
-      headerName: "Contact Number",
-      flex: 1,
-      editable: false,
-    },
-    {
-      field: "email",
-      headerName: "Email Address",
-      flex: 1,
-      editable: false,
-    },
+    // {
+    //   field: "contactNo",
+    //   headerName: "Contact Number",
+    //   width: "120",
+    //   editable: false,
+    // },
+    // {
+    //   field: "Email",
+    //   headerName: "Email Address",
+    //   width: "120",
+    //   editable: false,
+    // },
   ];
   //End of column list supervisors
 
@@ -197,21 +185,21 @@ const SupervisorList = () => {
                     Supervisor List
                   </Typography>
                 </Box>
-                {selectedCompany.name !== "" && (
+                {selectedCompany !== "" && (
                   <Stack direction={"column"} spacing={2}>
                     <Box>
                       <Typography>
-                        Supervisors assigned to : {selectedCompany.name}
+                        Supervisors assigned to : {selectedCompany}
                       </Typography>
                     </Box>
                     <Box>
                       <DataGrid
-                        rows={supervisorList}
+                        rows={data}
                         columns={supervisorColumn}
                         hideFooter={true}
                         disableColumnMenu={true}
                         autoHeight={true}
-                        getRowId={(row) => row._id}
+                        getRowId={(row) => row.id}
                       />
                     </Box>
                   </Stack>

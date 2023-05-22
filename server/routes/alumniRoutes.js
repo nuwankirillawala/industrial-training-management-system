@@ -3,10 +3,10 @@ const alumniController = require('../controllers/alumniController');
 
 const router = Router();
 
-router.route('/create')
+router.route('/create-alumni')
     .post(alumniController.createAlumni)
 
-router.route('/profile')
+router.route('/update-alumni-profile')
     .patch(alumniController.updateAlumniProfile)
 
 module.exports = router;

@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Tile } from "../../../components/card/Tile";
 import axios from "axios";
@@ -18,19 +9,10 @@ const AssignSupervisorForIntern = () => {
   const [studentList, setStudentList] = useState([]);
 
   //State for selected student
-  const [selectedStudent, setSelectedStudent] = useState({
-    id: "",
-    name: "",
-  });
+  const [selectedStudent, setSelectedStudent] = useState("");
 
   //State for fetched company list
-  const [company, setCompany] = useState("");
-
-  //state for the fetched supervisor list
-  const [supervisors, setSupervisors] = useState([]);
-
-  //state for the assigned supervisor
-  const [selectedSupervisor, setSelectedSupervisor] = useState("");
+  // const [companyList, setCompanyList] = useState([]);
   //End of state
 
   //Fetching data
@@ -45,13 +27,7 @@ const AssignSupervisorForIntern = () => {
       );
       if (res.status === 200) {
         // console.log(res.data.users);
-        let rawStudentList = res.data.users;
-        // setStudentList(res.data.users);
-        setStudentList(
-          rawStudentList.filter(
-            (item) => typeof item["internship"] !== "undefined"
-          )
-        );
+        setStudentList(res.data.users);
       } else {
         console.log(res.message);
       }
@@ -64,16 +40,12 @@ const AssignSupervisorForIntern = () => {
   const getSupervisor = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/v1/undergraduate/assign-supervisor/${selectedStudent.id}`,
-        { withCredentials: true }
+        `http://localhost:5000/api/v1/undergraduate/assign-supervisor/${selectedStudent}`
       );
       if (res.status === 200) {
-        // console.log(res.data.company.supervisors);
-        setSupervisors(res.data.company.supervisors);
-        setCompany(res.data.company.name);
+        console.log(res.body.company);
       } else {
         console.log(res.message);
-        setCompany("No Company");
       }
     } catch (error) {
       console.log(error);
@@ -89,84 +61,46 @@ const AssignSupervisorForIntern = () => {
   }, [selectedStudent]);
   //End of fetching data
 
-  //Handle cellclick fuction for the cell button
-  const handleCellClick = (key, student) => {
-    // console.log(`Cell clicked: ${key}`);
-    setSelectedStudent({ id: key, name: student });
+  //Handle cellclick fuction
+  const handleCellClick = (key) => {
+    console.log(`Cell clicked: ${key}`);
+    let id = studentList.find((item) => item.regNo === key)._id;
+    // console.log(id);
+    setSelectedStudent(id);
     // console.log(selectedStudent);
   };
-  //End of handle cellClick function for the cell button
+  //End of handle cellClick function
 
-  //handle click for the supervisor select                                                    End Point
-  const handleSubmit = (key) => {
-    console.log(`supervisor id: ${key}`);
-    setSelectedSupervisor(key);
-  };
-  //End of handle click for the supervisor select
-
-  //column for data grid select students
+  //column for data grid
   const studentColumn = [
     {
       field: "regNo",
       headerName: "Student Number",
-      flex: 1,
       editable: false,
     },
     {
       field: "name",
       headerName: "Student Name",
-      flex: 1,
-      editable: false,
-    },
-    {
-      field: "select",
-      headerName: "Supervisor assign",
-      flex: 1,
-      editable: false,
-      renderCell: (params) => (
-        <Button
-          variant="itms"
-          size="itms-small"
-          onClick={() => handleCellClick(params.row._id, params.row.name)}
-        >
-          select
-        </Button>
-      ),
-    },
-  ];
-  //End of column for data grid select students
-
-  //column for data grid assign supervisors
-  const supervisorColumn = [
-    {
-      field: "name",
-      headerName: "Supervisor Name",
-      flex: 1,
-      editable: false,
-    },
-    {
-      field: "jobRole",
-      headerName: "Position",
-      flex: 1,
       editable: false,
     },
     {
       field: "assign",
       headerName: "Supervisor assign",
-      flex: 1,
       editable: false,
       renderCell: (params) => (
         <Button
           variant="itms"
           size="itms-small"
-          onClick={() => handleSubmit(params.row._id)}
+          {...(params.row.companyId && disabled)}
+          // disabled
+          onClick={() => handleCellClick(params.row.regNo)}
         >
           assign
         </Button>
       ),
     },
   ];
-  //End of column for data grid assign supervisors
+  //End of column for data grid
 
   return (
     <Box sx={{ height: "88vh" }}>
@@ -187,12 +121,18 @@ const AssignSupervisorForIntern = () => {
               <Stack direction={"column"} height={"100%"} spacing={1}>
                 <Box>
                   <Typography align="center" fontWeight={"bold"}>
-                    Student Selection
+                    Company Selections
                   </Typography>
                 </Box>
                 <Box height={530} width={"auto"}>
                   <DataGrid
-                    rows={studentList}
+                    rows={studentList.map((field) => {
+                      return {
+                        regNo: field.regNo,
+                        name: field.name,
+                        companyId: field.internship.company,
+                      };
+                    })}
                     columns={studentColumn}
                     hideFooter={true}
                     disableColumnMenu={true}
@@ -202,33 +142,7 @@ const AssignSupervisorForIntern = () => {
               </Stack>
             </Box>
           </Tile>
-          <Tile sx={{ height: "100%", width: "50%" }}>
-            <Box>
-              <Typography align="center" fontWeight={"bold"}>
-                Assign supervisors
-              </Typography>
-            </Box>
-            {company !== null && (
-              <Box>
-                <Typography>
-                  Selected Student: {selectedStudent.name}
-                </Typography>
-                <Typography>Company: {company}</Typography>
-                <Stack direction={"column"}>
-                  <Typography>Select Supervisor : </Typography>
-                  <Box mt={1} height={400} width={"auto"}>
-                    <DataGrid
-                      rows={supervisors}
-                      columns={supervisorColumn}
-                      hideFooter={true}
-                      disableColumnMenu={true}
-                      getRowId={(row) => row._id}
-                    />
-                  </Box>
-                </Stack>
-              </Box>
-            )}
-          </Tile>
+          <Tile sx={{ height: "100%", width: "50%" }}></Tile>
         </Stack>
       </Box>
     </Box>

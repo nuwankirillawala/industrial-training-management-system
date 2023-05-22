@@ -34,7 +34,7 @@ export const ReportList = ({reportType, setSelectReportType, selectReportType}) 
 
   const getStudentList = async() => {
       try{
-        const res = await axios.get("http://localhost:5000/api/v1/admin/view-all-users/undergraduate",{withCredentials:true});
+        const res = await axios.get("http://localhost:5000/api/v1/admin/view-all-users/undergraduate");
         if(res.status===200){
           console.log(res.data.users)
           setStudentList(res.data.users);
@@ -62,14 +62,14 @@ export const ReportList = ({reportType, setSelectReportType, selectReportType}) 
         setSelectStudent(true);
         setStudentId(userid);
         console.log(params.row.name);
-        console.log(userid);
-
+        console.log(userid);  
         const getReportList = async() => {
-          try{
-              const res = await axios.get(`http://localhost:5000/api/v1/undergraduate/get-undergraduate/${userid}`,{withCredentials:true});
-              console.log("responce : ", res.data.user.weeklyReports[0].weekEndDate.substring(0, 10))
+            console.log("report data")
+            try{
+              const res = await axios.get("http://localhost:5000/api/v1/undergraduate/view-daily-report");
               if(res.status===200){
-                setReportList(res.data.user.weeklyReports);
+                console.log(res)
+                setReportList(res);
               }
             }
             catch (err) {
@@ -118,16 +118,10 @@ export const ReportList = ({reportType, setSelectReportType, selectReportType}) 
 
   const reportColumns = [
     {
-      field : "weekStartDate",
-      headerName : 'Start Date',
+      field : "studentId",
+      headerName : 'Date',
       editable : false,
-      flex :1
-    },
-    {
-      field : "weekEndDate",
-      headerName : 'End Date',
-      editable : false,
-      flex :1
+      width : 200,
     }
   ]
 
@@ -195,13 +189,13 @@ export const ReportList = ({reportType, setSelectReportType, selectReportType}) 
 
                         <DataGrid
                           // rows
-                          rows={reportList.map((report) => {
-                            return { weekNumber: report.weekNumber, weekStartDate: report.weekStartDate, weekEndDate: report.weekEndDate};
+                          rows={reportList.map((reoprt) => {
+                            return {};
                           })}
                           columns={reportColumns}
                           rowsPerPageOptions={[]}
                           onRowClick={selectReportData}
-                          getRowId={(row) => row.weekNumber}
+                          getRowId={(row) => row.id}
                           pageSize={10}
                           hideFooter={true}
                           // disableSelectionOnClick

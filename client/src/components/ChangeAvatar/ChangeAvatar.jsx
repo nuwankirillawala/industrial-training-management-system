@@ -1,4 +1,4 @@
-import React , { useRef, useState } from 'react'
+import React , { useState } from 'react'
 import { Stack, Box, Button, Typography } from '@mui/material'
 import { Avatar } from '../shared/Images/Avatar'
 import { StatusSnackBar } from '../StatusSnackBar/StatusSnackBar'
@@ -8,7 +8,6 @@ export const ChangeAvatar = () => {
     //statusSnackBar state
     const [trigger, setTrigger] = useState({
         success: false,
-        error : false
       });
       //End of statusSnackBar state
       const handleSnackBar = (key) => {
@@ -19,38 +18,10 @@ export const ChangeAvatar = () => {
         });
       };
 
-      const fileType = ["image/jpeg","image/png"]
-
-      //hancle onSubmin in the profilepic change button
-      const handleOnSubmit = async (e) => {
-        let selectedFile = e.target.files[0];
-        console.log(selectedFile.type);
-        if (selectedFile) {
-          if (selectedFile && fileType.includes(selectedFile.type)) {
-              handleSnackBar("success");
-            }else{
-              handleSnackBar("error");
-            }
-          }        
+      const handleOnSubmit = async () => {
+        console.log("change avatar");        
+        handleSnackBar("success");
     };
-    //End of hancle onSubmin in the profilepic change button
-
-    //useRef for the file input
-    const fileInput = useRef(null);
-    //End of useRef
-
-    //assign fileInput reference
-    const handleFileInputClick = () => {
-      console.log('clicked')
-      fileInput.current.click();
-    };
-    //End of assign fileinput reference
-
-    //handle onchange in input
-    // const handleFileInputChange = (e) => {
-    //   console.log(typeof e.target.files[0]);
-    // };
-    //End of handle onchange in input
 
   return (
     
@@ -62,27 +33,16 @@ export const ChangeAvatar = () => {
         </Stack>
         <Stack alignItems={'center'}>
             <Box>
-                <input type='file' ref= {fileInput} onChange={handleOnSubmit} hidden/>
-                <Button variant='itms' type='file' onClick={handleFileInputClick}>change Avatar</Button>
+                <Button variant='itms' onClick={handleOnSubmit}>change Avatar</Button>
             </Box>
         </Stack>
-
-{/* success and error messagers */}
         <StatusSnackBar
           severity="success"
           trigger={trigger.success}
           setTrigger={() => {
             handleSnackBar("success");
           }}
-          alertMessage={"Avatar Change Success"}
-        />            
-        <StatusSnackBar
-          severity="error"
-          trigger={trigger.error}
-          setTrigger={() => {
-            handleSnackBar("error");
-          }}
-          alertMessage={"Wrong file type"}
+          alertMessage={"Success"}
         />            
     </Stack>
   )
