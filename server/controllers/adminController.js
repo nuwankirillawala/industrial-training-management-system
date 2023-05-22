@@ -49,7 +49,7 @@ module.exports.createAdmin = catchAsync(async (req, res) => {
 });
 
 // Method = GET
-// Endpoint = "/view-all-users/:userType"
+// Endpoint = "/users/:userType"
 // Description = View all users by user type
 module.exports.viewAllUsers = catchAsync(async (req, res) => {
     try {

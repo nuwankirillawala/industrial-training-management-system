@@ -13,7 +13,7 @@ export const UpdateNRemoveAlumni = () => {
 
     const getAlumniData = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/alumni', { withCredentials: true });
+            const res = await axios.get('http://localhost:5000/api/v1/admin/users/alumni', { withCredentials: true });
             console.log(res);
             if (res.status === 200) {
                 console.log(res.data.users);
@@ -60,7 +60,7 @@ export const UpdateNRemoveAlumni = () => {
                                     <TableCell >   {r.name}  </TableCell>
                                     <TableCell >   {r.email} </TableCell>
                                     <TableCell >   {r.graduatedYear} </TableCell>
-                                    <TableCell> <Dialogbox title="Update Alumni user" btn_name="update"><UpdateAlumniForm /></Dialogbox></TableCell>
+                                    <TableCell> <Dialogbox title="Update Alumni user" btn_name="update"><UpdateAlumniForm userId={r._id} /></Dialogbox></TableCell>
                                     <TableCell ><Dialogbox title="Remove Alumni user" btn_name="remove"><RemoveUserForm /></Dialogbox>
 
                                     </TableCell>
