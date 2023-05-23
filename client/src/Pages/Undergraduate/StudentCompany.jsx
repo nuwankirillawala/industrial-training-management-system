@@ -41,15 +41,15 @@ export const StudentCompany = () => {
     
     const[companyState,setCompanyState] = useState(StudentcompanyState)
     const[page,setPage] = useState({no: 1})
-    const [companyData , setCompanyData] = useState([]);
+    const [companyList , setCompanyList] = useState([]);
 
     //fetch data
     const getCompanyList = async() => {
         try {
-          const res = await axios.get('http://localhost:5000/api/v1/company/intern-process-company-list');
+          const res = await axios.get('http://localhost:5000/api/v1/company/intern-process-company-list',{withCredentials: true});
           if(res.data.status === 'success'){
-            console.log(res.data.data);
-            setCompanyData(res.data.data)
+            // console.log(res.data.data);
+            setCompanyList(res.data.data);
           }
         } catch (error) {
           console.log(error)
@@ -66,71 +66,6 @@ export const StudentCompany = () => {
     <Grid container spacing={1}>
         <Grid item md={12}>
             <Typography variant='PageTitle'>Company</Typography>
-        </Grid>
-
-        <Grid item md={12}>
-            <Grid item md={7}>
-                <Stack spacing={1}>
-
-{/* company selection  */}
-                    <Stack>
-                        <StudentCompanyChoice />
-                    </Stack>
-
-{/* company status, add company, inter time period component add dinamikally */}
-                    <Stack>
-                        <Box>
-                            {page.no === 1 && (
-                                <StudentCompanyStatus
-                                    pageNo={page}
-                                    setPage={setPage}
-                                    companyState={companyState}
-                                    setCompanyState={setCompanyState}
-                                    />
-                            
-                            )}
-                            {page.no === 2 && (
-                                <StudentAddCompany
-                                    pageNo={page}
-                                    setPage={setPage}
-                                    />
-                            )}
-                            {page.no === 3 && (
-                                <StudentInternPeriod
-                                    pageNo={page}
-                                    setPage={setPage}
-                                    />
-                            )}
-                            {page.no === 4 && (
-                                <StudentPrivateCompanyStatus
-                                    pageNo={page}
-                                    setPage={setPage}
-                                    companyState={companyState}
-                                    setCompanyState={setCompanyState}
-                                    />
-                            )}
-                        </Box>
-                    </Stack>
-                </Stack>
-            </Grid>
-
-            <Grid item md={5}>
-                <Tile height={'87vh'}>
-                    <Stack maxHeight={'88vh'} padding={2} spacing={1}>
-                                    
-                        <Typography variant='h6' fontWeight={'bold'}>Company Ranking List</Typography>
-                        <Divider />
-                        <DataGrid
-                           rows={companyData.map((company) => {
-                            return { name: company.name, rating: company.rating, internSeats: company.internSeats, email: company.email };
-                          })}
-                           columns={companyDataColumns}
-                           autoHeight={true}
-                           getRowId={(rows) => rows.email}
-                         />
-                    </Stack>
-                </Tile>
-            </Grid>
         </Grid>
 
         <Grid item md={12}>
