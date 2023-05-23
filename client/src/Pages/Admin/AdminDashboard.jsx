@@ -1,28 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { Typography, Grid, Stack } from '@mui/material'
+import { Typography, Grid, Stack, Divider, Box } from '@mui/material'
 import { Tile } from '../../components/card/Tile';
 import ProfileFormLine from '../../components/Dashboard/ProfileFormLine';
+import { NoticeBoard } from '../../components/Notice/NoticeBoard'
 
 //sidebar options- manage users, manage company, add undg results, Notice
 
 export const AdminDashboard = () => {
     const [Data, setData] = useState([])
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             axios.get('https://dummyjson.com/products')
-    //                 .then(data => {
-    //                     setData(data.products[1]);
-    //                 })
-    //         }
-    //         catch (error) {
-    //             console.log(error);
-    //         }
-    //     }
-    //     fetchData();
-    // }, []);
 
 
     useEffect(() => {
@@ -38,7 +24,9 @@ export const AdminDashboard = () => {
     return (
 
         <Grid container spacing={.5}>
-            <Grid item md={12} xs={12} > <Typography variant="h6" color="primary" marginBottom={'5px'} paddingLeft={'15px'}> Administrator Dashboard</Typography></Grid>
+            <Grid item md={12} xs={12} >
+                <Typography variant="head3" marginBottom={'5px'}>Administrator Dashboard</Typography>
+            </Grid>
             <Grid item md={8} xs={8}>
                 <Tile height={'82vh'}>
                     <Stack direction={'row'} spacing={3}>
@@ -59,11 +47,31 @@ export const AdminDashboard = () => {
                 </Tile>
             </Grid >
             <Grid item md={4} xs={4} container direction={'column'} >
-                <Stack spacing={.5}>
-                    <Tile height={'41vh'}>
+                <Stack spacing={1}>
+                    <Stack>
+                        <Tile>
+                            <Stack spacing={1}>
+                                <Stack spacing={1}>
+                                    <Typography fontWeight={'bold'} variant='body1'>Notice</Typography>
+                                    <Divider />
+                                </Stack>
+                                <Box
+                                      sx={{ overflow: "auto"}}
+                                      padding={"15px"}
+                                      width
+                                >
+                                <Stack>
+                                    <NoticeBoard />
+                                </Stack>
+                                </Box>
+                            </Stack>
+                        </Tile>
+                    </Stack>
+                    <Stack>
+                    <Tile height={'100%'}>
                         <Typography fontWeight={'bold'} variant='body1'>Notice</Typography>
                     </Tile>
-                    <Tile height={'41vh'}></Tile>
+                    </Stack>
                 </Stack>
             </Grid >
         </Grid>
