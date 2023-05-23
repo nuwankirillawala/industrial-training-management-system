@@ -1,26 +1,26 @@
-import React, { useState } from 'react'
-import { Tile } from '../../components/card/Tile'
+import React, { useState, useEffect } from 'react'
+import { Tile } from '../../../components/card/Tile'
 import { Grid, Stack, Box, Typography, TextField, Button } from '@mui/material'
-import { Avatar } from '../../components/shared/Images/Avatar'
 import {Formik } from 'formik'
 import * as Yup from 'yup'
-import { StatusSnackBar } from '../../components/StatusSnackBar/StatusSnackBar'
-import { ChangePassword } from '../../components/ChangePassword/ChangePassword'
-import { ChangeAvatar } from '../../components/ChangeAvatar/ChangeAvatar'
+import { StatusSnackBar } from '../../../components/StatusSnackBar/StatusSnackBar'
+import { ChangePassword } from '../../../components/ChangePassword/ChangePassword'
+import { ChangeAvatar } from '../../../components/ChangeAvatar/ChangeAvatar'
+import axios from 'axios'
 
 // get current values form backend and set that valuse as default values in textfields
 
 const adminValues = {
-    firstName : '',
-    lastName : '',
-    fullName : '',
+    name : '',
     staffId : '',
     email : '',
     contactNo : '',
+    role : ''
 }
 
 export const AdminSettings = () => {
 
+    const[userData, setUserData] = useState(adminValues);
     //statusSnackBar state
     const [trigger, setTrigger] = useState({
         success: false,
@@ -33,39 +33,73 @@ export const AdminSettings = () => {
           return newState;
         });
       };
+
+
+    //fetch data
+    const getUserData = async() => {
+        try {
+            const res = await axios.get("http://localhost:5000/api/v1/admin/profile",{withCredentials:true});
+            if(res.status === 200){
+              console.log("responce :",res.data.user);
+            setUserData({
+                name : res.data.user.name,
+                staffId : res.data.user.staffId,
+                email : res.data.user.email,
+                contactNo : res.data.user.contactNo,
+                role : res.data.user.adminRole
+            })
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    
+      useEffect(()=> {
+        getUserData();
+      }, [])
+      //End of fetch data
+
+
    
     const handleSubmitForm = async (values) => {
-        console.log(values);        
-        // const res = await axios.post(
-        //     "http://localhost:5000/api/v1/admin/create-admin", 
-        //     {   role : 'system-admin',
-        //         name : values.adminName,
-        //         email : values.adminEmail,
-        //         contactNo : values.adminContactNo,
-        //         staffId : values.adminStaffId,
-        //         password : values.adminPassword,
-        //    },
-        //     {withCredentials: true}
-        //     );
-        await new Promise((r) => setTimeout(r, 500));
-        alert(JSON.stringify(values, null, 2));
-        handleSnackBar("success");
+        console.log(values);
+        try{     
+        const res = await axios.patch(
+            "http://localhost:5000/api/v1/admin/profile", 
+            {   role : values.role,
+                name : values.name === "" ? userData.name : values.name,
+                email :  values.email === "" ? userData.email : values.email,
+                contactNo : values.contactNo === "" ? userData.contactNo : values.contactNo,
+                staffId : values.staffId === "" ? userData.staffId : values.staffId
+           },
+            {withCredentials: true}
+            );
+
+            if(res.status === 200 ){
+                handleSnackBar("success");
+            }else{
+                handleSnackBar("error");
+            }
+        }
+        catch(err){
+            handleSnackBar("error");
+            console.log(err);
+        }
     };
 
     const validationForm = Yup.object().shape({
-        firstName : Yup.string(),
-        lastName : Yup.string(),
-        fullName : Yup.string(),
+        name : Yup.string(),
         staffId : Yup.string(),
         email : Yup.string().email("Invalid Email Address"),
-        contactNo : Yup.string().length(10,"Invalid Number")
+        contactNo : Yup.string().length(10,"Invalid Number"),
+        role : Yup.string(),
     })
 
   return (
 
     <Grid container spacing={2}>
         <Grid item md={12}>
-            <Typography variant='PageTitle'>Settings</Typography>
+            <Typography variant="head3" marginBottom={'5px'}>Settings</Typography>
         </Grid>
 
         <Grid item md={12}>
@@ -125,61 +159,21 @@ export const AdminSettings = () => {
                                         <Stack spacing={1}>
                                             <Stack direction={'row'}>
                                                 <Stack minWidth={'200px'} flex={1}>
-                                                    <Typography>First Name</Typography>
+                                                    <Typography>Name</Typography>
                                                 </Stack>
                                                 <Stack flex={3}>
                                                     <TextField
                                                         variant='outlined'
                                                         size='small'
-                                                        defaultValue="Kamal"
+                                                        placeholder={userData.name}
                                                         type='text'
-                                                        name='firstName'
+                                                        name='name'
                                                         fullWidth
-                                                        value={values.firstName}
+                                                        value={values.name}
                                                         onBlur={handleBlur}
                                                         onChange={handleChange}
-                                                        error={!!touched.firstName && !!errors.firstName}
-                                                        helperText={touched.firstName && errors.firstName}
-                                                        />
-                                                </Stack>
-                                            </Stack>
-                                            <Stack direction={'row'}>
-                                                <Stack minWidth={'200px'} flex={1}>
-                                                    <Typography>Last Name</Typography>
-                                                </Stack>
-                                                <Stack flex={3}>
-                                                    <TextField
-                                                        variant='outlined'
-                                                        size='small'
-                                                        type='text'
-                                                        defaultValue={'Perera'}
-                                                        name='lastName'
-                                                        fullWidth
-                                                        value={values.lastName}
-                                                        onBlur={handleBlur}
-                                                        onChange={handleChange}
-                                                        error={!!touched.lastName && !!errors.lastName}
-                                                        helperText={touched.lastName && errors.lastName}
-                                                    />
-                                                </Stack>
-                                            </Stack>
-                                            <Stack direction={'row'}>
-                                                <Stack minWidth={'200px'} flex={1}>
-                                                    <Typography>Name With Initials</Typography>
-                                                </Stack>
-                                                <Stack flex={3}>
-                                                    <TextField
-                                                        variant='outlined'
-                                                        size='small'
-                                                        type='text'
-                                                        defaultValue={'k.Perera'}
-                                                        name='fullName'
-                                                        fullWidth
-                                                        value={values.fullName}
-                                                        onBlur={handleBlur}
-                                                        onChange={handleChange}
-                                                        error={!!touched.fullName && !!errors.fullName}
-                                                        helperText={touched.fullName && errors.fullName}
+                                                        error={!!touched.name && !!errors.name}
+                                                        helperText={touched.name && errors.name}
                                                         />
                                                 </Stack>
                                             </Stack>
@@ -191,8 +185,8 @@ export const AdminSettings = () => {
                                                     <TextField
                                                         variant='outlined'
                                                         size='small'
+                                                        placeholder={userData.staffId}
                                                         type='text'
-                                                        defaultValue={'SC/2019/11100'}
                                                         name='staffId'
                                                         fullWidth
                                                         value={values.staffId}
@@ -211,8 +205,8 @@ export const AdminSettings = () => {
                                                     <TextField
                                                         variant='outlined'
                                                         size='small'
+                                                        placeholder={userData.email}
                                                         type='text'
-                                                        defaultValue={values.email}
                                                         name='email'
                                                         fullWidth
                                                         value={values.email}
@@ -231,8 +225,8 @@ export const AdminSettings = () => {
                                                     <TextField
                                                         variant='outlined'
                                                         size='small'
+                                                        placeholder={userData.contactNo}
                                                         type='text'
-                                                        defaultValue={'0123456789'}
                                                         name='contactNo'
                                                         fullWidth
                                                         value={values.contactNo}
