@@ -25,7 +25,7 @@ export const UpdateUndergraduateForm = ({ userId }) => {
     const getUserData = async () => {
         try {
             console.log(userId)
-            const res = await axios.get(`http://localhost:5000/api/v1/undergraduate/get-undergraduate/${userId}`,
+            const res = await axios.get(`http://localhost:5000/api/v1/undergraduate/user/${userId}`,
                 { withCredentials: true });
             console.log(res.data)
             if (res.status === 200) {
@@ -49,6 +49,22 @@ export const UpdateUndergraduateForm = ({ userId }) => {
         getUserData();
     }, [])
 
+
+    //statusSnackBar state
+    const [trigger, setTrigger] = useState({
+        success: false,
+        error: false,
+    });
+
+    //End of statusSnackBar state
+    const handleSnackBar = (key) => {
+        setTrigger((prevState) => {
+            let newState = { ...prevState };
+            newState[key] = !newState[key];
+            return newState;
+        });
+    };
+
     const Student = {
         studnetName: '',
         studnetEmail: '',
@@ -69,40 +85,25 @@ export const UpdateUndergraduateForm = ({ userId }) => {
         studnetGithubURL: yup.string()
     })
 
-    //statusSnackBar state
-    const [trigger, setTrigger] = useState({
-        success: false,
-        error: false,
-    });
-
-    //End of statusSnackBar state
-    const handleSnackBar = (key) => {
-        setTrigger((prevState) => {
-            let newState = { ...prevState };
-            newState[key] = !newState[key];
-            return newState;
-        });
-    };
-
-
     const handleFormSubmit = async (values) => {
         console.log(values);
         try {
-            const res = await axios.patch("http://localhost:5000/api/v1/undergraduate/update-undergraduate-profile",
+            const res = await axios.patch(`http://localhost:5000/api/v1/undergraduate/user/${userId}`,
                 {
-                    id: userId,   //id, _id, userID
-                    email: values.studnetEmail,
-                    contactNo: values.studnetContactNo,
-                    linkdinURL: values.studnetLinkedInURL,
-                    githubURL: values.studnetGithubURL,
-                    internStatus: values.studnetInternStatus
+
+                    id: userId,
+                    email: values.studnetEmail === "" ? userData.email : values.studnetEmail,
+                    contactNo: values.studnetContactNo === "" ? userData.contactNo : values.studnetContactNo,
+                    linkdinURL: values.studnetLinkedInURL === "" ? userData.linkedInURL : values.studnetLinkedInURL,
+                    githubURL: values.studnetGithubURL === "" ? userData.githubURL : values.studnetGithubURL,
+                    internStatus: values.studnetInternStatus === "" ? userData.internStatus : values.studnetInternStatus,
                     //name & regNo is not in backend to change
                 },
                 { withCredentials: true }
-
             );
             console.log(res.status);
-            if (res.status === 200) {
+
+            if (res.status === 201) {
                 handleSnackBar("success");
             } else {
                 handleSnackBar("error");
@@ -152,6 +153,8 @@ export const UpdateUndergraduateForm = ({ userId }) => {
                                     />
                                 </Stack>
                             </Stack> */}
+                            <Typography fontWeight={'bold'}>SC Number : {userData.regNo}</Typography>
+                            <Typography fontWeight={'bold'} paddingBottom={'10px'}>Name : {userData.name}</Typography>
 
                             <Stack direction="row" spacing={2}>
                                 <Stack width='150px'>
@@ -283,40 +286,4 @@ export const UpdateUndergraduateForm = ({ userId }) => {
     )
 }
 
-{/* <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">GPA </Typography>
-                                </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.studnetGpa}
-                                        name="studnetGpa"
-                                        error={!!touched.studnetGpa && !!errors.studnetGpa}
-                                        helperText={touched.studnetGpa && errors.studnetGpa}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">Weighted GPA</Typography>
-                                </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.studnetWeightedGpa}
-                                        name="studnetWeightedGpa"
-                                        error={!!touched.studnetWeightedGpa && !!errors.studnetWeightedGpa}
-                                        helperText={touched.studnetWeightedGpa && errors.studnetWeightedGpa}
-                                    />
-                                </Stack>
-                            </Stack> */}
