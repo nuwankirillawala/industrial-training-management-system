@@ -17,9 +17,10 @@ const gradeValue = require('../utils/gradeValue');
 const fs = require('fs');
 
 
-// Method = POST
-// Endpoint = "/create-admin"
-// Description = create admin-user
+// Method: POST
+// Endpoint: "/create"
+// Description: create admin-user
+// User: Admin
 module.exports.createAdmin = catchAsync(async (req, res) => {
     try {
         const { role, name, email, contactNo, staffId, password } = req.body;
@@ -48,58 +49,11 @@ module.exports.createAdmin = catchAsync(async (req, res) => {
     }
 });
 
-// Method = GET
-// Endpoint = "/view-all-users/:userType"
-// Description = View all users by user type
-module.exports.viewAllUsers = catchAsync(async (req, res) => {
-    try {
-        const userType = req.params.userType;
-        let users = [];
-
-        if (userType === "admin") {
-            users = await Admin.find();
-        }
-        else if (userType === "undergraduate") {
-            users = await Undergraduate.find();
-        }
-        else if (userType === "supervisor") {
-            users = await Supervisor.find();
-        }
-        else if (userType === "alumni") {
-            users = await Alumni.find();
-        }
-
-        console.log(users);
-        res.status(200).json({ users });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ error: "Server error" });
-    }
-});
-
-// Method = GET
-// Endpoint = "/search-users/:userType"
-// Description = search user by name, regno, email
-module.exports.searchUsers = catchAsync(async (req, res) => {
-    try {
-        const userType = req.params.userType;
-        const searchTerm = req.query.q;
-        const searchBy = req.query.searchBy;
-
-        let users = await searchUsers(searchBy, userType, searchTerm);
-
-        res.status(200).json(users);
-
-    } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
-    }
-});
-
-// Method = GET
-// Endpoint = "/admin profile"
-// Description = view admin profile
-module.exports.adminProfile = catchAsync(async (req, res) => {
+// Method: GET
+// Endpoint: "/profile"
+// Description: view admin profile
+// User: Admin (self)
+module.exports.getAdminProfile = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
         const user = await Admin.findById(userId);
@@ -114,9 +68,10 @@ module.exports.adminProfile = catchAsync(async (req, res) => {
     }
 })
 
-// Method = PATCH
-// Endpoint = "/update-admin-profile"
-// Description = Update admin profile
+// Method: PATCH
+// Endpoint: "/profile"
+// Description: Update admin profile
+// User: Admin (self)
 module.exports.updateAdminProfile = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
@@ -145,9 +100,61 @@ module.exports.updateAdminProfile = catchAsync(async (req, res) => {
     }
 });
 
+// Method: GET
+// Endpoint: "/user/:userId"
+// Description: view admin profile
+// User: Admin
+module.exports.getAdminUser = catchAsync(async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const user = await Admin.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ "error": "User not found!" })
+        }
+        res.status(200).json({ user });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ err })
+    }
+})
+
+// Method: PATCH
+// Endpoint: "/user/:userId"
+// Description: Update admin profile
+// User: Admin
+module.exports.updateAdminUser = catchAsync(async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const { role, name, email, contactNo, staffId } = req.body;
+
+        const user = await Admin.findByIdAndUpdate(
+            userId,
+            {
+                role,
+                name,
+                email,
+                contactNo,
+                staffId,
+            },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        res.status(200).json(user);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
 // Method = PATCH
-// Endpoint = "/update-admin-profile-image"
+// Endpoint = "/profile/image"
 // Description = Update admin profile image
+// User: Admin (self)
 module.exports.updateAdminProfileImage = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
@@ -172,6 +179,56 @@ module.exports.updateAdminProfileImage = catchAsync(async (req, res) => {
         }
 
         res.status(200).json(user.profileImage);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// Method: GET
+// Endpoint: "/users/:userType"
+// Description: View all users by user type
+// User: Admin
+module.exports.viewAllUsers = catchAsync(async (req, res) => {
+    try {
+        const userType = req.params.userType;
+        let users = [];
+
+        if (userType === "admin") {
+            users = await Admin.find();
+        }
+        else if (userType === "undergraduate") {
+            users = await Undergraduate.find();
+        }
+        else if (userType === "supervisor") {
+            users = await Supervisor.find();
+        }
+        else if (userType === "alumni") {
+            users = await Alumni.find();
+        }
+
+        console.log(users);
+        res.status(200).json({ users });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
+// Method: GET
+// Endpoint: "/users/search/:userType"
+// Description: search user by name, regno, email
+// User: Admin
+module.exports.searchUsers = catchAsync(async (req, res) => {
+    try {
+        const userType = req.params.userType;
+        const searchTerm = req.query.q;
+        const searchBy = req.query.searchBy;
+
+        let users = await searchUsers(searchBy, userType, searchTerm);
+
+        res.status(200).json(users);
+
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
