@@ -9,14 +9,12 @@ const router = Router();
 router.route('/create')
     .post(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.createUndergraduate)
 
-router.route('/get/:undergraduateId')
-    .get(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.getUndergraduate)
-
-router.route('/get/all')
+router.route('/user/all')
     .get(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.viewAll)
 
-router.route('/dashboard')
-    .get(restrictedTo('undergraduate'), undergraduateController.undergraduateDashboard)
+router.route('/user/:undergraduateId')
+    .get(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.getUndergraduate)
+    .patch(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.updateUndergraduateUser)
 
 router.route('/profile')
     .get(restrictedTo('undergraduate'), undergraduateController.viewProfile)
@@ -24,6 +22,9 @@ router.route('/profile')
 
 router.route('/profile/image')
     .patch(restrictedTo('undergraduate'), deleteExistingImage, imageUpload, undergraduateController.updateProfileImage)
+
+router.route('/dashboard')
+    .get(restrictedTo('undergraduate'), undergraduateController.undergraduateDashboard)
 
 // ############################## Private Notes ##############################
 
@@ -114,33 +115,33 @@ router.route('/monthly-report/:undergraduateId/month/:monthNo')
 
 // ############################## CV Application ##############################
 
-router.route('/information/upload-cv')
+router.route('/info/upload-cv')
     .post(restrictedTo('undergraduate'), cvUpload, undergraduateController.uploadCV)
 
-router.route('/information/soft-skill')
+router.route('/info/soft-skill')
     .post(restrictedTo('undergraduate'), undergraduateController.addSoftSkill)
     .delete(restrictedTo('undergraduate'), undergraduateController.deleteSoftSkill)
 
-router.route('/information/technology-skill')
+router.route('/info/technology-skill')
     .post(restrictedTo('undergraduate'), undergraduateController.addTechnologySkill)
     .delete(restrictedTo('undergraduate'), undergraduateController.deleteTechnologySkill)
 
-router.route('/information/certifications')
+router.route('/info/certifications')
     .post(restrictedTo('undergraduate'), undergraduateController.addCertifications)
     .delete(restrictedTo('undergraduate'), undergraduateController.deleteCertifications)
 
-router.route('/information/extra-activities')
+router.route('/info/extra-activities')
     .post(restrictedTo('undergraduate'), undergraduateController.addExtraActivities)
     .delete(restrictedTo('undergraduate'), undergraduateController.deleteExtraActivities)
 
-router.route('/information/projects')
+router.route('/info/projects')
     .post(restrictedTo('undergraduate'), undergraduateController.addProject)
     .delete(restrictedTo('undergraduate'), undergraduateController.deleteProject)
 
-router.route('/information/english-skill')
+router.route('/info/english-skill')
     .post(restrictedTo('undergraduate'), undergraduateController.addEnglishSkill)
 
-router.route('/information')
+router.route('/info')
     .get(undergraduateController.getAdditionalInformation)
 
 // ############################## Progress Report ##############################

@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Method: POST
-// Endpoint: "/create-undergraduate"
+// Endpoint: "/create"
 // Description: create undergraduate user
 // User: admin
 module.exports.createUndergraduate = catchAsync(async (req, res) => {
@@ -36,7 +36,22 @@ module.exports.createUndergraduate = catchAsync(async (req, res) => {
 });
 
 // Method: GET
-// Endpoint: "/get-undergraduate/:undergraduateId"
+// Endpoint: "/user/all"
+// Description: View all undergraduates
+// User: admin
+module.exports.viewAll = catchAsync(async (req, res) => {
+    try {
+        const users = await Undergraduate.find();
+
+        res.status(200).json({ users });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
+// Method: GET
+// Endpoint: "/users/:undergraduateId"
 // Description: get Undegraduate Profile
 // User: admin
 module.exports.getUndergraduate = catchAsync(async (req, res) => {
@@ -57,8 +72,40 @@ module.exports.getUndergraduate = catchAsync(async (req, res) => {
     }
 });
 
+// Method: PATCH
+// Endpoint: "/user/:undergraduateId"
+// Description: Update undergraduate profile
+// User: Admin
+module.exports.updateUndergraduateUser = catchAsync(async (req, res) => {
+    try {
+        const userId = req.params.undergraduateId;
+        const { email, contactNo, linkdinURL, githubURL, internStatus } = req.body;
+
+        const user = await Undergraduate.findByIdAndUpdate(
+            userId,
+            {
+                email,
+                contactNo,
+                linkdinURL,
+                githubURL,
+                internStatus,
+            },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(400).json({ error: "user not found" });
+        }
+
+        res.status(201).json(user);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
 // Method: GET
-// Endpoint: "/view-undergraduate-profile"
+// Endpoint: "/profile"
 // Description: View Undegraduate Profile
 // User: undergraduate
 module.exports.viewProfile = catchAsync(async (req, res) => {
@@ -79,7 +126,7 @@ module.exports.viewProfile = catchAsync(async (req, res) => {
 });
 
 // Method: PATCH
-// Endpoint: "/update-undergraduate"
+// Endpoint: "/profile"
 // Description: Update undergraduate profile
 // User: undergraduate
 module.exports.updateProfile = catchAsync(async (req, res) => {
@@ -112,7 +159,7 @@ module.exports.updateProfile = catchAsync(async (req, res) => {
 
 
 // Method: PATCH
-// Endpoint: "/update-undergraduate-profile-image"
+// Endpoint: "/profile/image"
 // Description: Update undergraduate profile
 // User: undergraduate
 module.exports.updateProfileImage = catchAsync(async (req, res) => {
@@ -146,7 +193,7 @@ module.exports.updateProfileImage = catchAsync(async (req, res) => {
 });
 
 // Method: GET
-// Endpoint: "/undergraduate-dashboard"
+// Endpoint: "/dashboard"
 // Description: Undergraduate Dashboard
 // User: undergraduate
 module.exports.undergraduateDashboard = catchAsync(async (req, res) => {
@@ -166,23 +213,123 @@ module.exports.undergraduateDashboard = catchAsync(async (req, res) => {
     }
 });
 
-// Method: GET
-// Endpoint: "/view-all-undergraduates"
-// Description: View all undergraduates
-// User: admin
-module.exports.viewAll = catchAsync(async (req, res) => {
+// Method: POST
+// Endpoint: "/note"
+// Description: Add a note
+// User: undergraduate
+module.exports.addNote = catchAsync(async (req, res) => {
     try {
-        const users = await Undergraduate.find();
+        const userId = req.user.id;
+        const { title, content } = req.body;
 
-        res.status(200).json({ users });
+        if (!content) {
+            return res.status(400).json({ error: "Please add some content" });
+        }
+
+        let newTitle = title;
+
+        if (!newTitle) {
+            newTitle = content.substring(0, 15);
+        }
+
+        const newNote = { title: newTitle, content };
+
+        const user = await Undergraduate.findByIdAndUpdate(userId, { $push: { notes: newNote } }, { new: true });
+        if (!user) {
+            return res.status(400).json({ error: "user not found!" });
+        }
+
+        res.status(201).json({ notes: user.notes });
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+// Method = PATCH
+// Endpoint = "/note"
+// Description = Edit a note
+// User: undergraduate
+module.exports.editNote = catchAsync(async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { noteId, newTitle, newContent } = req.body;
+
+        const updatedUser = await Undergraduate.findOneAndUpdate(
+            { _id: userId, "notes._id": noteId },
+            {
+                $set:
+                {
+                    "notes.$.title": newTitle,
+                    "notes.$.content": newContent
+                }
+            }, { new: true });
+
+        if (!updatedUser) {
+            return res.status(400).json({ error: "update faiiled" });
+        }
+
+        res.status(201).json(updatedUser.notes);
     } catch (err) {
         console.log(err);
-        res.status(500).json({ error: "Server error" });
+        res.status(500).json(err);
     }
 });
 
 // Method: GET
-// Endpoint: "/view-intern-list"
+// Endpoint: "/note/all"
+// Description: get all notes
+// User: undergraduate
+module.exports.getAllNotes = catchAsync(async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const user = await Undergraduate.findById(userId).select('-password');
+        if (!user) {
+            return res.status(404).json({ error: "user not found" });
+        }
+
+        const notes = user.notes;
+        if (!notes) {
+            return res.status(400).json({ error: "notes not found" });
+        }
+
+        res.status(200).json(notes);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+
+});
+
+// Method: GET
+// Endpoint: "/note/:noteId"
+// Description: get a note
+// User: undergraduate
+module.exports.getNote = catchAsync(async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const noteId = req.params.noteId;
+
+        const user = await Undergraduate.findById(userId).select('-password');
+        if (!user) {
+            return res.status(404).json({ error: "user not found" });
+        }
+
+        const note = user.notes.id(noteId);
+        if (!note) {
+            return res.status(404).json({ error: "note not found" });
+        }
+
+        res.status(200).json(note);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+
+});
+
+// Method: GET
+// Endpoint: "/intern/list"
 // Description: View all interns
 // User: admin
 module.exports.viewInternList = catchAsync(async (req, res) => {
@@ -197,7 +344,7 @@ module.exports.viewInternList = catchAsync(async (req, res) => {
 });
 
 // Method: GET
-// Endpoint: "/company-selection"
+// Endpoint: "/intern/company-selection"
 // Description: get company selections for internship
 // User: undergraduate
 module.exports.getCompanySelection = catchAsync(async (req, res) => {
@@ -217,7 +364,7 @@ module.exports.getCompanySelection = catchAsync(async (req, res) => {
 });
 
 // Method: PATCH
-// Endpoint: "/company-selection"
+// Endpoint: "/intern/company-selection"
 // Description: Select companies for internship
 // User: undergraduate
 module.exports.updateCompanySelection = catchAsync(async (req, res) => {
@@ -283,123 +430,8 @@ module.exports.updateCompanySelection = catchAsync(async (req, res) => {
     }
 });
 
-// Method: POST
-// Endpoint: "/add-note"
-// Description: Add a note
-// User: undergraduate
-module.exports.addNote = catchAsync(async (req, res) => {
-    try {
-        const userId = req.user.id;
-        const { title, content } = req.body;
-
-        if (!content) {
-            return res.status(400).json({ error: "Please add some content" });
-        }
-
-        let newTitle = title;
-
-        if (!newTitle) {
-            newTitle = content.substring(0, 15);
-        }
-
-        const newNote = { title: newTitle, content };
-
-        const user = await Undergraduate.findByIdAndUpdate(userId, { $push: { notes: newNote } }, { new: true });
-        if (!user) {
-            return res.status(400).json({ error: "user not found!" });
-        }
-
-        res.status(201).json({ notes: user.notes });
-    } catch (err) {
-        res.status(500).json(err);
-    }
-});
-
-// Method: GET
-// Endpoint: "/get-all-notes"
-// Description: get all notes
-// User: undergraduate
-module.exports.getAllNotes = catchAsync(async (req, res) => {
-    try {
-        const userId = req.user.id;
-
-        const user = await Undergraduate.findById(userId).select('-password');
-        if (!user) {
-            return res.status(404).json({ error: "user not found" });
-        }
-
-        const notes = user.notes;
-        if (!notes) {
-            return res.status(400).json({ error: "notes not found" });
-        }
-
-        res.status(200).json(notes);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
-    }
-
-});
-
-// Method: GET
-// Endpoint: "/get-note/:noteId"
-// Description: get a note
-// User: undergraduate
-module.exports.getNote = catchAsync(async (req, res) => {
-    try {
-        const userId = req.user.id;
-        const noteId = req.params.noteId;
-
-        const user = await Undergraduate.findById(userId).select('-password');
-        if (!user) {
-            return res.status(404).json({ error: "user not found" });
-        }
-
-        const note = user.notes.id(noteId);
-        if (!note) {
-            return res.status(404).json({ error: "note not found" });
-        }
-
-        res.status(200).json(note);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
-    }
-
-});
-
-// Method = PATCH
-// Endpoint = "/edit-note"
-// Description = Edit a note
-// User: undergraduate
-module.exports.editNote = catchAsync(async (req, res) => {
-    try {
-        const userId = req.user.id;
-        const { noteId, newTitle, newContent } = req.body;
-
-        const updatedUser = await Undergraduate.findOneAndUpdate(
-            { _id: userId, "notes._id": noteId },
-            {
-                $set:
-                {
-                    "notes.$.title": newTitle,
-                    "notes.$.content": newContent
-                }
-            }, { new: true });
-
-        if (!updatedUser) {
-            return res.status(400).json({ error: "update faiiled" });
-        }
-
-        res.status(201).json(updatedUser.notes);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
-    }
-});
-
 // Method: PATCH
-// Endpoint: "/set-weigted-gpa"
+// Endpoint: "/intern/set-weigted-gpa"
 // Description: Set wiighted gpa for undergraduate
 // User: admin
 module.exports.setWeightedGPA = catchAsync(async (req, res) => {
@@ -486,7 +518,7 @@ module.exports.addInternStatus = catchAsync(async (req, res) => {
 });
 
 // Method = PATCH
-// Endpoint = "/update-intern-status"
+// Endpoint = "/intern/status"
 // Description = Update intern status
 // User: undergraduate
 module.exports.updateInternStatus = catchAsync(async (req, res) => {
@@ -530,7 +562,7 @@ module.exports.updateInternStatus = catchAsync(async (req, res) => {
 });
 
 // Method: GET
-// Endpoint: "/assign-supervisor/:undergraduateId"
+// Endpoint: "/intern/assign-supervisor/:undergraduateId"
 // Description: get companies and supervisors for assign-supervisor form
 // User: admin
 module.exports.assignSupervisorGET = catchAsync(async (req, res) => {
@@ -556,7 +588,7 @@ module.exports.assignSupervisorGET = catchAsync(async (req, res) => {
 });
 
 // Method: PATCH
-// Endpoint: "/assign-supervisor/:undergraduateId"
+// Endpoint: "/intern/assign-supervisor/:undergraduateId"
 // Description: Assign a supervisor for undergraduate
 // User: admin
 module.exports.assignSupervisorPATCH = catchAsync(async (req, res) => {
@@ -607,7 +639,7 @@ module.exports.assignSupervisorPATCH = catchAsync(async (req, res) => {
 });
 
 // Method: PATCH
-// Endpoint: "/update-internship"
+// Endpoint: "/intern/internship"
 // Description: Update intern start date and end date, then generate empty weekly reports
 // User: undergraduate
 module.exports.updateInternship = catchAsync(async (req, res) => {
@@ -757,7 +789,7 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
 // ############################## Daily Reports ##############################
 
 // Method: GET
-// Endpoint: "/view-all-daily-reports"
+// Endpoint: "/daily-report/all"
 // Description: View all daily reports weekly vise
 // User: undergraduate
 module.exports.viewAllDailyReports = catchAsync(async (req, res) => {
@@ -780,7 +812,7 @@ module.exports.viewAllDailyReports = catchAsync(async (req, res) => {
 });
 
 // Method: GET
-// Endpoint: "/view-daily-report/:weekNo"
+// Endpoint: "/daily-report/:weekNo"
 // Description: View a set of daily reports weekly vise
 // User: undergraduate
 module.exports.viewDailyReport = catchAsync(async (req, res) => {
@@ -806,7 +838,7 @@ module.exports.viewDailyReport = catchAsync(async (req, res) => {
 });
 
 // Method: POST
-// Endpoint: "/edit-daily-report"
+// Endpoint: "/daily-report"
 // Description: View a set of daily reports weekly vise
 // User: undergraduate
 module.exports.editDailyReport = catchAsync(async (req, res) => {
@@ -848,7 +880,7 @@ module.exports.editDailyReport = catchAsync(async (req, res) => {
 });
 
 // Method: POST
-// Endpoint: "/edit-weekly-report-problem-section"
+// Endpoint: "/daily-report/weekly-problem-section"
 // Description: edit daily report weekly collection's problem encountered and solution section
 // User: undergraduate 
 module.exports.editDailyReportProblemSection = catchAsync(async (req, res) => {
@@ -882,7 +914,7 @@ module.exports.editDailyReportProblemSection = catchAsync(async (req, res) => {
 });
 
 // Method: PATCH
-// Endpoint: "/submit-daily-report"
+// Endpoint: "/daily-report/sumbit"
 // Description: Submit the daily report
 // User: undergraduate 
 module.exports.submitDailyReport = catchAsync(async (req, res) => {
@@ -915,7 +947,7 @@ module.exports.submitDailyReport = catchAsync(async (req, res) => {
 });
 
 // Method: GET
-// Endpoint: "/get-all-daily-reports/:undergraduateId"
+// Endpoint: "/daily-report/all/:undergraduateId"
 // Description: View all daily reports weekly vise
 // User: admin
 module.exports.getAllDailyReports = catchAsync(async (req, res) => {
@@ -938,7 +970,7 @@ module.exports.getAllDailyReports = catchAsync(async (req, res) => {
 });
 
 // Method: GET
-// Endpoint: "/get-daily-report/:undergraduateId/week/:weekNo"
+// Endpoint: "/daily-report/:undergraduateId/week/:weekNo"
 // Description: View a set of daily reports weekly vise
 // User: admin
 module.exports.getDailyReport = catchAsync(async (req, res) => {
@@ -971,7 +1003,7 @@ module.exports.getDailyReport = catchAsync(async (req, res) => {
 // ############################## Monthly Reports ##############################
 
 // Method: GET
-// Endpoint: "/view-all-monthly-reports"
+// Endpoint: "/monthly-report/all"
 // Description: View all monthly reports
 // User: undergraduate
 module.exports.viewAllMonthlyReports = catchAsync(async (req, res) => {
@@ -994,7 +1026,7 @@ module.exports.viewAllMonthlyReports = catchAsync(async (req, res) => {
 });
 
 // Method: GET
-// Endpoint: "/view-monthly-report/:monthNo"
+// Endpoint: "/monthly-report/:monthNo"
 // Description: View a monthly report
 // User: undergraduate
 module.exports.viewMonthlyReport = catchAsync(async (req, res) => {
@@ -1020,7 +1052,7 @@ module.exports.viewMonthlyReport = catchAsync(async (req, res) => {
 });
 
 // Method: POST
-// Endpoint: "/edit-monthly-report-week"
+// Endpoint: "/monthly-report/week"
 // Description: edit a weekly report in monthly report
 // User: undergraduate
 module.exports.editMonthlyReportWeek = catchAsync(async (req, res) => {
@@ -1060,7 +1092,7 @@ module.exports.editMonthlyReportWeek = catchAsync(async (req, res) => {
 });
 
 // Method: POST
-// Endpoint: "/edit-monthly-report-problem-section"
+// Endpoint: "/monthly-report/monthly-problem-section"
 // Description: edit monthly report problem encountered and solution section
 // User: undergraduate
 module.exports.editMonthlyProblemSection = catchAsync(async (req, res) => {
@@ -1094,7 +1126,7 @@ module.exports.editMonthlyProblemSection = catchAsync(async (req, res) => {
 });
 
 // Method: POST
-// Endpoint: "/edit-monthly-leave-record"
+// Endpoint: "/monthly-report/leave-record"
 // Description: edit nomber of leaves in month
 // User: undergraduate
 module.exports.editMonthlyLeaveRecord = catchAsync(async (req, res) => {
@@ -1128,7 +1160,7 @@ module.exports.editMonthlyLeaveRecord = catchAsync(async (req, res) => {
 });
 
 // Method: PATCH
-// Endpoint: "/submit-monthly-report"
+// Endpoint: "/monthly-report/submit"
 // Description: edit nomber of leaves in month
 // User: undergraduate
 module.exports.submitMonthlyReport = catchAsync(async (req, res) => {
@@ -1161,7 +1193,7 @@ module.exports.submitMonthlyReport = catchAsync(async (req, res) => {
 });
 
 // Method: GET
-// Endpoint: "/get-all-monthly-reports/:undergraduateId"
+// Endpoint: "/monthly-report/all/:undergraduateId"
 // Description: View all monthly reports
 // User: admin
 module.exports.getAllMonthlyReports = catchAsync(async (req, res) => {
@@ -1184,7 +1216,7 @@ module.exports.getAllMonthlyReports = catchAsync(async (req, res) => {
 });
 
 // Method: GET
-// Endpoint: "/get-monthly-report/:undergraduateId/month/:monthNo"
+// Endpoint: "/monthly-report/:undergraduateId/month/:monthNo"
 // Description: View monthly a report
 // User: admin
 module.exports.getMonthlyReport = catchAsync(async (req, res) => {
@@ -1217,7 +1249,7 @@ module.exports.getMonthlyReport = catchAsync(async (req, res) => {
 // ############################## CV Application / Additional Information ##############################
 
 // Method: POST
-// Endpoint: "/upload-cv"
+// Endpoint: "/cv/upload"
 // Description: upload the cv as the pdf to local files
 // User: undergraduate
 module.exports.uploadCV = catchAsync(async (req, res) => {
@@ -1253,7 +1285,7 @@ module.exports.uploadCV = catchAsync(async (req, res) => {
 })
 
 // Method: POST
-// Endpoint: "/soft-skill"
+// Endpoint: "/info/soft-skill"
 // Description: Update the profile with additional information about undergraduate
 // User: undergraduate
 module.exports.addSoftSkill = catchAsync(async (req, res) => {
@@ -1287,7 +1319,7 @@ module.exports.addSoftSkill = catchAsync(async (req, res) => {
 });
 
 // Method: DELETE
-// Endpoint: "/soft-skill"
+// Endpoint: "/info/soft-skill"
 // Description: Update the profile with additional information about undergraduate
 // User: undergraduate
 module.exports.deleteSoftSkill = catchAsync(async (req, res) => {
@@ -1318,7 +1350,7 @@ module.exports.deleteSoftSkill = catchAsync(async (req, res) => {
 });
 
 // Method: POST
-// Endpoint: "/technology-skill"
+// Endpoint: "/info/technology-skill"
 // Description: Update the profile with additional information about undergraduate
 // User: undergraduate
 module.exports.addTechnologySkill = catchAsync(async (req, res) => {
@@ -1346,7 +1378,7 @@ module.exports.addTechnologySkill = catchAsync(async (req, res) => {
 })
 
 // Method: DELETE
-// Endpoint: "/technology-skill"
+// Endpoint: "/info/technology-skill"
 // Description: Update the profile with additional information about undergraduate
 // User: undergraduate
 module.exports.deleteTechnologySkill = catchAsync(async (req, res) => {
@@ -1377,7 +1409,7 @@ module.exports.deleteTechnologySkill = catchAsync(async (req, res) => {
 });
 
 // Method: POST
-// Endpoint: "/certifications"
+// Endpoint: "/info/certifications"
 // Description: Update the profile with additional information about undergraduate
 // User: undergraduate
 module.exports.addCertifications = catchAsync(async (req, res) => {
@@ -1405,7 +1437,7 @@ module.exports.addCertifications = catchAsync(async (req, res) => {
 })
 
 // Method: DELETE
-// Endpoint: "/certifications"
+// Endpoint: "/info/certifications"
 // Description: Update the profile with additional information about undergraduate
 // User: undergraduate
 module.exports.deleteCertifications = catchAsync(async (req, res) => {
@@ -1436,7 +1468,7 @@ module.exports.deleteCertifications = catchAsync(async (req, res) => {
 });
 
 // Method: POST
-// Endpoint: "/extra-activities"
+// Endpoint: "/info/extra-activities"
 // Description: Update the profile with additional information about undergraduate
 // User: undergraduate
 module.exports.addExtraActivities = catchAsync(async (req, res) => {
@@ -1464,7 +1496,7 @@ module.exports.addExtraActivities = catchAsync(async (req, res) => {
 })
 
 // Method: DELETE
-// Endpoint: "/extra-activities"
+// Endpoint: "/info/extra-activities"
 // Description: Update the profile with additional information about undergraduate
 // User: undergraduate
 module.exports.deleteExtraActivities = catchAsync(async (req, res) => {
@@ -1495,7 +1527,7 @@ module.exports.deleteExtraActivities = catchAsync(async (req, res) => {
 });
 
 // Method: POST
-// Endpoint: "/projects"
+// Endpoint: "/info/projects"
 // Description: Update the profile with additional information about undergraduate
 // User: undergraduate
 module.exports.addProject = catchAsync(async (req, res) => {
@@ -1523,7 +1555,7 @@ module.exports.addProject = catchAsync(async (req, res) => {
 })
 
 // Method: DELETE
-// Endpoint: "/projects"
+// Endpoint: "/info/projects"
 // Description: Update the profile with additional information about undergraduate
 // User: undergraduate
 module.exports.deleteProject = catchAsync(async (req, res) => {
@@ -1554,7 +1586,7 @@ module.exports.deleteProject = catchAsync(async (req, res) => {
 });
 
 // Method: POST
-// Endpoint: "/english-skill"
+// Endpoint: "/info/english-skill"
 // Description: Update the profile with additional information about undergraduate
 // User: undergraduate
 module.exports.addEnglishSkill = catchAsync(async (req, res) => {
@@ -1585,7 +1617,7 @@ module.exports.addEnglishSkill = catchAsync(async (req, res) => {
 });
 
 // Method: GET
-// Endpoint: "/additional-information"
+// Endpoint: "/info"
 // Description: Update the profile with additional information about undergraduate
 // User: undergraduate
 module.exports.getAdditionalInformation = catchAsync(async (req, res) => {
