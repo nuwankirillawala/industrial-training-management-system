@@ -10,39 +10,9 @@ import { PopUpDialog } from "../../components/user/Undergraduate/studentCV/PopUp
 import { CVUpload } from "../../components/user/Undergraduate/studentCV/CVUpload";
 
 export const StudentCvUpdate = () => {
-  //Get data from back end
-  const data = {
-    olResult: "A",
-    alResult: "C",
-    speakingLevel: "50%",
-    writingLevel: "68%",
-    readingLevel: "",
-    language: "c++",
-    languageLevel: "",
-    skill: "",
-    skillCertificates: "",
-    projects: "",
-    projectDescription: "",
-    projectTechnologies: "",
-    projectRepoLink: "",
-    projectLiveLink: "",
-  };
-  //End of fetcching data from the back end
-
-  //Data for End point
-  // const [englishProficiency, setEnglishProficiency] = useState({
-  //   olResult: "",
-  //   alResult: "",
-  //   speakingLevel: "",
-  //   writingLevel: "",
-  //   readingLevel: "",
-  // });
-
-  // const passDataFromChild = (newValue) => {
-  //   setEnglishProficiency(newValue);
-  //   // console.log(englishProficiency);
-  // };
-  //End of Data for End Point
+  //state for fetched data
+  const [data, setData] = useState([]);
+  //End of State
 
   //useState for PopUpDialog
   const [openForm, setOpenForm] = useState({
