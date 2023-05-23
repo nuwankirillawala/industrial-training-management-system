@@ -9,8 +9,12 @@ router.route('/create')
     .post(adminController.createAdmin)
 
 router.route('/profile')
-    .get(adminController.adminProfile)
+    .get(adminController.getAdminProfile)
     .patch(adminController.updateAdminProfile)
+
+router.route('/user/:userId')
+    .get(adminController.getAdminUser)
+    .patch(adminController.updateAdminUser)
 
 router.route('/profile/image')
     .patch(deleteExistingImage, imageUpload, adminController.updateAdminProfileImage)

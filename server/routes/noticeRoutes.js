@@ -3,20 +3,13 @@ const noticeController = require('../controllers/noticeController');
 
 const router = Router();
 
-router.route('/create-notice')
-    .post(noticeController.createNotice)
-
-router.route('/edit-notice')
-    .patch(noticeController.editNotice)
-
-router.route('/view-all-notices')
-    .get(noticeController.viewAllNotices)
-
-router.route('/view-notice')
+router.route('/')
     .get(noticeController.viewNotice)
-
-router.route('/delete-notice')
+    .post(noticeController.createNotice)
+    .patch(noticeController.editNotice)
     .delete(noticeController.deleteNotice)
 
+router.route('/all')
+    .get(noticeController.viewAllNotices)
 
 module.exports = router;

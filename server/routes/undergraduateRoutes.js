@@ -9,143 +9,138 @@ const router = Router();
 router.route('/create')
     .post(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.createUndergraduate)
 
-router.route('/view/:undergraduateId')
+router.route('/get/:undergraduateId')
     .get(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.getUndergraduate)
 
-router.route('/get')
-    .get(restrictedTo('undergraduate'), undergraduateController.viewProfile)
+router.route('/get/all')
+    .get(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.viewAll)
 
-router.route('/update')
+router.route('/dashboard')
+    .get(restrictedTo('undergraduate'), undergraduateController.undergraduateDashboard)
+
+router.route('/profile')
+    .get(restrictedTo('undergraduate'), undergraduateController.viewProfile)
     .patch(restrictedTo('undergraduate'), undergraduateController.updateProfile)
 
-router.route('/update-profile-image')
+router.route('/profile/image')
     .patch(restrictedTo('undergraduate'), deleteExistingImage, imageUpload, undergraduateController.updateProfileImage)
-
-
-router.route('/view-all')
-    .get(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.viewAll)
 
 // ############################## Private Notes ##############################
 
-router.route('/add-note')
+router.route('/note')
     .post(restrictedTo('undergraduate'), undergraduateController.addNote)
+    .patch(restrictedTo('undergraduate'), undergraduateController.editNote)
 
-router.route('/get-all-notes')
+router.route('/note/all')
     .get(restrictedTo('undergraduate'), undergraduateController.getAllNotes)
 
-router.route('/get-note/:noteId')
+router.route('/note/:noteId')
     .get(restrictedTo('undergraduate'), undergraduateController.getNote)
-
-router.route('/edit-note')
-    .patch(restrictedTo('undergraduate'), undergraduateController.editNote)
 
 // ############################## Intern Process ##############################
 
-router.route('/view-intern-list')
+router.route('/intern/list')
     .get(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.viewInternList)
 
-router.route('/company-selection')
+router.route('/intern/company-selection')
     .get(restrictedTo('undergraduate'), undergraduateController.getCompanySelection)
     .patch(restrictedTo('undergraduate'), undergraduateController.updateCompanySelection)
 
-router.route('/undergraduate-dashboard')
-    .get(restrictedTo('undergraduate'), undergraduateController.undergraduateDashboard)
-
-router.route('/set-weighted-gpa')
+router.route('/intern/set-weighted-gpa')
     .post(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.setWeightedGPA)
 
 // 🛑 This is a tempory route controller. just for checking 🛑
-router.route('/add-intern-status')
+router.route('/intern/status/add')
     .patch(undergraduateController.addInternStatus)
 
-router.route('/update-intern-status')
+router.route('/intern/status')
     .patch(restrictedTo('undergraduate'), undergraduateController.updateInternStatus)
 
-router.route('/assign-supervisor/:undergraduateId')
+router.route('/intern/assign-supervisor/:undergraduateId')
     .get(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.assignSupervisorGET)
     .patch(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.assignSupervisorPATCH)
 
-router.route('/update-internship')
+router.route('/intern/internship')
     .patch(restrictedTo('undergraduate'), undergraduateController.updateInternship)
 
 // ############################## Daily Reports ##############################
 
-router.route('/view-all-daily-reports')
+router.route('/daily-report/all')
     .get(restrictedTo('undergraduate'), undergraduateController.viewAllDailyReports)
 
-router.route('/view-daily-report/:weekNo')
+router.route('/daily-report/:weekNo')
     .get(restrictedTo('undergraduate'), undergraduateController.viewDailyReport);
 
-router.route('/edit-daily-report')
+router.route('/daily-report')
     .post(restrictedTo('undergraduate'), undergraduateController.editDailyReport)
 
-router.route('/edit-weekly-report-problem-section')
+router.route('/daily-report/weekly-problem-section')
     .post(restrictedTo('undergraduate'), undergraduateController.editDailyReportProblemSection)
 
-router.route('/submit-daily-report')
+router.route('/daily-report/submit')
     .patch(restrictedTo('undergraduate'), undergraduateController.submitDailyReport)
 
-router.route('/get-all-daily-reports/:undergraduateId')
+router.route('/daily-report/all/:undergraduateId')
     .get(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.getAllDailyReports)
 
-router.route('/get-daily-report/:undergraduateId/week/:weekNo')
+router.route('/daily-report/:undergraduateId/week/:weekNo')
     .get(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.getDailyReport)
 
 // ############################## Monthly Reports ##############################
 
-router.route('/view-all-monthly-reports')
+router.route('/monthly-report/all')
     .get(restrictedTo('undergraduate'), undergraduateController.viewAllMonthlyReports)
 
-router.route('/view-monthly-report/:monthNo')
+router.route('/monthly-report/:monthNo')
     .get(restrictedTo('undergraduate'), undergraduateController.viewMonthlyReport);
 
-router.route('/edit-monthly-report-week')
+router.route('/monthly-report/week')
     .post(restrictedTo('undergraduate'), undergraduateController.editMonthlyReportWeek)
 
-router.route('/edit-monthly-report-problem-section')
+router.route('/monthly-report/monthly-problem-section')
     .post(restrictedTo('undergraduate'), undergraduateController.editMonthlyProblemSection)
 
-router.route('/edit-monthly-leave-record')
+router.route('/monthly-report/leave-record')
     .post(restrictedTo('undergraduate'), undergraduateController.editMonthlyLeaveRecord)
 
-router.route('/submit-monthly-report')
+router.route('/monthly-report/submit')
     .patch(restrictedTo('undergraduate'), undergraduateController.submitMonthlyReport)
 
-router.route('/get-all-monthly-reports/:undergraduateId')
+router.route('/monthly-report/all/:undergraduateId')
     .get(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.getAllMonthlyReports)
 
-router.route('/get-monthly-report/:undergraduateId/month/:monthNo')
+router.route('/monthly-report/:undergraduateId/month/:monthNo')
     .get(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.getDailyReport)
 
 // ############################## CV Application ##############################
 
-router.route('/upload-cv')
+router.route('/information/upload-cv')
     .post(restrictedTo('undergraduate'), cvUpload, undergraduateController.uploadCV)
 
-router.route('/soft-skill')
+router.route('/information/soft-skill')
     .post(restrictedTo('undergraduate'), undergraduateController.addSoftSkill)
     .delete(restrictedTo('undergraduate'), undergraduateController.deleteSoftSkill)
 
-router.route('/technology-skill')
+router.route('/information/technology-skill')
     .post(restrictedTo('undergraduate'), undergraduateController.addTechnologySkill)
     .delete(restrictedTo('undergraduate'), undergraduateController.deleteTechnologySkill)
 
-router.route('/certifications')
+router.route('/information/certifications')
     .post(restrictedTo('undergraduate'), undergraduateController.addCertifications)
     .delete(restrictedTo('undergraduate'), undergraduateController.deleteCertifications)
 
-router.route('/extra-activities')
+router.route('/information/extra-activities')
     .post(restrictedTo('undergraduate'), undergraduateController.addExtraActivities)
     .delete(restrictedTo('undergraduate'), undergraduateController.deleteExtraActivities)
 
-router.route('/projects')
+router.route('/information/projects')
     .post(restrictedTo('undergraduate'), undergraduateController.addProject)
     .delete(restrictedTo('undergraduate'), undergraduateController.deleteProject)
 
-router.route('/english-skill')
+router.route('/information/english-skill')
     .post(restrictedTo('undergraduate'), undergraduateController.addEnglishSkill)
 
-router.route('/additional-information')
+router.route('/information')
     .get(undergraduateController.getAdditionalInformation)
 
 // ############################## Progress Report ##############################
