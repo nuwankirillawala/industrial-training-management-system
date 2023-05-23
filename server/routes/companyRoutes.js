@@ -10,6 +10,9 @@ router.route('/:companyId/profile')
     .get(companyController.getCompanyProfile)
     .patch(companyController.updateCompanyProfile)
 
+router.route('/all')
+    .get(companyController.getAllCompanies)
+
 router.route('/:companyId/contact-person')
     .post(companyController.addContactPerson)
 

@@ -7,7 +7,7 @@ const quickSortByWGPA = require('../utils/quickSortByWGPA');
 
 
 // Method: POST
-// Endpoint: "/create-company"
+// Endpoint: "/create"
 // Description: create a company
 // User: Admin
 module.exports.createCompany = catchAsync(async (req, res) => {
@@ -75,8 +75,31 @@ module.exports.getCompanyProfile = catchAsync(async (req, res) => {
     }
 });
 
+// Method: GET
+// Endpoint: "/all"
+// Description: get all company
+// User: Admin
+module.exports.getAllCompanies = catchAsync(async (req, res) => {
+    try {
+        const companyList = await Company.find();
+
+        if (!companyList) {
+            return res.status(404).json({ error: "no any company found" });
+        }
+
+        res.status(201).json({
+            companyList
+        });
+    } catch (err) {
+        // const errors = handleErrors(err);
+        console.log(errors);
+        res.status(400).json(err);
+    }
+});
+
+
 // Method: POST
-// Endpoint: "/:companyID/add-contact-person"
+// Endpoint: "/:companyID/contact-person"
 // Description: add a contact person for a company
 // User: Admin
 module.exports.addContactPerson = catchAsync(async (req, res) => {
@@ -173,7 +196,7 @@ module.exports.editCompanyRating = catchAsync(async (req, res) => {
 });
 
 // Method: GET
-// Endpoint: "/intern-process-company-list"
+// Endpoint: "/intern-process/company-list"
 // Description: View companies that select for intern application process
 // User: Admin, Undergraduate
 module.exports.internProcessCompanyList = catchAsync(async (req, res) => {
@@ -196,7 +219,7 @@ module.exports.internProcessCompanyList = catchAsync(async (req, res) => {
 });
 
 // Method: PATCH
-// Endpoint: "/intern-process"
+// Endpoint: "/intern-process/recommendations"
 // Description: Create a intern lists
 // User: Admin
 module.exports.internProcess = catchAsync(async (req, res) => {
@@ -315,7 +338,7 @@ module.exports.internProcess = catchAsync(async (req, res) => {
 
 
 // Method: GET
-// Endpoint: "/intern-process-company"
+// Endpoint: "/intern-process/company"
 // Description: get companies that offer internships through university
 // User: Admin, Undergraduate
 module.exports.internProcessCompany = catchAsync(async (req, res) => {
@@ -335,7 +358,7 @@ module.exports.internProcessCompany = catchAsync(async (req, res) => {
 });
 
 // Method: POST
-// Endpoint: "/intern-process-company"
+// Endpoint: "/intern-process/company"
 // Description: add candidates to the company list
 // User: Admin
 module.exports.updateCompanyInternApplicationList = catchAsync(async (req, res) => {
@@ -365,7 +388,7 @@ module.exports.updateCompanyInternApplicationList = catchAsync(async (req, res) 
 });
 
 // Method: PATCH
-// Endpoint: "/intern-process-student"
+// Endpoint: "/intern-process/student"
 // Description: add candidate to the company list
 // User: Admin
 module.exports.addCandidateToApplicationList = catchAsync(async (req, res) => {
