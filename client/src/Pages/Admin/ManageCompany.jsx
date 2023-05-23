@@ -8,6 +8,7 @@ import { Tile } from "../../components/card/Tile";
 import Dialogbox from "../../components/Dialogbox/Dialogbox";
 import { RemoveCompanyForm } from "../../components/user/Admin/Forms/RemoveCompanyForm";
 import { Navigate, useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 export const ManageCompany = () => {
     const [Records, setRecords] = useState([])
@@ -17,11 +18,11 @@ export const ManageCompany = () => {
 
     const getAllCompanyData = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/v1/');
+            const res = await axios.get('http://localhost:5000/api/v1/company/all', { withCredentials: true });
             console.log(res);
-            if (res.status === 200) {
-                console.log(res.data.users);
-                setRecords(res.data.users)
+            if (res.status === 201) {
+                console.log(res.data);
+                setRecords(res.data.companyList)
             }
         } catch (error) {
             console.log(error)
@@ -37,13 +38,13 @@ export const ManageCompany = () => {
         { columnName: 'Email' },
         { columnName: 'ContactNo' },
         { columnName: 'Address' },
-        { columnName: 'No of Intern seats' },
-        { columnName: 'Company Description' },
-        { columnName: 'Rating' },
-        { columnName: 'Contact Person Name' },
-        { columnName: 'Contact Person Email' },
-        { columnName: 'Contact person Contact' },
-        { columnName: 'Contact person post' }
+        /*  { columnName: 'No of Intern seats' },
+         { columnName: 'Company Description' },
+         { columnName: 'Rating' },
+         { columnName: 'Contact Person Name' },
+         { columnName: 'Contact Person Email' },
+         { columnName: 'Contact person Contact' },
+         { columnName: 'Contact person post' } */
     ]
 
 
@@ -69,7 +70,7 @@ export const ManageCompany = () => {
 
             <Grid item sm={12} md={12} >
                 <Grid container spacing={2}>
-                    <Grid item sm={8} md={8}>
+                    <Grid item sm={12} md={12} lg={8}>
                         <Tile>
                             <Stack>
                                 <Table sx={{ border: '1px solid #4665D2' }}>
@@ -82,42 +83,57 @@ export const ManageCompany = () => {
                                             )}
                                         </TableRow>
                                     </TableHead>
-                                    {/* <TableBody>
+                                    <TableBody>
 
                                         {Records.map((r, i) =>
                                             <TableRow key={i} onClick={() => setSingleCompany(r)}>
-                                                 <TableCell >   {r.id}  </TableCell>
-                                                <TableCell >   {r.title}  </TableCell>
+                                                <TableCell >   {r.name}  </TableCell>
+                                                <TableCell >   {r.email}  </TableCell>
+                                                <TableCell >   {r.contactNo} </TableCell>
+                                                <TableCell >   {r.address}  </TableCell>
+                                                {/* <TableCell >   {r.internSeats}  </TableCell>
                                                 <TableCell >   {r.description} </TableCell>
-                                                <TableCell> <Dialogbox title="Update Company" btn_name="update"><UpdateCompanyForm /></Dialogbox></TableCell>
+                                                <TableCell >   {r.rating}  </TableCell>
+                                                {r.contactPerson.map((Person, j) => (
+                                                    <React.Fragment key={j}>
+                                                        <TableCell>{Person.contactPersonName}</TableCell>
+                                                        <TableCell>{Person.contactPersonEmail}</TableCell>
+                                                        <TableCell>{Person.contactPersonContactNo}</TableCell>
+                                                        <TableCell>{Person.contactPersonPosition}</TableCell>
+                                                    </React.Fragment>
+                                                ))} */}
+                                                <TableCell> <Dialogbox title="Update Company" btn_name="update"><UpdateCompanyForm companyId={r._id} /></Dialogbox></TableCell>
                                                 <TableCell> <Dialogbox title="Remove Company" btn_name="remove"><RemoveCompanyForm /></Dialogbox></TableCell>
                                             </TableRow> //id,title,description need to change as json file
                                         )}
-                                    </TableBody> */}
+                                    </TableBody>
                                 </Table>
 
                             </Stack>
                         </Tile>
                     </Grid>
 
-                    <Grid item sm={4} md={4}>
+                    <Grid item sm={12} md={12} lg={4}>
                         <Tile>
                             <Stack direction={'column'}>
                                 <Typography fontWeight={'bold'} paddingTop={'15px'} paddingBottom={'15px'}>Company full details</Typography>
                                 <Divider orientation="horizontal" color="#4665D2" />
                                 {singleCompany && (
                                     <Stack direction={'column'} spacing={2}>
-                                        <Stack direction={'row'}>  <Typography width={'135px'}> CompanyName </Typography><Typography> {singleCompany.id} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> E-mail </Typography><Typography>{singleCompany.title} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> EContact Number</Typography><Typography> {singleCompany.title} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> Address</Typography><Typography>{singleCompany.title} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> No of Intern Seats</Typography><Typography>{singleCompany.title} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> Description</Typography><Typography>{singleCompany.title} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}>Rating</Typography><Typography>{singleCompany.title} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Name</Typography><Typography>{singleCompany.title} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Email</Typography><Typography>{singleCompany.title} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Contact</Typography><Typography>{singleCompany.title} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}>Contact person post</Typography><Typography>{singleCompany.title} </Typography></Stack>
+                                        <Stack direction={'row'}>  <Typography width={'135px'}> CompanyName </Typography><Typography> :{singleCompany.name} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}> E-mail </Typography><Typography>:{singleCompany.email} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}> EContact Number</Typography><Typography> :{singleCompany.contactNo} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}> Address</Typography><Typography>:{singleCompany.address} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}> No of Intern Seats</Typography><Typography>:{singleCompany.internSeats} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}> Description</Typography><Typography>:{singleCompany.description} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}>Rating</Typography><Typography>:{singleCompany.rating} </Typography></Stack>
+                                        {singleCompany.contactPerson && singleCompany.contactPerson.map((Person, j) => (
+                                            <React.Fragment key={j}>
+                                                <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Name</Typography><Typography>:{Person.contactPersonName} </Typography></Stack>
+                                                <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Email</Typography><Typography>:{Person.contactPersonEmail} </Typography></Stack>
+                                                <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Contact</Typography><Typography>:{Person.contactPersonContactNo}</Typography></Stack>
+                                                <Stack direction={'row'}> <Typography width={'135px'}>Contact person post</Typography><Typography>:{Person.contactPersonPosition} </Typography></Stack>
+                                            </React.Fragment>))}
                                     </Stack>
                                 )}
                             </Stack>
