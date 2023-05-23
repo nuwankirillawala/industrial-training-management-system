@@ -5,7 +5,7 @@ import { Divider } from '@mui/material'
 
 const PrivateNotePanel = () => {
   return (
-    <Tile>
+    <Tile height={'39vh'}>
         <Typography variant="h6" color="initial">Private Notes</Typography>
         <Divider /> 
     </Tile>

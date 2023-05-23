@@ -3,6 +3,7 @@ import { Tile } from '../../card/Tile'
 import { Grid, Typography, FormControl, InputLabel, Select, MenuItem, Button, Stack, Box } from '@mui/material'
 import { Formik } from 'formik'
 import axios from 'axios'
+import { StatusSnackBar } from '../../StatusSnackBar/StatusSnackBar'
 
 // const choice = {
 //     company : '',
@@ -34,14 +35,40 @@ export const StudentCompanyChoice = () => {
 
     const[choice,setChoice] = useState(CompanyChoice);
     const [companyList , setCompanyList] = useState([]);
+    const [choisedCompany, setChoisedCompany] = useState();
+
+    //statusSnackBar state
+    const [trigger, setTrigger] = useState({
+        success: false,
+        error : false
+      });
+      //End of statusSnackBar state
+      const handleSnackBar = (key) => {
+        setTrigger((prevState) => {
+          let newState = { ...prevState };
+          newState[key] = !newState[key];
+          return newState;
+        });
+      };
 
         //fetch data
         const getCompanyList = async() => {
             try {
-              const res = await axios.get('http://localhost:5000/api/v1/company/intern-process-company-list',{withCredentials:true});
+              const res = await axios.get('http://localhost:5000/api/v1/company/intern-process/company-list',{withCredentials:true});
               if(res.data.status === 'success'){
-                console.log(res.data.data);
+                console.log("company list : ",res.data.data);
                 setCompanyList(res.data.data);
+              }
+            } catch (error) {
+              console.log(error)
+            }
+          }
+        const getChoisedCompany = async() => {
+            try {
+                const res = await axios.get('http://localhost:5000/api/v1/undergraduate/intern/company-selection',{withCredentials:true});
+                if(res.status === 200){
+                console.log("Student choices : " , res.data.companySelection);
+                setChoisedCompany(res.data.companySelection);
               }
             } catch (error) {
               console.log(error)
@@ -50,12 +77,14 @@ export const StudentCompanyChoice = () => {
         
           useEffect(()=> {
             getCompanyList();
+            getChoisedCompany();
           }, [])
           //End of fetch data
 
     const handleOnSubmit = async (values) => {
+        console.log("values : ", values)
         try{
-            const res = await axios.patch('http://localhost:5000/api/v1/undergraduate/company-selection',{withCredentials:true},
+            const res = await axios.patch('http://localhost:5000/api/v1/undergraduate/intern/company-selection',{withCredentials:true},
             {
                 choice01 : {
                     company :values.company01,
@@ -79,14 +108,18 @@ export const StudentCompanyChoice = () => {
                 }
             });
             console.log(res.status)
+            if(res.status === 200){
+                handleSnackBar("success");
+            }
         }
         catch (error){
             console.log(error);
+            handleSnackBar("error");
         }
     }
 
   return (
-    <Tile>
+    // <Tile>
         <Grid container spacing={3}>
             <Grid item md={12}>
                 <Typography variant='h6' fontWeight={'bold'}>Company Selection</Typography>
@@ -367,9 +400,26 @@ export const StudentCompanyChoice = () => {
                     )}
 
                 </Formik>
+                {/* success and error messagers */}
+        <StatusSnackBar
+          severity="success"
+          trigger={trigger.success}
+          setTrigger={() => {
+            handleSnackBar("success");
+          }}
+          alertMessage={"Update Successfully"}
+        />            
+        <StatusSnackBar
+          severity="error"
+          trigger={trigger.error}
+          setTrigger={() => {
+            handleSnackBar("error");
+          }}
+          alertMessage={"Update fail"}
+        /> 
             </Grid>
 
         </Grid>
-    </Tile>
+    // </Tile>
   )
 }

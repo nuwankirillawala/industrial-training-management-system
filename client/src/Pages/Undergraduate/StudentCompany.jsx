@@ -8,6 +8,8 @@ import { StudentCompanyStatus } from '../../components/user/Undergraduate/Studen
 import { StudentInternPeriod } from '../../components/user/Undergraduate/StudentInternPeriod'
 import { StudentPrivateCompanyStatus } from '../../components/user/Undergraduate/StudentPrivateCompanyStatus'
 import axios  from 'axios';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 
 const StudentcompanyState = {
@@ -36,17 +38,37 @@ const companyDataColumns = [
     }
 ]
 
+function TabPanel(props) {
+    const { children, value, index} = props;
+  
+    return (
+      <Box>
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+        </Box>
+    );
+  }
+
 
 export const StudentCompany = () => {
     
     const[companyState,setCompanyState] = useState(StudentcompanyState)
     const[page,setPage] = useState({no: 1})
     const [companyList , setCompanyList] = useState([]);
+      const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
 
     //fetch data
     const getCompanyList = async() => {
         try {
-          const res = await axios.get('http://localhost:5000/api/v1/company/intern-process-company-list',{withCredentials: true});
+          const res = await axios.get('http://localhost:5000/api/v1/company/intern-process/company-list',{withCredentials: true});
           if(res.data.status === 'success'){
             // console.log(res.data.data);
             setCompanyList(res.data.data);
@@ -65,62 +87,53 @@ export const StudentCompany = () => {
 
     <Grid container spacing={1}>
         <Grid item md={12}>
-            <Typography variant='PageTitle'>Company</Typography>
+            <Typography variant="head3" marginBottom={'5px'}>Company</Typography>
         </Grid>
 
         <Grid item md={12}>
-            <Box overflow={'scroll'} maxHeight='88vh'>
+            <Box maxHeight='81vh'>
                 <Grid container spacing={1}>
                     
                     <Grid item md={7}>
-
-                        <Stack spacing={1}>
-
-        {/* company selection  */}
-                            <Stack>
+                        <Tile>
+                            <Box sx={{ width: '100%', height: '74vh' }}>
+                              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                <Tabs value={value} onChange={handleChange}>
+                                  <Tab label="Company Choice" />
+                                  <Tab label="Intern Status" />
+                                  <Tab label="Intern Period" />
+                                </Tabs>
+                              </Box>
+                              <TabPanel value={value} index={0}>
                                 <StudentCompanyChoice />
-                            </Stack>
-
-        {/* company status, add company, inter time period component add dinamikally */}
-                            <Stack>
-                                <Box>
-                                    {page.no === 1 && (
-                                        <StudentCompanyStatus
-                                            pageNo={page}
-                                            setPage={setPage}
-                                            companyState={companyState}
-                                            setCompanyState={setCompanyState}
-                                            />
-                                    
-                                    )}
-                                    {page.no === 2 && (
+                              </TabPanel>
+                              <TabPanel value={value} index={1}>
+                                <StudentCompanyStatus
+                                    companyState={companyState}
+                                    setCompanyState={setCompanyState}
+                                    />
+                              </TabPanel>
+                              <TabPanel value={value} index={2}>
+                                {page.no === 2 && (
                                         <StudentAddCompany
                                             pageNo={page}
                                             setPage={setPage}
                                             />
-                                    )}
-                                    {page.no === 3 && (
+                                )}
+                                {page.no === 1 && (
                                         <StudentInternPeriod
                                             pageNo={page}
                                             setPage={setPage}
                                             />
-                                    )}
-                                    {page.no === 4 && (
-                                        <StudentPrivateCompanyStatus
-                                            pageNo={page}
-                                            setPage={setPage}
-                                            companyState={companyState}
-                                            setCompanyState={setCompanyState}
-                                            />
-                                    )}
-                                </Box>
-                            </Stack>
-                        </Stack>
+                                )}
+                              </TabPanel>
+                            </Box>
+                        </Tile>
                     </Grid>
 
                     <Grid item md={5}>
-                        <Tile height={'82vh'}>
-                            <Stack maxHeight={'75vh'} padding={2} spacing={1}>
+                        <Tile height={'79vh'}>
+                            <Stack maxHeight={'78vh'} padding={2} spacing={1}>
                                             
                                 <Typography variant='h6' fontWeight={'bold'}>Company Ranking List</Typography>
                                 <Divider />

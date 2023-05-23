@@ -30,7 +30,8 @@ export const ViewAlumini = () => {
         { columnName: 'Registration No' },
         { columnName: 'Alumni Name' },
         { columnName: 'E-mail' },
-        { columnName: 'Graduated Year' }
+        { columnName: 'Graduated Year' },
+        { columnName: 'Contact No' }
     ]
 
     return (
@@ -58,6 +59,7 @@ export const ViewAlumini = () => {
                                         <TableCell >   {r.name}  </TableCell>
                                         <TableCell >   {r.email} </TableCell>
                                         <TableCell >   {r.graduatedYear} </TableCell>
+                                        <TableCell >   {r.contactNo} </TableCell>
                                     </TableRow> //id,title,description need to change as json file
                                 )}
 
@@ -78,6 +80,7 @@ export const ViewAlumini = () => {
                             <Stack direction={'row'}>  <Typography width={'135px'}> Name </Typography><Typography> {singleUser.name} </Typography></Stack>
                             <Stack direction={'row'}> <Typography width={'135px'}> E-mail</Typography><Typography> {singleUser.email} </Typography></Stack>
                             <Stack direction={'row'}> <Typography width={'135px'}>  Graduated Year</Typography><Typography>{singleUser.graduatedYear} </Typography></Stack>
+                            <Stack direction={'row'}> <Typography width={'135px'}>  Contact No</Typography><Typography>{singleUser.contactNo} </Typography></Stack>
                         </Stack>
                     )}
                 </Stack>

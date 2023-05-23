@@ -5,7 +5,7 @@ import { FormControl, Select, MenuItem } from '@mui/material'
 import { Tile } from '../../card/Tile'
 import { Formik } from 'formik'
 
-export const StudentCompanyStatus = ({pageNo,setPage,companyState,setCompanyState}) => {
+export const StudentCompanyStatus = ({companyState,setCompanyState}) => {
 
     const handleOnSubmit = async (values) => {
         console.log(values);
@@ -14,7 +14,7 @@ export const StudentCompanyStatus = ({pageNo,setPage,companyState,setCompanyStat
       };
 
   return (
-    <Tile>
+    // <Tile>
 
         <Box>
             {/* university intern status */}
@@ -24,15 +24,14 @@ export const StudentCompanyStatus = ({pageNo,setPage,companyState,setCompanyStat
             >
                 {({
                     values,
-                    touched,
-                    handleBlur,
                     handleChange,
                     handleSubmit,
+                    handleReset,
                 })=>(
                     <form onSubmit={handleSubmit}>
                         <Stack direction={'column'} spacing={2}>
                             <Stack>
-                                <Typography variant='body1' fontWeight='bold'>Update Your Internship Status</Typography>
+                                <Typography variant='h6' fontWeight='bold'>Update Your Internship Status</Typography>
                             </Stack>
 
                             <Stack alignItems={'center'}>
@@ -129,35 +128,13 @@ export const StudentCompanyStatus = ({pageNo,setPage,companyState,setCompanyStat
 
                             <Stack>
                                 <Stack justifyContent='flex-end' direction={'row'}>
-                                    <Stack>
-                                        <Button
-                                            variant='itms'
-                                            size='itms-small'
-                                            onClick={(prev) => {
-                                                    setPage(
-                                                        {
-                                                            ...prev,
-                                                            no:3,
-                                                        }
-                                                    );
-                                              }}
-                                            >Set intern period
-                                        </Button>
-                                    </Stack>
                                           
                                     <Stack>
                                         <Button
-                                            variant='itms'
-                                            size='itms-small'
-                                            onClick={(prev) => {
-                                                    setPage(
-                                                        {
-                                                            ...prev,
-                                                            no:4,
-                                                        }
-                                                    );
-                                              }}
-                                            >Set Private intern
+                                        variant='itms'
+                                        size='itms-small'
+                                        onClick={handleReset}
+                                        >reset
                                         </Button>
                                     </Stack>
                                           
@@ -178,6 +155,6 @@ export const StudentCompanyStatus = ({pageNo,setPage,companyState,setCompanyStat
 
 
 
-    </Tile>
+    // </Tile>
   )
 }

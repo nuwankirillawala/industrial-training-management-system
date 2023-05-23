@@ -57,7 +57,7 @@ export const UpdateNRemoveCompanySupervisor = () => {
                                     <TableCell >   {r.name}  </TableCell>
                                     <TableCell >   {r.email}  </TableCell>
                                     <TableCell >   {r.jobRole} </TableCell>
-                                    <TableCell> <Dialogbox title="Update Company supervisor" btn_name="update"><UpdateCompanySupervisorForm /></Dialogbox></TableCell>
+                                    <TableCell> <Dialogbox title="Update Company supervisor" btn_name="update"><UpdateCompanySupervisorForm userId={r._id} /></Dialogbox></TableCell>
                                     <TableCell ><Dialogbox title="Remove Company supervisor" btn_name="remove"><RemoveUserForm /></Dialogbox>
 
                                     </TableCell>

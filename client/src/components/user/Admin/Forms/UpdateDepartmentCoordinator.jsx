@@ -19,7 +19,7 @@ export const UpdateDepartmentCoordinator = ({ userId }) => {
     const getUserData = async () => {
         try {
             console.log(userId)
-            const res = await axios.get(`http://localhost:5000/api/v1/admin/admin-profile/${userId}`,
+            const res = await axios.get(`http://localhost:5000/api/v1/admin/user/${userId}`,
                 { withCredentials: true });
 
             if (res.status === 200) {
@@ -74,14 +74,14 @@ export const UpdateDepartmentCoordinator = ({ userId }) => {
     const handleFormSubmit = async (values) => {
         console.log(values);
         try {
-            const res = await axios.patch("http://localhost:5000/api/v1/admin/update-admin-profile",
+            const res = await axios.patch(`http://localhost:5000/api/v1/admin/user/${userId}`,
                 {
                     id: userId,
-                    name: values.departmentCoordinatorName,/* === "" ? userData.name : values.departmentCoordinatorName, */
+                    name: values.departmentCoordinatorName === "" ? userData.name : values.departmentCoordinatorName,
                     role: userData.role, /* values.departmentCoordinatorPosition  === "" ? userData.role : values.adminRole, */
-                    email: values.departmentCoordinatorEmail, /* === "" ? userData.email : values.adminEmail, */
-                    contactNo: values.departmentCoordinatorContactNo, /* === "" ? userData.contactNo : values.adminContactNo, */
-                    staffId: values.departmentCoordinatorStaffId /* === "" ? userData.staffId : values.adminStaffId */
+                    email: values.departmentCoordinatorEmail === "" ? userData.email : values.adminEmail,
+                    contactNo: values.departmentCoordinatorContactNo === "" ? userData.contactNo : values.adminContactNo,
+                    staffId: values.departmentCoordinatorStaffId === "" ? userData.staffId : values.adminStaffId
                 },
                 { withCredentials: true }
             );
