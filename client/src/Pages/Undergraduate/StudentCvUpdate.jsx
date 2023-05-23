@@ -23,7 +23,6 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { EnglishProficiency } from "../../components/user/Undergraduate/studentCV/EnglishProficiency";
 import { PopUpDialog } from "../../components/user/Undergraduate/studentCV/PopUpDialog";
 import { StatusSnackBar } from "../../components/StatusSnackBar/StatusSnackBar";
-import { MiniNoticeBoard } from "../../components/MiniNoticeBoard/MiniNoticeBoard";
 import axios from "axios";
 
 //creating transition for dialog
@@ -561,7 +560,7 @@ export const StudentCvUpdate = () => {
               {/* right top content here */}
               <Box sx={{ height: "100%" }}>
                 <Tile sx={{ height: "100%" }}>
-                  <MiniNoticeBoard />
+                  <CVUpload />
                 </Tile>
               </Box>
             </Stack>
