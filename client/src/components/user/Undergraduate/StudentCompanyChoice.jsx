@@ -5,6 +5,8 @@ import { Formik } from 'formik'
 import axios from 'axios'
 import { StatusSnackBar } from '../../StatusSnackBar/StatusSnackBar'
 
+axios.defaults.withCredentials = true; 
+
 // const choice = {
 //     company : '',
 //     jobRole : ''
@@ -84,7 +86,7 @@ export const StudentCompanyChoice = () => {
     const handleOnSubmit = async (values) => {
         console.log("values : ", values)
         try{
-            const res = await axios.patch('http://localhost:5000/api/v1/undergraduate/intern/company-selection',{withCredentials:true},
+            const res = await axios.patch('http://localhost:5000/api/v1/undergraduate/intern/company-selection',
             {
                 choice01 : {
                     company :values.company01,
