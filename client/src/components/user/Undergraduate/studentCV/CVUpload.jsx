@@ -1,18 +1,30 @@
+import React from "react";
 import {
   AppBar,
   Box,
   Button,
   Dialog,
   IconButton,
+  Slide,
   Stack,
   Toolbar,
   Typography,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { Tile } from "../../../card/Tile";
-import { Viewer } from "@react-pdf-viewer/core";
+import { Viewer, Worker } from "@react-pdf-viewer/core";
 import axios from "axios";
 import { useState } from "react";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
+import "@react-pdf-viewer/core/lib/styles/index.css";
+import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar";
+
+//creating transition for dialog
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+//end of creation transition for dialog
 
 export const CVUpload = () => {
   //useStates for pdfviewer
@@ -20,6 +32,8 @@ export const CVUpload = () => {
   const [viewPDF, setViewPDF] = useState(null);
   //useState for dialogbox
   const [open, setOpen] = useState(false);
+  //useState for errors
+  const [errorOpen, setErrorOpen] = useState(false);
   //End of states
 
   //handling dialog closing
@@ -27,6 +41,10 @@ export const CVUpload = () => {
     setOpen(false);
   };
   //End of Handling dialog closing
+
+  //newpluging creation for pdf viewer
+  const newplugin = defaultLayoutPlugin();
+  //end of new plugin creation for pdf viewer
 
   //defining filetype for filepicker
   const fileType = ["application/pdf"];
@@ -38,10 +56,10 @@ export const CVUpload = () => {
     console.log(selectedFile.type);
     if (selectedFile) {
       if (selectedFile && fileType.includes(selectedFile.type)) {
+        setPDFFile(selectedFile);
         let reader = new FileReader();
         reader.readAsDataURL(selectedFile);
         reader.onload = (e) => {
-          setPDFFile(selectedFile);
           setViewPDF(e.target.result);
         };
       } else {
@@ -68,10 +86,6 @@ export const CVUpload = () => {
     }
   };
   //end of view pdf
-
-  //newpluging creation for pdf viewer
-  const newplugin = defaultLayoutPlugin();
-  //end of new plugin creation for pdf viewer
 
   //handle submit         End point
   const handleSubmit = async (e) => {
@@ -168,6 +182,12 @@ export const CVUpload = () => {
                 </Worker>
               </Box>
             </Dialog>
+            <StatusSnackBar
+              trigger={errorOpen}
+              setTrigger={setErrorOpen}
+              severity="error"
+              alertMessage="Error"
+            />
           </Box>
         </Stack>
       </Tile>
