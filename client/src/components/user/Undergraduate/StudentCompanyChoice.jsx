@@ -84,7 +84,7 @@ export const StudentCompanyChoice = () => {
     const handleOnSubmit = async (values) => {
         console.log("values : ", values)
         try{
-            const res = await axios.patch('http://localhost:5000/api/v1/undergraduate/intern/company-selection',{withCredentials:true},
+            const res = await axios.patch('http://localhost:5000/api/v1/undergraduate/intern/company-selection',
             {
                 choice01 : {
                     company :values.company01,
@@ -106,7 +106,7 @@ export const StudentCompanyChoice = () => {
                     company :values.company05,
                     robRole : values.jobRole05
                 }
-            });
+            }, {withCredentials:true});
             console.log(res.status)
             if(res.status === 200){
                 handleSnackBar("success");
