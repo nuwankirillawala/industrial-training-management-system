@@ -33,13 +33,15 @@ export const UpdateNRemoveAlumni = () => {
         { columnName: 'Registration No' },
         { columnName: 'Alumni Name' },
         { columnName: 'E-mail' },
-        { columnName: 'Graduated Year' }
+        { columnName: 'Graduated Year' },
+        { columnName: 'Contact No' }
     ]
 
 
     return (
         <>
             <Typography variant="PageTitle">Update or Remove Alumni</Typography>
+            <Typography>Refresh browser for get recently updated data </Typography>
             <Tile>
                 <Stack>
                     <Table sx={{ border: '1px solid #4665D2' }}>
@@ -60,6 +62,7 @@ export const UpdateNRemoveAlumni = () => {
                                     <TableCell >   {r.name}  </TableCell>
                                     <TableCell >   {r.email} </TableCell>
                                     <TableCell >   {r.graduatedYear} </TableCell>
+                                    <TableCell >   {r.contactNo} </TableCell>
                                     <TableCell> <Dialogbox title="Update Alumni user" btn_name="update"><UpdateAlumniForm userId={r._id} /></Dialogbox></TableCell>
                                     <TableCell ><Dialogbox title="Remove Alumni user" btn_name="remove"><RemoveUserForm /></Dialogbox>
 

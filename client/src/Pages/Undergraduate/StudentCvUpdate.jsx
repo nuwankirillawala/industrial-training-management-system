@@ -24,7 +24,7 @@ import { EnglishProficiency } from "../../components/user/Undergraduate/studentC
 import { PopUpDialog } from "../../components/user/Undergraduate/studentCV/PopUpDialog";
 import { StatusSnackBar } from "../../components/StatusSnackBar/StatusSnackBar";
 import { MiniNoticeBoard } from "../../components/MiniNoticeBoard/MiniNoticeBoard";
-import axios from 'axios';
+import axios from "axios";
 
 //creating transition for dialog
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -68,7 +68,7 @@ export const StudentCvUpdate = () => {
   //End of Data for End Point
 
   //useState for PopUpDialog
-  const [openForm, setOpenForm] = React.useState({
+  const [openForm, setOpenForm] = useState({
     englishProficiency: false,
     programmingLanguages: false,
     otherSkills: false,
@@ -176,8 +176,11 @@ export const StudentCvUpdate = () => {
     const formData = new FormData();
     formData.append("cv-file", PDFFile);
 
-
-    const res = await axios.post('http://localhost:5000/api/v1/undergraduate/upload-cv', formData,  headers)
+    const res = await axios.post(
+      "http://localhost:5000/api/v1/undergraduate/info/upload-cv",
+      formData,
+      headers
+    );
     console.log(res);
   };
   //end of the end point

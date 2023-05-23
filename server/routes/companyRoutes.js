@@ -19,6 +19,12 @@ router.route('/:companyId/contact-person')
 router.route('/:companyId/ratings')
     .patch(companyController.editCompanyRating)
 
+router.route('/:companyId/ratings/admin')
+    .patch(companyController.editCompanyRatingByAdmin)
+
+router.route('/:companyId/ratings/alumni')
+    .patch(companyController.editCompanyRatingByAlumni )
+
 router.route('/intern-process/company-list')
     .get(companyController.internProcessCompanyList)
 

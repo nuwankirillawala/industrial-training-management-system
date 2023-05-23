@@ -7,16 +7,64 @@ import * as yup from "yup"
 import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
 
 
-const CompanySupervisor = {
-    supervisorName: '',
-    supervisorEmail: '',
-    supervisorContactNo: '',
-    supervisorCompany: '',
-    supervisorJobRole: '',
-    // supervisorPassword : ''
-}
+export const UpdateCompanySupervisorForm = ({ userId }) => {
+    const [userData, setUserData] = useState({
+        name: '',
+        email: '',
+        contactNo: '',
+        company: '',
+        jobRole: ''
+    });
+    //statusSnackBar state
+    const [trigger, setTrigger] = useState({
+        success: false,
+        error: false,
+    });
 
-export const UpdateCompanySupervisorForm = () => {
+
+
+    const getUserData = async () => {
+        try {
+            console.log(userId)
+            const res = await axios.get(`http://localhost:5000/api/v1/admin/profile/${userId}`,
+                { withCredentials: true });
+            console.log(res.data)
+            if (res.status === 200) {
+                setUserData({
+                    name: res.data.user.name,
+                    email: res.data.user.email,
+                    contactNo: res.data.user.contactNo,
+                    company: res.data.user.company,
+                    jobRole: res.data.user.jobRole
+                });
+
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        getUserData();
+    }, [])
+
+    //End of statusSnackBar state
+    const handleSnackBar = (key) => {
+        setTrigger((prevState) => {
+            let newState = { ...prevState };
+            newState[key] = !newState[key];
+            return newState;
+        });
+    };
+
+
+    const CompanySupervisor = {
+        supervisorName: '',
+        supervisorEmail: '',
+        supervisorContactNo: '',
+        supervisorCompany: '',
+        supervisorJobRole: '',
+        // supervisorPassword : ''
+    }
 
     const validation = yup.object().shape({
         supervisorName: yup.string(),
@@ -27,19 +75,33 @@ export const UpdateCompanySupervisorForm = () => {
         //supervisorPassword: yup.string()
     })
 
-    const [SnackbarOpen, setSnackbarOpen] = useState(false)
+    const handleFormSubmit = async (values) => {
+        console.log(values);  // working
+        console.log(userId)
+        try {
+            const res = await axios.patch(`http://localhost:5000/api/v1/supervisor/user/${userId}`,
+                {
+                    id: userId,
+                    name: values.supervisorName === "" ? userData.name : values.supervisorName,
+                    email: values.supervisorEmail === "" ? userData.email : values.supervisorEmail,
+                    contactNo: values.supervisorContactNo === "" ? userData.contactNo : values.supervisorContactNo,
+                    jobRole: values.supervisorJobRole === "" ? userData.jobRole : values.supervisorJobRole,
+                    company: values.supervisorCompany === "" ? userData.company : values.supervisorCompany
+                },
+                { withCredentials: true }
+            );
+            console.log(res.status);
 
-    const handleSnackBar = (key) => {
-        setSnackbarOpen((prevState) => {
-            let newState = { ...prevState };
-            newState[key] = !newState[key];
-            return newState;
-        });
-    };
-
-    const handleFormSubmit = (values) => {
-        alert(JSON.stringify(values));//convert object to a json file, this popup may omitt @ the integration
-        handleSnackBar("success");
+            if (res.status === 200) {
+                handleSnackBar("success");
+            } else {
+                handleSnackBar("error");
+            }
+        }
+        catch (error) {
+            console.log(error);
+            handleSnackBar("error");
+        }
     }
 
 
@@ -71,6 +133,7 @@ export const UpdateCompanySupervisorForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
+                                        placeholder={userData.name}
                                         value={values.supervisorName} //if u use User here it will not let change text
                                         name="supervisorName"
                                         error={!!touched.supervisorName && !!errors.supervisorName}
@@ -91,6 +154,7 @@ export const UpdateCompanySupervisorForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
+                                        placeholder={userData.email}
                                         value={values.supervisorEmail}
                                         name="supervisorEmail"
                                         error={!!touched.supervisorEmail && !!errors.supervisorEmail}
@@ -110,6 +174,7 @@ export const UpdateCompanySupervisorForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
+                                        placeholder={userData.contactNo}
                                         value={values.supervisorContactNo}
                                         name="supervisorContactNo"
                                         error={!!touched.supervisorContactNo && !!errors.supervisorContactNo}
@@ -129,6 +194,7 @@ export const UpdateCompanySupervisorForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
+                                        placeholder={userData.company}
                                         value={values.supervisorCompany}
                                         name="supervisorCompany"
                                         error={!!touched.supervisorCompany && !!errors.supervisorCompany}
@@ -147,6 +213,7 @@ export const UpdateCompanySupervisorForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
+                                        placeholder={userData.jobRole}
                                         value={values.supervisorJobRole}
                                         name="supervisorJobRole"
                                         error={!!touched.supervisorJobRole && !!errors.supervisorJobRole}
@@ -164,12 +231,21 @@ export const UpdateCompanySupervisorForm = () => {
                 )}
             </Formik>
             <StatusSnackBar
-                trigger={SnackbarOpen.success}
+                severity="success"
+                trigger={trigger.success}
                 setTrigger={() => {
-                    handleSnackBar("success");
+                    handleSnackBar(" Update success");
                 }}
-                severity='success'
-                alertMessage={' submitted '}></StatusSnackBar>
+                alertMessage={"Update Succefully"}
+            />
+            <StatusSnackBar
+                severity="error"
+                trigger={trigger.error}
+                setTrigger={() => {
+                    handleSnackBar("error");
+                }}
+                alertMessage={"Update Fail"}
+            />
         </Tile>
 
     )
