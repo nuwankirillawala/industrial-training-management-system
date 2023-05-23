@@ -17,12 +17,12 @@ export const ReportPortal = () => {
     {selectReportType === true &&
         <Grid container spacing={2}>
             <Grid item md={12}>
-                <Typography variant='PageTitle'>Student Report</Typography>
+                <Typography variant="head3" marginBottom={'5px'}>Student Report</Typography>
             </Grid>
             
             <Grid item md={3}>
                 <Tile>
-                    <Stack direction={'column'} spacing={5} height={'72vh'} justifyContent={'space-between'}>
+                    <Stack direction={'column'} spacing={5} height={'74vh'} justifyContent={'space-between'}>
                         <Stack spacing={2}>
                             <Stack alignItems={'center'}>
                                 <Typography variant='body' fontWeight={'bold'}>Daily Report</Typography>
@@ -47,7 +47,7 @@ export const ReportPortal = () => {
 
             <Grid item md={3}>
                 <Tile>
-                    <Stack direction={'column'} spacing={5} height={'72vh'} justifyContent={'space-between'}>
+                    <Stack direction={'column'} spacing={5} height={'74vh'} justifyContent={'space-between'}>
                         <Stack spacing={2}>
                             <Stack alignItems={'center'}>
                                 <Typography variant='body' fontWeight={'bold'}>Monthly Report</Typography>
@@ -72,7 +72,7 @@ export const ReportPortal = () => {
 
             <Grid item md={3}>
                 <Tile>
-                <Stack direction={'column'} spacing={5} height={'72vh'} justifyContent={'space-between'}>
+                <Stack direction={'column'} spacing={5} height={'74vh'} justifyContent={'space-between'}>
                         <Stack spacing={2}>
                             <Stack alignItems={'center'}>
                                 <Typography variant='body' fontWeight={'bold'}>Progress Report</Typography>
@@ -97,7 +97,7 @@ export const ReportPortal = () => {
 
             <Grid item md={3}>
                 <Tile>
-                <Stack direction={'column'} spacing={5} height={'72vh'} justifyContent={'space-between'}>
+                <Stack direction={'column'} spacing={5} height={'74vh'} justifyContent={'space-between'}>
                         <Stack spacing={2}>
                             <Stack alignItems={'center'}>
                                 <Typography variant='body' fontWeight={'bold'}>Final Feedback Report</Typography>
