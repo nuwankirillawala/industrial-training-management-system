@@ -31,10 +31,13 @@ export const StudentDashboard = () => {
   return (
 
     <Box sx={{ display: 'flex' }} padding={'0px 10px 0px 0px'} margin={'0px 10px'}>
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
+        <Grid item md={12}>
+          <Typography variant="head3" marginBottom={'5px'}>Dashboard</Typography>
+        </Grid>
         {/* left half of the grid and it shows user profile and the result */}
         <Grid item md={9} sm={3}>
-          <Typography variant="head3" marginBottom={'5px'}>Dashboard</Typography>
+          {/* <Typography variant="head3" marginBottom={'5px'}>Dashboard</Typography> */}
           <Grid container direction="row" spacing={1}>
             <Grid item xs={9}>
               <Grid container spacing={1}>
@@ -93,24 +96,10 @@ export const StudentDashboard = () => {
                 <NoticeBoard></NoticeBoard>
               </Tile>
             </Stack>
-            <PrivateNotePanel />
             <Stack>
               {/* note  */}
-              <Tile>
-                <TextField
-                  label="Your Notes  Here..."
-                  multiline
-                  rows={10}
-                  fullWidth
-                />
-              </Tile>
+              <PrivateNotePanel />
             </Stack>
-            {/* <Stack>
-              // calender
-              <Tile>
-                <Typography>calender</Typography>
-              </Tile>
-            </Stack> */}
           </Stack>
         </Grid>
 

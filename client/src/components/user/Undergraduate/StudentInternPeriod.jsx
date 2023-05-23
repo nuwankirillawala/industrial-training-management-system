@@ -8,6 +8,7 @@ import * as yup from "yup"
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { StatusSnackBar } from '../../StatusSnackBar/StatusSnackBar'
 
 const Internperiod = {
     companyName : '',
@@ -23,11 +24,24 @@ export const StudentInternPeriod = ({pageNo, setPage}) => {
     
     const [values,setValues] = useState(Internperiod);
     const [companyList , setCompanyList] = useState([]);
+    //statusSnackBar state
+    const [trigger, setTrigger] = useState({
+        success: false,
+        error : false
+      });
+      //End of statusSnackBar state
+      const handleSnackBar = (key) => {
+        setTrigger((prevState) => {
+          let newState = { ...prevState };
+          newState[key] = !newState[key];
+          return newState;
+        });
+      };
 
     //fetch data
     const getCompanyList = async() => {
         try {
-          const res = await axios.get('http://localhost:5000/api/v1/company/intern-process-company-list',{withCredentials:true});
+          const res = await axios.get('http://localhost:5000/api/v1/company/intern-process/company-list',{withCredentials:true});
           if(res.data.status === 'success'){
             console.log(res.data.data);
             setCompanyList(res.data.data);
@@ -53,9 +67,8 @@ export const StudentInternPeriod = ({pageNo, setPage}) => {
     const handleOnSubmit = async (values) => {
         console.log(values);
         try{
-            const res = await axios.patch('http://localhost:5000/api/v1/undergraduate/update-internship',{withCredentials:true},
+            const res = await axios.patch('http://localhost:5000/api/v1/undergraduate/intern/internship',{withCredentials:true},
             {
-                id : "63decbe168deaccef0e61740",
                 companyId : values.companyName,
                 jobRole : values.jobRole,
                 type : values.type,
@@ -63,14 +76,20 @@ export const StudentInternPeriod = ({pageNo, setPage}) => {
                 internshipEnd : values.endDate
             });
             console.log(res.status)
+            if(res.status === 200){
+                handleSnackBar("success");
+            }else{
+                handleSnackBar("error");
+            }
         }
         catch (error){
+            handleSnackBar("error");
             console.log(error);
         }
     }
 
   return (
-    <Tile>
+    // <Tile>
         <Grid container spacing={2}>
             <Grid item md={12}>
                 <Typography variant='h6' fontWeight={'bold'}>Update Intership Period</Typography>
@@ -218,11 +237,11 @@ export const StudentInternPeriod = ({pageNo, setPage}) => {
                                             setPage(
                                                 {
                                                     ...prev,
-                                                    no: 1,
+                                                    no: 2,
                                                 }
                                             );
                                         }}
-                                    >Cancle</Button>
+                                    >Add company</Button>
 
                                     <Button
                                         variant='itms'
@@ -245,7 +264,25 @@ export const StudentInternPeriod = ({pageNo, setPage}) => {
                 </Stack>
             </Grid>
 
+        {/* success and error messagers */}
+        <StatusSnackBar
+          severity="success"
+          trigger={trigger.success}
+          setTrigger={() => {
+            handleSnackBar("success");
+          }}
+          alertMessage={"Update Successfully"}
+        />            
+        <StatusSnackBar
+          severity="error"
+          trigger={trigger.error}
+          setTrigger={() => {
+            handleSnackBar("error");
+          }}
+          alertMessage={"Update Fail"}
+        /> 
+
         </Grid>
-    </Tile>
+    // </Tile>
   )
 }
