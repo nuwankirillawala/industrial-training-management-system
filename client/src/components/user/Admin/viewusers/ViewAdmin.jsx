@@ -9,7 +9,7 @@ export const ViewAdmin = () => {
 
     const getAdminData = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/admin', { withCredentials: true });
+            const res = await axios.get('http://localhost:5000/api/v1/admin/users/admin', { withCredentials: true });
             console.log(res);
             if (res.status === 200) {
                 console.log(res.data.users);
@@ -25,15 +25,15 @@ export const ViewAdmin = () => {
         getAdminData();
     }, [])
 
-    const fetchUser = async () =>{
-        try{
+    const fetchUser = async () => {
+        try {
             const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/admin')
-            if(res.status){
+            if (res.status) {
                 setSingleUser(JSON.stringify(res.data))
             }
             console.log(res)
         }
-        catch(err){
+        catch (err) {
 
         }
     }
