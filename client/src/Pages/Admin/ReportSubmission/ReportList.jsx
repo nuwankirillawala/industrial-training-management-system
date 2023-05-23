@@ -13,6 +13,17 @@ export const ReportList = ({reportType, setSelectReportType, selectReportType}) 
   const [reportId, setReportId] = useState();
   const [selectStudent, setSelectStudent] = useState(false);
   const [selectReport, setSelectReport] = useState(false);
+  const [reportList, setReportList] = useState([
+    {
+      "dailyReports": [],
+      "problemSection":"",
+      "reportStatus":"",
+      "weekEndDate":"",
+      "weekNumber":"",
+      "weekStartDate":"",
+      "_id":""
+    }
+  ]);
   const [studentList , setStudentList] = useState([
     {
         "role": "",
@@ -28,13 +39,13 @@ export const ReportList = ({reportType, setSelectReportType, selectReportType}) 
         "weeklyReports": [],
         "monthlyReports": []
     }]);
-  const [reportList, setReportList] = useState([]);
+
 
   //fetch data
 
   const getStudentList = async() => {
       try{
-        const res = await axios.get("http://localhost:5000/api/v1/admin/view-all-users/undergraduate",{withCredentials:true});
+        const res = await axios.get("http://localhost:5000/api/v1/admin/users/undergraduate",{withCredentials:true});
         if(res.status===200){
           console.log(res.data.users)
           setStudentList(res.data.users);
@@ -60,16 +71,23 @@ export const ReportList = ({reportType, setSelectReportType, selectReportType}) 
     try {
         const  userid = params.row.id;
         setSelectStudent(true);
-        setStudentId(userid);
         console.log(params.row.name);
         console.log(userid);
 
         const getReportList = async() => {
           try{
-              const res = await axios.get(`http://localhost:5000/api/v1/undergraduate/get-undergraduate/${userid}`,{withCredentials:true});
-              console.log("responce : ", res.data.user.weeklyReports[0].weekEndDate.substring(0, 10))
-              if(res.status===200){
-                setReportList(res.data.user.weeklyReports);
+              if(reportType === "Daily Report"){
+                const res = await axios.get(`http://localhost:5000/api/v1/undergraduate/daily-report/all/${userid}`,{withCredentials:true});
+                console.log("responce : ", res.data.dailyReports)
+                if(res.status===200){
+                  setReportList(res.data.dailyReports);
+                }
+              }else if(reportType === "Monthly Report"){
+                const res = await axios.get(`http://localhost:5000/api/v1/undergraduate/monthly-report/all/${userid}`,{withCredentials:true});
+                console.log("responce : ", res.data.monthlyReports)
+                if(res.status===200){
+                  setReportList(res.data.monthlyReports);
+                }
               }
             }
             catch (err) {
@@ -116,15 +134,35 @@ export const ReportList = ({reportType, setSelectReportType, selectReportType}) 
 
   ];
 
-  const reportColumns = [
+  const dailyReportColumns = [
     {
-      field : "weekStartDate",
-      headerName : 'Start Date',
+      field : "weekNumber",
+      headerName : 'Week',
       editable : false,
       flex :1
     },
     {
+      field : "weekStartDate",
+      headerName : 'Start Date',
+      editable : false,
+      flex :3
+    },
+    {
       field : "weekEndDate",
+      headerName : 'End Date',
+      editable : false,
+      flex :3
+    }
+  ]
+  const monthlyReportColumns = [
+    {
+      field : "monthNumber",
+      headerName : 'Month',
+      editable : false,
+      flex :1
+    },
+    {
+      field : "monthEndDate",
       headerName : 'End Date',
       editable : false,
       flex :1
@@ -137,7 +175,7 @@ export const ReportList = ({reportType, setSelectReportType, selectReportType}) 
     { selectReportType === false &&
     <Grid container spacing={2}>
       <Grid item md={12}>
-        <Typography variant='PageTitle'>{reportType}</Typography>
+        <Typography variant="head3" marginBottom={'5px'}>{reportType}</Typography>
       </Grid>
 
       <Grid item md={12}>
@@ -145,7 +183,7 @@ export const ReportList = ({reportType, setSelectReportType, selectReportType}) 
 {/* student list in here */}
             <Grid item md={3} minWidth={'340px'}>
               <Tile>
-                <Stack direction={'column'} spacing={4} height={'76vh'}>
+                <Stack direction={'column'} spacing={4} height={'75vh'}>
 
                   <Stack alignItems={'center'}>
                     {selectStudent === false && (
@@ -163,13 +201,9 @@ export const ReportList = ({reportType, setSelectReportType, selectReportType}) 
                   </Stack>
 
                   <Stack>
-                    <Typography>set search bar here</Typography>
-                  </Stack>
-
-                  <Stack>
                     <Box
                       sx={{
-                        height: '48vh',
+                        height: '55vh',
                         width: '100%',
                         justifyContent: "center",
                         textAlign: "center",
@@ -193,21 +227,43 @@ export const ReportList = ({reportType, setSelectReportType, selectReportType}) 
                       )}
                       {selectStudent === true && (
 
-                        <DataGrid
-                          // rows
-                          rows={reportList.map((report) => {
-                            return { weekNumber: report.weekNumber, weekStartDate: report.weekStartDate, weekEndDate: report.weekEndDate};
-                          })}
-                          columns={reportColumns}
-                          rowsPerPageOptions={[]}
-                          onRowClick={selectReportData}
-                          getRowId={(row) => row.weekNumber}
-                          pageSize={10}
-                          hideFooter={true}
-                          // disableSelectionOnClick
-                          // experimentalFeatures={{ newEditingApi: true }}
+                        <>
+                          {reportType === "Daily Report" && (
+                            <DataGrid
+                            rows={reportList.map((report) => {
+                              return { weekNumber: report.weekNumber, weekStartDate: report.weekStartDate.substring(0,10), weekEndDate: report.weekEndDate.substring(0,10)};
+                            })}
+                            columns={dailyReportColumns}
+                            onRowClick={selectReportData}
+                            getRowId={(row) => row.weekNumber}
+                            disableSelectionOnClick
+                            hideFooter={true}
+                            // disableSelectionOnClick
+                            experimentalFeatures={{ newEditingApi: true }}
+                          
+                          />
+                          ) 
+                          }
+                          {reportType === "Monthly Report" && (
+                            <DataGrid
+                            // rows
+                            rows={reportList.map((report) => {
+                              return { monthNumber: report.monthNumber, monthEndDate: report.monthEndDate.substring(0,10), id:report._id};
+                            })}
+                            columns={monthlyReportColumns}
+                            onRowClick={selectReportData}
+                            getRowId={(row) => row.id}
+                            disableSelectionOnClick
+                            hideFooter={true}
+                            // disableSelectionOnClick
+                            experimentalFeatures={{ newEditingApi: true }}
+                          
+                          />
+                          ) 
+                          }
+                        </>
+
                         
-                        />
                       )}
                     </Box>
                   </Stack>
