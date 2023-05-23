@@ -19,9 +19,9 @@ export const UpdateAdminForm = ({ userId }) => {
     const getUserData = async () => {
         try {
             console.log(userId)
-            const res = await axios.get(`http://localhost:5000/api/v1/admin/admin-profile/${userId}`,
+            const res = await axios.get(`http://localhost:5000/api/v1/admin/user/${userId}`,
                 { withCredentials: true });
-
+            // console.log(res.data)
             if (res.status === 200) {
                 setUserData({
                     name: res.data.user.name,
@@ -77,8 +77,9 @@ export const UpdateAdminForm = ({ userId }) => {
 
     const handleFormSubmit = async (values) => {
         console.log(values);  // working
+        console.log(userId)
         try {
-            const res = await axios.patch("http://localhost:5000/api/v1/admin/update-admin-profile",
+            const res = await axios.patch(`http://localhost:5000/api/v1/admin/user/${userId}`,
                 {
                     id: userId,
                     name: values.adminName === "" ? userData.name : values.adminName,
