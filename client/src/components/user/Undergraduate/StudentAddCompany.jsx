@@ -4,6 +4,7 @@ import { Tile } from '../../card/Tile'
 import { Grid, Typography, Button, TextField, Stack, Box } from '@mui/material'
 import { Formik } from 'formik'
 import * as yup from 'yup'
+import { StatusSnackBar } from '../../StatusSnackBar/StatusSnackBar'
 
 
 const companyDetails = {
@@ -28,6 +29,20 @@ export const StudentAddCompany = ({pageNo, setPage}) => {
 
     const [company,setCompany] = useState(companyDetails);
 
+    //statusSnackBar state
+    const [trigger, setTrigger] = useState({
+        success: false,
+        error : false
+      });
+      //End of statusSnackBar state
+      const handleSnackBar = (key) => {
+        setTrigger((prevState) => {
+          let newState = { ...prevState };
+          newState[key] = !newState[key];
+          return newState;
+        });
+      };
+
     const handleOnSubmit = async (values) => {
         console.log(values);
         await new Promise((r) => setTimeout(r, 500));
@@ -48,9 +63,11 @@ export const StudentAddCompany = ({pageNo, setPage}) => {
             handleBlur,
             handleChange,
             handleSubmit,
+            handleReset,
+
         }) => (
             <form onSubmit={handleSubmit}>
-                <Stack direction={'column'} spacing={2}>
+                <Stack direction={'column'} spacing={2}  maxHeight={'55vh'}>
 
                     <Stack>
                         <Typography variant='h6' fontWeight={'bold'}>Company Details</Typography>
@@ -193,11 +210,16 @@ export const StudentAddCompany = ({pageNo, setPage}) => {
                                         setPage(
                                             {
                                                 ...prev,
-                                                no:4
+                                                no:1
                                             }
                                             );
                                         }}
                                         >Cancel</Button>
+                                <Button
+                                    variant='itms'
+                                    size='itms-small'
+                                    onClick={handleReset}
+                                        >reset</Button>
                                 <Button
                                     variant='itms'
                                     size='itms-small'
@@ -210,6 +232,23 @@ export const StudentAddCompany = ({pageNo, setPage}) => {
             </form>
         )}
         </Formik>
+        {/* success and error messagers */}
+        <StatusSnackBar
+          severity="success"
+          trigger={trigger.success}
+          setTrigger={() => {
+            handleSnackBar("success");
+          }}
+          alertMessage={"Update Successfully"}
+        />            
+        <StatusSnackBar
+          severity="error"
+          trigger={trigger.error}
+          setTrigger={() => {
+            handleSnackBar("error");
+          }}
+          alertMessage={"Update fail"}
+        /> 
     </Tile>
   )
 }
