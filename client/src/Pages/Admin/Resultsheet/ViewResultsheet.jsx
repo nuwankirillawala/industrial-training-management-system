@@ -1,7 +1,8 @@
 import { Box, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tile } from "../../../components/card/Tile";
 import { DataGrid } from "@mui/x-data-grid";
+import axios from "axios";
 
 const jsonData = [
   {
@@ -92,19 +93,28 @@ const jsonData = [
 const ViewResultsheet = () => {
   //State for the results
   const [results, setResults] = useState([]);
-  //End of state
+  //End of states
 
   //Fetching data from backend
   const getResults = async () => {
     try {
-      const res = await axios.get("");
+      const res = await axios.get("http://localhost:5000/api/v1/result/all", {
+        withCredentials: true,
+      });
       if (res.status === 200) {
+        console.log(res.data);
+        setResults(res.data);
       } else {
+        console.log(res);
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    getResults();
+  }, []);
   //End of fetching data from backend
 
   //columns for the data grid
@@ -112,109 +122,91 @@ const ViewResultsheet = () => {
     {
       field: "name",
       headerName: "Full Name",
-      width: 150,
       editable: false,
     },
     {
-      field: "id",
+      field: "regNo",
       headerName: "Student ID",
-      width: 120,
       editable: false,
     },
     {
       field: "CSC1113",
       headerName: "CSC1113 ",
-      width: 120,
       editable: false,
     },
     {
       field: "CSC1122",
       headerName: "CSC1122 ",
-      width: 120,
       editable: false,
     },
     {
       field: "CSC113a",
       headerName: "CSC113a ",
-      width: 120,
       editable: false,
     },
     {
       field: "CSC1153",
       headerName: "CSC1153 ",
-      width: 120,
       editable: false,
     },
     {
       field: "MAT112d",
       headerName: "MAT112d ",
-      width: 120,
       editable: false,
     },
     {
       field: "MAT113d",
       headerName: "MAT113d ",
-      width: 120,
       editable: false,
     },
     {
       field: "AMT112ß",
       headerName: "AMT112ß ",
-      width: 120,
       editable: false,
     },
     {
       field: "CSC1213",
       headerName: "CSC1213 ",
-      width: 120,
       editable: false,
     },
     {
       field: "CSC1223",
       headerName: "CSC1223 ",
-      width: 120,
       editable: false,
     },
     {
       field: "CSC1233",
       headerName: "CSC1233 ",
-      width: 120,
       editable: false,
     },
     {
       field: "CSC1242",
       headerName: "CSC1242 ",
-      width: 120,
       editable: false,
     },
     {
       field: "CSC1251",
       headerName: "CSC1251 ",
-      width: 120,
       editable: false,
     },
     {
       field: "MAT121ß",
       headerName: "MAT121ß ",
-      width: 120,
       editable: false,
     },
     {
       field: "MAT122ß",
       headerName: "MAT122ß ",
-      width: 120,
       editable: false,
     },
     {
       field: "EN1201",
       headerName: "EN1201 ",
-      width: 120,
       editable: false,
     },
     {
       field: "CSC2113",
       headerName: "CSC2113 ",
-      width: 120,
       editable: false,
     },
     {
@@ -226,31 +218,26 @@ const ViewResultsheet = () => {
     {
       field: "CSC2133",
       headerName: "CSC2133 ",
-      width: 120,
       editable: false,
     },
     {
       field: "CSC2143",
       headerName: "CSC2143 ",
-      width: 120,
       editable: false,
     },
     {
       field: "MAT211ß",
       headerName: "MAT211ß ",
-      width: 120,
       editable: false,
     },
     {
       field: "AMT212ß",
       headerName: "AMT212ß ",
-      width: 120,
       editable: false,
     },
     {
       field: "PHY2112",
       headerName: "PHY2112 ",
-      width: 120,
       editable: false,
     },
   ];
@@ -275,10 +262,11 @@ const ViewResultsheet = () => {
           <Tile sx={{ height: "100%" }}>
             <Box sx={{ height: 400 }}>
               <DataGrid
-                rows={jsonData}
+                rows={results}
                 columns={studentColumns}
                 disableRowSelectionOnClick
                 hideFooter={true}
+                getRowId={(row) => row._id}
               />
             </Box>
           </Tile>

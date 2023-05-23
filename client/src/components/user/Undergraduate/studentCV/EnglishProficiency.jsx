@@ -16,6 +16,7 @@ import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { Button } from "@mui/material";
+import axios from "axios";
 
 export const EnglishProficiency = ({ passDataFromChild }) => {
   const [value, setValue] = useState({
@@ -66,16 +67,34 @@ export const EnglishProficiency = ({ passDataFromChild }) => {
   //End of onchange Radio group
 
   //handle submit button
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log(value);
-    console.log("now from parent");
-    passDataFromChild({
-      olResult: value.olResult,
-      alResult: value.alResult,
-      speakingLevel: value.speakingLevel,
-      writingLevel: value.writingLevel,
-      readingLevel: value.readingLevel,
-    });
+    // console.log("now from parent");
+    // passDataFromChild({
+    //   olResult: value.olResult,
+    //   alResult: value.alResult,
+    //   speakingLevel: value.speakingLevel,
+    //   writingLevel: value.writingLevel,
+    //   readingLevel: value.readingLevel,
+    // });
+    try {
+      const req = await axios.post(
+        "http://localhost:5000/api/v1/undergraduate/info/english-skill",
+        {
+          odinaryLevel: value.olResult,
+          advancedLevel: value.alResult,
+          level01: value.level1,
+          level02: value.level2,
+          certificates: value.certificates,
+        },
+        { withCredentials: true }
+      );
+      if (req.status === 200) {
+        console.log("success");
+      } else console.log("failed");
+    } catch (error) {
+      console.log(error);
+    }
   };
   //end of handle submit button
 

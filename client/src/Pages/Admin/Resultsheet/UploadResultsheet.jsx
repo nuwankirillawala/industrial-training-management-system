@@ -54,9 +54,24 @@ const UploadResultsheet = () => {
   //End of Handle file
 
   // submit function
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     console.log("End point here");
+
     if (excelFileStatus === "Success") {
+      const headers = {
+        "Content-Type": "multipart/form-data",
+        withCredentials: true,
+      };
+
+      const formData = new FormData();
+      formData.append("result-sheet", excelFile);
+
+      const res = await axios.post(
+        "http://localhost:5000/api/v1/resut/upload",
+        formData,
+        headers
+      );
+      console.log(res);
       handleSnackBar("success");
     } else {
       if (excelFileStatus === "Please select only excel file types") {
