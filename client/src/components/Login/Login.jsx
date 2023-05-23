@@ -50,7 +50,7 @@ const Login = () => {
                     break;
 
                 case 'department-coordinator':
-                    navigate('/coordinator-dashboard');
+                    navigate('/admin-dashboard');
                     break;
 
                 case 'undergraduate':

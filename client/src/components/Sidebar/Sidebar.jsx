@@ -1,13 +1,12 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Hidden, IconButton, List, ListItemButton, ListItemIcon, Stack, Toolbar, useTheme } from '@mui/material';
-// import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { Unilogo } from '../shared/Images/Unilogo';
 import { Grid } from '@mui/material';
-import { useState } from 'react';
 import { Apartment, ArrowBack, Article, Assessment, Ballot, ChevronLeft, Create, Dashboard, Delete, LocationCity, Logout, Margin, Menu, Notifications, NotificationsNone, Settings } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -41,7 +40,6 @@ const closedMixin = (theme) => ({
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
-    // width: drawerWidth,
     flexShrink: 0,
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
@@ -70,7 +68,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 const buttonStyles = {
-  height:40,
+  height: 40,
   '&:hover': {
     bgcolor: '#f4f6fc',
     color: 'black'
@@ -79,89 +77,7 @@ const buttonStyles = {
 
 const users = [
   {
-    name: 'Company',
-    items: [
-      {
-        id: 1,
-        primaryText: 'Dashboard',
-        icon: <Dashboard />,
-        element: '/admin-dashboard'
-      },
-      {
-        id: 2,
-        primaryText: 'CV',
-        icon: <Article />,
-        element: '/student-cvupdate'
-      },
-      {
-        id: 3,
-        primaryText: 'Daily Report',
-        icon: <Assessment />,
-        element: '/daily-report'
-      },
-      {
-        id: 4,
-        primaryText: 'Company',
-        icon: <Apartment />,
-        element: '/add-company'
-      },
-      {
-        id: 5,
-        primaryText: 'Notice',
-        icon: <Notifications />,
-        element: '/notice'
-      }
-    ]
-  },
-  {
-    name: 'CV',
-    items: [
-      {
-        id: 1,
-        primaryText: 'Dashboard',
-        icon: <Dashboard />,
-        element: 'admin-dashboard'
-      },
-      {
-        id: 2,
-        primaryText: 'CV',
-        icon: <Article />,
-        element: '/student-cvupdate'
-      },
-      {
-        id: 3,
-        primaryText: 'Company',
-        icon: <LocationCity />,
-        element: '/add-company'
-      },
-      {
-        id: 4,
-        primaryText: 'Daily Report',
-        icon: <Assessment />,
-        element: '/daily-report'
-      },
-      {
-        id: 5,
-        primaryText: 'Notice',
-        icon: <Notifications />,
-        element: '/notice'
-      },
-      {
-        id: 6,
-        primaryText: 'Notice Form',
-        icon: <Create />,
-        element: '/noticeform' 
-      },
-      {
-        id: 7,
-        primaryText: 'Delete Notices',
-        icon: <Delete />,
-        element: '/deletenotices'
-      }
-    ]
-  },
-  {
-    name: 'Student',
+    name: 'Student/Undergraduate',
     items: [
       {
         id: 1,
@@ -172,27 +88,150 @@ const users = [
       {
         id: 2,
         primaryText: 'Intern Application',
+        icon: <Article />,
+        element: '/student-cvupdate'
+      },
+      {
+        id: 3,
+        primaryText: 'Intern Status',
+        icon: <Assessment />,
+        element: '/daily-report'
+      },
+      {
+        id: 4,
+        primaryText: 'Internship',
+        icon: <Apartment />,
+        element: '/add-company'
+      },
+      {
+        id: 5,
+        primaryText: 'Company',
+        icon: <Notifications />,
+        element: '/notice'
+      },
+      {
+        id: 6,
+        primaryText: 'Report Submision',
+        icon: <Notifications />,
+        element: '/notice'
+      },
+      {
+        id: 7,
+        primaryText: 'Private Notes',
+        icon: <Notifications />,
+        element: '/notice'
+      },
+      {
+        id: 8,
+        primaryText: 'Notices',
+        icon: <Notifications />,
+        element: '/notice'
+      }
+    ]
+  },
+  {
+    name: 'Admin',
+    items: [
+      {
+        id: 1,
+        primaryText: 'Dashboard',
+        icon: <Dashboard />,
+        element: 'admin-dashboard'
+      },
+      {
+        id: 2,
+        primaryText: 'User Management',
+        icon: <Article />,
+        element: '/student-cvupdate'
+      },
+      {
+        id: 3,
+        primaryText: 'Companies',
+        icon: <LocationCity />,
+        element: '/add-company'
+      },
+      {
+        id: 4,
+        primaryText: 'Results',
+        icon: <Assessment />,
+        element: '/daily-report'
+      },
+      {
+        id: 5,
+        primaryText: 'Intern Process',
+        icon: <Notifications />,
+        element: '/notice'
+      },
+      {
+        id: 6,
+        primaryText: 'Intern Reports',
+        icon: <Create />,
+        element: '/noticeform'
+      },
+      {
+        id: 7,
+        primaryText: 'Private Notes',
+        icon: <Delete />,
+        element: '/deletenotices'
+      },
+      {
+        id: 7,
+        primaryText: 'Notices',
+        icon: <Delete />,
+        element: '/deletenotices'
+      }
+    ]
+  },
+  {
+    name: 'Supervisor',
+    items: [
+      {
+        id: 1,
+        primaryText: 'Dashboard',
+        icon: <Dashboard />,
+        element: '/student-dashboard'
+      },
+      {
+        id: 2,
+        primaryText: 'Intern Members',
         icon: <Ballot />,
         element: '/intern-process-student'
       },
       {
         id: 3,
-        primaryText: 'Comapany',
+        primaryText: 'Report Submission',
         icon: <LocationCity />,
         element: '/student-company'
       },
       {
         id: 4,
-        primaryText: 'Daily Report',
+        primaryText: 'Private Notes',
         icon: <Assessment />,
         element: '/daily-report-list'
+      }
+    ]
+  },
+  {
+    name: 'Alumni',
+    items: [
+      {
+        id: 1,
+        primaryText: 'Dashboard',
+        icon: <Dashboard />,
+        element: '/student-dashboard'
       },
       {
-        id: 5,
-        primaryText: 'Notice',
-        icon: <Notifications />,
-        element: '/notice'
-      }
+        id: 2,
+        primaryText: 'Company Ratings',
+        icon: <Ballot />,
+        element: '/intern-process-student'
+      },
+      {
+        id: 3,
+        primaryText: 'Update Workline',
+        icon: <LocationCity />,
+        element: '/student-company'
+      },
     ]
   }
 ];
@@ -202,165 +241,169 @@ const controlItems = [
     id: 1,
     label: 'Settings',
     icon: <Settings />,
-    page : "/student-settings"
+    page: "/student-settings"
   },
   {
     id: 2,
     label: 'Back',
-    icon: < ArrowBack />,
-    page : 'back'
+    icon: <ArrowBack />,
+    page: 'back'
   },
   {
     id: 3,
     label: 'Log out',
     icon: <Logout />,
-    page : '/logout'
+    page: '/logout'
   }
 ];
 
 export default function Sidebar() {
-
   const theme = useTheme();
   const navigate = useNavigate();
+  const { logout, user, isAuthenticated } = useAuth();
 
   const handleControlItem = (page) => {
-    if(page==='back'){
+    if (page === 'back') {
       window.history.back()
-    }
-    else{
+    } else {
       navigate(page);
     }
-  }
+  };
 
   const [open, setOpen] = useState(true);
-  const {logout} = useAuth();
-
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
-  const [currentUser, setCurrentUser] = useState(users[1]);
+
+  const [currentUser, setCurrentUser] = useState();
+
+  useEffect(() => {  
+      if(user && user.role){
+        if(user.role === 'undergraduate'){
+          setCurrentUser(users[0])
+        }
+        else if(user.role === 'department-coordinator' || user.role === 'system-admin'){
+          setCurrentUser(users[1]);
+        }
+        else if(user.role === 'supervisor'){
+          setCurrentUser(users[2]);
+        }
+        else if(user.role === 'alumni'){
+          setCurrentUser(users[3]);
+        }
+      }
   
+    }, [user]);
+
+
   const handleCurrentUserItem = (user, element) => {
     setCurrentUser(user);
     navigate(element);
   };
 
-
   const [openLogoutDialogBox, setOpenLogoutDialogBox] = useState(false);
-  
-    const handleLogout = (e) => {
-      e.preventDefault();
-      setOpenLogoutDialogBox(true);
-    };
+  const handleLogout = (e) => {
+    e.preventDefault();
+    setOpenLogoutDialogBox(true);
+  };
 
-    const handleLogoutSubmit = async (e) => {
-      e.preventDefault();
-      await logout();
-      navigate('/login');
-    };
-  
-    const handleClose = () => {
-      setOpenLogoutDialogBox(false);
-    };
+  const handleLogoutSubmit = async (e) => {
+    e.preventDefault();
+    await logout();
+    navigate('/login');
+  };
+
+  const handleClose = () => {
+    setOpenLogoutDialogBox(false);
+  };
 
   return (
-    <Box sx={{ display: 'flex'}}>
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-
-
-
       <Dialog
-          open={openLogoutDialogBox}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"Logout?"}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
+        open={openLogoutDialogBox}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Logout?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
             Are you sure you want to log out?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleLogoutSubmit} autoFocus>
-              Logout
-            </Button>
-          </DialogActions>
-        </Dialog>
-
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleLogoutSubmit} autoFocus>
+            Logout
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Drawer
         sx={{
-          textAlign: 'center',        
-          // width: open ? drawerWidth : null,
+          textAlign: 'center',
           flexShrink: 0,
           '& .MuiDrawer-paper': {
-            // width: drawerWidth,
             boxSizing: 'border-box',
             bgcolor: '#4665d2',
             color: '#f4f6fc',
           },
           overflowX: 'hidden'
         }}
-        
         variant="permanent"
         anchor="left"
         open={open}
       >
         <Box>
           {open ? (
-              <Box display={'flex'} justifyContent={open ? 'flex-end' : 'space-between'}>
-                <DrawerHeader>
-                  <IconButton onClick={ toggleDrawer } sx={{ color: 'inherit' }}>
-                    <ChevronLeft />
-                  </IconButton>
-                </DrawerHeader>
-              </Box>
-            ) : (
-              <Box display={'flex'} justifyContent={'center'}>
-                <DrawerHeader>
-                  <IconButton onClick={ toggleDrawer } sx={{ color: 'inherit' }}>
-                    <Menu />
-                  </IconButton>
-                </DrawerHeader>
-              </Box>
-            )
-          }
+            <Box display={'flex'} justifyContent={open ? 'flex-end' : 'space-between'}>
+              <DrawerHeader>
+                <IconButton onClick={toggleDrawer} sx={{ color: 'inherit' }}>
+                  <ChevronLeft />
+                </IconButton>
+              </DrawerHeader>
+            </Box>
+          ) : (
+            <Box display={'flex'} justifyContent={'center'}>
+              <DrawerHeader>
+                <IconButton onClick={toggleDrawer} sx={{ color: 'inherit' }}>
+                  <Menu />
+                </IconButton>
+              </DrawerHeader>
+            </Box>
+          )}
         </Box>
-        
         {open && (
           <Stack position={'relative'} top={0}>
             <Grid container justifyContent="center">
-              <Unilogo width='50px' height='100px'/>
+              <Unilogo width='50px' height='100px' />
             </Grid>
-
             <Typography
               variant={'h6'}
               fontWeight={'bold'}
               letterSpacing={5}
               sx={{
-                position:'relative',
-                top:5,
-                lineHeight:1.2,
+                position: 'relative',
+                top: 5,
+                lineHeight: 1.2,
               }}>
               ITMS
             </Typography>
           </Stack>
         )}
-        
-        <Stack sx={{position:'relative', top:50, justifyContent: 'center'}}>
-          {users.map((user) => (            
-            <ListItem key={user.name} disablePadding >
-            </ListItem>              
+        <Stack sx={{ position: 'relative', top: 50, justifyContent: 'center' }}>
+          {users.map((user) => (
+            <ListItem key={user.name} disablePadding>
+            </ListItem>
           ))}
-          {currentUser.items.map((item) => (
+          {currentUser && currentUser.items.map((item) => (
             <ListItemButton
-             key={item.id}
-             sx={buttonStyles}
-             onClick={() => handleCurrentUserItem(currentUser, item.element)}
+              key={item.id}
+              sx={buttonStyles}
+              onClick={() => handleCurrentUserItem(currentUser, item.element)}
             >
               {!open ? (
                 <ListItemIconWrapper sx={{ color: 'inherit' }}>
@@ -378,36 +421,30 @@ export default function Sidebar() {
             </ListItemButton>
           ))}
         </Stack>
-        
-        <Stack sx={{position:'relative', top:100}}>
+        <Stack sx={{ position: 'relative', top: 100 }}>
           {controlItems.map((controlItem) => (
-            // <ListItem key={text} disablePadding>
-                <ListItemButton
-                  key={controlItem.id}
-                  sx={buttonStyles}
-                  onClick={(e) => controlItem.id === 3 ? handleLogout(e) : handleControlItem(controlItem.page)}
-                  >
-                    {!open ? (
-                      <ListItemIconWrapper sx={{ color: 'inherit' }}>
-                        {controlItem.icon}
-                      </ListItemIconWrapper>
-                    ) : null}
-                    {!open ? null : (
-                      <React.Fragment>
-                        <ListItemIcon sx={{ color: 'inherit', justifyContent: 'center'}}>
-                          {controlItem.icon}
-                        </ListItemIcon>
-                        <ListItemText primary={controlItem.label} />
-                      </React.Fragment>
-                    )}
-                </ListItemButton>                
-              // </ListItem>
-            ))}
-        </Stack>        
-
+            <ListItemButton
+              key={controlItem.id}
+              sx={buttonStyles}
+              onClick={(e) => controlItem.id === 3 ? handleLogout(e) : handleControlItem(controlItem.page)}
+            >
+              {!open ? (
+                <ListItemIconWrapper sx={{ color: 'inherit' }}>
+                  {controlItem.icon}
+                </ListItemIconWrapper>
+              ) : null}
+              {!open ? null : (
+                <React.Fragment>
+                  <ListItemIcon sx={{ color: 'inherit', justifyContent: 'center' }}>
+                    {controlItem.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={controlItem.label} />
+                </React.Fragment>
+              )}
+            </ListItemButton>
+          ))}
+        </Stack>
       </Drawer>
-      
     </Box>
   );
-
 }
