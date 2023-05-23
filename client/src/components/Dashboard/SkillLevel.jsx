@@ -11,10 +11,10 @@ const SkillLevel = ({ skill, value }) => {
             // padding: '5px',
             // margin: '2px'
         }}>
-            <Typography flex={4}>{skill}</Typography>
-            <Typography sx={{ mr: 1 }} flex={0.5}>:</Typography>
-            <LinearProgress variant="determinate" value={value} sx={{ width: '50%' }} flex={6} />
-            {/* <Typography sx={{ ml: 1 }}>{'50%'}</Typography> */}
+            <Typography flex={1}>{skill}</Typography>
+            <Typography sx={{ mr: 1 }} flex={0.1}>:</Typography>
+            <LinearProgress variant="determinate" value={value} sx={{ width: '50%' }} flex={12} />
+            <Typography sx={{ ml: 1 }} flex={0.5}>{'50%'}</Typography>
         </Box>
         {/* <Divider sx={{m: '5px'}}/> */}
         </Fragment>

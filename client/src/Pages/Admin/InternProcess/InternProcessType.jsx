@@ -2,7 +2,7 @@ import { Button, Card, CardActions, CardContent, CardMedia, Divider, Grid, Paper
 import React from 'react'
 import { Tile } from '../../../components/card/Tile';
 import * as assets from '../../../assets';
-import InternProcessTypeCard from '../../../components/InternProcess/InternProcessTypeCard/InternProcessTypeCard';
+import TypeSelectionCard from '../../../components/InternProcess/TypeSelectionCard/TypeSelectionCard';
 import MiniCard from '../../../components/InternProcess/MiniCard';
 
 const InternProcessType = () => {
@@ -25,7 +25,7 @@ const InternProcessType = () => {
             <Grid item xs={12}>
               <Grid container direction='row'>
                 <Grid item xs={6}>
-                  <InternProcessTypeCard
+                  <TypeSelectionCard
                     image={assets.Company}
                     title='Company vise'
                     content='Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -36,7 +36,7 @@ const InternProcessType = () => {
                 </Grid>
 
                 <Grid item xs={6}>
-                  <InternProcessTypeCard
+                  <TypeSelectionCard
                     image={assets.Student}
                     title='Student vise'
                     content='Lorem ipsum dolor sit amet consectetur adipisicing elit.

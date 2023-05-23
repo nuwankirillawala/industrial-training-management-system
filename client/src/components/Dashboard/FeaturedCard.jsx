@@ -1,11 +1,32 @@
-import { Avatar, Typography } from "@mui/material"
+import { Avatar, Button, Icon, Stack, Typography } from "@mui/material"
 import { Tile } from "../card/Tile"
+import { useNavigate } from "react-router-dom";
 
-const FeaturedCard = ({ title, color }) => {
+const FeaturedCard = ({ title, color, icon, link }) => {
+
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(link);
+    };
+
     return (
-        <Tile width={'auto'} height={100}  backgroundColor={'#fff'}>
-            {/* <Avatar width={'60px'} height={'60px'} /> */}
-            <Typography variant="head4" color={"initial"} textAlign={'center'} fontWeight={500}>{title}</Typography>
+        <Tile
+            width={'auto'}
+            height={110}
+            backgroundColor={'#fff'}
+            sx={{
+                ':hover': {
+                    boxShadow: 2,
+                },
+            }}
+            onClick={handleClick}
+        >
+            <Icon component={icon} />
+            <Stack direction={'column'}>
+                <Typography variant="head4" color={"initial"} textAlign={'left'} fontWeight={500}>{title}</Typography>
+                {/* <Button size="small"><KeyboardDoubleArrowRightIcon /></Button> */}
+            </Stack>
         </Tile>
     )
 }

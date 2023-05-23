@@ -1,6 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
-const InternProcessTypeCard = ({ image, title, content, goto }) => {
+const TypeSelectionCard = ({ image, title, content, goto }) => {
     const navigate = useNavigate();
     
     return (
