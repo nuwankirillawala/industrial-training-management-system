@@ -4,6 +4,8 @@ const Undergraduate = require("../models/Undergraduate");
 const handleErrors = require("../utils/appErrors");
 const catchAsync = require("../utils/catchAsync");
 const quickSortByWGPA = require('../utils/quickSortByWGPA');
+const Admin = require("../models/Admin");
+const Alumni = require("../models/Alumni");
 
 
 // Method: POST
@@ -178,7 +180,7 @@ module.exports.editCompanyRating = catchAsync(async (req, res) => {
 
         console.log(ratings);
 
-        const company = await Company.findByIdAndUpdate(companyId, {ratings}, { new: true });
+        const company = await Company.findByIdAndUpdate(companyId, { ratings }, { new: true });
 
         if (!company) {
             return res.status(404).json({ error: "company not found" });
@@ -194,6 +196,157 @@ module.exports.editCompanyRating = catchAsync(async (req, res) => {
         console.log(err);
     }
 });
+
+
+// Method: PATCH
+// Endpoint: "/:companyID/rating/admin"
+// Description: add company ratings by admin
+// User: Admin
+module.exports.editCompanyRatingByAdmin = catchAsync(async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const companyId = req.params.companyId;
+        const {
+            culture,
+            work_life_balance,
+            opportunities_to_growth,
+            salary_and_benefits,
+            location,
+            projects,
+            mentorship,
+            reputation,
+            industry,
+            technology,
+            team_size,
+            values,
+            mission,
+            support,
+            experience,
+            total } = req.body;
+
+        const ratings = {
+            culture,
+            work_life_balance,
+            opportunities_to_growth,
+            salary_and_benefits,
+            location,
+            projects,
+            mentorship,
+            reputation,
+            industry,
+            technology,
+            team_size,
+            values,
+            mission,
+            support,
+            experience,
+            total
+        };
+
+        console.log(ratings);
+
+        const user = await Admin.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: "user not found" });
+        }
+
+        const company = await Company.findById(companyId);
+        if (!company) {
+            return res.status(404).json({ error: "company not found" });
+        }
+        
+        company.adminRatings.push({ user: user._id, ratings });
+        company.calculateAverageRatings();
+
+        company.save();
+        console.log(company);
+
+        res.status(201).json({
+            mesage: "admin rating updated successfully",
+            adminRatings: company.adminRatings,
+            ratings: company.ratings,
+        });
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+
+// Method: PATCH
+// Endpoint: "/:companyID/rating/alumni"
+// Description: add company ratings by alumni
+// User: Alumni
+module.exports.editCompanyRatingByAlumni = catchAsync(async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const companyId = req.params.companyId;
+        const {
+            culture,
+            work_life_balance,
+            opportunities_to_growth,
+            salary_and_benefits,
+            location,
+            projects,
+            mentorship,
+            reputation,
+            industry,
+            technology,
+            team_size,
+            values,
+            mission,
+            support,
+            experience,
+            total } = req.body;
+
+        const ratings = {
+            culture,
+            work_life_balance,
+            opportunities_to_growth,
+            salary_and_benefits,
+            location,
+            projects,
+            mentorship,
+            reputation,
+            industry,
+            technology,
+            team_size,
+            values,
+            mission,
+            support,
+            experience,
+            total
+        };
+
+        console.log(ratings);
+
+        const user = await Alumni.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: "user not found" });
+        }
+
+        const company = await Company.findById(companyId);
+        if (!company) {
+            return res.status(404).json({ error: "company not found" });
+        }
+
+        company.alumniRatings.push({ user: user._id, ratings });
+        company.calculateAverageRatings();
+
+        company.save();
+        console.log(company);
+
+        res.status(201).json({
+            mesage: "almni rating updated successfully",
+            alumniRatings: company.alumniRatings,
+            ratings: company.ratings,
+        });
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+
+
 
 // Method: GET
 // Endpoint: "/intern-process/company-list"
@@ -217,6 +370,12 @@ module.exports.internProcessCompanyList = catchAsync(async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+
+
+
+
+
 
 // Method: PATCH
 // Endpoint: "/intern-process/recommendations"
@@ -319,7 +478,7 @@ module.exports.internProcess = catchAsync(async (req, res) => {
         const recommendations = await Company.find().select('internApplications.recommendations, name').populate({
             path: 'internApplications.recommendations.candidate',
             model: Undergraduate,
-          }).session(session);
+        }).session(session);
 
         await session.commitTransaction();
 
