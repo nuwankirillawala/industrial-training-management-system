@@ -14,7 +14,7 @@ import PrivateNotePanel from './PrivateNotePanel';
 
 export const StudentDashboard = () => {
   const { user } = useAuth();
-  const { data } = useFetch('GET', 'http://localhost:5000/api/v1/undergraduate/undergraduate-dashboard', null);
+  const { data } = useFetch('GET', 'http://localhost:5000/api/v1/undergraduate/dashboard', null);
   console.log(data);
 
   const basicInfo = data && {
