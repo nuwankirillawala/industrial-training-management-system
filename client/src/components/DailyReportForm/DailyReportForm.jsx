@@ -1,6 +1,6 @@
 import React from 'react'
 import { Grid, TextField, Stack, Typography, Table, TableHead, TableBody, TableCell, TableRow } from "@mui/material"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@mui/material"
 import { Tile } from '../card/Tile'
 import { DataGrid } from '@mui/x-data-grid'
@@ -41,7 +41,6 @@ export const DailyReportForm = () => {
     const [fridayvalues, setFridayValues] = useState(fridayReport);
     const [saturdayvalues, setSaturdayValues] = useState(saturdayReport);
     const [sundayvalues, setSundayValues] = useState(sundayReport);
-
     const [problemsEncountered, setProblemsEncountered] = useState('');
     const [weekNo, setWeekNo] = useState('');
     const [DayNo, setDayNo] = useState('');
@@ -81,6 +80,23 @@ export const DailyReportForm = () => {
     }
     //if u save or submit, it need to send data to backend but if u submit deactivate the edit button.
 
+    const getDailyReportData = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/api/v1/undergraduate/daily-report/${weekNo}`, { withCredentials: true });
+            console.log(res);
+            if (res.status === 200) {
+                console.log(res.data.report);
+                setMondayValues(res.data.report);
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    // useEffect(() => {
+    //     getDailyReportData();
+    // }, [])
+
     return (
         <Tile width={'1000px'}>
 
@@ -89,8 +105,9 @@ export const DailyReportForm = () => {
                 <Typography align="center" variant="h6" fontWeight="bold" paddingBottom={'20px'} color="#536dfe"> Daily Report</Typography>
                 <Divider orientation="horizontal" />
                 <Stack direction={'column'} spacing={5} justifyContent={'center'} padding="8px">
-                    <Stack direction="row" spacing={10} > {/* justifyContent={'space-between'} */}
+                    <Stack direction="row" spacing={10} >  {/* justifyContent={'space-between'} */}
                         <Typography onChange={(event) => setWeekNo(event.target.value)}>Week No :</Typography><TextField type="number" varient="outlined" InputProps={{ inputProps: { min: 1, step: 1 } }}></TextField>
+                        <Button size="itms-small" variant='itms' type={'submit'} onClick={getDailyReportData()}>Load Data</Button>
                     </Stack>
 
                     <Divider orientation="horizontal" />

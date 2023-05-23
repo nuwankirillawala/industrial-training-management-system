@@ -44,7 +44,7 @@ module.exports.getProfile = catchAsync(async (req, res) => {
         console.log('user in getProfile', user);
         let currentUser;
 
-        if (user.role === 'system-admin' || user.role == 'department-coordinater') {
+        if (user.role === 'system-admin' || user.role == 'department-coordinator') {
             currentUser = await Admin.findById(user.id)
         }
         else if (user.role === 'undergraduate') {

@@ -367,55 +367,151 @@ module.exports.getCompanySelection = catchAsync(async (req, res) => {
 // Endpoint: "/intern/company-selection"
 // Description: Select companies for internship
 // User: undergraduate
+// module.exports.updateCompanySelection = catchAsync(async (req, res) => {
+//     const session = await mongoose.startSession();
+//     session.startTransaction();
+//     try {
+//         const userId = req.user.id;
+//         const { choice01, choice02, choice03, choice04, choice05 } = req.body;
+
+//         const toValidObjectId = (id) => {
+//             if (mongoose.Types.ObjectId.isValid(id)) {
+//                 return mongoose.Types.ObjectId(id);
+//             }
+//             return null;
+//         };
+
+//         const foundCompany01 = choice01 && choice01.company ? (toValidObjectId(choice01.company) ? await Company.findById(choice01.company).session(session) : null) : null;
+//         const foundCompany02 = choice02 && choice02.company ? (toValidObjectId(choice02.company) ? await Company.findById(choice02.company).session(session) : null) : null;
+//         const foundCompany03 = choice03 && choice03.company ? (toValidObjectId(choice03.company) ? await Company.findById(choice03.company).session(session) : null) : null;
+//         const foundCompany04 = choice04 && choice04.company ? (toValidObjectId(choice04.company) ? await Company.findById(choice04.company).session(session) : null) : null;
+//         const foundCompany05 = choice05 && choice05.company ? (toValidObjectId(choice05.company) ? await Company.findById(choice05.company).session(session) : null) : null;
+
+//         const foundCompanies = [foundCompany01, foundCompany02, foundCompany03, foundCompany04, foundCompany05];
+
+//         // Check if any non-empty company was not found
+//         if (
+//             (!foundCompany01 && choice01 && choice01.company) ||
+//             (!foundCompany02 && choice02 && choice02.company) ||
+//             (!foundCompany03 && choice03 && choice03.company) ||
+//             (!foundCompany04 && choice04 && choice04.company) ||
+//             (!foundCompany05 && choice05 && choice05.company)
+//           ) {
+//             await session.abortTransaction();
+//             return res.status(404).json({ error: 'Company not found' });
+//           }
+
+//         const nonEmptyChoices = foundCompanies.filter((company) => company !== null);
+//         const nonEmptyCompanyIds = nonEmptyChoices.map((company) => company._id.toString());
+
+//         // Check if non-empty company choices are unique
+//         if (new Set(nonEmptyCompanyIds).size !== nonEmptyCompanyIds.length) {
+//             await session.abortTransaction();
+//             return res.status(400).json({ error: 'Cannot apply the same company twice' });
+//         }
+
+//         const updatedUser = await Undergraduate.findByIdAndUpdate(
+//             userId,
+//             {
+//                 $set: {
+//                     "companySelection.choice01.company": choice01.company,
+//                     "companySelection.choice01.jobRole": choice01.jobRole,
+//                     "companySelection.choice02.company": choice02.company,
+//                     "companySelection.choice02.jobRole": choice02.jobRole,
+//                     "companySelection.choice03.company": choice03.company,
+//                     "companySelection.choice03.jobRole": choice03.jobRole,
+//                     "companySelection.choice04.company": choice04.company,
+//                     "companySelection.choice04.jobRole": choice04.jobRole,
+//                     "companySelection.choice05.company": choice05.company,
+//                     "companySelection.choice05.jobRole": choice05.jobRole,
+//                 },
+//             },
+//             { new: true }
+//         ).session(session);
+
+//         if (!updatedUser) {
+//             await session.abortTransaction();
+//             return res.status(400).json({ error: "update failed" });
+//         }
+
+//         await session.commitTransaction();
+
+//         res.status(201).json(updatedUser);
+//     } catch (err) {
+//         await session.abortTransaction();
+//         console.log(err);
+//         res.status(500).json(err);
+//     } finally {
+//         session.endSession();
+//     }
+// });
 module.exports.updateCompanySelection = catchAsync(async (req, res) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
         const userId = req.user.id;
-        // const userId = res.locals.user.id;
-        const { choice01, choice02, choice03, choice04, choice05 } = req.body; // choice01 = {company, jobRole}
+        const { choice01, choice02, choice03, choice04, choice05 } = req.body;
 
-        const foundCompany01 = await Company.findById(choice01.company).session(session);
-        const foundCompany02 = await Company.findById(choice02.company).session(session);
-        const foundCompany03 = await Company.findById(choice03.company).session(session);
-        const foundCompany04 = await Company.findById(choice04.company).session(session);
-        const foundCompany05 = await Company.findById(choice05.company).session(session);
+        const toValidObjectId = (id) => {
+            if (mongoose.Types.ObjectId.isValid(id)) {
+                return mongoose.Types.ObjectId(id);
+            }
+            return null;
+        };
 
-        if (!foundCompany01 || !foundCompany02 || !foundCompany03 || !foundCompany04 || !foundCompany05) {
+        const foundCompany01 = choice01 && choice01.company ? (toValidObjectId(choice01.company) ? await Company.findById(choice01.company).session(session) : null) : null;
+        const foundCompany02 = choice02 && choice02.company ? (toValidObjectId(choice02.company) ? await Company.findById(choice02.company).session(session) : null) : null;
+        const foundCompany03 = choice03 && choice03.company ? (toValidObjectId(choice03.company) ? await Company.findById(choice03.company).session(session) : null) : null;
+        const foundCompany04 = choice04 && choice04.company ? (toValidObjectId(choice04.company) ? await Company.findById(choice04.company).session(session) : null) : null;
+        const foundCompany05 = choice05 && choice05.company ? (toValidObjectId(choice05.company) ? await Company.findById(choice05.company).session(session) : null) : null;
+
+        const foundCompanies = [foundCompany01, foundCompany02, foundCompany03, foundCompany04, foundCompany05];
+
+        // Check if any non-empty company was not found
+        if (
+            (!foundCompany01 && choice01 && choice01.company) ||
+            (!foundCompany02 && choice02 && choice02.company) ||
+            (!foundCompany03 && choice03 && choice03.company) ||
+            (!foundCompany04 && choice04 && choice04.company) ||
+            (!foundCompany05 && choice05 && choice05.company)
+        ) {
             await session.abortTransaction();
-            return res.status(404).json({ error: "company not found" });
+            return res.status(404).json({ error: 'Company not found' });
         }
 
-        // check user inputs are unique or not
-        const companyArray = [choice01.company, choice02.company, choice03.company, choice04.company, choice05.company];
-        const uniqueCompanies = new Set(companyArray);
-        if (companyArray.length !== uniqueCompanies.size) {
+        const nonEmptyChoices = foundCompanies.filter((company) => company !== null);
+        const nonEmptyCompanyIds = nonEmptyChoices.map((company) => company._id.toString());
+
+        // Check if non-empty company choices are unique
+        if (new Set(nonEmptyCompanyIds).size !== nonEmptyCompanyIds.length) {
             await session.abortTransaction();
-            return res.status(400).json({ error: "can not apply same company twice" });
+            return res.status(400).json({ error: 'Cannot apply the same company twice' });
         }
 
-        const updatedUser = await Undergraduate.findByIdAndUpdate(
-            userId,
-            {
-                $set: {
-                    "companySelection.choice01.company": choice01.company,
-                    "companySelection.choice01.jobRole": choice01.jobRole,
-                    "companySelection.choice02.company": choice02.company,
-                    "companySelection.choice02.jobRole": choice02.jobRole,
-                    "companySelection.choice03.company": choice03.company,
-                    "companySelection.choice03.jobRole": choice03.jobRole,
-                    "companySelection.choice04.company": choice04.company,
-                    "companySelection.choice04.jobRole": choice04.jobRole,
-                    "companySelection.choice05.company": choice05.company,
-                    "companySelection.choice05.jobRole": choice05.jobRole,
-                },
+        const getUpdateObject = (choice, index) => {
+            const updateObj = {};
+            if (choice && choice.company) {
+                updateObj[`companySelection.choice${index + 1}.company`] = choice.company;
+                updateObj[`companySelection.choice${index + 1}.jobRole`] = choice.jobRole;
+            }
+            return updateObj;
+        };
+
+        const updateObj = {
+            $set: {
+                ...getUpdateObject(choice01, 0),
+                ...getUpdateObject(choice02, 1),
+                ...getUpdateObject(choice03, 2),
+                ...getUpdateObject(choice04, 3),
+                ...getUpdateObject(choice05, 4),
             },
-            { new: true }
-        ).session(session);
+        };
+
+        const updatedUser = await Undergraduate.findByIdAndUpdate(userId, updateObj, { new: true }).session(session);
 
         if (!updatedUser) {
             await session.abortTransaction();
-            return res.status(400).json({ error: "update failed" });
+            return res.status(400).json({ error: 'Update failed' });
         }
 
         await session.commitTransaction();
