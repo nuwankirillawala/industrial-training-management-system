@@ -89,7 +89,7 @@ const users = [
         id: 2,
         primaryText: 'Intern Application',
         icon: <Article />,
-        element: '/student-cvupdate'
+        element: '/intern-application/menu'
       },
       {
         id: 3,

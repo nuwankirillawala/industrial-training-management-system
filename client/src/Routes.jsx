@@ -39,6 +39,7 @@ import * as Admin from './Pages/Admin';
 import { DepartmentStudentProfile } from './Pages/Department/DepartmentStudentProfile'
 import NoticeForm from './components/shared/Notice/NoticeForm'
 import DeleteNotice from './components/shared/Notice/DeleteNotice'
+import InternApplicationMenu from './Pages/Undergraduate/InternApplication/InternApplicationMenu'
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path='/' element={<RootLayout />}>
@@ -72,11 +73,14 @@ const router = createBrowserRouter(createRoutesFromElements(
 
             {/* student routes */}
             <Route path="student-dashboard" element={<StudentDashboard />} />
+
             <Route path="student-cvupdate" element={<StudentCvUpdate />} />
             <Route path="student-company" element={<StudentCompany />} />
             <Route path="student-settings" element={<StudentSettings />} />
             <Route path="notice" element={<Notice />} />
             <Route path="sidebar" element={<Sidebar />} />
+            <Route path="intern-application/menu" element={<InternApplicationMenu />} />
+
 
             {/* Admin Routes  */}
             <Route path='add-admin' element={<Admin.AddAdmin />} />
