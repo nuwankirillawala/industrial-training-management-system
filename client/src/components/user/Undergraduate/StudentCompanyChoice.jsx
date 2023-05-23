@@ -5,6 +5,8 @@ import { Formik } from 'formik'
 import axios from 'axios'
 import { StatusSnackBar } from '../../StatusSnackBar/StatusSnackBar'
 
+axios.defaults.withCredentials = true; 
+
 // const choice = {
 //     company : '',
 //     jobRole : ''

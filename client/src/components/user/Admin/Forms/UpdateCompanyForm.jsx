@@ -1,27 +1,82 @@
 import { TextField, Stack, Button, Typography } from "@mui/material"
 import React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Tile } from "../../../card/Tile"
 import { Formik } from "formik"
 import * as yup from "yup"
 import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
+import axios from "axios"
 
 
-const Company = {
-    CompanyName: '',
-    CompanyEmail: '',
-    CompanyContact: '',
-    CompanyAddress: '',
-    NoInternshipSeats: '',
-    CompanyDescription: '',
-    CompanyRating: '',
-    CompanyContactpersonname: '',
-    CompanyContactPersonContact: '',
-    CompanyContactPersonEmail: ''
-}
+export const UpdateCompanyForm = ({ companyId }) => {
+
+    const [companyData, setCompanyData] = useState({
+        name: '',
+        email: '',
+        contactNo: '',
+        address: '',
+        internSeats: '',
+        description: '',
+        connectedForIntern: ''
+    });
+
+    const getCompanyData = async () => {
+        try {
+            // console.log(companyId)
+            const res = await axios.get(`http://localhost:5000/api/v1/company/${companyId}/profile`,
+                { withCredentials: true });
+            console.log(res.data)
+            if (res.status === 201) {
+                setCompanyData({
+                    name: res.data.company.name,
+                    email: res.data.company.email,
+                    contactNo: res.data.company.contactNo,
+                    address: res.data.company.address,
+                    internSeats: res.data.company.internSeats,
+                    description: res.data.company.description,
+                    connectedForIntern: res.data.company.connectedForIntern
+                });
+
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        getCompanyData();
+    }, [])
 
 
-export const UpdateCompanyForm = () => {
+
+    //statusSnackBar state
+    const [trigger, setTrigger] = useState({
+        success: false,
+        error: false,
+    });
+
+    //End of statusSnackBar state
+    const handleSnackBar = (key) => {
+        setTrigger((prevState) => {
+            let newState = { ...prevState };
+            newState[key] = !newState[key];
+            return newState;
+        });
+    };
+
+    const Company = {
+        CompanyName: '',
+        CompanyEmail: '',
+        CompanyContact: '',
+        CompanyAddress: '',
+        NoInternshipSeats: '',
+        CompanyDescription: '',
+        ConnectedForIntern: ''
+        /* ,
+        CompanyRating: '',
+        CompanyContactpersonname: '',
+        CompanyContactPersonContact: '',
+        CompanyContactPersonEmail: '' */
+    }
 
     const validation = yup.object().shape({
         CompanyName: yup.string(),
@@ -30,27 +85,47 @@ export const UpdateCompanyForm = () => {
         CompanyAddress: yup.string(),
         NoInternshipSeats: yup.number(),
         CompanyDescription: yup.string(),
-        CompanyRating: yup.string(),
-        CompanyContactpersonname: yup.string(),
-        CompanyContactPersonContact: yup.string().length(10, "must contain 10 numbers"),
-        CompanyContactPersonEmail: yup.string().email("Invalid Email")
+        ConnectedForIntern: yup.string()
+        /*  ,
+         CompanyRating: yup.string(),
+         CompanyContactpersonname: yup.string(),
+         CompanyContactPersonContact: yup.string().length(10, "must contain 10 numbers"),
+         CompanyContactPersonEmail: yup.string().email("Invalid Email") */
     })
 
-    const [SnackbarOpen, setSnackbarOpen] = useState(false)
-
-    const handleSnackBar = (key) => {
-        setSnackbarOpen((prevState) => {
-            let newState = { ...prevState };
-            newState[key] = !newState[key];
-            return newState;
-        });
-    };
 
 
-    const handleFormSubmit = (values) => {
-        alert(JSON.stringify(values));//convert object to a json file, this popup may omitt @ the integration
-        handleSnackBar("success");
+    const handleFormSubmit = async (values) => {
+        console.log(values);  // working
+        console.log(companyId)
+        try {
+            const res = await axios.patch(`http://localhost:5000/api/v1/company/${companyId}/profile`,
+                {
+                    id: companyId,
+                    name: values.CompanyName === "" ? companyData.name : values.CompanyName,
+                    email: values.CompanyEmail === "" ? companyData.email : values.CompanyEmail,
+                    contactNo: values.CompanyContact === "" ? companyData.contactNo : values.CompanyContact,
+                    address: values.CompanyAddress === "" ? companyData.address : values.CompanyAddress,
+                    internSeats: values.NoInternshipSeats === "" ? companyData.internSeats : values.NoInternshipSeats,
+                    description: values.CompanyDescription === "" ? companyData.description : values.CompanyDescription,
+                    connectedForIntern: values.ConnectedForIntern === "" ? companyData.connectedForIntern : values.ConnectedForIntern
+                },
+                { withCredentials: true }
+            );
+            console.log(res.status);
+
+            if (res.status === 201) {
+                handleSnackBar("success");
+            } else {
+                handleSnackBar("error");
+            }
+        }
+        catch (error) {
+            console.log(error);
+            handleSnackBar("error");
+        }
     }
+
 
 
     return (
@@ -84,6 +159,7 @@ export const UpdateCompanyForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
+                                        placeholder={companyData.name}
                                         value={values.CompanyName}
                                         name="CompanyName"
                                         error={!!touched.CompanyName && !!errors.CompanyName}
@@ -103,6 +179,7 @@ export const UpdateCompanyForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
+                                        placeholder={companyData.email}
                                         value={values.CompanyEmail}
                                         name="CompanyEmail"
                                         error={!!touched.CompanyEmail && !!errors.CompanyEmail}
@@ -122,6 +199,7 @@ export const UpdateCompanyForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
+                                        placeholder={companyData.contactNo}
                                         value={values.CompanyContact}
                                         name="CompanyContact"
                                         error={!!touched.CompanyContact && !!errors.CompanyContact}
@@ -141,6 +219,7 @@ export const UpdateCompanyForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
+                                        placeholder={companyData.address}
                                         value={values.CompanyAddress}
                                         name="CompanyAddress"
                                         error={!!touched.CompanyAddress && !!errors.CompanyAddress}
@@ -160,6 +239,7 @@ export const UpdateCompanyForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
+                                        placeholder={companyData.internSeats}
                                         value={values.NoInternshipSeats}
                                         name="NoInternshipSeats"
                                         error={!!touched.NoInternshipSeats && !!errors.NoInternshipSeats}
@@ -179,6 +259,7 @@ export const UpdateCompanyForm = () => {
                                         type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
+                                        placeholder={companyData.description}
                                         value={values.CompanyDescription}
                                         name="CompanyDescription"
                                         error={!!touched.CompanyDescription && !!errors.CompanyDescription}
@@ -188,6 +269,26 @@ export const UpdateCompanyForm = () => {
                             </Stack>
 
                             <Stack direction="row" spacing={2}>
+                                <Stack width='200px'>
+                                    <Typography variant="body1">Connected for Intern</Typography>
+                                </Stack>
+                                <Stack width='300px'>
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        placeholder={companyData.connectedForIntern}
+                                        value={values.ConnectedForIntern}
+                                        name="ConnectedForIntern"
+                                        error={!!touched.ConnectedForIntern && !!errors.ConnectedForIntern}
+                                        helperText={touched.ConnectedForIntern && errors.ConnectedForIntern}
+                                    />
+                                </Stack>
+                            </Stack>
+
+                            {/* <Stack direction="row" spacing={2}>
                                 <Stack width='200px'>
                                     <Typography variant="body1">Company Rating</Typography>
                                 </Stack>
@@ -242,7 +343,7 @@ export const UpdateCompanyForm = () => {
                                         helperText={touched.CompanyContactPersonContact && errors.CompanyContactPersonContact}
                                     />
                                 </Stack>
-                            </Stack>
+                            </Stack> 
 
                             <Stack direction="row" spacing={2}>
                                 <Stack width='200px'>
@@ -262,7 +363,7 @@ export const UpdateCompanyForm = () => {
                                     />
                                 </Stack>
                             </Stack>
-
+                            */}
 
                             <Stack direction="row" display={'flex'} justifyContent="flex-end" paddingRight={'0px'}>
                                 <Button variant="itms" type="submit"  >Submit</Button>
@@ -274,12 +375,21 @@ export const UpdateCompanyForm = () => {
                 )}
             </Formik>
             <StatusSnackBar
-                trigger={SnackbarOpen.success}
+                severity="success"
+                trigger={trigger.success}
                 setTrigger={() => {
-                    handleSnackBar("success");
+                    handleSnackBar(" Update success");
                 }}
-                severity='success'
-                alertMessage={' submitted '}></StatusSnackBar>
+                alertMessage={"Update Succefully"}
+            />
+            <StatusSnackBar
+                severity="error"
+                trigger={trigger.error}
+                setTrigger={() => {
+                    handleSnackBar("error");
+                }}
+                alertMessage={"Update Fail"}
+            />
         </Tile>
 
     )
