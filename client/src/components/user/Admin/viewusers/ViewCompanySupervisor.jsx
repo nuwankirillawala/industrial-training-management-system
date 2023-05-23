@@ -11,7 +11,7 @@ export const ViewCompanySupervisor = () => {
 
     const getCompanySupervisorData = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/v1/admin/view-all-users/supervisor', { withCredentials: true });
+            const res = await axios.get('http://localhost:5000/api/v1/admin/users/supervisor', { withCredentials: true });
             console.log(res);
             if (res.status === 200) {
                 console.log(res.data.users);
