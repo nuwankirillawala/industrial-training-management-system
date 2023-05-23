@@ -40,10 +40,10 @@ module.exports.getAlumniDashboard = catchAsync(async (req, res) => {
         const companyList = await Company.find();
         
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
-        res.status(201).json({user, companyList});
+        res.status(200).json({user, companyList});
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -61,10 +61,10 @@ module.exports.getAlumniProfile = catchAsync(async (req, res) => {
         const user = await Alumni.findById(userId);
         
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
-        res.status(201).json(user);
+        res.status(200).json(user);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -90,7 +90,7 @@ module.exports.updateAlumniProfile = catchAsync(async (req, res) => {
         );
         
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(401).json({ error: "user not found" });
         }
 
         res.status(201).json(user);
@@ -111,10 +111,10 @@ module.exports.getAlumniUser = catchAsync(async (req, res) => {
         const user = await Alumni.findById(userId);
         
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
-        res.status(201).json(user);
+        res.status(200).json(user);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -140,7 +140,7 @@ module.exports.updateAlumniUser = catchAsync(async (req, res) => {
         );
         
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "user not found" });
         }
 
         res.status(201).json(user);
@@ -159,10 +159,10 @@ module.exports.getAllAlumniUsers = catchAsync(async (req, res) => {
         const alumniList = await Alumni.find();
         
         if (!alumniList) {
-            return res.status(400).json({ error: "any user not found" });
+            return res.status(404).json({ error: "any user not found" });
         }
 
-        res.status(201).json(alumniList);
+        res.status(200).json(alumniList);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
