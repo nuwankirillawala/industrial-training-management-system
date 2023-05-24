@@ -6,56 +6,37 @@ import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import TextField from "@mui/material/TextField";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Slider from "@mui/material/Slider";
-import MuiInput from "@mui/material/Input";
-import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
-import AutoStoriesIcon from "@mui/icons-material/AutoStories";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
-import { Button } from "@mui/material";
+import { Button, InputLabel, MenuItem, Select } from "@mui/material";
 import axios from "axios";
 
 export const EnglishProficiency = ({ passDataFromChild }) => {
+  //Result array for level-01/02 english
+  const grade = [
+    "A+",
+    "A",
+    "A-",
+    "B+",
+    "B",
+    "B-",
+    "C+",
+    "C",
+    "C-",
+    "D+",
+    "D",
+    "E",
+  ];
+  //End of result array
+
+  //useState for colected values
   const [value, setValue] = useState({
     olResult: "",
     alResult: "",
-    speakingLevel: "",
-    writingLevel: "",
-    readingLevel: "",
+    level01: "",
+    level02: "",
+    certificates: [],
   });
-
-  //Controllers of Slider TEMP
-  const handleSliderChange = (e) => {
-    setValue((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleInputChange = (e) => {
-    setValue((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value === "" ? "" : Number(e.target.value),
-    }));
-  };
-
-  const handleBlur = (e) => {
-    if (value < 0) {
-      setValue((prevState) => ({
-        ...prevState,
-        [e.target.name]: 0,
-      }));
-    } else if (value > 100) {
-      setValue((prevState) => ({
-        ...prevState,
-        [e.target.name]: 100,
-      }));
-    }
-  };
-  //End of Controllers of Slider TEMP
+  //End of statesS
 
   //onchange Radio group
   const onChange = (e) => {
@@ -69,22 +50,14 @@ export const EnglishProficiency = ({ passDataFromChild }) => {
   //handle submit button
   const handleSubmit = async () => {
     console.log(value);
-    // console.log("now from parent");
-    // passDataFromChild({
-    //   olResult: value.olResult,
-    //   alResult: value.alResult,
-    //   speakingLevel: value.speakingLevel,
-    //   writingLevel: value.writingLevel,
-    //   readingLevel: value.readingLevel,
-    // });
     try {
       const req = await axios.post(
         "http://localhost:5000/api/v1/undergraduate/info/english-skill",
         {
           odinaryLevel: value.olResult,
           advancedLevel: value.alResult,
-          level01: value.level1,
-          level02: value.level2,
+          level01: value.level01,
+          level02: value.level02,
           certificates: value.certificates,
         },
         { withCredentials: true }
@@ -133,8 +106,7 @@ export const EnglishProficiency = ({ passDataFromChild }) => {
             <FormControlLabel value="F" control={<Radio />} label="F" />
           </RadioGroup>
         </FormControl>
-        <FormControl>
-          <Stack>
+        {/* <Stack>
             <Box sx={{ width: 300 }}>
               <FormLabel id="label-speakinLevel">Speaking Level</FormLabel>
               <Grid container spacing={2} alignItems="center">
@@ -264,8 +236,47 @@ export const EnglishProficiency = ({ passDataFromChild }) => {
                 </Grid>
               </Grid>
             </Box>
-          </Stack>
-        </FormControl>
+          </Stack> */}
+        <FormLabel id="label-olResult">Level One English</FormLabel>
+        <Box sx={{ minWidth: 60, mt: 1 }}>
+          <FormControl fullWidth>
+            <InputLabel id="level-one-english">Level01</InputLabel>
+            <Select
+              labelId="level-one-english"
+              id="level01"
+              name="level01"
+              value={value.level01}
+              label="Level01"
+              onChange={onChange}
+            >
+              {grade.map((option, index) => (
+                <MenuItem key={index} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+        <FormLabel id="label-olResult">Level Two English</FormLabel>
+        <Box sx={{ minWidth: 60, mt: 1 }}>
+          <FormControl fullWidth>
+            <InputLabel id="level-two-english">Level02</InputLabel>
+            <Select
+              labelId="level-two-english"
+              id="level02"
+              name="level02"
+              value={value.level02}
+              label="Level02"
+              onChange={onChange}
+            >
+              {grade.map((option, index) => (
+                <MenuItem key={index} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
         <br />
         <Button variant="itms" size="itms-small" onClick={handleSubmit}>
           Submit

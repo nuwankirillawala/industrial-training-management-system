@@ -38,7 +38,7 @@ const AssignSupervisorForIntern = () => {
   const getStudentList = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/v1/undergraduate/view-intern-list",
+        "http://localhost:5000/api/v1/undergraduate/intern/list",
         {
           withCredentials: true,
         }
@@ -64,7 +64,7 @@ const AssignSupervisorForIntern = () => {
   const getSupervisor = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/v1/undergraduate/assign-supervisor/${selectedStudent.id}`,
+        `http://localhost:5000/api/v1/undergraduate/intern/assign-supervisor/${selectedStudent.id}`,
         { withCredentials: true }
       );
       if (res.status === 200) {

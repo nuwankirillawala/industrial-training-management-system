@@ -40,7 +40,7 @@ const SupervisorList = () => {
   const getCompanyDetails = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/v1/company/intern-process-company-list",
+        "http://localhost:5000/api/v1/company/intern-process/company-list",
         { withCredentials: true }
       );
       if (res.status === 200) {
@@ -67,7 +67,7 @@ const SupervisorList = () => {
   const getSupervisorDetails = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/v1/admin/view-all-users/supervisor",
+        "http://localhost:5000/api/v1/admin/users/supervisor",
         { withCredentials: true }
       );
       if (res.status == 200) {
