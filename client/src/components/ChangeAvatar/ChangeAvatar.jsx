@@ -2,8 +2,9 @@ import React , { useRef, useState } from 'react'
 import { Stack, Box, Button, Typography } from '@mui/material'
 import { Avatar } from '../shared/Images/Avatar'
 import { StatusSnackBar } from '../StatusSnackBar/StatusSnackBar'
+import axios from 'axios'
 
-export const ChangeAvatar = () => {
+export const ChangeAvatar = ({sumbitProfileImage, getProfileImage}) => {
 
     //statusSnackBar state
     const [trigger, setTrigger] = useState({
@@ -23,8 +24,25 @@ export const ChangeAvatar = () => {
 
       //hancle onSubmin in the profilepic change button
       const handleOnSubmit = async (e) => {
+        e.preventDefault();
         let selectedFile = e.target.files[0];
         console.log(selectedFile.type);
+
+        const headers = {
+          "Content-Type": "multipart/form-data",
+          withCredentials: true,
+        };
+    
+        const formData = new FormData();
+        formData.append("profile-image", selectedFile);
+    
+        const res = await axios.patch(
+          sumbitProfileImage,
+          formData,
+          headers
+        );
+        console.log(res);
+
         if (selectedFile) {
           if (selectedFile && fileType.includes(selectedFile.type)) {
               handleSnackBar("success");
