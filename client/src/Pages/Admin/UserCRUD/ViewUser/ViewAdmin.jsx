@@ -50,7 +50,7 @@ const ViewAdmin = () => {
     <Grid spacing={1} container>
       <Grid item md={12} sm={12} ><Typography variant='pageTitle'> View Administrator Details</Typography> </Grid>
       <Grid item md={12} sm={12} ><Typography variant='body2' paddingLeft={'20px'}> Click the row for get administrator wise details in right side</Typography> </Grid>
-      <Grid item md={8} sm={8} style={{ maxHeight: 500, overflowY: 'scroll' }}>
+      <Grid item md={8} sm={12} style={{ maxHeight: 500, overflowY: 'scroll' }}>
 
         <Tile >
           <Table sx={{ border: '1px solid #4665D2' }}>
@@ -79,16 +79,16 @@ const ViewAdmin = () => {
 
         </Tile></Grid>
 
-      <Grid item md={4} sm={4} > <Tile>
+      <Grid item md={4} sm={12} > <Tile>
         <Stack direction={'column'}>
           <Typography fontWeight={'bold'} paddingTop={'15px'} paddingBottom={'15px'}>Administrator full details</Typography>
           <Divider orientation="horizontal" color="#4665D2" />
           {singleAdmin && (
             <Stack direction={'column'} spacing={2}>
-              <Stack direction={'row'}>  <Typography width={'135px'}> Name </Typography><Typography> {singleAdmin.name} </Typography></Stack>
-              <Stack direction={'row'}> <Typography width={'135px'}> Staff ID </Typography><Typography>{singleAdmin.staffId} </Typography></Stack>
-              <Stack direction={'row'}> <Typography width={'135px'}> E-mail</Typography><Typography> {singleAdmin.email} </Typography></Stack>
-              <Stack direction={'row'}> <Typography width={'135px'}> Contact Number</Typography><Typography>{singleAdmin.contactNo} </Typography></Stack>
+              <Stack direction={'row'}>  <Stack flex={1} minWidth={'160px'}><Typography > Name </Typography></Stack><Stack flex={1}><Typography> {singleAdmin.name} </Typography></Stack></Stack>
+              <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography > Staff ID </Typography></Stack><Stack flex={1}><Typography>{singleAdmin.staffId} </Typography></Stack></Stack>
+              <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography > E-mail</Typography></Stack><Stack flex={1}><Typography> {singleAdmin.email} </Typography></Stack></Stack>
+              <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography > Contact Number</Typography></Stack><Stack flex={1}><Typography>{singleAdmin.contactNo} </Typography></Stack></Stack>
             </Stack>
           )}
         </Stack>

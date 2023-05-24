@@ -41,7 +41,7 @@ export const ViewStudent = () => {
     <Grid spacing={1} container>
       <Grid item md={12} sm={12} ><Typography variant='pageTitle'> View Undergraduate Details</Typography> </Grid>
       <Grid item md={12} sm={12} ><Typography variant='body2' paddingLeft={'20px'}> Click the row for get undergraduate wise details in right side</Typography> </Grid>
-      <Grid item md={8} sm={8} style={{ maxHeight: 500, overflowY: 'scroll' }}>
+      <Grid item md={8} sm={12} style={{ maxHeight: 500, overflowY: 'scroll' }}>
         <Tile>
           <Stack>
             <Table sx={{ border: '1px solid #4665D2' }}>
@@ -76,20 +76,20 @@ export const ViewStudent = () => {
         </Tile>
       </Grid>
 
-      <Grid item md={4} sm={4} > <Tile>
+      <Grid item md={4} sm={12} > <Tile>
         <Stack direction={'column'}>
           <Typography fontWeight={'bold'} paddingTop={'15px'} paddingBottom={'15px'}>Undergraduate full details</Typography>
           <Divider orientation="horizontal" color="#4665D2" />
           {singleUser && (
             <Stack direction={'column'} spacing={2}>
-              <Stack direction={'row'}>  <Typography width={'135px'}> Registration No </Typography><Typography> {singleUser.regNo} </Typography></Stack>
-              <Stack direction={'row'}> <Typography width={'135px'}> Name </Typography><Typography>{singleUser.name} </Typography></Stack>
-              <Stack direction={'row'}> <Typography width={'135px'}> E-mail</Typography><Typography> {singleUser.email} </Typography></Stack>
-              <Stack direction={'row'}> <Typography width={'135px'}> GPA</Typography><Typography>{singleUser.gpa} </Typography></Stack>
-              <Stack direction={'row'}>  <Typography width={'135px'}> Weighted GPA </Typography><Typography> {singleUser.weightedGPA} </Typography></Stack>
-              <Stack direction={'row'}> <Typography width={'135px'}> Linkedin URL </Typography><Typography>{singleUser.linkdinURL} </Typography></Stack>
+              <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}> <Typography > Registration No </Typography></Stack><Stack flex={1}><Typography> {singleUser.regNo} </Typography></Stack></Stack>
+              <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography > Name </Typography></Stack><Stack flex={1}><Typography>{singleUser.name} </Typography></Stack></Stack>
+              <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography > E-mail</Typography></Stack><Stack flex={1} ><Typography> {singleUser.email} </Typography></Stack> </Stack>
+              <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography > GPA</Typography></Stack><Stack flex={1} ><Typography>{singleUser.gpa} </Typography></Stack></Stack>
+              <Stack direction={'row'}>  <Stack flex={1} minWidth={'160px'}><Typography> Weighted GPA </Typography></Stack><Stack flex={1} ><Typography> {singleUser.weightedGPA} </Typography></Stack></Stack>
+              <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography> Linkedin URL </Typography></Stack><Stack flex={1} ><Typography>{singleUser.linkdinURL} </Typography></Stack></Stack>
               {/* <Stack direction={'row'}> <Typography width={'135px'}> Intern Status</Typography><Typography> {singleUser.internStatus} </Typography></Stack> */}
-              <Stack direction={'row'}> <Typography width={'135px'}> Supervisor</Typography><Typography>{singleUser.supervisor} </Typography></Stack>
+              <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography> Supervisor</Typography></Stack><Stack flex={1} ><Typography>{singleUser.supervisor} </Typography></Stack></Stack>
             </Stack>
           )}
         </Stack>
