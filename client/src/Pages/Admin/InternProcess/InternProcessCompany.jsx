@@ -21,7 +21,9 @@ const InternProcessCompany = () => {
   const [dialogData, setDialogData] = useState();
   const { companyId } = useParams();
 
-  const { data } = useFetch('POST', 'http://localhost:5000/api/v1/company/intern-process-company', { companyId: companyId })
+  const { data } = useFetch('GET', `http://localhost:5000/api/v1/company/intern-process/company/${companyId}`)
+
+  console.log('dattaaa', data);
 
   const theme = useTheme();
 
@@ -54,7 +56,7 @@ const InternProcessCompany = () => {
 
   const handleSave = async () => {
     console.log(company, selectedStudents);
-    const res = await axios.post("http://localhost:5000/api/v1/company/intern-process-company", { companyId: company._id, candidateList: selectedStudents }, { withCredentials: true })
+    const res = await axios.post("http://localhost:5000/api/v1/company/intern-process/company", { companyId: company._id, candidateList: selectedStudents }, { withCredentials: true })
     if (res) {
       setDialogData(res.data);
       setDialogOpen(true);

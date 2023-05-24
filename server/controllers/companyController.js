@@ -361,21 +361,11 @@ module.exports.internProcessCompanyList = catchAsync(async (req, res) => {
         }
 
         // res.status(200).json({companyList});
-        res.status(200).json({
-            status: "success",
-            length: companyList.length,
-            data: companyList
-        });
+        res.status(200).json(companyList);
     } catch (err) {
         res.status(500).json(err);
     }
 });
-
-
-
-
-
-
 
 // Method: PATCH
 // Endpoint: "/intern-process/recommendations"
@@ -497,12 +487,12 @@ module.exports.internProcess = catchAsync(async (req, res) => {
 
 
 // Method: GET
-// Endpoint: "/intern-process/company"
+// Endpoint: "/intern-process/company/:companyId"
 // Description: get companies that offer internships through university
 // User: Admin, Undergraduate
 module.exports.internProcessCompany = catchAsync(async (req, res) => {
     try {
-        const companyId = req.body.companyId;
+        const companyId = req.params.companyId;
         const company = await Company.findById(companyId);
         const users = await Undergraduate.find().select('name regNo gpa weightedGPA internStatus');
 

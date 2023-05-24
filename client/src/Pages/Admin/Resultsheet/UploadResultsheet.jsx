@@ -68,7 +68,7 @@ const UploadResultsheet = () => {
       formData.append("result-sheet", excelFile);
 
       const res = await axios.post(
-        "http://localhost:5000/api/v1/resut/upload",
+        "http://localhost:5000/api/v1/result/upload",
         formData,
         headers
       );

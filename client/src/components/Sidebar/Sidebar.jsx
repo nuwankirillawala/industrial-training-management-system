@@ -160,7 +160,7 @@ const users = [
         id: 5,
         primaryText: 'Intern Process',
         icon: <Notifications />,
-        element: '/notice'
+        element: '/intern-process/type'
       },
       {
         id: 6,
