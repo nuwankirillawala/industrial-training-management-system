@@ -64,12 +64,6 @@ const getTheme = (theme) => ({
     body2: {
       color: baseFontColor,
     },
-    PageTitle: {
-      //for page titles
-      fontSize: "20px",
-      color: baseColor,
-      padding: "20px 0 3px 25px",
-    },
     head1: {
       color: baseColor,
       fontSize: "3rem",
@@ -100,6 +94,13 @@ const getTheme = (theme) => ({
       fontSize: "1.5rem",
       fontWeight: "500",
     },
+    pageTitle: {
+      color: baseColor,
+      fontSize: "2.0rem",
+      fontWeight: "500",
+      marginBottom: "5px",
+      letterSpacing: 3,
+    }
   },
 
   components: {

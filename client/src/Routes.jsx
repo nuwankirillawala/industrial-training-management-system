@@ -86,11 +86,11 @@ const router = createBrowserRouter(createRoutesFromElements(
 
 
             {/* Admin Routes  */}
-            <Route path='add-admin' element={<Admin.AddAdmin />} />
-            <Route path='add-alumni' element={<Admin.AddAlumni />} />
-            <Route path='add-department-coordinator' element={<Admin.AddDepartmentCoordinator />} />
-            <Route path='add-student' element={<Admin.AddStudent />} />
-            <Route path='add-supervisor' element={<Admin.AddSupervisor />} />
+            <Route path='admin/add' element={<Admin.AddAdmin />} />
+            <Route path='add/alumni' element={<Admin.AddAlumni />} />
+            <Route path='add/department-coordinator' element={<Admin.AddDepartmentCoordinator />} />
+            <Route path='add/student' element={<Admin.AddStudent />} />
+            <Route path='add/supervisor' element={<Admin.AddSupervisor />} />
 
             <Route path='update-admin' element={<Admin.UpdateAdmin />} />
             <Route path='update-alumni' element={<Admin.UpdateAlumni />} />
@@ -109,11 +109,11 @@ const router = createBrowserRouter(createRoutesFromElements(
 
             <Route path='alumni-list' element={<Admin.AlumniList />} />
 
-            <Route path='add-company' element={<Admin.AddCompany />} />
+            <Route path='company/add' element={<Admin.AddCompany />} />
             <Route path='company-created' element={<Admin.CompanyCreated />} />
-            <Route path='manage-company' element={<Admin.ManageCompany />} />
-            <Route path='view-company' element={<Admin.ViewCompany />} />
-            <Route path='company-intern-list' element={<Admin.CompanyInternList />} />
+            <Route path='company/manage' element={<Admin.ManageCompany />} />
+            <Route path='company/view' element={<Admin.ViewCompany />} />
+            <Route path='company/intern-list' element={<Admin.CompanyInternList />} />
 
             <Route path='intern-process-company/:companyId' element={<Admin.InternProcessCompany />} />
             <Route path='intern-process-student/:studentId' element={<Admin.InternProcessStudent />} />

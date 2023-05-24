@@ -1,6 +1,7 @@
 import { Avatar, Button, Icon, Stack, Typography } from "@mui/material"
 import { Tile } from "../card/Tile"
 import { useNavigate } from "react-router-dom";
+import { ClickableTile } from "../card/ClickableTile";
 
 const FeaturedCard = ({ title, color, icon, link }) => {
 
@@ -11,7 +12,7 @@ const FeaturedCard = ({ title, color, icon, link }) => {
     };
 
     return (
-        <Tile
+        <ClickableTile
             width={'auto'}
             height={110}
             backgroundColor={'#fff'}
@@ -27,7 +28,7 @@ const FeaturedCard = ({ title, color, icon, link }) => {
                 <Typography variant="head4" color={"initial"} textAlign={'left'} fontWeight={500}>{title}</Typography>
                 {/* <Button size="small"><KeyboardDoubleArrowRightIcon /></Button> */}
             </Stack>
-        </Tile>
+        </ClickableTile>
     )
 }
 
