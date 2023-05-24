@@ -13,18 +13,18 @@ import Dialogbox from './components/Dialogbox/Dialogbox'
 //import { AddCompanySupervisor } from './components/user/Admin/addUsers/AddCompanySupervisor'
 //import { AddAlumini } from './components/user/Admin/addUsers/AddAlumini'
 //import { AddDepartmentCoordinator } from './components/user/Admin/addUsers/AddDepartmentCoordinator'
-import { ViewAdmin } from './components/user/Admin/viewUsers/ViewAdmin'
-import { ViewDepartmentCoordinator } from './components/user/Admin/viewUsers/ViewDepartmentCoordinator'
-import { ViewUndergraduate } from './components/user/Admin/viewUsers/ViewUndergraduate'
-import { ViewCompanySupervisor } from './components/user/Admin/viewUsers/ViewCompanySupervisor'
-import { ViewAlumini } from './components/user/Admin/viewUsers/ViewAlumini'
-import { UpdateNRemoveAdmin } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveAdmin'
+//import { ViewAdmin } from './components/user/Admin/viewUsers/ViewAdmin'
+//import { ViewDepartmentCoordinator } from './components/user/Admin/viewUsers/ViewDepartmentCoordinator'
+//import { ViewUndergraduate } from './components/user/Admin/viewUsers/ViewUndergraduate'
+//import { ViewCompanySupervisor } from './components/user/Admin/viewUsers/ViewCompanySupervisor'
+//import { ViewAlumini } from './components/user/Admin/viewUsers/ViewAlumini'
+//import { UpdateNRemoveAdmin } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveAdmin'
 import { RemoveMultipleAdmin } from './components/user/Admin/RemoveMultipleUsers/RemoveMultipleAdmin'
-import { UpdateNRemoveAlumni } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveAlumni'
-import { UpdateNRemoveCompanySupervisor } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveCompanySupervisor'
-import { UpdateNRemoveDepartmentCoordinator } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveDepartmentCoordinator'
+//import { UpdateNRemoveAlumni } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveAlumni'
+//import { UpdateNRemoveCompanySupervisor } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveCompanySupervisor'
+//import { UpdateNRemoveDepartmentCoordinator } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveDepartmentCoordinator'
 import { ManageCompany } from './Pages/Admin/ManageCompany'
-import { UpdateNRemoveUndergraduate } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveUndergraduate'
+//import { UpdateNRemoveUndergraduate } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveUndergraduate'
 import Notice from './components/shared/Notice/Notice'
 import { AdminDashboard } from './Pages/Admin/Dashboard/AdminDashboard'
 import { AddCompany } from './components/user/Admin/addCompany/AddCompany'
@@ -54,17 +54,17 @@ const router = createBrowserRouter(createRoutesFromElements(
             {/*             <Route path="add-companySupervisor-details" element={<AddCompanySupervisor />} />
  */}            {/* <Route path="add-alumini-details" element={<AddAlumini />} /> */}
             {/* <Route path="add-departmnt-coordinator-details" element={<AddDepartmentCoordinator />} /> */}
-            <Route path="view-admin-details" element={<ViewAdmin />} />
-            <Route path="view-dept-coordinator-details" element={<ViewDepartmentCoordinator />} />
-            <Route path="view-undg-details" element={<ViewUndergraduate />} />
-            <Route path="view-comp-details" element={<ViewCompanySupervisor />} />
-            <Route path="view-alumini-details" element={<ViewAlumini />} />
-            <Route path="updateNremove-admin-details" element={<UpdateNRemoveAdmin />} />
+            {/* <Route path="view-admin-details" element={<ViewAdmin />} /> */}
+            {/* <Route path="view-dept-coordinator-details" element={<ViewDepartmentCoordinator />} /> */}
+            {/* <Route path="view-undg-details" element={<ViewUndergraduate />} /> */}
+            {/* <Route path="view-comp-details" element={<ViewCompanySupervisor />} /> */}
+            {/* <Route path="view-alumini-details" element={<ViewAlumini />} /> */}
+            {/* <Route path="updateNremove-admin-details" element={<UpdateNRemoveAdmin />} /> */}
             <Route path="remove-multiple-admin" element={<RemoveMultipleAdmin />} />
-            <Route path="updateNremove-alumni-details" element={<UpdateNRemoveAlumni />} />
-            <Route path="updateNremove-undergraduate-details" element={<UpdateNRemoveUndergraduate />} />
-            <Route path="updateNremove-companySupervisor-details" element={<UpdateNRemoveCompanySupervisor />} />
-            <Route path="updateNremove-Department-Coordinator-details" element={<UpdateNRemoveDepartmentCoordinator />} />
+            {/* <Route path="updateNremove-alumni-details" element={<UpdateNRemoveAlumni />} /> */}
+            {/* <Route path="updateNremove-undergraduate-details" element={<UpdateNRemoveUndergraduate />} /> */}
+            {/* <Route path="updateNremove-companySupervisor-details" element={<UpdateNRemoveCompanySupervisor />} /> */}
+            {/* <Route path="updateNremove-Department-Coordinator-details" element={<UpdateNRemoveDepartmentCoordinator />} /> */}
             <Route path="admin-dashboard" element={<AdminDashboard />} />
             <Route path="manage-company" element={<ManageCompany />} />
             <Route path="add-company" element={<AddCompany />} />

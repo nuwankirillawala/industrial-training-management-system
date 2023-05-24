@@ -31,7 +31,7 @@ export const ManageCompany = () => {
 
     useEffect(() => {
         getAllCompanyData();
-    }, [])
+    })
 
     const Column = [
         { columnName: 'Company Name' },

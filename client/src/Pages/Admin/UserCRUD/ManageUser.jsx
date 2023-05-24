@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 // import GroupsIcon from '@mui/icons-material/Groups';
 // import BusinessIcon from '@mui/icons-material/Business';
 // import EngineeringIcon from '@mui/icons-material/Engineering';
+//import { Icon } from '@mui/material';
 import administrator from "../../../Images/administrator.png"
 import alumni from '../../../Images/alumni.png'
 import companySupervisor from '../../../Images/companySupervisor.png'
@@ -16,7 +17,7 @@ import deptCoordinator from '../../../Images/deptCoordinator.png'
 import Undergraduate from '../../../Images/Undergraduate.png'
 import { Divider } from '@mui/material';
 
-import { Icon } from '@mui/material';
+
 
 function RedirectAdduser(text) {
     switch (text) {
@@ -43,19 +44,19 @@ function RedirectAdduser(text) {
 function RedirectViewuser(text) {
     switch (text) {
         case 'Administrator':
-            return '/view-admin-details'
+            return '/admin/view'
             break;
         case 'Department CoOrdinator':
-            return '/view-dept-coordinator-details'
+            return '/department-coordinator/view'
             break;
         case 'Undergraduate':
-            return '/view-undg-details'
+            return '/student/view'
             break;
         case 'Company Supervisor':
-            return '/view-comp-details'
+            return '/supervisor/view'
             break;
         case 'Alumni':
-            return '/view-alumini-details'
+            return '/alumni/view'
             break;
         default:
             break;
@@ -65,19 +66,19 @@ function RedirectViewuser(text) {
 function RedirectUpdateNRemoveuser(text) {
     switch (text) {
         case 'Administrator':
-            return '/updateNremove-admin-details'
+            return '/admin/update'
             break;
         case 'Department CoOrdinator':
-            return '/updateNremove-Department-Coordinator-details'
+            return '/department-coordinator/update'
             break;
         case 'Undergraduate':
-            return '/updateNremove-undergraduate-details'
+            return '/student/update'
             break;
         case 'Company Supervisor':
-            return '/updateNremove-companySupervisor-details'
+            return '/supervisor/update'
             break;
         case 'Alumni':
-            return '/updateNremove-alumni-details'
+            return '/alumni/update'
             break;
         default:
             break;
@@ -107,13 +108,12 @@ export const ManageUser = () => {
             {userList.map((user, index) => (
                 <Grid item md={4} sm={6} lg={2.4} key={index}>
                     <Tile height={'82vh'}>
-                        {/*                         <Stack ><Icon color='primary' fontSize='large'><user.icon /> </Icon></Stack>
- */}
-                        <Stack sx={{ display: 'flex-end', alignItems: 'center' }} ><img src={user.icon} height="35vh" width='40px' /></Stack>
+                        {/*   <Stack ><Icon color='primary' fontSize='large'><user.icon /> </Icon></Stack> */}
+                        <Stack sx={{ display: 'flex-end' }} ><img src={user.icon} height="35vh" width='40px' /></Stack>
                         <Stack height={'9vh'}> <Typography variant="h6" fontWeight={'bold'}>{user.name}</Typography> </Stack>
                         <Divider orientation="horizontal" />
                         <Stack height={'15vh'} padding="10px">  <Typography variant="body1" > {user.description} </Typography>  </Stack>
-                        <Stack direction={"column"} sx={{ height: '58%' }} justifyContent={"flex-end"} spacing={1}>
+                        <Stack direction={"column"} sx={{ height: '60%' }} justifyContent={"flex-end"} spacing={1}>
                             <Button variant="itms" onClick={() => navigate(RedirectViewuser(user.name))}> View  </Button>
                             <Button variant="itms" onClick={() => navigate(RedirectAdduser(user.name))} > Add  </Button>
                             <Button variant="itms" onClick={() => navigate(RedirectUpdateNRemoveuser(user.name))}> Update / Remove </Button>
