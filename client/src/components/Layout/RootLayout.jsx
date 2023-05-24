@@ -178,6 +178,13 @@ const getTheme = (theme) => ({
           },
         },
         {
+          props: { size: "itms-x-small" },
+          style: {
+            padding: "4px 10px",
+            fontSize: "0.7rem",
+          },
+        },
+        {
           props: { type: "close" },
           style: {
             color: color_red,
