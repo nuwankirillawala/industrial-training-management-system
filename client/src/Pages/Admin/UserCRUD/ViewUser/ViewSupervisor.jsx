@@ -37,7 +37,7 @@ const ViewSupervisor = () => {
     <Grid spacing={1} container>
       <Grid item md={12} sm={12} ><Typography variant='pageTitle'> View Company Supervisor Details</Typography> </Grid>
       <Grid item md={12} sm={12} ><Typography variant='body2' paddingLeft={'20px'}> Click the row for get company supervisor wise details in right side</Typography> </Grid>
-      <Grid item md={8} sm={8} style={{ maxHeight: 500, overflowY: 'scroll' }}>
+      <Grid item md={8} sm={12} style={{ maxHeight: 500, overflowY: 'scroll' }}>
         <Tile>
           <Stack>
             <Table sx={{ border: '1px solid #4665D2' }}>
@@ -67,15 +67,15 @@ const ViewSupervisor = () => {
         </Tile>
       </Grid>
 
-      <Grid item md={4} sm={4} > <Tile>
+      <Grid item md={4} sm={12} > <Tile>
         <Stack direction={'column'}>
           <Typography fontWeight={'bold'} paddingTop={'15px'} paddingBottom={'15px'}>Company Supervisor full details</Typography>
           <Divider orientation="horizontal" color="#4665D2" />
           {singleUser && (
             <Stack direction={'column'} spacing={2}>
-              <Stack direction={'row'}>  <Typography width={'135px'}> Name </Typography><Typography> {singleUser.name} </Typography></Stack>
-              <Stack direction={'row'}> <Typography width={'135px'}> E-mail</Typography><Typography> {singleUser.email} </Typography></Stack>
-              <Stack direction={'row'}> <Typography width={'135px'}> Job Role</Typography><Typography>{singleUser.jobRole} </Typography></Stack>
+              <Stack direction={'row'}>  <Stack flex={1} minWidth={'160px'}><Typography > Name </Typography></Stack><Stack flex={1}><Typography> {singleUser.name} </Typography></Stack></Stack>
+              <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography > E-mail</Typography></Stack><Stack flex={1}><Typography> {singleUser.email} </Typography></Stack></Stack>
+              <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography > Job Role</Typography></Stack><Stack flex={1}><Typography>{singleUser.jobRole} </Typography></Stack></Stack>
             </Stack>
           )}
         </Stack>
