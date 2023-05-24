@@ -8,8 +8,6 @@ import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
 import axios from "axios"
 
 
-
-
 export const UpdateAlumniForm = ({ userId }) => {
     const [userData, setUserData] = useState({
         name: '',
@@ -91,6 +89,7 @@ export const UpdateAlumniForm = ({ userId }) => {
                 { withCredentials: true }
 
             );
+            //window.location.reload(false);  refresh page
             console.log(res.status);
 
             if (res.status === 201) {

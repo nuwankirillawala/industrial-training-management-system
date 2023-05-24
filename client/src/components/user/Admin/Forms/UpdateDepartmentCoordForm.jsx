@@ -7,7 +7,7 @@ import * as yup from "yup"
 import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
 import axios from "axios"
 
-export const UpdateDepartmentCoordinator = ({ userId }) => {
+export const UpdateDepartmentCoordForm = ({ userId }) => {
     const [userData, setUserData] = useState({
         name: '',
         email: '',

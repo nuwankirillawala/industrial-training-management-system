@@ -153,7 +153,7 @@ const UploadResultsheet = () => {
                 <Button
                   // type="submit"
                   variant="itms"
-                  size="itms-small"
+                  size="itms-x-small"
                   onClick={handleSubmit}
                   sx={{ mt: 1 }}
                 >

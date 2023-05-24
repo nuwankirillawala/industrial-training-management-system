@@ -112,7 +112,7 @@ const SupervisorList = () => {
       renderCell: (params) => (
         <Button
           variant="itms"
-          size="itms-small"
+          size="itms-x-small"
           onClick={() => handleCellClick(params.row.name, params.row._id)}
         >
           select

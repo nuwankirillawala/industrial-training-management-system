@@ -22,7 +22,7 @@ export default function Dialogbox({ children, title, btn_name }) {
 
     return (
         <div>
-            <Button variant="itms" size="itms-small" onClick={handleClickOpen}>
+            <Button variant="itms" size="itms-x-small" onClick={handleClickOpen}>
                 {btn_name}
             </Button>
             <Dialog open={open} >

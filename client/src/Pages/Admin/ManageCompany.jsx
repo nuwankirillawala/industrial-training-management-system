@@ -31,7 +31,7 @@ export const ManageCompany = () => {
 
     useEffect(() => {
         getAllCompanyData();
-    }, [])
+    })
 
     const Column = [
         { columnName: 'Company Name' },
@@ -51,7 +51,7 @@ export const ManageCompany = () => {
     return (
         <Grid container>
             <Grid item sm={12} md={12}>
-                <Typography variant="PageTitle">Add new Company</Typography>
+                <Typography variant="pageTitle">Add new Company</Typography>
             </Grid>
 
             <Grid item sm={12} md={12}>
@@ -64,7 +64,7 @@ export const ManageCompany = () => {
             </Grid>
 
             <Grid item sm={12} md={12} paddingTop={'10px'}>
-                <Typography variant="PageTitle">Manage Company</Typography>
+                <Typography variant="pageTitle">Manage Company</Typography>
             </Grid>
             <Grid item md={12} sm={12} ><Typography variant='body2' paddingLeft={'20px'}> Click the row for get company wise details in right side</Typography> </Grid>
 
