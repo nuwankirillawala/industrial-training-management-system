@@ -107,7 +107,7 @@ const users = [
         id: 5,
         primaryText: 'Company',
         icon: <Notifications />,
-        element: '/notice'
+        element: '/company/all'
       },
       {
         id: 6,
@@ -142,7 +142,7 @@ const users = [
         id: 2,
         primaryText: 'User Management',
         icon: <Article />,
-        element: '/student-cvupdate'
+        element: '/manage-user'
       },
       {
         id: 3,

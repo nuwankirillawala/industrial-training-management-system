@@ -30,4 +30,4 @@ const TypeSelectionCard = ({ image, title, content, goto }) => {
     )
 }
 
-export default InternProcessTypeCard;
+export default TypeSelectionCard;

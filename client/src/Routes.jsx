@@ -26,7 +26,7 @@ import { UpdateNRemoveDepartmentCoordinator } from './components/user/Admin/upda
 import { ManageCompany } from './Pages/Admin/ManageCompany'
 import { UpdateNRemoveUndergraduate } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveUndergraduate'
 import Notice from './components/shared/Notice/Notice'
-import { AdminDashboard } from './Pages/Admin/AdminDashboard'
+import { AdminDashboard } from './Pages/Admin/Dashboard/AdminDashboard'
 import { AddCompany } from './components/user/Admin/addCompany/AddCompany'
 import { DailyReportForm } from './components/DailyReportForm/DailyReportForm'
 // Importing Pages
@@ -40,6 +40,7 @@ import { DepartmentStudentProfile } from './Pages/Department/DepartmentStudentPr
 import NoticeForm from './components/shared/Notice/NoticeForm'
 import DeleteNotice from './components/shared/Notice/DeleteNotice'
 import InternApplicationMenu from './Pages/Undergraduate/InternApplication/InternApplicationMenu'
+import ViewAllCompanies from './Pages/Admin/Company/ViewAllComapnies'
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path='/' element={<RootLayout />}>
@@ -80,6 +81,8 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path="notice" element={<Notice />} />
             <Route path="sidebar" element={<Sidebar />} />
             <Route path="intern-application/menu" element={<InternApplicationMenu />} />
+            <Route path="company/all" element={<ViewAllCompanies />} />
+
 
 
             {/* Admin Routes  */}
