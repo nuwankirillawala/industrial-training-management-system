@@ -1083,7 +1083,9 @@ module.exports.getDailyReport = catchAsync(async (req, res) => {
             return res.status(404).json({ error: "no daily reports found" });
         }
 
-        const report = undergraduate.weeklyReports.findOne((report) => report.weekNumber === weekNo);
+        console.log(undergraduate);
+
+        const report = undergraduate.weeklyReports.find((report) => report.weekNumber === weekNo);
 
         if (!report) {
             return res.status(404).json({ error: "daily report found" });
