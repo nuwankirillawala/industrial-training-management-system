@@ -91,8 +91,8 @@ export const ManageUser = () => {
     const navigate = useNavigate()
 
     const userList = [
-        { name: 'Administrator', icon: administrator, description: "Administrator responsible for manages all users in the system by adding,  updating and removing users." },
-        { name: 'Department CoOrdinator', icon: deptCoordinator, description: "Department Co-ordinator supervise the internship process." },
+        { name: 'System Administrator', icon: administrator, description: "Administrator responsible for manages all users in the system by adding,  updating and removing users." },
+        { name: 'Department Coordinator', icon: deptCoordinator, description: "Department Co-ordinator supervise the internship process." },
         { name: 'Undergraduate', icon: Undergraduate, description: "Undergraduates use the platform for keep track of internship and give their updates.  Also use the platform for internship report purposes." },
         { name: 'Company Supervisor', icon: companySupervisor, description: "Company supervisors involve the internship process by guiding Internship applicants and confirming their details." },
         { name: 'Alumni', icon: alumni, description: "Alumni persons share IT field experiences and technical details to new internship applicants." }
@@ -106,17 +106,17 @@ export const ManageUser = () => {
                 <Typography variant="pageTitle">Manage Users</Typography>
             </Grid>
             {userList.map((user, index) => (
-                <Grid item md={4} sm={6} lg={2.4} key={index}>
-                    <Tile height={'82vh'}>
+                <Grid item md={4} sm={6} lg={2.3} key={index} margin={0.5}>
+                    <Tile height={'75vh'}>
                         {/*   <Stack ><Icon color='primary' fontSize='large'><user.icon /> </Icon></Stack> */}
                         <Stack sx={{ display: 'flex-end' }} ><img src={user.icon} height="35vh" width='40px' /></Stack>
                         <Stack height={'9vh'}> <Typography variant="h6" fontWeight={'bold'}>{user.name}</Typography> </Stack>
                         <Divider orientation="horizontal" />
-                        <Stack height={'15vh'} padding="10px">  <Typography variant="body1" > {user.description} </Typography>  </Stack>
+                        <Stack height={'12vh'} padding="10px">  <Typography variant="body1" > {user.description} </Typography>  </Stack>
                         <Stack direction={"column"} sx={{ height: '60%' }} justifyContent={"flex-end"} spacing={1}>
                             <Button variant="itms" onClick={() => navigate(RedirectViewuser(user.name))}> View  </Button>
-                            <Button variant="itms" onClick={() => navigate(RedirectAdduser(user.name))} > Add  </Button>
-                            <Button variant="itms" onClick={() => navigate(RedirectUpdateNRemoveuser(user.name))}> Update / Remove </Button>
+                            <Button variant="itms-add" onClick={() => navigate(RedirectAdduser(user.name))} > Add  </Button>
+                            <Button variant="itms-delete" onClick={() => navigate(RedirectUpdateNRemoveuser(user.name))}> Update / Remove </Button>
                         </Stack>
                     </Tile>
                 </Grid>

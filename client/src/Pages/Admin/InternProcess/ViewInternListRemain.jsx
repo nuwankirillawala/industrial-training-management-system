@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import InternDataGrid from '../../../components/InternProcess/ViewTable/InternDataGrid';
 
 const ViewInternListRemain = () => {
-  const { data } = useFetch('GET', 'http://localhost:5000/api/v1/undergraduate/view-intern-list', null);
+  const { data } = useFetch('GET', 'http://localhost:5000/api/v1/undergraduate/intern/list', null);
   const users = data.users;
 
 

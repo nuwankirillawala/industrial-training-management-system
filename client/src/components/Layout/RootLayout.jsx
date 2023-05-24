@@ -58,6 +58,9 @@ const getTheme = (theme) => ({
     red: {
       main: color_red,
     },
+    green: {
+      main: color_green,
+    }
   },
 
   typography: {
@@ -105,46 +108,6 @@ const getTheme = (theme) => ({
 
   components: {
     MuiButton: {
-      //new button varient itms
-      // variants: [
-      //   {
-      //     props: { variant: "itms" },
-      //     style: {
-      //       background: baseColor,
-      //       color: "#F5F8FF",
-      //       "&:hover": {
-      //         background: baseFontColor,
-      //       },
-      //       "&.Mui-disabled": {
-      //         background: color_gray,
-      //         color: color_light_gray,
-      //       },
-      //       borderRadius: "10px",
-      //       margin: "2px",
-      //       padding: "6px 14px",
-      //     },
-      //   },
-      //   {
-      //     props: { size: "itms-large" },
-      //     style: {
-      //       padding: "8px 22px",
-      //       fontSize: "0.9rem",
-      //     },
-      //   },
-      //   {
-      //     props: { size: "itms-small" },
-      //     style: {
-      //       padding: "4px 10px",
-      //       fontSize: "0.7rem",
-      //     },
-      //   },
-      //   {
-      //     props: { type: "close" },
-      //     style: {
-      //       color: color_red,
-      //     },
-      //   },
-      // ],
       variants: [
         {
           props: { variant: "itms" },
@@ -188,6 +151,40 @@ const getTheme = (theme) => ({
           props: { type: "close" },
           style: {
             color: color_red,
+          },
+        },
+        {
+          props: { variant: "itms-add" },
+          style: {
+            background: color_green,
+            color: "#FFF",
+            "&:hover": {
+              background: '#8CE28C',
+            },
+            "&.Mui-disabled": {
+              background: color_gray,
+              color: color_light_gray,
+            },
+            borderRadius: "10px",
+            margin: "5px",
+            padding: "10px 20px",
+          },
+        },
+        {
+          props: { variant: "itms-delete" },
+          style: {
+            background: color_red,
+            color: "#FFF",
+            "&:hover": {
+              background: '#8CE28C',
+            },
+            "&.Mui-disabled": {
+              background: color_gray,
+              color: color_light_gray,
+            },
+            borderRadius: "10px",
+            margin: "5px",
+            padding: "10px 20px",
           },
         },
       ],
