@@ -1,106 +1,147 @@
-import React from 'react'
-import { Stack, Grid, Box, Typography, Divider, Button } from '@mui/material'
-import { Tile } from '../../../components/card/Tile'
-import { useState } from 'react'
+import React from "react";
+import { Stack, Box, Typography, Divider, Paper } from "@mui/material";
+import { Tile } from "../../../components/card/Tile";
 
-const weekdays = [
-  {day : 'Monday', varification :'approved'},
-  {day : 'Tuesday', varification :'approved'},
-  {day : 'Wendnesday', varification :'notApproved'},
-  {day : 'Thuresday', varification :'notApproved'},
-  {day : 'Friday', varification :'approved'},
-  {day : 'Saterday', varification :'approved'},
-  {day : 'Sunday', varification :'approved'},
-]
-
-export const DailyReport = () => {
-
-  const [varification , setVarification ] = useState();
-
+export const DailyReport = ({ reportData }) => {
   return (
-        <Tile>
-          <Stack direction={'column'} height={'84vh'} spacing={1}>
-
-            <Stack alignItems={'center'}>
-              <Typography variant='h6' fontWeight={'bold'}>Daily Report</Typography>
+    <Tile>
+      <Box height={"75vh"} overflow={"auto"}>
+        <Stack direction={"column"} spacing={1}>
+          <Stack direction={"column"} spacing={1}>
+            <Stack alignItems={"center"}>
+              <Typography variant="h6" fontWeight={"bold"}>
+                Daily Report
+              </Typography>
             </Stack>
 
-            <Divider variant='middle' />
-
-            <Stack direction={'row'} justifyContent={'space-evenly'}>
-              <Stack alignItems={'center'} flex={1}>
-                <Typography fontWeight={'bold'}>
-                  Date
-                </Typography>
-              </Stack>
-
-              <Divider orientation='vertical' />
-
-              <Stack alignItems={'center'} flex={2}>
-                <Typography fontWeight={'bold'}>
-                  Brief Description of Work Carried Out
-                </Typography>
-              </Stack>
-
-              <Divider orientation='vertical' />
-
-              <Stack alignItems={'center'} flex={1}>
-                <Typography fontWeight={'bold'}>
-                  Varification
-                </Typography>
-              </Stack>
-
-            </Stack>
-
-            <Divider variant='middle' />
-
-            <Stack direction={'column'} justifyContent={'space-around'} height={'70vh'}>
-
-              {weekdays.map((report)=>(  
-                <Stack>
-                  <Stack direction={'row'} justifyContent={'space-around'}>
-                    <Divider orientation='vertical' />
-                    <Stack flex={1} alignItems={'center'}>
-                      <Typography fontWeight={'bold'}>{report.day}</Typography>
-                    </Stack>
-                    <Divider orientation='vertical' />
-                    <Stack flex={2} direction={'row'} maxHeight={'10vh'}>
-                      <Box width={'24vw'} height={'100%'}>
-                      <Box
-                        flex={5}
-                        sx={{
-                            padding:'10px',
-                            alignItems:'center',
-                            textOverflow: 'ellipsis',
-                            overflow: 'hidden',
-                            height : '100%',
-                            // border : 'solid 0.1px'
-                          }}  
-                        >
-                        <Typography>In terms of a rhetoric any act of communication, a text serves as the vehicle for communication</Typography>
-                      </Box>
-                      </Box>
-                      <Stack flex={1}>
-                        <Button size='small'>full view</Button>
-                      </Stack>
-                    </Stack>
-                    <Divider orientation='vertical' />
-                    <Stack flex={1}alignItems={'center'}>
-                      {report.varification === 'approved' && (
-                        <Typography fontWeight={'bold'} color={'green'}>Approved</Typography>
-                      )}
-                      {report.varification === 'notApproved' && (
-                        <Typography fontWeight={'bold'} color={'red'}>Not Approved</Typography>
-                      )}
-                      </Stack>
-                    <Divider orientation='vertical' />
+            <Paper variant="outlined" sx={{ bgcolor: "white" }}>
+              <Stack>
+                {/* <Divider variant="middle" /> */}
+                <Stack direction={"row"} justifyContent={"space-evenly"}>
+                  <Stack alignItems={"center"} flex={1}>
+                    <Typography fontWeight={"bold"}>Date</Typography>
                   </Stack>
-                  <Divider orientation='horizontal' />
-                </Stack>
-              ))}
-            </Stack>
 
+                  <Divider orientation="vertical" />
+
+                  <Stack alignItems={"center"} flex={4}>
+                    <Typography fontWeight={"bold"}>
+                      Brief Description of Work Carried Out
+                    </Typography>
+                  </Stack>
+
+                  <Divider orientation="vertical" />
+
+                  <Stack alignItems={"center"} flex={1}>
+                    <Typography fontWeight={"bold"}>Varification</Typography>
+                  </Stack>
+                </Stack>
+
+                <Divider variant="middle" />
+
+                {/* report data show here */}
+                <Box>
+                  {reportData.map((report) => (
+                    <Stack minHeight={"6vh"}>
+                      <Stack direction={"row"} justifyContent={"space-around"}>
+                        <Divider orientation="vertical" />
+
+                        {/* report date */}
+                        <Stack
+                          flex={1}
+                          alignItems={"center"}
+                          direction={"column"}
+                        >
+                          <Stack
+                            flex={1}
+                            alignItems={"center"}
+                            direction={"row"}
+                          >
+                            <Typography fontWeight={"bold"}>
+                              {report.date.substring(0, 10)}
+                            </Typography>
+                          </Stack>
+                        </Stack>
+
+                        <Divider orientation="vertical" />
+
+                        {/* report content */}
+                        <Stack flex={4} direction={"row"}>
+                          <Box>
+                            <Box
+                              flex={5}
+                              sx={{
+                                padding: "10px",
+                                alignItems: "center",
+                              }}
+                            >
+                              <Typography>{report.content}</Typography>
+                            </Box>
+                          </Box>
+                        </Stack>
+
+                        <Divider orientation="vertical" />
+
+                        {/*report approval sratus */}
+                        <Stack
+                          flex={1}
+                          alignItems={"center"}
+                          direction={"column"}
+                        >
+                          <Stack
+                            flex={1}
+                            alignItems={"center"}
+                            direction={"row"}
+                          >
+                            {report.approvalStatus === "approved" && (
+                              <Typography fontWeight={"bold"} color={"green"}>
+                                Approved
+                              </Typography>
+                            )}
+                            {report.approvalStatus === "notApproved" && (
+                              <Typography fontWeight={"bold"} color={"red"}>
+                                Not Approved
+                              </Typography>
+                            )}
+                            {report.approvalStatus === "empty" && (
+                              <Typography
+                                fontWeight={"bold"}
+                                color={"darkgray"}
+                              >
+                                Empty
+                              </Typography>
+                            )}
+                          </Stack>
+                        </Stack>
+
+                        <Divider orientation="vertical" />
+                      </Stack>
+                      <Divider orientation="horizontal" />
+                    </Stack>
+                  ))}
+                </Box>
+              </Stack>
+            </Paper>
           </Stack>
-        </Tile>
-  )
-}
+          <Stack>
+            <Paper variant="outlined" sx={{ bgcolor: "white" }}>
+              <Box padding={"10px"}>
+                <Stack direction={"column"}>
+                  <Stack alignItems={"center"}>
+                    <Typography fontWeight={"bold"}>
+                      Problems Encounted and Solution Found
+                    </Typography>
+                  </Stack>
+                  <Divider />
+                  <Stack minHeight={"10vh"}>
+                    <Typography></Typography>
+                  </Stack>
+                </Stack>
+              </Box>
+            </Paper>
+          </Stack>
+        </Stack>
+      </Box>
+    </Tile>
+  );
+};
