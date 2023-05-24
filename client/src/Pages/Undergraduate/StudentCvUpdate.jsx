@@ -187,7 +187,7 @@ export const StudentCvUpdate = () => {
                   {data.languageLevel !== "" && (
                     <>
                       <Chip
-                        label={`Level : ${languageLevel}`}
+                        label={`Level : ${data.languageLevel}`}
                         variant="outlined"
                         color="primary"
                       />
