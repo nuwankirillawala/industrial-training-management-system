@@ -20,8 +20,8 @@ const InternProcessStudent = () => {
   const [dialogData, setDialogData] = useState();
   const { studentId } = useParams();
 
-  const { data: studentData } = useFetch('GET', `http://localhost:5000/api/v1/undergraduate/view-undergraduate-profile/${studentId}`);
-  const { data: companyData } = useFetch("GET", 'http://localhost:5000/api/v1/company/intern-process-company-list', null);
+  const { data: studentData } = useFetch('GET', `http://localhost:5000/api/v1/undergraduate/user/${studentId}`);
+  const { data: companyData } = useFetch("GET", 'http://localhost:5000/api/v1/company/intern-process/company-list', null);
 
   console.log(studentData);
   // const student = studentData && studentData.user;

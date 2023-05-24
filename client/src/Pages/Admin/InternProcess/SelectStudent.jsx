@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const SelectStudent = () => {
     const navigate = useNavigate();
-    const { data } = useFetch('GET', 'http://localhost:5000/api/v1/undergraduate/view-intern-list', null);
+    const { data } = useFetch('GET', 'http://localhost:5000/api/v1/undergraduate/intern/list', null);
     const students = data.users;
 
     const rows =
@@ -42,7 +42,7 @@ const SelectStudent = () => {
     ];
 
     const handleClick = (student) => {
-        navigate(`/intern-process-student/${student.id}`)
+        navigate(`/intern-process/student/${student.id}`)
     }
     return (
         <Box>

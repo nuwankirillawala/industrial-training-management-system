@@ -115,13 +115,13 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path='company/view' element={<Admin.ViewCompany />} />
             <Route path='company/intern-list' element={<Admin.CompanyInternList />} />
 
-            <Route path='intern-process-company/:companyId' element={<Admin.InternProcessCompany />} />
-            <Route path='intern-process-student/:studentId' element={<Admin.InternProcessStudent />} />
-            <Route path='intern-process-type' element={<Admin.InternProcessType />} />
-            <Route path='view-intern-list' element={<Admin.ViewInternList />} />
-            <Route path='view-intern-list-remain' element={<Admin.ViewInternListRemain />} />
-            <Route path='select-company' element={<Admin.SelectCompany />} />
-            <Route path='select-student' element={<Admin.SelectStudent />} />
+            <Route path='intern-process/type' element={<Admin.InternProcessType />} />
+            <Route path='intern-process/company/select' element={<Admin.SelectCompany />} />
+            <Route path='intern-process/student/select' element={<Admin.SelectStudent />} />
+            <Route path='intern-process/company/:companyId' element={<Admin.InternProcessCompany />} />
+            <Route path='intern-process/student/:studentId' element={<Admin.InternProcessStudent />} />
+            <Route path='intern-process/intern-list' element={<Admin.ViewInternList />} />
+            <Route path='intern-process/intern-list/remain' element={<Admin.ViewInternListRemain />} />
 
             <Route path='daily-report' element={<Admin.DailyReport />} />
             <Route path='report-list' element={<Admin.ReportList />} />
@@ -129,8 +129,8 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path='final-feedback-list' element={<Admin.FinalFeedbackList />} />
             <Route path='report-portal' element={<Admin.ReportPortal />} />
 
-            <Route path='upload-result-sheet' element={<Admin.UploadResultsheet />} />
-            <Route path='view-result-sheet' element={<Admin.ViewResultsheet />} />
+            <Route path='result-sheet/upload' element={<Admin.UploadResultsheet />} />
+            <Route path='result-sheet/view' element={<Admin.ViewResultsheet />} />
 
             <Route path='assign-supervisor-for-intern' element={<Admin.AssignSupervisorForIntern />} />
             <Route path='supervisor-list' element={<Admin.SupervisorList />} />

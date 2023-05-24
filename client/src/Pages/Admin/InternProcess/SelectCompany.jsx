@@ -6,14 +6,15 @@ import * as assets from '../../../assets'
 import useFetch from '../../../Hooks/useFetch'
 
 const SelectCompany = () => {
-    const { data } = useFetch("GET", 'http://localhost:5000/api/v1/company/intern-process-company-list', null);
+    const { data } = useFetch("GET", 'http://localhost:5000/api/v1/company/intern-process/company-list', null);
     const companies = data;
+    console.log(companies);
 
 
     const demo = {
         name: 'Creative Software',
         image: assets.Creative,
-        goto: '/intern-process-company'
+        goto: '/intern-process/company'
     }
     return (
         <Grid container direction='row' spacing={2}>
