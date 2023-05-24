@@ -39,7 +39,7 @@ export const UpdateNRemoveAdmin = () => {
 
     return (
         <>
-            <Typography variant="PageTitle">Update or Remove Administrator</Typography>
+            <Typography variant="pageTitle">Update or Remove Administrator</Typography>
 
             <Tile>
                 <Stack>

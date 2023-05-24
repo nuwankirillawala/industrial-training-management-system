@@ -37,7 +37,7 @@ export const UpdateNRemoveCompanySupervisor = () => {
 
     return (
         <>
-            <Typography variant="PageTitle">Update or Remove Company Supervisor</Typography>
+            <Typography variant="pageTitle">Update or Remove Company Supervisor</Typography>
             <Tile>
                 <Stack>
                     <Table sx={{ border: '1px solid #4665D2' }}>

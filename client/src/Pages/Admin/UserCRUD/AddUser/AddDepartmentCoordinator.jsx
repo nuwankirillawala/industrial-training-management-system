@@ -1,8 +1,13 @@
-import React from 'react'
+import { DepartmentCoordinatorCreateForm } from "../../../../components/shared/CreateUser/forms/DepartmentCoordinatorCreateForm";
+import { Typography } from "@mui/material";
 
 const AddDepartmentCoordinator = () => {
   return (
-    <div>AddDepartmentCoordinator</div>
+    <>
+      <Typography variant='pageTitle'> Add Alumni Details</Typography>
+      <DepartmentCoordinatorCreateForm />
+
+    </>
   )
 }
 

@@ -1,14 +1,13 @@
-import React from "react";
-import { AluminiCreateForm } from '../../../shared/CreateUser/forms/AluminiCreateForm';
-import { Typography } from "@mui/material";
+// import { AluminiCreateForm } from '../../../shared/CreateUser/forms/AluminiCreateForm';
+// import { Typography } from "@mui/material";
 
-export const AddAlumini = () => {
-    return (
-        <>
-            <Typography variant='PageTitle'> Add Alumni Details</Typography>
-            <AluminiCreateForm>
+// export const AddAlumini = () => {
+//     return (
+//         <>
+//             <Typography variant='pageTitle'> Add Alumni Details</Typography>
+//             <AluminiCreateForm>
 
-            </AluminiCreateForm>
-        </>
-    )
-}
+//             </AluminiCreateForm>
+//         </>
+//     )
+// }

@@ -1,10 +1,8 @@
-import { fontSize, Stack } from '@mui/system';
-import React, { useState } from 'react'
+import { Stack } from '@mui/system';
 import { Tile } from '../../../components/card/Tile';
 import { Grid, Typography } from '@mui/material';
 import { Button } from '@mui/material';
-//import { useState, useEffect } from "react";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 // import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
@@ -23,19 +21,19 @@ import { Icon } from '@mui/material';
 function RedirectAdduser(text) {
     switch (text) {
         case 'Administrator':
-            return '/addadmin'
+            return '/admin/add'
             break;
         case 'Department CoOrdinator':
-            return '/add-departmnt-coordinator-details'
+            return '/department-coordinator/add'
             break;
         case 'Undergraduate':
-            return '/add-undergraduate-details'
+            return '/student/add'
             break;
         case 'Company Supervisor':
-            return '/add-companySupervisor-details'
+            return '/supervisor/add'
             break;
         case 'Alumni':
-            return '/add-alumini-details'
+            return '/alumni/add'
             break;
         default:
             break;
@@ -95,7 +93,7 @@ export const ManageUser = () => {
         { name: 'Administrator', icon: administrator, description: "Administrator responsible for manages all users in the system by adding,  updating and removing users." },
         { name: 'Department CoOrdinator', icon: deptCoordinator, description: "Department Co-ordinator supervise the internship process." },
         { name: 'Undergraduate', icon: Undergraduate, description: "Undergraduates use the platform for keep track of internship and give their updates.  Also use the platform for internship report purposes." },
-        { name: 'Company Supervisor', icon: companySupervisor, description: "Company supervisors Co-operate to the internship process by guiding Internship applicants and confirming their details." },
+        { name: 'Company Supervisor', icon: companySupervisor, description: "Company supervisors involve the internship process by guiding Internship applicants and confirming their details." },
         { name: 'Alumni', icon: alumni, description: "Alumni persons share IT field experiences and technical details to new internship applicants." }
     ];
 
@@ -104,18 +102,18 @@ export const ManageUser = () => {
 
         <Grid container spacing={2}>
             <Grid item lg={12} md={12} sm={12}>
-                <Typography variant="PageTitle">Manage Users</Typography>
+                <Typography variant="pageTitle">Manage Users</Typography>
             </Grid>
             {userList.map((user, index) => (
                 <Grid item md={4} sm={6} lg={2.4} key={index}>
                     <Tile height={'82vh'}>
                         {/*                         <Stack ><Icon color='primary' fontSize='large'><user.icon /> </Icon></Stack>
  */}
-                        <Stack sx={{ display: 'flex-end', alignItems: 'center' }} ><img src={user.icon} height="40px" width='40px' /></Stack>
-                        <Stack height={'60px'}> <Typography variant="h6" fontWeight={'bold'}>{user.name}</Typography> </Stack>
+                        <Stack sx={{ display: 'flex-end', alignItems: 'center' }} ><img src={user.icon} height="35vh" width='40px' /></Stack>
+                        <Stack height={'9vh'}> <Typography variant="h6" fontWeight={'bold'}>{user.name}</Typography> </Stack>
                         <Divider orientation="horizontal" />
-                        <Stack height={'120px'} padding="10px">  <Typography variant="body1" > {user.description} </Typography>  </Stack>
-                        <Stack direction={"column"} sx={{ height: '58%' }} justifyContent={"flex-end"} spacing={2}>
+                        <Stack height={'15vh'} padding="10px">  <Typography variant="body1" > {user.description} </Typography>  </Stack>
+                        <Stack direction={"column"} sx={{ height: '58%' }} justifyContent={"flex-end"} spacing={1}>
                             <Button variant="itms" onClick={() => navigate(RedirectViewuser(user.name))}> View  </Button>
                             <Button variant="itms" onClick={() => navigate(RedirectAdduser(user.name))} > Add  </Button>
                             <Button variant="itms" onClick={() => navigate(RedirectUpdateNRemoveuser(user.name))}> Update / Remove </Button>

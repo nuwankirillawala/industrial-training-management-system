@@ -40,7 +40,7 @@ export const UpdateNRemoveAlumni = () => {
 
     return (
         <>
-            <Typography variant="PageTitle">Update or Remove Alumni</Typography>
+            <Typography variant="pageTitle">Update or Remove Alumni</Typography>
             <Typography>Refresh browser for get recently updated data </Typography>
             <Tile>
                 <Stack>

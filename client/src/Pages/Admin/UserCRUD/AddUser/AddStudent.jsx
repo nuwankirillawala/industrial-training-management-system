@@ -1,8 +1,14 @@
-import React from 'react'
+import { UndergraduateCreateForm } from "../../../../components/shared/CreateUser/forms/UndergraduateCreateForm";
+import { Typography } from "@mui/material";
 
-const AddStudent = () => {
+export const AddStudent = () => {
   return (
-    <div>AddStudent</div>
+    <>
+      <Typography variant='pageTitle'> Add Undergraduate Details</Typography>
+      <UndergraduateCreateForm>
+
+      </UndergraduateCreateForm>
+    </>
   )
 }
 

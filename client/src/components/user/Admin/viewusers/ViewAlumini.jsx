@@ -36,7 +36,7 @@ export const ViewAlumini = () => {
 
     return (
         <Grid spacing={1} container>
-            <Grid item md={12} sm={12} ><Typography variant='PageTitle'> View Alumni Details</Typography> </Grid>
+            <Grid item md={12} sm={12} ><Typography variant='pageTitle'> View Alumni Details</Typography> </Grid>
             <Grid item md={12} sm={12} > <Typography variant='body2' paddingLeft={'20px'}> Click the row for get admin wise details in your right side</Typography> </Grid>
             <Grid item md={8} sm={8} style={{ maxHeight: 500, overflowY: 'scroll' }}>
                 <Tile onHeightChange={'800px'}>

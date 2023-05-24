@@ -8,11 +8,11 @@ import { StudentCompany } from './Pages/Undergraduate/StudentCompany'
 // import { Manageuser } from './Pages/Admin/Manageuser'
 import Dialogbox from './components/Dialogbox/Dialogbox'
 
-import { AddAdmin } from './components/user/Admin/addUsers/AddAdmin'
-import { AddUndergraduate } from './components/user/Admin/addUsers/AddUndergraduate'
-import { AddCompanySupervisor } from './components/user/Admin/addUsers/AddCompanySupervisor'
-import { AddAlumini } from './components/user/Admin/addUsers/AddAlumini'
-import { AddDepartmentCoordinator } from './components/user/Admin/addUsers/AddDepartmentCoordinator'
+// import { AddAdmin } from './components/user/Admin/addUsers/AddAdmin'
+//import { AddUndergraduate } from './components/user/Admin/addUsers/AddUndergraduate'
+//import { AddCompanySupervisor } from './components/user/Admin/addUsers/AddCompanySupervisor'
+//import { AddAlumini } from './components/user/Admin/addUsers/AddAlumini'
+//import { AddDepartmentCoordinator } from './components/user/Admin/addUsers/AddDepartmentCoordinator'
 import { ViewAdmin } from './components/user/Admin/viewUsers/ViewAdmin'
 import { ViewDepartmentCoordinator } from './components/user/Admin/viewUsers/ViewDepartmentCoordinator'
 import { ViewUndergraduate } from './components/user/Admin/viewUsers/ViewUndergraduate'
@@ -49,11 +49,11 @@ const router = createBrowserRouter(createRoutesFromElements(
 
         <Route path='/' element={<Layout />}>
             {/* <Route path="manageuser" element={<Manageuser />}></Route> */}
-            <Route path="addadmin" element={<AddAdmin />} />
-            <Route path="add-undergraduate-details" element={<AddUndergraduate />} />
-            <Route path="add-companySupervisor-details" element={<AddCompanySupervisor />} />
-            <Route path="add-alumini-details" element={<AddAlumini />} />
-            <Route path="add-departmnt-coordinator-details" element={<AddDepartmentCoordinator />} />
+            {/* <Route path="addadmin" element={<AddAdmin />} /> */}
+            {/* <Route path="add-undergraduate-details" element={<AddUndergraduate />} /> */}
+            {/*             <Route path="add-companySupervisor-details" element={<AddCompanySupervisor />} />
+ */}            {/* <Route path="add-alumini-details" element={<AddAlumini />} /> */}
+            {/* <Route path="add-departmnt-coordinator-details" element={<AddDepartmentCoordinator />} /> */}
             <Route path="view-admin-details" element={<ViewAdmin />} />
             <Route path="view-dept-coordinator-details" element={<ViewDepartmentCoordinator />} />
             <Route path="view-undg-details" element={<ViewUndergraduate />} />
@@ -87,22 +87,22 @@ const router = createBrowserRouter(createRoutesFromElements(
 
             {/* Admin Routes  */}
             <Route path='admin/add' element={<Admin.AddAdmin />} />
-            <Route path='add/alumni' element={<Admin.AddAlumni />} />
-            <Route path='add/department-coordinator' element={<Admin.AddDepartmentCoordinator />} />
-            <Route path='add/student' element={<Admin.AddStudent />} />
-            <Route path='add/supervisor' element={<Admin.AddSupervisor />} />
+            <Route path='alumni/add' element={<Admin.AddAlumni />} />
+            <Route path='department-coordinator/add' element={<Admin.AddDepartmentCoordinator />} />
+            <Route path='student/add' element={<Admin.AddStudent />} />
+            <Route path='supervisor/add' element={<Admin.AddSupervisor />} />
 
-            <Route path='update-admin' element={<Admin.UpdateAdmin />} />
-            <Route path='update-alumni' element={<Admin.UpdateAlumni />} />
-            <Route path='update-department-coordinator' element={<Admin.UpdateDepartmentCoordinator />} />
-            <Route path='update-student' element={<Admin.UpdateStudent />} />
-            <Route path='update-supervisor' element={<Admin.UpdateSupervisor />} />
+            <Route path='admin/update' element={<Admin.UpdateAdmin />} />
+            <Route path='alumni/update' element={<Admin.UpdateAlumni />} />
+            <Route path='department-coordinator/update' element={<Admin.UpdateDepartmentCoordinator />} />
+            <Route path='student/update' element={<Admin.UpdateStudent />} />
+            <Route path='supervisor/update' element={<Admin.UpdateSupervisor />} />
 
-            <Route path='view-admin' element={<Admin.ViewAdmin />} />
-            <Route path='view-alumni' element={<Admin.ViewAlumni />} />
-            <Route path='view-department-coordinator' element={<Admin.ViewDepartmentCoordinator />} />
-            <Route path='view-student' element={<Admin.ViewStudent />} />
-            <Route path='view-supervisor' element={<Admin.ViewSupervisor />} />
+            <Route path='admin/view' element={<Admin.ViewAdmin />} />
+            <Route path='alumni/view' element={<Admin.ViewAlumni />} />
+            <Route path='department-coordinator/view' element={<Admin.ViewDepartmentCoordinator />} />
+            <Route path='student/view' element={<Admin.ViewStudent />} />
+            <Route path='supervisor/view' element={<Admin.ViewSupervisor />} />
 
             <Route path='manage-user' element={<Admin.ManageUser />} />
             <Route path='user-created' element={<Admin.UserCreated />} />
@@ -133,7 +133,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path='view-result-sheet' element={<Admin.ViewResultsheet />} />
 
             <Route path='assign-supervisor-for-intern' element={<Admin.AssignSupervisorForIntern />} />
-            <Route path='supervisor-list' element={<Admin.SupervisorList />} />            
+            <Route path='supervisor-list' element={<Admin.SupervisorList />} />
             {/* end of admin routes */}
         </Route>
 

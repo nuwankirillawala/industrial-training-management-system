@@ -46,7 +46,7 @@ export const UpdateNRemoveUndergraduate = () => {
 
     return (
         <>
-            <Typography variant="PageTitle">Update or Remove Undergraduate</Typography>
+            <Typography variant="pageTitle">Update or Remove Undergraduate</Typography>
             <Tile>
                 <Stack>
                     <Table sx={{ border: '1px solid #4665D2' }}>

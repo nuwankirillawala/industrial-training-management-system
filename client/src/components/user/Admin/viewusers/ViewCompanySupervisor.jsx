@@ -35,7 +35,7 @@ export const ViewCompanySupervisor = () => {
 
     return (
         <Grid spacing={1} container>
-            <Grid item md={12} sm={12} ><Typography variant='PageTitle'> View Company Supervisor Details</Typography> </Grid>
+            <Grid item md={12} sm={12} ><Typography variant='pageTitle'> View Company Supervisor Details</Typography> </Grid>
             <Grid item md={12} sm={12} ><Typography variant='body2' paddingLeft={'20px'}> Click the row for get company supervisor wise details in right side</Typography> </Grid>
             <Grid item md={8} sm={8} style={{ maxHeight: 500, overflowY: 'scroll' }}>
                 <Tile>

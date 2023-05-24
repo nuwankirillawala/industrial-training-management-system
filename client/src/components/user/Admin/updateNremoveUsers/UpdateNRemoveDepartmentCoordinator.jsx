@@ -40,7 +40,7 @@ export const UpdateNRemoveDepartmentCoordinator = () => {
 
     return (
         <>
-            <Typography variant="PageTitle">Update or Remove Department coordinator</Typography>
+            <Typography variant="pageTitle">Update or Remove Department coordinator</Typography>
 
             <Tile>
                 <Stack>
