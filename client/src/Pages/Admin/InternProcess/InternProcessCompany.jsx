@@ -135,10 +135,12 @@ const InternProcessCompany = () => {
   return (
     <Grid container spacing={1} direction='column'>
       <Grid item>
+        <Typography variant="pageTitle" sx={{ marginBottom: 1 }}>Intern Selection For Company</Typography>
+      </Grid>
+      <Grid item>
         <Tile>
           <Grid container direction='row'>
             <Grid item xs={8}>
-              <Typography variant="head1" sx={{ marginBottom: 1 }}>Intern Selection For Company</Typography>
               <Typography variant="h6" color="secondary">Instructions</Typography>
               <Tile padding='10px'>
                 <Typography variant="body1" color="secondary">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus, illum?</Typography>
@@ -209,10 +211,6 @@ const InternProcessCompany = () => {
           </Grid>
         </Grid>
       </Grid>
-
-
-
-
     </Grid>
   )
 }

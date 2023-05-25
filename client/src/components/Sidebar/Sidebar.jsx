@@ -148,13 +148,13 @@ const users = [
         id: 3,
         primaryText: 'Companies',
         icon: <LocationCity />,
-        element: '/add-company'
+        element: '/manage-company'
       },
       {
         id: 4,
         primaryText: 'Results',
         icon: <Assessment />,
-        element: '/daily-report'
+        element: '/result-sheet/view'
       },
       {
         id: 5,
@@ -166,7 +166,7 @@ const users = [
         id: 6,
         primaryText: 'Intern Reports',
         icon: <Create />,
-        element: '/noticeform'
+        element: '/report-portal'
       },
       {
         id: 7,

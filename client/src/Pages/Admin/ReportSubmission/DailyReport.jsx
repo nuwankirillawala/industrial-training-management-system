@@ -90,7 +90,7 @@ export const DailyReport = () => {
                         <Typography fontWeight={'bold'} color={'green'}>Approved</Typography>
                       )}
                       {report.varification === 'notApproved' && (
-                        <Typography fontWeight={'bold'} color={'red'}>Not Approved</Typography>
+                        <Typography fontWeight={'bold'} color='green'>Not Approved</Typography>
                       )}
                       </Stack>
                     <Divider orientation='vertical' />

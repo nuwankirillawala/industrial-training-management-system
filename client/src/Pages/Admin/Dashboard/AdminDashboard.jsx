@@ -32,9 +32,9 @@ export const AdminDashboard = () => {
         </Grid>
         <Grid item xs={12}>
           <Stack direction={'row'} spacing={2}>
-            <FeaturedCard title='Intern Status' color='#fff' icon={LeaderboardIcon} link='/student-company'/>
-            <FeaturedCard title='Manage Users' color='#2ECC40' icon={DescriptionIcon} link='/intern-application'/>
-            <FeaturedCard title='Intern Reports' color='#0074D9' icon={UploadFileIcon} link='/report-portal'/>
+            <FeaturedCard title='Intern Status' color='red' icon={LeaderboardIcon} link='/student-company'/>
+            <FeaturedCard title='Manage Users' color='green' icon={DescriptionIcon} link='/intern-application'/> 
+            <FeaturedCard title='Intern Reports' color='blueColor' icon={UploadFileIcon} link='/report-portal'/>
             <FeaturedCard title='Company Ratings' color='#FFDC00' icon={ContactPageIcon} link='/portfolio'/>
           </Stack>
         </Grid>
