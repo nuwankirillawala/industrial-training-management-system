@@ -126,7 +126,7 @@ const AssignSupervisorForIntern = () => {
       renderCell: (params) => (
         <Button
           variant="itms"
-          size="itms-small"
+          size="itms-x-small"
           onClick={() => handleCellClick(params.row._id, params.row.name)}
         >
           select
@@ -158,7 +158,7 @@ const AssignSupervisorForIntern = () => {
       renderCell: (params) => (
         <Button
           variant="itms"
-          size="itms-small"
+          size="itms-x-small"
           onClick={() => handleSubmit(params.row._id)}
         >
           assign

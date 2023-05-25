@@ -1,9 +1,14 @@
-import React from 'react'
+import { AluminiCreateForm } from "../../../../components/shared/CreateUser/forms/AluminiCreateForm";
+import { Typography } from "@mui/material";
 
-const AddAlumni = () => {
+const AddAlumini = () => {
   return (
-    <div>AddAlumni</div>
+    <>
+      <Typography variant='pageTitle'> Add Alumni Details</Typography>
+      <AluminiCreateForm />
+
+
+    </>
   )
 }
-
-export default AddAlumni
+export default AddAlumini

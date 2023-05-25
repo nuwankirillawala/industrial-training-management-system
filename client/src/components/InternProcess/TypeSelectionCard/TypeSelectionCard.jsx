@@ -1,5 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 const TypeSelectionCard = ({ image, title, content, goto }) => {
     const navigate = useNavigate();
     
@@ -22,6 +23,7 @@ const TypeSelectionCard = ({ image, title, content, goto }) => {
                 <Button
                     size="small"
                     onClick={() => navigate(goto)}
+                    endIcon={<KeyboardDoubleArrowRightIcon />}
                 >
                     Continue
                 </Button>

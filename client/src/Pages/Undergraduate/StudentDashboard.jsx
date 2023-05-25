@@ -38,7 +38,7 @@ export const StudentDashboard = () => {
     <Box sx={{ display: 'flex' }} padding={'0px 10px 0px 0px'} margin={'0px 10px'}>
       <Grid container spacing={1}>
         <Grid item md={12}>
-          <Typography variant="head2" marginBottom={'5px'} letterSpacing={3}>Dashboard</Typography>
+          <Typography variant="pageTitle">Dashboard</Typography>
         </Grid>
         <Grid item xs={12}>
           <Stack direction={'row'} spacing={2}>

@@ -31,7 +31,7 @@ export const ManageCompany = () => {
 
     useEffect(() => {
         getAllCompanyData();
-    }, [])
+    })
 
     const Column = [
         { columnName: 'Company Name' },
@@ -49,31 +49,58 @@ export const ManageCompany = () => {
 
 
     return (
-        <Grid container>
+        <Grid container spacing={2}>
             <Grid item sm={12} md={12}>
-                <Typography variant="PageTitle">Add new Company</Typography>
+                <Typography variant="pageTitle">Company Management</Typography>
             </Grid>
 
             <Grid item sm={12} md={12}>
-                <Tile>
-                    <Stack direction={'row'} spacing={29}>
-                        <Typography> Click here for add a new company to the system</Typography>
-                        <Button variant="itms" fontWeight="bold" onClick={() => navigate('/add-company')}>+  </Button >
-                    </Stack>
-                </Tile>
+                <Grid container spacing={2}>
+                    <Grid item sm={5} md={5}>
+                        <Tile>
+                            <Typography variant="head6">Add New Company</Typography>
+                            <Divider sx={{ m: 1 }} />
+                            <Typography margin={2}> Click here for add a new company to the system</Typography>
+                            <Button
+                                variant="itms-add"
+                                fontWeight="bold"
+                                onClick={() => navigate('/add-company')}
+                            >
+                                Add New Company
+                            </Button >
+                        </Tile>
+                    </Grid>
+                    <Grid item sm={5} md={5}>
+                        <Tile>
+                            <Typography variant="head6">View Intern Lists of Companies</Typography>
+                            <Divider sx={{ m: 1 }} />
+                            <Typography margin={2}> Click here for View selected intern lists of companies</Typography>
+                            <Button
+                                variant="itms"
+                                fontWeight="bold"
+                                onClick={() => navigate('/add-company')}
+                            >
+                                View List
+                            </Button >
+                        </Tile>
+                    </Grid>
+                </Grid>
             </Grid>
 
-            <Grid item sm={12} md={12} paddingTop={'10px'}>
-                <Typography variant="PageTitle">Manage Company</Typography>
-            </Grid>
-            <Grid item md={12} sm={12} ><Typography variant='body2' paddingLeft={'20px'}> Click the row for get company wise details in right side</Typography> </Grid>
+            {/* <Grid item sm={12} md={12} paddingTop={'10px'}>
+                <Typography variant="head6">View Available Companies</Typography>
+            </Grid> */}
+            {/* <Grid item md={12} sm={12} ><Typography variant='body2' paddingLeft={'20px'}> Click the row for get company wise details in right side</Typography> </Grid> */}
 
             <Grid item sm={12} md={12} >
                 <Grid container spacing={2}>
                     <Grid item sm={12} md={12} lg={8}>
                         <Tile>
+                            <Typography variant="head6">View Available Companies</Typography>
+                            <Divider sx={{ m: 1 }} />
+                            <Typography variant='body2' paddingLeft={'20px'}> Click the row for get company wise details in right side</Typography><br />
                             <Stack>
-                                <Table sx={{ border: '1px solid #4665D2' }}>
+                                <Table sx={{ border: '1px solid #4665D2', cursor: 'pointer' }}>
                                     <TableHead>
                                         <TableRow>
                                             {Column.map((c, i) =>
@@ -116,23 +143,25 @@ export const ManageCompany = () => {
                     <Grid item sm={12} md={12} lg={4}>
                         <Tile>
                             <Stack direction={'column'}>
-                                <Typography fontWeight={'bold'} paddingTop={'15px'} paddingBottom={'15px'}>Company full details</Typography>
-                                <Divider orientation="horizontal" color="#4665D2" />
+                                <Typography variant="head6">Company Details</Typography>
+                                <Divider sx={{ m: 1 }} />
+                                {/* <Typography fontWeight={'bold'} paddingTop={'15px'} paddingBottom={'15px'}>Company full details</Typography> */}
+                                {/* <Divider orientation="horizontal" color="#4665D2" /> */}
                                 {singleCompany && (
                                     <Stack direction={'column'} spacing={2}>
-                                        <Stack direction={'row'}>  <Typography width={'135px'}> CompanyName </Typography><Typography> :{singleCompany.name} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> E-mail </Typography><Typography>:{singleCompany.email} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> EContact Number</Typography><Typography> :{singleCompany.contactNo} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> Address</Typography><Typography>:{singleCompany.address} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> No of Intern Seats</Typography><Typography>:{singleCompany.internSeats} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> Description</Typography><Typography>:{singleCompany.description} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}>Rating</Typography><Typography>:{singleCompany.rating} </Typography></Stack>
+                                        <Stack direction={'row'}>  <Typography width={'135px'}> CompanyName </Typography><Typography> : {singleCompany.name} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}> E-mail </Typography><Typography>: {singleCompany.email} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}> EContact Number</Typography><Typography> : {singleCompany.contactNo} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}> Address</Typography><Typography>: {singleCompany.address} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}> No of Intern Seats</Typography><Typography>: {singleCompany.internSeats} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}> Description</Typography><Typography>: {singleCompany.description} </Typography></Stack>
+                                        <Stack direction={'row'}> <Typography width={'135px'}>Rating</Typography><Typography>: {singleCompany.rating} </Typography></Stack>
                                         {singleCompany.contactPerson && singleCompany.contactPerson.map((Person, j) => (
                                             <React.Fragment key={j}>
-                                                <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Name</Typography><Typography>:{Person.contactPersonName} </Typography></Stack>
-                                                <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Email</Typography><Typography>:{Person.contactPersonEmail} </Typography></Stack>
-                                                <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Contact</Typography><Typography>:{Person.contactPersonContactNo}</Typography></Stack>
-                                                <Stack direction={'row'}> <Typography width={'135px'}>Contact person post</Typography><Typography>:{Person.contactPersonPosition} </Typography></Stack>
+                                                <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Name</Typography><Typography>: {Person.contactPersonName} </Typography></Stack>
+                                                <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Email</Typography><Typography>: {Person.contactPersonEmail} </Typography></Stack>
+                                                <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Contact</Typography><Typography>: {Person.contactPersonContactNo}</Typography></Stack>
+                                                <Stack direction={'row'}> <Typography width={'135px'}>Contact person post</Typography><Typography>: {Person.contactPersonPosition} </Typography></Stack>
                                             </React.Fragment>))}
                                     </Stack>
                                 )}

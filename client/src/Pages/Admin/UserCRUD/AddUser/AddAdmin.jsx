@@ -1,8 +1,12 @@
-import React from 'react'
+import { Typography } from "@mui/material";
+import { AdminCreateForm } from "../../../../components/shared/CreateUser/forms/AdminCreateForm";
 
 const AddAdmin = () => {
   return (
-    <div>AddAdmin</div>
+    <>
+        <Typography variant='pageTitle'> Add Administrator Details</Typography>
+        <AdminCreateForm />
+    </>
   )
 }
 

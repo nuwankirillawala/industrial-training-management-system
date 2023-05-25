@@ -2,7 +2,7 @@ import React from "react";
 import { Stack, Box, Typography, Divider, Paper } from "@mui/material";
 import { Tile } from "../../../components/card/Tile";
 
-export const DailyReport = ({ reportData }) => {
+export const MonthlyReport = ({ reportData }) => {
   return (
     <Tile>
       <Box height={"75vh"} overflow={"auto"}>
@@ -10,7 +10,7 @@ export const DailyReport = ({ reportData }) => {
           <Stack direction={"column"} spacing={1}>
             <Stack alignItems={"center"}>
               <Typography variant="h6" fontWeight={"bold"}>
-                Daily Report
+                Monthly Report
               </Typography>
             </Stack>
 
@@ -19,7 +19,7 @@ export const DailyReport = ({ reportData }) => {
                 {/* <Divider variant="middle" /> */}
                 <Stack direction={"row"} justifyContent={"space-evenly"}>
                   <Stack alignItems={"center"} flex={1}>
-                    <Typography fontWeight={"bold"}>Date</Typography>
+                    <Typography fontWeight={"bold"}>Week</Typography>
                   </Stack>
 
                   <Divider orientation="vertical" />
@@ -42,7 +42,7 @@ export const DailyReport = ({ reportData }) => {
                 {/* report data show here */}
                 <Box>
                   {reportData.map((report) => (
-                    <Stack minHeight={"6vh"}>
+                    <Stack minHeight={"10vh"}>
                       <Stack direction={"row"} justifyContent={"space-around"}>
                         <Divider orientation="vertical" />
 
@@ -58,7 +58,7 @@ export const DailyReport = ({ reportData }) => {
                             direction={"row"}
                           >
                             <Typography fontWeight={"bold"}>
-                              {report.date.substring(0, 10)}
+                              {report.weekNumber}
                             </Typography>
                           </Stack>
                         </Stack>

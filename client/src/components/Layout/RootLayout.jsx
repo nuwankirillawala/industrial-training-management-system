@@ -14,6 +14,7 @@ const color_red = "#D24665";
 const color_gray = "#666666";
 const color_light_gray = "#ccc";
 const color_blue_purple = "#675FD6";
+const color_yellow = '#FFDC00';
 
 const getTheme = (theme) => ({
   background: {
@@ -58,17 +59,17 @@ const getTheme = (theme) => ({
     red: {
       main: color_red,
     },
+    green: {
+      main: color_green,
+    },
+    yellow: {
+      main: color_yellow,
+    }
   },
 
   typography: {
     body2: {
       color: baseFontColor,
-    },
-    PageTitle: {
-      //for page titles
-      fontSize: "20px",
-      color: baseColor,
-      padding: "20px 0 3px 25px",
     },
     head1: {
       color: baseColor,
@@ -100,50 +101,17 @@ const getTheme = (theme) => ({
       fontSize: "1.5rem",
       fontWeight: "500",
     },
+    pageTitle: {
+      color: baseColor,
+      fontSize: "2.0rem",
+      fontWeight: "500",
+      marginBottom: "5px",
+      letterSpacing: 2,
+    }
   },
 
   components: {
     MuiButton: {
-      //new button varient itms
-      // variants: [
-      //   {
-      //     props: { variant: "itms" },
-      //     style: {
-      //       background: baseColor,
-      //       color: "#F5F8FF",
-      //       "&:hover": {
-      //         background: baseFontColor,
-      //       },
-      //       "&.Mui-disabled": {
-      //         background: color_gray,
-      //         color: color_light_gray,
-      //       },
-      //       borderRadius: "10px",
-      //       margin: "2px",
-      //       padding: "6px 14px",
-      //     },
-      //   },
-      //   {
-      //     props: { size: "itms-large" },
-      //     style: {
-      //       padding: "8px 22px",
-      //       fontSize: "0.9rem",
-      //     },
-      //   },
-      //   {
-      //     props: { size: "itms-small" },
-      //     style: {
-      //       padding: "4px 10px",
-      //       fontSize: "0.7rem",
-      //     },
-      //   },
-      //   {
-      //     props: { type: "close" },
-      //     style: {
-      //       color: color_red,
-      //     },
-      //   },
-      // ],
       variants: [
         {
           props: { variant: "itms" },
@@ -177,9 +145,67 @@ const getTheme = (theme) => ({
           },
         },
         {
+          props: { size: "itms-x-small" },
+          style: {
+            padding: "4px 10px",
+            fontSize: "0.7rem",
+          },
+        },
+        {
           props: { type: "close" },
           style: {
             color: color_red,
+          },
+        },
+        {
+          props: { variant: "itms-add" },
+          style: {
+            background: color_green,
+            color: "#FFF",
+            "&:hover": {
+              background: '#8CE28C',
+            },
+            "&.Mui-disabled": {
+              background: color_gray,
+              color: color_light_gray,
+            },
+            borderRadius: "10px",
+            margin: "5px",
+            padding: "10px 20px",
+          },
+        },
+        {
+          props: { variant: "itms-update" },
+          style: {
+            background: color_purple,
+            color: "#FFF",
+            "&:hover": {
+              background: '#8CE28C',
+            },
+            "&.Mui-disabled": {
+              background: color_gray,
+              color: color_light_gray,
+            },
+            borderRadius: "10px",
+            margin: "5px",
+            padding: "10px 20px",
+          },
+        },
+        {
+          props: { variant: "itms-delete" },
+          style: {
+            background: color_red,
+            color: "#FFF",
+            "&:hover": {
+              background: '#8CE28C',
+            },
+            "&.Mui-disabled": {
+              background: color_gray,
+              color: color_light_gray,
+            },
+            borderRadius: "10px",
+            margin: "5px",
+            padding: "10px 20px",
           },
         },
       ],

@@ -126,12 +126,12 @@ export const CVUpload = () => {
               <Stack direction={"row"} mt={1.5}>
                 <Button
                   variant="itms"
-                  size="itms-small"
+                  size="itms-x-small"
                   onClick={viewButtonHandle}
                 >
                   View
                 </Button>
-                <Button type="submit" variant="itms" size="itms-small">
+                <Button type="submit" variant="itms" size="itms-x-small">
                   Submit
                 </Button>
               </Stack>

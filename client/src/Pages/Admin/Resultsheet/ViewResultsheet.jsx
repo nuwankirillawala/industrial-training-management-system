@@ -1,8 +1,9 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Button, Divider, Grid, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Tile } from "../../../components/card/Tile";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const jsonData = [
   {
@@ -94,6 +95,7 @@ const ViewResultsheet = () => {
   //State for the results
   const [results, setResults] = useState([]);
   //End of states
+  const navigate = useNavigate();
 
   //Fetching data from backend
   const getResults = async () => {
@@ -246,33 +248,55 @@ const ViewResultsheet = () => {
   const drawerWidth = 240;
 
   return (
-    <Box sx={{ height: "88vh" }}>
-      <Box sx={{ width: "100%" }}>
+    <Grid container spacing={1}>
+      <Grid item xs={12}>
         <Typography
-          variant="h6"
-          color="primary"
-          marginBottom={"5px"}
-          paddingLeft={"15px"}
+          variant="pageTitle"
         >
-          View Uploaded Results
+          Student Results
         </Typography>
-      </Box>
-      <Box sx={{ height: "100%" }}>
-        <Stack spacing={1} height={"100%"}>
-          <Tile sx={{ height: "100%" }}>
-            <Box sx={{ height: 400 }}>
-              <DataGrid
-                rows={results}
-                columns={studentColumns}
-                disableRowSelectionOnClick
-                hideFooter={true}
-                getRowId={(row) => row._id}
-              />
-            </Box>
-          </Tile>
-        </Stack>
-      </Box>
-    </Box>
+      </Grid>
+
+      <Grid item sm={12} md={12}>
+        <Grid container spacing={2}>
+          <Grid item sm={5} md={5}>
+            <Tile>
+              <Typography variant="head6">Upload Result Sheet</Typography>
+              <Divider sx={{ m: 1 }} />
+              <Typography margin={2}> Click here to upload the new result sheet.</Typography>
+              <Button
+                variant="itms-add"
+                fontWeight="bold"
+                onClick={() => navigate('/result-sheet/upload')}
+              >
+                Upload
+              </Button >
+            </Tile>
+          </Grid>
+        </Grid>
+      </Grid>
+
+
+
+      <Grid item xs={12} style={{ height: "100%" }}>
+        <Tile>
+          <Typography variant="head6">View Student Results</Typography>          
+          <Grid container spacing={1} style={{ height: "100%" }}>
+            <Grid item xs={12}>
+              <Box style={{ height: 400 }}>
+                <DataGrid
+                  rows={results}
+                  columns={studentColumns}
+                  disableRowSelectionOnClick
+                  hideFooter={true}
+                  getRowId={(row) => row._id}
+                />
+              </Box>
+            </Grid>
+          </Grid>
+        </Tile>
+      </Grid>
+    </Grid>
   );
 };
 
