@@ -41,6 +41,7 @@ import NoticeForm from './components/shared/Notice/NoticeForm'
 import DeleteNotice from './components/shared/Notice/DeleteNotice'
 import InternApplicationMenu from './Pages/Undergraduate/InternApplication/InternApplicationMenu'
 import ViewAllCompanies from './Pages/Admin/Company/ViewAllComapnies'
+import { SupervisorDashboard } from './Pages/Supervisor/SupervisorDashboard'
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path='/' element={<RootLayout />}>
@@ -82,6 +83,12 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path="sidebar" element={<Sidebar />} />
             <Route path="intern-application/menu" element={<InternApplicationMenu />} />
             <Route path="company/all" element={<ViewAllCompanies />} />
+
+
+
+
+            {/* Supervisor */}
+            <Route path="supervisor-dashboard" element={<SupervisorDashboard />} />
 
 
 
