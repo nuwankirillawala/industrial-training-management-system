@@ -12,13 +12,14 @@ import { useState, useEffect } from "react";
 import { Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
+import ImageDisplay from "../ImageDisplay/ImageDisplay";
 
 const drawerWidth = "auto";
 
 
 export default function Navbar() {
   const navigate = useNavigate()
-  const user = useAuth();
+  const {user} = useAuth();
   console.log("hi", user);
 
   // const [Name, setName] = useState('');
@@ -129,7 +130,14 @@ export default function Navbar() {
 
             <Box>
               <IconButton onClick={handleProfileMenu}>
-                <Avatar sx={{ height: '40px', marginRight: '10px', color: '#4665D2' }} />
+                {!user
+                          ? <Avatar sx={{ height: '40px', marginRight: '10px', color: '#4665D2' }} />
+                          : <ImageDisplay 
+                          imagePath={`http://localhost:5000/${user.profileImage}`} 
+                          width={40}
+                          height={40}
+                          />
+                        }
               </IconButton>
               <Menu
                 id="basic-menu"
