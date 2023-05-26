@@ -95,13 +95,13 @@ const users = [
         id: 3,
         primaryText: 'Intern Status',
         icon: <Assessment />,
-        element: '/daily-report'
+        element: '/student-company'
       },
       {
         id: 4,
         primaryText: 'Internship',
         icon: <AddBusiness />,
-        element: '/add-company'
+        element: '/student-company'
       },
       {
         id: 5,
@@ -113,7 +113,7 @@ const users = [
         id: 6,
         primaryText: 'Report Submision',
         icon: <ArrowUpward />,
-        element: '/notice'
+        element: '/student-report'
       },
       {
         id: 7,
