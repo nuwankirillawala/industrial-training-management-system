@@ -23,6 +23,7 @@ import useFetch from "../../../Hooks/useFetch";
 import { NoticeBoard } from "../../../components/Notice/NoticeBoard";
 import SimplePieChart from "../../../components/user/Admin/PieChart.jsx/SimplePieChart";
 import ImageDisplay from "../../../components/ImageDisplay/ImageDisplay";
+import GroupIcon from "@mui/icons-material/Group";
 
 const cvSubmitChartData = [
   ["Status", "No of Student"],
@@ -102,6 +103,12 @@ export const AdminDashboard = () => {
               title="Company Ratings"
               color="yellow"
               icon={ContactPageIcon}
+              link="/portfolio"
+            />
+            <FeaturedCard
+              title="Undergraduate Profile"
+              color="primary"
+              icon={GroupIcon}
               link="/portfolio"
             />
           </Stack>
