@@ -149,19 +149,19 @@ export const ManageCompany = () => {
                                 {/* <Divider orientation="horizontal" color="#4665D2" /> */}
                                 {singleCompany && (
                                     <Stack direction={'column'} spacing={2}>
-                                        <Stack direction={'row'}>  <Typography width={'135px'}> CompanyName </Typography><Typography> : {singleCompany.name} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> E-mail </Typography><Typography>: {singleCompany.email} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> EContact Number</Typography><Typography> : {singleCompany.contactNo} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> Address</Typography><Typography>: {singleCompany.address} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> No of Intern Seats</Typography><Typography>: {singleCompany.internSeats} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}> Description</Typography><Typography>: {singleCompany.description} </Typography></Stack>
-                                        <Stack direction={'row'}> <Typography width={'135px'}>Rating</Typography><Typography>: {singleCompany.rating} </Typography></Stack>
+                                        <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}> <Typography > CompanyName </Typography></Stack><Stack flex={1}><Typography> : {singleCompany.name} </Typography></Stack></Stack>
+                                        <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography> E-mail </Typography></Stack><Stack flex={1}><Typography>: {singleCompany.email} </Typography></Stack></Stack>
+                                        <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography> EContact Number</Typography></Stack><Stack flex={1}><Typography> : {singleCompany.contactNo} </Typography></Stack></Stack>
+                                        <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography > Address</Typography></Stack><Stack flex={1}><Typography>: {singleCompany.address} </Typography></Stack></Stack>
+                                        <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography > No of Intern Seats</Typography></Stack><Stack flex={1}><Typography>: {singleCompany.internSeats} </Typography></Stack></Stack>
+                                        <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography > Description</Typography></Stack><Stack flex={1}><Typography>: {singleCompany.description} </Typography></Stack></Stack>
+                                        <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography >Rating</Typography></Stack><Stack flex={1}><Typography>: {singleCompany.rating} </Typography></Stack></Stack>
                                         {singleCompany.contactPerson && singleCompany.contactPerson.map((Person, j) => (
                                             <React.Fragment key={j}>
-                                                <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Name</Typography><Typography>: {Person.contactPersonName} </Typography></Stack>
-                                                <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Email</Typography><Typography>: {Person.contactPersonEmail} </Typography></Stack>
-                                                <Stack direction={'row'}> <Typography width={'135px'}>Contact Person Contact</Typography><Typography>: {Person.contactPersonContactNo}</Typography></Stack>
-                                                <Stack direction={'row'}> <Typography width={'135px'}>Contact person post</Typography><Typography>: {Person.contactPersonPosition} </Typography></Stack>
+                                                <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography >Contact Person Name</Typography></Stack><Stack flex={1}><Typography>: {Person.contactPersonName} </Typography></Stack></Stack>
+                                                <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography >Contact Person Email</Typography></Stack><Stack flex={1}><Typography>: {Person.contactPersonEmail} </Typography></Stack></Stack>
+                                                <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography >Contact Person Contact</Typography></Stack><Stack flex={1}><Typography>: {Person.contactPersonContactNo}</Typography></Stack></Stack>
+                                                <Stack direction={'row'}> <Stack flex={1} minWidth={'160px'}><Typography >Contact person post</Typography></Stack><Stack flex={1}><Typography>: {Person.contactPersonPosition} </Typography></Stack></Stack>
                                             </React.Fragment>))}
                                     </Stack>
                                 )}
