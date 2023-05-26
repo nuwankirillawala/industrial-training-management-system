@@ -8,6 +8,7 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { EnglishProficiency } from "../../components/user/Undergraduate/studentCV/EnglishProficiency";
 import { PopUpDialog } from "../../components/user/Undergraduate/studentCV/PopUpDialog";
 import { CVUpload } from "../../components/user/Undergraduate/studentCV/CVUpload";
+import { ProgrammingLanguages } from "../../components/user/Undergraduate/studentCV/ProgrammingLanguages";
 
 export const StudentCvUpdate = () => {
   //state for fetched data
@@ -172,7 +173,9 @@ export const StudentCvUpdate = () => {
                       togglePopup("programmingLanguages");
                     }}
                     id={"ProgrammingLanguages"}
-                  ></PopUpDialog>
+                  >
+                    <ProgrammingLanguages />
+                  </PopUpDialog>
                 </Stack>
                 <Stack mt={1} direction={"row"} spacing={0.5}>
                   {data.language !== "" && (
