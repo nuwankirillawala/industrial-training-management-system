@@ -24,7 +24,7 @@ function RedirectAdduser(text) {
         case 'Administrator':
             return '/admin/add'
             break;
-        case 'Department CoOrdinator':
+        case 'Department Coordinator':
             return '/department-coordinator/add'
             break;
         case 'Undergraduate':
@@ -46,7 +46,7 @@ function RedirectViewuser(text) {
         case 'Administrator':
             return '/admin/view'
             break;
-        case 'Department CoOrdinator':
+        case 'Department Coordinator':
             return '/department-coordinator/view'
             break;
         case 'Undergraduate':
@@ -68,7 +68,7 @@ function RedirectUpdateNRemoveuser(text) {
         case 'Administrator':
             return '/admin/update'
             break;
-        case 'Department CoOrdinator':
+        case 'Department Coordinator':
             return '/department-coordinator/update'
             break;
         case 'Undergraduate':

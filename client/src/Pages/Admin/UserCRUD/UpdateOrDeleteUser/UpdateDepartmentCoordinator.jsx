@@ -27,7 +27,7 @@ const UpdateDepartmentCoordinator = () => {
 
   useEffect(() => {
     getCoordinatornData();
-  })
+  }, [])
 
   const Column = [
     { columnName: 'Admin Name' },

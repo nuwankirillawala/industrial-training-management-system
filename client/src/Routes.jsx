@@ -5,26 +5,9 @@ import { StudentCvUpdate } from './Pages/Undergraduate/StudentCvUpdate'
 import { StudentSettings } from './Pages/Undergraduate/StudentSettings'
 import { StudentDashboard } from './Pages/Undergraduate/StudentDashboard'
 import { StudentCompany } from './Pages/Undergraduate/StudentCompany'
-// import { Manageuser } from './Pages/Admin/Manageuser'
 import Dialogbox from './components/Dialogbox/Dialogbox'
-
-// import { AddAdmin } from './components/user/Admin/addUsers/AddAdmin'
-//import { AddUndergraduate } from './components/user/Admin/addUsers/AddUndergraduate'
-//import { AddCompanySupervisor } from './components/user/Admin/addUsers/AddCompanySupervisor'
-//import { AddAlumini } from './components/user/Admin/addUsers/AddAlumini'
-//import { AddDepartmentCoordinator } from './components/user/Admin/addUsers/AddDepartmentCoordinator'
-//import { ViewAdmin } from './components/user/Admin/viewUsers/ViewAdmin'
-//import { ViewDepartmentCoordinator } from './components/user/Admin/viewUsers/ViewDepartmentCoordinator'
-//import { ViewUndergraduate } from './components/user/Admin/viewUsers/ViewUndergraduate'
-//import { ViewCompanySupervisor } from './components/user/Admin/viewUsers/ViewCompanySupervisor'
-//import { ViewAlumini } from './components/user/Admin/viewUsers/ViewAlumini'
-//import { UpdateNRemoveAdmin } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveAdmin'
 import { RemoveMultipleAdmin } from './components/user/Admin/RemoveMultipleUsers/RemoveMultipleAdmin'
-//import { UpdateNRemoveAlumni } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveAlumni'
-//import { UpdateNRemoveCompanySupervisor } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveCompanySupervisor'
-//import { UpdateNRemoveDepartmentCoordinator } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveDepartmentCoordinator'
 import { ManageCompany } from './Pages/Admin/ManageCompany'
-//import { UpdateNRemoveUndergraduate } from './components/user/Admin/updateNremoveUsers/UpdateNRemoveUndergraduate'
 import Notice from './components/shared/Notice/Notice'
 import { AdminDashboard } from './Pages/Admin/Dashboard/AdminDashboard'
 import { AddCompany } from './components/user/Admin/addCompany/AddCompany'
@@ -34,7 +17,6 @@ import Login from './Pages/Shared/Login/Login';
 import Test from './components/Testing/Test';
 import ForgotPassword from './Pages/Shared/ForgotPassword/ForgotPassword';
 import Sidebar from './components/Sidebar/Sidebar';
-
 import * as Admin from './Pages/Admin';
 import { DepartmentStudentProfile } from './Pages/Department/DepartmentStudentProfile'
 import NoticeForm from './components/shared/Notice/NoticeForm'
@@ -50,33 +32,17 @@ const router = createBrowserRouter(createRoutesFromElements(
         {/*add main pages here use path variable */}
 
         <Route path='/' element={<Layout />}>
-            {/* <Route path="manageuser" element={<Manageuser />}></Route> */}
-            {/* <Route path="addadmin" element={<AddAdmin />} /> */}
-            {/* <Route path="add-undergraduate-details" element={<AddUndergraduate />} /> */}
-            {/*             <Route path="add-companySupervisor-details" element={<AddCompanySupervisor />} />
- */}            {/* <Route path="add-alumini-details" element={<AddAlumini />} /> */}
-            {/* <Route path="add-departmnt-coordinator-details" element={<AddDepartmentCoordinator />} /> */}
-            {/* <Route path="view-admin-details" element={<ViewAdmin />} /> */}
-            {/* <Route path="view-dept-coordinator-details" element={<ViewDepartmentCoordinator />} /> */}
-            {/* <Route path="view-undg-details" element={<ViewUndergraduate />} /> */}
-            {/* <Route path="view-comp-details" element={<ViewCompanySupervisor />} /> */}
-            {/* <Route path="view-alumini-details" element={<ViewAlumini />} /> */}
-            {/* <Route path="updateNremove-admin-details" element={<UpdateNRemoveAdmin />} /> */}
+
             <Route path="remove-multiple-admin" element={<RemoveMultipleAdmin />} />
-            {/* <Route path="updateNremove-alumni-details" element={<UpdateNRemoveAlumni />} /> */}
-            {/* <Route path="updateNremove-undergraduate-details" element={<UpdateNRemoveUndergraduate />} /> */}
-            {/* <Route path="updateNremove-companySupervisor-details" element={<UpdateNRemoveCompanySupervisor />} /> */}
-            {/* <Route path="updateNremove-Department-Coordinator-details" element={<UpdateNRemoveDepartmentCoordinator />} /> */}
             <Route path="admin-dashboard" element={<AdminDashboard />} />
             <Route path="manage-company" element={<ManageCompany />} />
-            <Route path="add-company" element={<AddCompany />} />
+            <Route path='add-company' element={<AddCompany />} />
             <Route path="department-studentprofile" element={<DepartmentStudentProfile />} />
             <Route path="noticeform" element={<NoticeForm />} />
             <Route path='deletenotices' element={<DeleteNotice />} />
 
             {/* student routes */}
             <Route path="student-dashboard" element={<StudentDashboard />} />
-
             <Route path="student-cvupdate" element={<StudentCvUpdate />} />
             <Route path="student-company" element={<StudentCompany />} />
             <Route path="student-settings" element={<StudentSettings />} />
@@ -85,8 +51,6 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path="intern-application/menu" element={<InternApplicationMenu />} />
             <Route path="company/all" element={<ViewAllCompanies />} />
             <Route path="student-report" element={<StudentReportPortal />} />
-
-
 
 
 

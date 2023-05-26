@@ -26,7 +26,7 @@ const UpdateSupervisor = () => {
 
   useEffect(() => {
     getSupervisorData();
-  })
+  }, [])
 
   const Column = [
     { columnName: 'Supervisor Name' },
