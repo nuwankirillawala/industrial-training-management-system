@@ -1,14 +1,18 @@
 import { SupervisorCreateForm } from "../../../../components/shared/CreateUser/forms/SupervisorCreateForm";
-import { Typography } from "@mui/material";
+import { Typography, Stack } from "@mui/material";
 
 const AddSupervisor = () => {
   return (
-    <>
-      <Typography variant='pageTitle'> Add Company Supervisor Details</Typography>
-      <SupervisorCreateForm>
-
-      </SupervisorCreateForm>
-    </>
-  )
-}
-export default AddSupervisor
+    <Stack direction={"column"} spacing={1}>
+      <Stack>
+        <Typography variant="pageTitle">
+          Company Supervisor Registration
+        </Typography>
+      </Stack>
+      <Stack>
+        <SupervisorCreateForm />
+      </Stack>
+    </Stack>
+  );
+};
+export default AddSupervisor;

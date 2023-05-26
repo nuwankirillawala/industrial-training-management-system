@@ -1,14 +1,16 @@
 import { AluminiCreateForm } from "../../../../components/shared/CreateUser/forms/AluminiCreateForm";
-import { Typography } from "@mui/material";
+import { Typography, Stack } from "@mui/material";
 
 const AddAlumini = () => {
   return (
-    <>
-      <Typography variant='pageTitle'> Add Alumni Details</Typography>
-      <AluminiCreateForm />
-
-
-    </>
-  )
-}
-export default AddAlumini
+    <Stack direction={"column"} spacing={1}>
+      <Stack>
+        <Typography variant="pageTitle">Alumni Registration</Typography>
+      </Stack>
+      <Stack>
+        <AluminiCreateForm />
+      </Stack>
+    </Stack>
+  );
+};
+export default AddAlumini;

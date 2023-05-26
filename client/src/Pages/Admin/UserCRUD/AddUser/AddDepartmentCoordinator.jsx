@@ -1,14 +1,19 @@
 import { DepartmentCoordinatorCreateForm } from "../../../../components/shared/CreateUser/forms/DepartmentCoordinatorCreateForm";
-import { Typography } from "@mui/material";
+import { Typography, Stack } from "@mui/material";
 
 const AddDepartmentCoordinator = () => {
   return (
-    <>
-      <Typography variant='pageTitle'> Add Alumni Details</Typography>
-      <DepartmentCoordinatorCreateForm />
+    <Stack direction={"column"} spacing={1}>
+      <Stack>
+        <Typography variant="pageTitle">
+          Department Coordinator Registration
+        </Typography>
+      </Stack>
+      <Stack>
+        <DepartmentCoordinatorCreateForm />
+      </Stack>
+    </Stack>
+  );
+};
 
-    </>
-  )
-}
-
-export default AddDepartmentCoordinator
+export default AddDepartmentCoordinator;
