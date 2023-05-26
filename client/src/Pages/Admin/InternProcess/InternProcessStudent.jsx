@@ -73,7 +73,6 @@ const InternProcessStudent = () => {
 
     },
   ];
-
   const rowsRight =
     selectedCompanies &&
     selectedCompanies.map((company) => {
@@ -88,7 +87,7 @@ const InternProcessStudent = () => {
     });
 
     const handleAddCompany = (company) => {
-      if (selectedCompanies.length < 3) {
+      if (selectedCompanies && selectedCompanies.length < 3) {
         setSelectedCompanies([...selectedCompanies, company]);
         setCompanies(companies.filter(c => c._id !== company.id));
       }
@@ -100,7 +99,7 @@ const InternProcessStudent = () => {
     const handleRemoveCompany = (company) => {
       console.log(typeof companies);
       setCompanies([...companies, company]);
-      setSelectedCompanies(selectedCompanies.filter(c => c.id !== company.id));
+      selectedCompanies && setSelectedCompanies(selectedCompanies.filter(c => c.id !== company.id));
     }
 
     const handleSave = async () => {

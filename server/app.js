@@ -25,6 +25,8 @@ app.use(cors({
 // app.use(cors());
 app.use(cookieParser());
 
+app.use('/files/images', express.static('files/images'));
+
 // routes
 app.get('*', checkUser);
 // app.get('/', (req, res) => { });

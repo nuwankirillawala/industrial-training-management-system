@@ -4,8 +4,10 @@ import CompanyListCard from '../../../components/InternProcess/CompanyListCard'
 import { Tile } from '../../../components/card/Tile'
 import * as assets from '../../../assets'
 import useFetch from '../../../Hooks/useFetch'
+import { useNavigate } from 'react-router-dom'
 
 const SelectCompany = () => {
+    const navigate = useNavigate();
     const { data } = useFetch("GET", 'http://localhost:5000/api/v1/company/intern-process/company-list', null);
     const companies = data;
     console.log(companies);
@@ -23,7 +25,10 @@ const SelectCompany = () => {
                     <Grid item>
                         <Stack direction={'row'} justifyContent={'space-between'}>
                         <Typography variant="pageTitle">Select a Company</Typography>
-                        <Button variant='itms-add'>
+                        <Button 
+                        variant='itms-add'
+                        onClick={() => navigate('/company/add')}
+                        >
                             Add New Company
                         </Button>
                         </Stack>

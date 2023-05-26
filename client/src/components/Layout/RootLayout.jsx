@@ -14,6 +14,7 @@ const color_red = "#D24665";
 const color_gray = "#666666";
 const color_light_gray = "#ccc";
 const color_blue_purple = "#675FD6";
+const color_yellow = '#FFDC00';
 
 const getTheme = (theme) => ({
   background: {
@@ -60,6 +61,9 @@ const getTheme = (theme) => ({
     },
     green: {
       main: color_green,
+    },
+    yellow: {
+      main: color_yellow,
     }
   },
 
@@ -102,7 +106,7 @@ const getTheme = (theme) => ({
       fontSize: "2.0rem",
       fontWeight: "500",
       marginBottom: "5px",
-      letterSpacing: 3,
+      letterSpacing: 2,
     }
   },
 
@@ -157,6 +161,23 @@ const getTheme = (theme) => ({
           props: { variant: "itms-add" },
           style: {
             background: color_green,
+            color: "#FFF",
+            "&:hover": {
+              background: '#8CE28C',
+            },
+            "&.Mui-disabled": {
+              background: color_gray,
+              color: color_light_gray,
+            },
+            borderRadius: "10px",
+            margin: "5px",
+            padding: "10px 20px",
+          },
+        },
+        {
+          props: { variant: "itms-update" },
+          style: {
+            background: color_purple,
             color: "#FFF",
             "&:hover": {
               background: '#8CE28C',

@@ -115,13 +115,15 @@ module.exports.getSupervisor = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
 
-        const user = await Supervisor.findById(userId);
+        const user = await Supervisor.findById(userId).populate({
+            path: 'company',
+            model: 'company'});
         
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
 
-        res.status(200).json(user);
+        res.status(200).json({user});
     } catch (err) {
         console.log(err);
         res.status(500).json(err);

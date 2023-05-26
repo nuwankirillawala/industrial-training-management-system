@@ -1,29 +1,30 @@
 import { useTheme } from '@emotion/react';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
-import { Tile } from '../../../components/card/Tile'
+import { Tile } from '../../card/Tile'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 
-const InternDataGridMini = ({users, rows, columns }) => {
+const InternDataGridCompany = ({ heading, companies, rows, columns }) => {
     const [tableLoaded, setTableLoaded] = useState(false);
     const theme = useTheme();
 
     useEffect(() => {
-        if (users) {
+        if (companies) {
             setTableLoaded(true);
         }
-    }, [users]);
+    }, [companies]);
 
     return (
-        <Box height='70vh'>
+        <Box>
+            <Typography variant="head3">{heading}</Typography>
+            <Tile height='80vh' width='100%'>
                 {tableLoaded ? (
                     <DataGrid
                         rows={rows && rows}
-                        columns={columns && columns}
+                        columns={columns}
                         components={{ Toolbar: GridToolbar }}
                         getRowId={(row) => row.id}
-                        
 
                         sx={{
                             boxShadow: 2,
@@ -45,8 +46,9 @@ const InternDataGridMini = ({users, rows, columns }) => {
                         <CircularProgress />
                     </Box>
                 )}
+            </Tile>
         </Box>
     );
 }
 
-export default InternDataGridMini
+export default InternDataGridCompany
