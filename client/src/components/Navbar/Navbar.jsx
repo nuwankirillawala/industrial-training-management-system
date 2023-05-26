@@ -1,4 +1,3 @@
-import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { Typography, Badge, Box, Paper, Menu, MenuItem } from "@mui/material";
@@ -6,7 +5,6 @@ import Button from "@mui/material/Button";
 import { Stack } from "@mui/system";
 import Popover from '@mui/material/Popover';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-//import { Tile } from '../card/Tile'
 import IconButton from '@mui/material/IconButton';
 import { useState, useEffect } from "react";
 import { Avatar } from "@mui/material";
@@ -19,28 +17,29 @@ const drawerWidth = "auto";
 
 export default function Navbar() {
   const navigate = useNavigate()
-  const {user} = useAuth();
-  console.log("hi", user && user);
+  const { user } = useAuth();
+  console.log(user);
+  console.log(user && user.name)
 
   // const [Name, setName] = useState('');
   // setName(user.role)  //needs user.name while integrate
   // const [Image, setImage] = useState('');
 
-  // function RedirectSettingsPage(text) {
-  //   switch (text) {
-  //     case 'student':
-  //       return ('/student-dashboard');
-  //       break;
-  //     case 'student':
-  //       return ('/student-dashboard');
-  //       break;
-  //     case 'student':
-  //       return ('/student-dashboard');
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // }
+  function RedirectDashboardPage(text) {
+    switch (text) {
+      case 'student':
+        return ('/student-dashboard');
+        break;
+      case 'system-admin':
+        return ('/admin-dashboard');
+        break;
+      case 'supervisor':
+        return ('/supervisor-dashboard');
+        break;
+      default:
+        break;
+    }
+  }
 
 
   //notification popover 
@@ -131,13 +130,13 @@ export default function Navbar() {
             <Box>
               <IconButton onClick={handleProfileMenu}>
                 {!user
-                          ? <Avatar sx={{ height: '40px', marginRight: '10px', color: '#4665D2' }} />
-                          : <ImageDisplay 
-                          imagePath={`http://localhost:5000/${user.profileImage}`} 
-                          width={40}
-                          height={40}
-                          />
-                        }
+                  ? <Avatar sx={{ height: '40px', marginRight: '10px', color: '#4665D2' }} />
+                  : <ImageDisplay
+                    imagePath={`http://localhost:5000/${user.profileImage}`}
+                    width={40}
+                    height={40}
+                  />
+                }
               </IconButton>
               <Menu
                 id="basic-menu"
@@ -147,21 +146,21 @@ export default function Navbar() {
                 MenuListProps={{
                   'aria-labelledby': 'basic-button',
                 }} >
-                <MenuItem onClick={() => navigate('')}>Profile</MenuItem>
-                <MenuItem /* onClick={() => navigate(RedirectSettingsPage(user.role))} */>settings</MenuItem>
+                <MenuItem onClick={() => navigate(RedirectDashboardPage(user.role))}>Dashboard</MenuItem>
+                {/* < MenuItem  onClick={() => navigate(RedirectSettingsPage(user.role))}  > settings</MenuItem>    */}
                 <MenuItem onClick={() => navigate('/login')}>Logout</MenuItem>
               </Menu>
             </Box>
             <Stack justifyContent={'center'}>
-              <Typography variant="body1" sx={{ padding: "8px" }} >
-                {/* {Name} */}
+              <Typography variant='head5' fontWeight={'bold'} sx={{ padding: "8px" }} >
+                {user && user.name}
               </Typography>
             </Stack>
           </Stack>
         </Toolbar>
       </AppBar >
 
-    </Box>
+    </Box >
   );
 }
 
