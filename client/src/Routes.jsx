@@ -108,6 +108,9 @@ const router = createBrowserRouter(createRoutesFromElements(
 
             <Route path='assign-supervisor-for-intern' element={<Admin.AssignSupervisorForIntern />} />
             <Route path='supervisor-list' element={<Admin.SupervisorList />} />
+
+            <Route path='student/profile' element={<Admin.StudentProfile />} />
+
             {/* end of admin routes */}
         </Route>
 
