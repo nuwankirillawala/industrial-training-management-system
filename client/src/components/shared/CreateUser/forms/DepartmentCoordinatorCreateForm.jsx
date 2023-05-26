@@ -1,81 +1,154 @@
-import { TextField, Button, Typography, Grid, Stack, Box, InputAdornment, IconButton, Select, MenuItem} from "@mui/material"
-import React, {useState} from "react"
-import { Tile } from '../../../card/Tile'
-import { Formik } from "formik"
-import * as yup from "yup"
+import {
+  TextField,
+  Button,
+  Typography,
+  Grid,
+  Stack,
+  Box,
+  InputAdornment,
+  IconButton,
+  Paper,
+  Divider,
+} from "@mui/material";
+import React, { useState } from "react";
+import { Tile } from "../../../card/Tile";
+import { Formik } from "formik";
+import * as yup from "yup";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
-
+import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar";
+import axios from "axios";
 
 const User = {
-    departmentCoordinatorName : '',
-    departmentCoordinatorEmail : '',
-    departmentCoordinatorContactNo : '',
-    departmentCoordinatorStaffId : '',
-    departmentCoordinatorPassword : '',
-    departmentCoordinatorConfirmPassword : '',
-    departmentCoordinatorPosition : '',
-}
+  adminName: "",
+  adminEmail: "",
+  adminContactNo: "",
+  adminStaffId: "",
+  adminPassword: "",
+  adminConfirmPassword: "",
+};
 
 export const DepartmentCoordinatorCreateForm = () => {
-    
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword(!showPassword);
-    const handleMouseDownPassword = () => setShowPassword(!showPassword);
-    
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
-    const handleMouseDownConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
-    //statusSnackBar state
-    const [trigger, setTrigger] = useState({
-        success: false,
-      });
-      //End of statusSnackBar state
-      const handleSnackBar = (key) => {
-        setTrigger((prevState) => {
-          let newState = { ...prevState };
-          newState[key] = !newState[key];
-          return newState;
-        });
-      };
-   
-      const handleFormSubmit = async (values) => {
-        console.log(values);        
-        await new Promise((r) => setTimeout(r, 500));
-        alert(JSON.stringify(values, null, 2));
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const handleClickShowConfirmPassword = () =>
+    setShowConfirmPassword(!showConfirmPassword);
+  const handleMouseDownConfirmPassword = () =>
+    setShowConfirmPassword(!showConfirmPassword);
+
+  //statusSnackBar state
+  const [trigger, setTrigger] = useState({
+    success: false,
+    error: false,
+  });
+  //snackBar message state
+  const [message, setMessage] = useState(null);
+
+  //End of statusSnackBar state
+  const handleSnackBar = (key) => {
+    setTrigger((prevState) => {
+      let newState = { ...prevState };
+      newState[key] = !newState[key];
+      return newState;
+    });
+  };
+
+  const handleFormSubmit = async (values) => {
+    // console.log(values);
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/v1/admin/create",
+        {
+          role: "department-coordinator",
+          name: values.adminName,
+          email: values.adminEmail,
+          contactNo: values.adminContactNo,
+          staffId: values.adminStaffId,
+          password: values.adminPassword,
+        },
+        { withCredentials: true }
+      );
+      console.log(res);
+      if (res.status === 201) {
+        setMessage("User created successfullly");
         handleSnackBar("success");
-    };
+        // alert('You data submited')
+      } else {
+        setMessage("User not created");
+        handleSnackBar("error");
+        // alert('fail to post')
+      }
+    } catch (error) {
+      setMessage(error.response.data.message);
+      // console.log(error.response.data.message);
+      handleSnackBar("error");
+    }
+  };
 
-    const validation = yup.object().shape({
-        // adminName : yup.string(),
-        departmentCoordinatorName : yup.string().required('required Field'),
-        departmentCoordinatorEmail : yup.string().email("Invalid Email").required("required Field"),
-        departmentCoordinatorContactNo : yup.string().length(10,"must contain 10 digits").required("Required Field"),
-        departmentCoordinatorStaffId : yup.string().required('required Field'),
-        departmentCoordinatorPosition : yup.string().required('required Field'),
-        departmentCoordinatorPassword : yup.string().matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
-            "Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-          ).required('Enter your new password'),
-        departmentCoordinatorConfirmPassword : yup.string().oneOf([yup.ref("departmentCoordinatorPassword")], "Your password do not match.").required('Confirm your new password')
-    })
+  const handleReset = () => {
+    <StatusSnackBar
+      severity="error"
+      trigger={trigger.error}
+      setTrigger={() => {
+        handleSnackBar("error");
+      }}
+      alertMessage={message}
+    >
+      <Button onClick={handleOk}>ok</Button>
+      <Button>cancel</Button>
+    </StatusSnackBar>;
+  };
 
+  const handleOk = (values, form) => {
+    form.resetForm();
+  };
 
-    return(
+  const validation = yup.object().shape({
+    // adminName : yup.string(),
+    adminName: yup.string().required("required Field"),
+    adminEmail: yup.string().email("Invalid Email").required("required Field"),
+    adminContactNo: yup.string().length(10, "must contain 10 digits"),
+    adminStaffId: yup.string().required("required Field"),
+    adminPassword: yup
+      .string()
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
+        "Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+      )
+      .required("Enter your new password"),
+    adminConfirmPassword: yup
+      .string()
+      .oneOf([yup.ref("adminPassword")], "Your password do not match.")
+      .required("Confirm your new password"),
+  });
+
+  return (
     <Tile>
-        <Box padding={'30px'}>
-        <Grid container>
+      <Stack direction={"column"} spacing={2} height={"75vh"}>
+        <Stack>
+          <Typography variant="head6">Creation Form</Typography>
+        </Stack>
+        <Divider />
+        <Stack padding={"30px"}>
+          <Grid container>
             <Grid item md={12}>
-                <Stack alignItems={'center'}>
-<Box width={'70%'}>
-                <Formik
-                    onSubmit={handleFormSubmit}
-                    initialValues={User}
-                    validationSchema={validation}
+              <Stack alignItems={"center"}>
+                <Paper
+                  variant="outlined"
+                  sx={{ bgcolor: "#fff", padding: 5, width: "55vw" }}
                 >
-                    
-                    {({
+                  <Stack alignItems={"center"}>
+                    <Box width={"50vw"}>
+                      <Formik
+                        onSubmit={handleFormSubmit}
+                        onReset={handleReset}
+                        initialValues={User}
+                        validationSchema={validation}
+                      >
+                        {({
                           values,
                           errors,
                           touched,
@@ -83,225 +156,262 @@ export const DepartmentCoordinatorCreateForm = () => {
                           handleChange,
                           handleSubmit,
                           handleReset,
-                    }) => (
-
-                        <form onSubmit={handleSubmit}>
-                            <Stack direction={'column'} spacing={1}>
-
-                                <Stack direction={'row'}>
-                                    <Stack minWidth={'200px'} flex={1}>
-                                        <Typography variant="body1">Name</Typography>
-                                    </Stack>
-                                    <Stack flex={3}>
-                                        <TextField
-                                        fullWidth
-                                        size="small"
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.departmentCoordinatorName}
-                                        name="departmentCoordinatorName"
-                                        error={!!touched.departmentCoordinatorName && !!errors.departmentCoordinatorName}
-                                        helperText={touched.departmentCoordinatorName && errors.departmentCoordinatorName}
-                                        />
-                                    </Stack>
+                        }) => (
+                          <form onSubmit={handleSubmit}>
+                            <Stack direction={"column"} spacing={1}>
+                              <Stack direction={"row"}>
+                                <Stack minWidth={"200px"} flex={1}>
+                                  <Typography fontWeight={"bold"}>
+                                    Name
+                                  </Typography>
                                 </Stack>
-
-                                <Stack direction={'row'}>
-                                    <Stack minWidth={'200px'} flex={1}>
-                                        <Typography>Email Address</Typography>
-                                    </Stack>
-                                    <Stack flex={3}>
-                                        <TextField
-                                        fullWidth
-                                        size="small"
-                                        variant="outlined"
-                                        type="email"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.adminEmail}
-                                        name="departmentCoordinatorEmail"
-                                        error={!!touched.departmentCoordinatorEmail && !!errors.departmentCoordinatorEmail}
-                                        helperText={touched.departmentCoordinatorEmail && errors.departmentCoordinatorEmail}
-                                        />
-                                    </Stack>
+                                <Stack flex={3} maxWidth={"30vw"}>
+                                  <TextField
+                                    fullWidth
+                                    size="small"
+                                    variant="outlined"
+                                    type="text"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.adminName}
+                                    name="adminName"
+                                    error={
+                                      !!touched.adminName && !!errors.adminName
+                                    }
+                                    helperText={
+                                      touched.adminName && errors.adminName
+                                    }
+                                  />
                                 </Stack>
-                                <Stack direction={'row'}>
-                                    <Stack minWidth={'200px'} flex={1}>
-                                        <Typography>Contact Number</Typography>
-                                    </Stack>
-                                    <Stack flex={3}>
-                                        <TextField
-                                        fullWidth
-                                        size="small"
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.departmentCoordinatorContactNo}
-                                        name="departmentCoordinatorContactNo"
-                                        error={!!touched.departmentCoordinatorContactNo && !!errors.departmentCoordinatorContactNo}
-                                        helperText={touched.departmentCoordinatorContactNo && errors.departmentCoordinatorContactNo}
-                                        />
-                                    </Stack>
+                              </Stack>
+
+                              <Stack direction={"row"}>
+                                <Stack minWidth={"200px"} flex={1}>
+                                  <Typography fontWeight={"bold"}>
+                                    Email Address
+                                  </Typography>
                                 </Stack>
-
-                                <Stack direction={'row'}>
-                                    <Stack minWidth={'200px'} flex={1}>
-                                        <Typography>Staff Id</Typography>
-                                    </Stack>
-                                    <Stack flex={3}>
-                                        <TextField
-                                        fullWidth
-                                        size="small"
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.departmentCoordinatorStaffId}
-                                        name="departmentCoordinatorStaffId"
-                                        error={!!touched.departmentCoordinatorStaffId && !!errors.departmentCoordinatorStaffId}
-                                        helperText={touched.departmentCoordinatorStaffId && errors.departmentCoordinatorStaffId}
-                                        />
-                                    </Stack>
+                                <Stack flex={3} maxWidth={"30vw"}>
+                                  <TextField
+                                    fullWidth
+                                    size="small"
+                                    variant="outlined"
+                                    type="email"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.adminEmail}
+                                    name="adminEmail"
+                                    error={
+                                      !!touched.adminEmail &&
+                                      !!errors.adminEmail
+                                    }
+                                    helperText={
+                                      touched.adminEmail && errors.adminEmail
+                                    }
+                                  />
                                 </Stack>
-
-                                <Stack direction={'row'}>
-                                    <Stack minWidth={'200px'} flex={1}>
-                                        <Typography>Position</Typography>
-                                    </Stack>
-                                    <Stack flex={3}>
-
-                                        <Select
-                                            variant="outlined"
-                                            labelId="departmentCoordinatorPosition"
-                                            id="departmentCoordinatorPosition"
-                                            name="departmentCoordinatorPosition"
-                                            value={values.departmentCoordinatorPosition}
-                                            onChange={handleChange}
-                                            placeholder="departmentCoordinatorPosition"
-                                            size='small'
-                                            >
-                                            <MenuItem value="Proffer">Proffer</MenuItem>
-                                            <MenuItem value="SiniorLec1">Sinior Lecture 1</MenuItem>
-                                            <MenuItem value="SiniorLec2">Sinior Lecture 2</MenuItem>
-                                            <MenuItem value="SiniorLec3">Sinior Lecture 3</MenuItem>
-                                            <MenuItem value="Lecture">Lecture</MenuItem>
-                                            <MenuItem value="Prbeshanary">Prbeshanary</MenuItem>                                            
-                                        </Select>
-                                    </Stack>
+                              </Stack>
+                              <Stack direction={"row"}>
+                                <Stack minWidth={"200px"} flex={1}>
+                                  <Typography fontWeight={"bold"}>
+                                    Contact Number
+                                  </Typography>
                                 </Stack>
-
-                                <Stack direction={'row'}>
-                                    <Stack minWidth={'200px'} flex={1}>
-                                        <Typography>Password</Typography>
-                                    </Stack>
-                                    <Stack flex={3}>
-                                        <TextField
-                                        fullWidth
-                                        size="small"
-                                        variant="outlined"
-                                        type={showPassword ? "text" : "password"}
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.departmentCoordinatorPassword}
-                                        name="departmentCoordinatorPassword"
-                                        error={!!touched.departmentCoordinatorPassword && !!errors.departmentCoordinatorPassword}
-                                        helperText={touched.departmentCoordinatorPassword && errors.departmentCoordinatorPassword}
-                                        InputProps={{
-                                            endAdornment: (
-                                              <InputAdornment position="end">
-                                                <IconButton
-                                                  aria-label="toggle password visibility"
-                                                  onClick={handleClickShowPassword}
-                                                  onMouseDown={handleMouseDownPassword}
-                                                >
-                                                  {showPassword ? (
-                                                    <VisibilityOutlinedIcon />
-                                                  ) : (
-                                                    <VisibilityOffOutlinedIcon />
-                                                  )}
-                                                </IconButton>
-                                              </InputAdornment>
-                                            ),
-                                          }}
-                                        />
-                                    </Stack>
+                                <Stack flex={3} maxWidth={"30vw"}>
+                                  <TextField
+                                    fullWidth
+                                    size="small"
+                                    variant="outlined"
+                                    type="text"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.adminContactNo}
+                                    name="adminContactNo"
+                                    error={
+                                      !!touched.adminContactNo &&
+                                      !!errors.adminContactNo
+                                    }
+                                    helperText={
+                                      touched.adminContactNo &&
+                                      errors.adminContactNo
+                                    }
+                                  />
                                 </Stack>
-                                <Stack direction={'row'}>
-                                    <Stack minWidth={'200px'} flex={1}>
-                                        <Typography>Confirm Password</Typography>
-                                    </Stack>
-                                    <Stack flex={3}>
-                                        <TextField
-                                        fullWidth
-                                        size="small"
-                                        variant="outlined"
-                                        type={showConfirmPassword ? "text" : "password"}
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.departmentCoordinatorConfirmPassword}
-                                        name="departmentCoordinatorConfirmPassword"
-                                        error={!!touched.departmentCoordinatorConfirmPassword && !!errors.departmentCoordinatorConfirmPassword}
-                                        helperText={touched.departmentCoordinatorConfirmPassword && errors.departmentCoordinatorConfirmPassword}
-                                        InputProps={{
-                                            endAdornment: (
-                                              <InputAdornment position="end">
-                                                <IconButton
-                                                  aria-label="toggle password visibility"
-                                                  onClick={handleClickShowConfirmPassword}
-                                                  onMouseDown={handleMouseDownConfirmPassword}
-                                                >
-                                                  {showConfirmPassword ? (
-                                                    <VisibilityOutlinedIcon />
-                                                  ) : (
-                                                    <VisibilityOffOutlinedIcon />
-                                                  )}
-                                                </IconButton>
-                                              </InputAdornment>
-                                            ),
-                                          }}
-                                        />
-                                    </Stack>
+                              </Stack>
+
+                              <Stack direction={"row"}>
+                                <Stack minWidth={"200px"} flex={1}>
+                                  <Typography fontWeight={"bold"}>
+                                    Staff Id
+                                  </Typography>
                                 </Stack>
-
-                                <Stack alignItems={'flex-end'}>
-                                    <Stack direction={'row'}>
-                                        <Button
-                                            variant='itms'
-                                            size='itms-small'
-                                            onClick={handleReset}
-                                            >clear
-                                        </Button>
-
-                                        <Button 
-                                            variant="itms"
-                                            size='itms-small'
-                                            type="submit"
-                                            >ADD
-                                        </Button>
-                                    </Stack>
+                                <Stack flex={3} maxWidth={"30vw"}>
+                                  <TextField
+                                    fullWidth
+                                    size="small"
+                                    variant="outlined"
+                                    type="text"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.adminStaffId}
+                                    name="adminStaffId"
+                                    error={
+                                      !!touched.adminStaffId &&
+                                      !!errors.adminStaffId
+                                    }
+                                    helperText={
+                                      touched.adminStaffId &&
+                                      errors.adminStaffId
+                                    }
+                                  />
                                 </Stack>
+                              </Stack>
 
+                              <Stack direction={"row"}>
+                                <Stack minWidth={"200px"} flex={1}>
+                                  <Typography fontWeight={"bold"}>
+                                    Password
+                                  </Typography>
+                                </Stack>
+                                <Stack flex={3} maxWidth={"30vw"}>
+                                  <TextField
+                                    fullWidth
+                                    size="small"
+                                    variant="outlined"
+                                    type={showPassword ? "text" : "password"}
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.adminPassword}
+                                    name="adminPassword"
+                                    error={
+                                      !!touched.adminPassword &&
+                                      !!errors.adminPassword
+                                    }
+                                    helperText={
+                                      touched.adminPassword &&
+                                      errors.adminPassword
+                                    }
+                                    InputProps={{
+                                      endAdornment: (
+                                        <InputAdornment position="end">
+                                          <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={
+                                              handleMouseDownPassword
+                                            }
+                                          >
+                                            {showPassword ? (
+                                              <VisibilityOutlinedIcon />
+                                            ) : (
+                                              <VisibilityOffOutlinedIcon />
+                                            )}
+                                          </IconButton>
+                                        </InputAdornment>
+                                      ),
+                                    }}
+                                  />
+                                </Stack>
+                              </Stack>
+                              <Stack direction={"row"}>
+                                <Stack minWidth={"200px"} flex={1}>
+                                  <Typography fontWeight={"bold"}>
+                                    Confirm Password
+                                  </Typography>
+                                </Stack>
+                                <Stack flex={3} maxWidth={"30vw"}>
+                                  <TextField
+                                    fullWidth
+                                    size="small"
+                                    variant="outlined"
+                                    type={
+                                      showConfirmPassword ? "text" : "password"
+                                    }
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.adminConfirmPassword}
+                                    name="adminConfirmPassword"
+                                    error={
+                                      !!touched.adminConfirmPassword &&
+                                      !!errors.adminConfirmPassword
+                                    }
+                                    helperText={
+                                      touched.adminConfirmPassword &&
+                                      errors.adminConfirmPassword
+                                    }
+                                    InputProps={{
+                                      endAdornment: (
+                                        <InputAdornment position="end">
+                                          <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={
+                                              handleClickShowConfirmPassword
+                                            }
+                                            onMouseDown={
+                                              handleMouseDownConfirmPassword
+                                            }
+                                          >
+                                            {showConfirmPassword ? (
+                                              <VisibilityOutlinedIcon />
+                                            ) : (
+                                              <VisibilityOffOutlinedIcon />
+                                            )}
+                                          </IconButton>
+                                        </InputAdornment>
+                                      ),
+                                    }}
+                                  />
+                                </Stack>
+                              </Stack>
+
+                              <Stack alignItems={"flex-end"}>
+                                <Stack direction={"row"}>
+                                  <Button
+                                    variant="itms"
+                                    size="itms-small"
+                                    onClick={handleReset}
+                                  >
+                                    clear
+                                  </Button>
+
+                                  <Button
+                                    variant="itms"
+                                    size="itms-small"
+                                    type="submit"
+                                  >
+                                    ADD
+                                  </Button>
+                                </Stack>
+                              </Stack>
                             </Stack>
-                        </form>
-                    )}
-                </Formik>
-                <StatusSnackBar
-                  severity="success"
-                  trigger={trigger.success}
-                  setTrigger={() => {
-                    handleSnackBar("success");
-                  }}
-                  alertMessage={"Success"}
-                />
-                </Box>
-                </Stack>
+                          </form>
+                        )}
+                      </Formik>
+                      <StatusSnackBar
+                        severity="success"
+                        trigger={trigger.success}
+                        setTrigger={() => {
+                          handleSnackBar("success");
+                        }}
+                        alertMessage={message}
+                      />
+
+                      <StatusSnackBar
+                        severity="error"
+                        trigger={trigger.error}
+                        setTrigger={() => {
+                          handleSnackBar("error");
+                        }}
+                        alertMessage={message}
+                      />
+                    </Box>
+                  </Stack>
+                </Paper>
+              </Stack>
             </Grid>
-       </Grid>
-       </Box>
-    </Tile>    
-    
-    )
-} 
+          </Grid>
+        </Stack>
+      </Stack>
+    </Tile>
+  );
+};
