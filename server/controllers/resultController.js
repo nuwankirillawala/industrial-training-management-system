@@ -113,7 +113,6 @@ module.exports.uploadResultSheetAndAddResult = catchAsync(async (req, res) => {
 // Endpoint: "/get-all"
 // Description: get all results
 // User: admin
-
 module.exports.getResults = catchAsync( async(req, res) => {
   try {
     const results = await Result.find();
@@ -121,6 +120,7 @@ module.exports.getResults = catchAsync( async(req, res) => {
     if(!results){
       return res.status(404).json({error: "results not found"});
     }
+    console.log(results);
     res.status(200).json(results);
   } catch (err) {
     console.log(err);
