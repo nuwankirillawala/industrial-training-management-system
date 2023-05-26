@@ -24,6 +24,7 @@ import DeleteNotice from './components/shared/Notice/DeleteNotice'
 import InternApplicationMenu from './Pages/Undergraduate/InternApplication/InternApplicationMenu'
 import ViewAllCompanies from './Pages/Admin/Company/ViewAllComapnies'
 import { SupervisorDashboard } from './Pages/Supervisor/SupervisorDashboard'
+import { StudentReportPortal } from './Pages/Undergraduate/ReportSubmission/StudentReportPortel'
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path='/' element={<RootLayout />}>
@@ -49,6 +50,8 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path="sidebar" element={<Sidebar />} />
             <Route path="intern-application/menu" element={<InternApplicationMenu />} />
             <Route path="company/all" element={<ViewAllCompanies />} />
+            <Route path="student-report" element={<StudentReportPortal />} />
+
 
 
             {/* Supervisor */}
