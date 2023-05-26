@@ -64,7 +64,7 @@ export const ManageCompany = () => {
                             <Button
                                 variant="itms-add"
                                 fontWeight="bold"
-                                onClick={() => navigate('/add-company')}
+                                onClick={() => navigate('/company/add')}
                             >
                                 Add New Company
                             </Button >
