@@ -49,7 +49,7 @@ export const AdminCreateForm = () => {
         // console.log(values);        
         try{
           const res = await axios.post(
-            "http://localhost:5000/api/v1/admin/create-admin", 
+            "http://localhost:5000/api/v1/admin/create", 
             { role : 'system-admin',
               name : values.adminName,
               email : values.adminEmail,
@@ -59,6 +59,9 @@ export const AdminCreateForm = () => {
             },
           {withCredentials: true}
           );
+
+          console.log(res && res);
+
           if(res.status === 'success') {
             handleSnackBar("success");
             setMessage("User created successfullly");
@@ -70,7 +73,7 @@ export const AdminCreateForm = () => {
           }
 
         } catch(error){
-c
+          console.log(error.response.data);
         }
     };
 
