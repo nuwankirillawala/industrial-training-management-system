@@ -44,7 +44,6 @@ const cvSentChartOptions = {
   title: "Intern Status",
 };
 
-
 export const AdminDashboard = () => {
   const { data } = useFetch(
     "GET",
@@ -76,7 +75,7 @@ export const AdminDashboard = () => {
           <Stack direction={"row"} spacing={2}>
             <FeaturedCard
               title="Intern Status"
-              color='primary'
+              color="primary"
               icon={LeaderboardIcon}
               link="/student-company"
             />
@@ -106,9 +105,7 @@ export const AdminDashboard = () => {
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <Tile flex={7}>
-                    <Typography variant="head6">
-                      Profile
-                    </Typography>
+                    <Typography variant="head6">Profile</Typography>
                     <Divider sx={{ m: 1 }} />
                     <Stack direction={"row"} spacing={4}>
                       <Stack
@@ -116,22 +113,33 @@ export const AdminDashboard = () => {
                         alignItems={"center"}
                         flex={3}
                       >
-                        {!data.user
-                          ? <Avatar width={"140px"} height={"140px"} />
-                          : <ImageDisplay 
-                          imagePath={`http://localhost:5000/${data.user.profileImage}`} 
-                          width={140}
-                          height={140}
+                        {!data.user ? (
+                          <Avatar width={"140px"} height={"140px"} />
+                        ) : (
+                          <ImageDisplay
+                            imagePath={`http://localhost:5000/${data.user.profileImage}`}
+                            width={140}
+                            height={140}
                           />
-                        }
-                        <Typography variant="h6" fontWeight="bold" textAlign={'center'}>
+                        )}
+                        <Typography
+                          variant="h6"
+                          fontWeight="bold"
+                          textAlign={"center"}
+                        >
                           {(() => {
-                            if (data.user && data.user.role === 'system-admin') {
-                              return 'System Administrator';
-                            } else if (data.user && data.user.role === 'department-coordinator') {
-                              return 'Department Coordinator';
+                            if (
+                              data.user &&
+                              data.user.role === "system-admin"
+                            ) {
+                              return "System Administrator";
+                            } else if (
+                              data.user &&
+                              data.user.role === "department-coordinator"
+                            ) {
+                              return "Department Coordinator";
                             } else {
-                              return 'Admin';
+                              return "Admin";
                             }
                           })()}
                         </Typography>
@@ -161,13 +169,17 @@ export const AdminDashboard = () => {
                 <Grid item xs={12}>
                   <Tile height={"100%"}>
                     <Stack spacing={0.8} flex={12} direction={"column"}>
-                      <Typography variant="head6">
-                        Status
-                      </Typography>
+                      <Typography variant="head6">Status</Typography>
                       <Divider sx={{ m: 1 }} />
-                      <Stack direction={'row'}>
-                        <SimplePieChart data={cvSubmitChartData} options={cvSubmitChartOptions} />
-                        <SimplePieChart data={cvSentChartData} options={cvSentChartOptions} />
+                      <Stack direction={"row"}>
+                        <SimplePieChart
+                          data={cvSubmitChartData}
+                          options={cvSubmitChartOptions}
+                        />
+                        <SimplePieChart
+                          data={cvSentChartData}
+                          options={cvSentChartOptions}
+                        />
                       </Stack>
                     </Stack>
                   </Tile>
@@ -182,7 +194,7 @@ export const AdminDashboard = () => {
           <Stack spacing={1}>
             <Stack>
               <Tile>
-                <Typography fontWeight={"bold"}>Notice</Typography>
+                {/* <Typography fontWeight={"bold"}>Notice</Typography> */}
                 <NoticeBoard />
               </Tile>
             </Stack>
