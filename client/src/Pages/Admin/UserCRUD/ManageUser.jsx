@@ -91,7 +91,7 @@ export const ManageUser = () => {
     const navigate = useNavigate()
 
     const userList = [
-        { name: 'System Administrator', icon: administrator, description: "Administrator responsible for manages all users in the system by adding,  updating and removing users." },
+        { name: 'Administrator', icon: administrator, description: "Administrator responsible for manages all users in the system by adding,  updating and removing users." },
         { name: 'Department Coordinator', icon: deptCoordinator, description: "Department Co-ordinator supervise the internship process." },
         { name: 'Undergraduate', icon: Undergraduate, description: "Undergraduates use the platform for keep track of internship and give their updates.  Also use the platform for internship report purposes." },
         { name: 'Company Supervisor', icon: companySupervisor, description: "Company supervisors involve the internship process by guiding Internship applicants and confirming their details." },
