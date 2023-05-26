@@ -25,7 +25,7 @@ const UpdateAlumni = () => {
 
   useEffect(() => {
     getAlumniData();
-  })
+  }, [])
 
 
   const Column = [
