@@ -15,6 +15,7 @@ import axios from "axios";
 const InternProcessCompany = () => {
   const [students, setStudents] = useState([]);
   const [selectedStudents, setSelectedStudents] = useState([]);
+  const [filteredStudents, setFilteredStudents] = useState([]);
   const [alertOpen, setAlertOpen] = useState(false);
   const [company, setCompany] = useState({})
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -28,14 +29,20 @@ const InternProcessCompany = () => {
   const theme = useTheme();
 
   useEffect(() => {
-    if (data && data.users) {
-      setStudents(data.users);
-    }
-
     if (data && data.company) {
       setCompany(data.company);
+      console.log("data.company.internApplications.applicationList",data.company.internApplications.applicationList);
+      const updatedApplicationList = data.company.internApplications.applicationList.map(item => ({
+        ...item.candidate
+      }));
+      setSelectedStudents(updatedApplicationList)
     }
-  }, [data]);
+
+    if (data && data.users) {
+      const filteredStudents = data.users.filter(student => !selectedStudents.some(selected => selected.regNo === student.regNo));
+      setStudents(filteredStudents);
+    }
+  }, [data, selectedStudents && data]);
   console.log(students);
 
   const handleAddStudent = (student) => {
