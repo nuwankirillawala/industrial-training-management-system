@@ -71,7 +71,7 @@ export const AdminCreateForm = () => {
         },
         { withCredentials: true }
       );
-      console.log(res);
+      // console.log(res);
       if (res.status === 201) {
         setMessage("User created successfullly");
         handleSnackBar("success");
