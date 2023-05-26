@@ -65,13 +65,13 @@ export const SupervisorCreateForm = () => {
   const getCompanyList = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/v1/company/all");
-      // console.log("company list ", res);
-      if (res.status === "201") {
+      console.log("company list ", res);
+      if (res.status === 200) {
         console.log("company list : ", res.data);
         setCompanyList(res.data);
       }
     } catch (error) {
-      console.log(error);
+      console.log("errrrrr", error);
     }
   };
 

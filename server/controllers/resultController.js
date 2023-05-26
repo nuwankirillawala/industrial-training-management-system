@@ -40,7 +40,7 @@ module.exports.uploadResultSheetAndAddResult = catchAsync(async (req, res) => {
     const resultSheet = resultbook.Sheets[resultbook.SheetNames[0]];
 
     // Convert the sheet to a JSON object
-    const resultJson = xlsx.utils.sheet_to_json(resultSheet);
+    const resultJson = xlsx.utils.sheet_to_json(resultSheet, { defval: '' });
 
     for (const resultData of resultJson) {
       const { name, regNo, ...courses } = resultData;
@@ -48,7 +48,7 @@ module.exports.uploadResultSheetAndAddResult = catchAsync(async (req, res) => {
       // Create an array of objects representing the courses
       const courseArray = Object.entries(courses).map(([courseId, grade]) => ({
         courseId,
-        grade
+        grade : grade || "-"
       }));
 
       const currentResult = await Result.findOne({ regNo });
