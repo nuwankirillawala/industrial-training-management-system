@@ -515,26 +515,31 @@ module.exports.internProcessCompany = catchAsync(async (req, res) => {
 module.exports.updateCompanyInternApplicationList = catchAsync(async (req, res) => {
     try {
         const { companyId, candidateList } = req.body;
+        console.log("candidateList", candidateList);
+        console.log("companyId", companyId);
+
 
         const company = await Company.findById(companyId);
 
         if (!company) {
             return res.status(404).json({ error: 'Company not found!' });
         }
+        console.log("company",company);
 
-        const applicationList = [];
+        const applicationList = company.internApplications.applicationList;
 
         console.log(company.internApplications.applicationList);
+
         const existingCandidates = company.internApplications.applicationList.map(
             (item) => item.candidate.toString()
         );
 
         candidateList.forEach((candidate) => {
-            const candidateId = candidate.id.toString();
+            const candidateId = candidate._id.toString();
             const candidateExists = existingCandidates.includes(candidateId);
 
             if (!candidateExists && applicationList.length < company.internApplications.applicationListSize) {
-                applicationList.push({ candidate: candidate.id });
+                applicationList.push({ candidate: candidate._id });
             }
         });
 
