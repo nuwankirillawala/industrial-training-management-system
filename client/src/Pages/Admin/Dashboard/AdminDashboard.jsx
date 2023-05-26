@@ -20,6 +20,30 @@ import FeaturedCard from "../../../components/Dashboard/FeaturedCard";
 import ProfileFormLine from "../../../components/Dashboard/ProfileFormLine";
 import useFetch from "../../../Hooks/useFetch";
 import { NoticeBoard } from "../../../components/Notice/NoticeBoard";
+import SimplePieChart from "../../../components/user/Admin/PieChart.jsx/SimplePieChart";
+import ImageDisplay from "../../../components/ImageDisplay/ImageDisplay";
+
+const cvSubmitChartData = [
+  ["Status", "No of Student"],
+  ["Submitted", 11],
+  ["Not-Submitted", 2],
+];
+
+const cvSubmitChartOptions = {
+  title: "CV Submission",
+};
+
+const cvSentChartData = [
+  ["Status", "No of Student"],
+  ["CV Sent", 11],
+  ["CV Not Sent", 2],
+  ["Selected", 2],
+];
+
+const cvSentChartOptions = {
+  title: "Intern Status",
+};
+
 
 export const AdminDashboard = () => {
   const { data } = useFetch(
@@ -31,7 +55,7 @@ export const AdminDashboard = () => {
 
   const basicInfo = data && {
     name: data.user.name,
-    regNo: data.user.regNo,
+    staffID: data.user.staffId,
     email: data.user.email,
     contactNo: data.user.contactNo,
   };
@@ -52,25 +76,25 @@ export const AdminDashboard = () => {
           <Stack direction={"row"} spacing={2}>
             <FeaturedCard
               title="Intern Status"
-              color="#fff"
+              color='primary'
               icon={LeaderboardIcon}
               link="/student-company"
             />
             <FeaturedCard
               title="Manage Users"
-              color="#2ECC40"
+              color="red"
               icon={DescriptionIcon}
               link="/intern-application"
             />
             <FeaturedCard
               title="Intern Reports"
-              color="#0074D9"
+              color="green"
               icon={UploadFileIcon}
               link="/report-portal"
             />
             <FeaturedCard
               title="Company Ratings"
-              color="#FFDC00"
+              color="yellow"
               icon={ContactPageIcon}
               link="/portfolio"
             />
@@ -82,7 +106,7 @@ export const AdminDashboard = () => {
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <Tile flex={7}>
-                    <Typography variant="h6" color="initial">
+                    <Typography variant="head6">
                       Profile
                     </Typography>
                     <Divider sx={{ m: 1 }} />
@@ -92,9 +116,24 @@ export const AdminDashboard = () => {
                         alignItems={"center"}
                         flex={3}
                       >
-                        <Avatar width={"140px"} height={"140px"} />
-                        <Typography variant="h6" fontWeight={"bold"}>
-                          Administrator
+                        {!data.user
+                          ? <Avatar width={"140px"} height={"140px"} />
+                          : <ImageDisplay 
+                          imagePath={`http://localhost:5000/${data.user.profileImage}`} 
+                          width={140}
+                          height={140}
+                          />
+                        }
+                        <Typography variant="h6" fontWeight="bold" textAlign={'center'}>
+                          {(() => {
+                            if (data.user && data.user.role === 'system-admin') {
+                              return 'System Administrator';
+                            } else if (data.user && data.user.role === 'department-coordinator') {
+                              return 'Department Coordinator';
+                            } else {
+                              return 'Admin';
+                            }
+                          })()}
                         </Typography>
                       </Stack>
 
@@ -104,8 +143,8 @@ export const AdminDashboard = () => {
                           content={basicInfo.name}
                         />
                         <ProfileFormLine
-                          title="Reg. No"
-                          content={basicInfo.regNo}
+                          title="Staff ID"
+                          content={basicInfo.staffID}
                         />
                         <ProfileFormLine
                           title="Email"
@@ -122,10 +161,14 @@ export const AdminDashboard = () => {
                 <Grid item xs={12}>
                   <Tile height={"100%"}>
                     <Stack spacing={0.8} flex={12} direction={"column"}>
-                      <Typography variant="h6" color="initial">
-                        Skills
+                      <Typography variant="head6">
+                        Status
                       </Typography>
                       <Divider sx={{ m: 1 }} />
+                      <Stack direction={'row'}>
+                        <SimplePieChart data={cvSubmitChartData} options={cvSubmitChartOptions} />
+                        <SimplePieChart data={cvSentChartData} options={cvSentChartOptions} />
+                      </Stack>
                     </Stack>
                   </Tile>
                 </Grid>
