@@ -262,7 +262,7 @@ export const StudentReportPortal = () => {
                 <Stack spacing={2} height={"74vh"}>
                   <Stack alignItems={"center"}>
                     <Typography variant="h6" fontWeight={"bold"}>
-                      Riport List
+                      Report List
                     </Typography>
                   </Stack>
                   <Divider />
@@ -333,7 +333,7 @@ export const StudentReportPortal = () => {
                   <Stack spacing={4} height={"83vh"} direction={"column"}>
                     <Stack alignItems={"center"}>
                       <Typography variant="h6" fontWeight={"bold"}>
-                        Daily Riport List
+                        Daily Report List
                       </Typography>
                     </Stack>
 
@@ -384,7 +384,7 @@ export const StudentReportPortal = () => {
                   <Stack spacing={4} height={"83vh"} direction={"column"}>
                     <Stack alignItems={"center"}>
                       <Typography variant="h6" fontWeight={"bold"}>
-                        Monthly Riport List
+                        Monthly Report List
                       </Typography>
                     </Stack>
 

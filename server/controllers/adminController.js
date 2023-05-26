@@ -39,11 +39,12 @@ module.exports.createAdmin = catchAsync(async (req, res) => {
             message: `${user.role} created successfullly`
         });
     } catch (err) {
+        console.log(err);
         const errors = handleErrors(err);
         console.log({ errors });
         res.status(500).json({
-            starus: "error",
-            message: "This user allready created",
+            status: "error",
+            message: "This user allready existed",
             data: errors
         });
     }
