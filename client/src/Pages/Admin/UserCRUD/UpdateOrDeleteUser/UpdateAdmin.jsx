@@ -27,7 +27,7 @@ const UpdateAdmin = () => {
 
   useEffect(() => {
     getAdminData();
-  })
+  }, [])
 
   const Column = [
     { columnName: 'Admin Name' },

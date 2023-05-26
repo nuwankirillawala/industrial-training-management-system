@@ -90,6 +90,7 @@ export const UpdateAdminForm = ({ userId }) => {
                 },
                 { withCredentials: true }
             );
+            window.location.reload(false); // refresh page
             console.log(res.status);
 
             if (res.status === 200) {
