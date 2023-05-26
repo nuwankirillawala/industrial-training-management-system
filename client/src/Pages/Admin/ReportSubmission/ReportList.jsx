@@ -225,7 +225,7 @@ export const ReportList = ({
       {selectReportType === false && (
         <Grid container spacing={2}>
           <Grid item md={12}>
-            <Typography variant="head3" marginBottom={"5px"}>
+            <Typography variant="pageTitle" marginBottom={"5px"}>
               {reportType}
             </Typography>
           </Grid>
@@ -239,17 +239,13 @@ export const ReportList = ({
                     <Stack alignItems={"center"}>
                       {selectStudent === false && (
                         <Stack width={"100%"}>
-                          <Typography variant="h6" fontWeight={"bold"}>
-                            Student List
-                          </Typography>
+                          <Typography variant="head6">Student List</Typography>
                           <Divider />
                         </Stack>
                       )}
                       {selectStudent === true && (
                         <Stack width={"100%"}>
-                          <Typography variant="h6" fontWeight={"bold"}>
-                            Report List
-                          </Typography>
+                          <Typography variant="head6">Report List</Typography>
                           <Divider />
                         </Stack>
                       )}
@@ -280,6 +276,7 @@ export const ReportList = ({
                             disableSelectionOnClick
                             experimentalFeatures={{ newEditingApi: true }}
                             hideFooter={true}
+                            style={{ cursor: "pointer" }}
                           />
                         )}
                         {selectStudent === true && (
@@ -302,6 +299,7 @@ export const ReportList = ({
                                 onRowClick={selectReportData}
                                 getRowId={(row) => row.weekNumber}
                                 hideFooter={true}
+                                style={{ cursor: "pointer" }}
                               />
                             )}
                             {reportType === "Monthly Report" && (
@@ -329,7 +327,7 @@ export const ReportList = ({
                     {selectStudent === false && (
                       <Stack>
                         <Button
-                          variant="itms"
+                          variant="outlined"
                           onClick={() => {
                             setSelectReport(false);
                             setSelectStudent(false);
@@ -342,7 +340,7 @@ export const ReportList = ({
                     )}
                     {selectStudent === true && (
                       <Stack>
-                        <Button variant="itms" onClick={handleOnClick}>
+                        <Button variant="outlined" onClick={handleOnClick}>
                           student list
                         </Button>
                       </Stack>
