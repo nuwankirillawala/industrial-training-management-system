@@ -10,7 +10,7 @@ import { RemoveMultipleAdmin } from './components/user/Admin/RemoveMultipleUsers
 import { ManageCompany } from './Pages/Admin/ManageCompany'
 import Notice from './components/shared/Notice/Notice'
 import { AdminDashboard } from './Pages/Admin/Dashboard/AdminDashboard'
-import { AddCompany } from './components/user/Admin/addCompany/AddCompany'
+//import { AddCompany } from './components/user/Admin/addCompany/AddCompany'
 import { DailyReportForm } from './components/DailyReportForm/DailyReportForm'
 // Importing Pages
 import Login from './Pages/Shared/Login/Login';
@@ -36,7 +36,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path="remove-multiple-admin" element={<RemoveMultipleAdmin />} />
             <Route path="admin-dashboard" element={<AdminDashboard />} />
             <Route path="manage-company" element={<ManageCompany />} />
-            <Route path='add-company' element={<AddCompany />} />
+            {/* <Route path='add-company' element={<AddCompany />} /> */}
             <Route path="department-studentprofile" element={<DepartmentStudentProfile />} />
             <Route path="noticeform" element={<NoticeForm />} />
             <Route path='deletenotices' element={<DeleteNotice />} />

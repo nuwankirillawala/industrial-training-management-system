@@ -14,6 +14,7 @@ import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import DescriptionIcon from "@mui/icons-material/Description";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
+import BusinessIcon from "@mui/icons-material/Business";
 import { useNavigate } from "react-router-dom";
 import { Tile } from "../../../components/card/Tile";
 import FeaturedCard from "../../../components/Dashboard/FeaturedCard";
@@ -83,7 +84,13 @@ export const AdminDashboard = () => {
               title="Manage Users"
               color="red"
               icon={DescriptionIcon}
-              link="/intern-application"
+              link="/manage-user"
+            />
+            <FeaturedCard
+              title="Manage Company"
+              color="blue"
+              icon={BusinessIcon}
+              link="/manage-company"
             />
             <FeaturedCard
               title="Intern Reports"

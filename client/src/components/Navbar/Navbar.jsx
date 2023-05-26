@@ -1,7 +1,6 @@
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { Typography, Badge, Box, Paper, Menu, MenuItem } from "@mui/material";
-import Button from "@mui/material/Button";
 import { Stack } from "@mui/system";
 import Popover from '@mui/material/Popover';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
@@ -19,7 +18,6 @@ export default function Navbar() {
   const navigate = useNavigate()
   const { user } = useAuth();
   console.log(user);
-  console.log(user && user.name)
 
   // const [Name, setName] = useState('');
   // setName(user.role)  //needs user.name while integrate
@@ -147,8 +145,8 @@ export default function Navbar() {
                   'aria-labelledby': 'basic-button',
                 }} >
                 <MenuItem onClick={() => navigate(RedirectDashboardPage(user.role))}>Dashboard</MenuItem>
-                {/* < MenuItem  onClick={() => navigate(RedirectSettingsPage(user.role))}  > settings</MenuItem>    */}
                 <MenuItem onClick={() => navigate('/login')}>Logout</MenuItem>
+                {/* < MenuItem  onClick={() => navigate(RedirectSettingsPage(user.role))}  > settings</MenuItem>    */}
               </Menu>
             </Box>
             <Stack justifyContent={'center'}>
