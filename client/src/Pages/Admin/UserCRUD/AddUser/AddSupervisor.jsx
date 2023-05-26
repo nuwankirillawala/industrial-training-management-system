@@ -1,9 +1,14 @@
-import React from 'react'
+import { SupervisorCreateForm } from "../../../../components/shared/CreateUser/forms/SupervisorCreateForm";
+import { Typography } from "@mui/material";
 
 const AddSupervisor = () => {
   return (
-    <div>AddSupervisor</div>
+    <>
+      <Typography variant='pageTitle'> Add Company Supervisor Details</Typography>
+      <SupervisorCreateForm>
+
+      </SupervisorCreateForm>
+    </>
   )
 }
-
 export default AddSupervisor

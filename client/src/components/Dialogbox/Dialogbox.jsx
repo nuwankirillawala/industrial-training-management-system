@@ -19,12 +19,27 @@ export default function Dialogbox({ children, title, btn_name }) {
     const handleClose = () => {
         setOpen(false);
     };
+    const btn_variant = () => {
+        if (btn_name === 'update') {
+            return 'itms-update';
+        } else if (btn_name === 'delete') {
+            return 'itms-delete';
+        } else {
+            return 'itms';
+        }
+    }
 
     return (
         <div>
-            <Button variant="itms" size="itms-small" onClick={handleClickOpen}>
+            <Button
+                variant='itms'
+                size="itms-x-small"
+                onClick={handleClickOpen}
+            >
                 {btn_name}
             </Button>
+
+
             <Dialog open={open} >
                 <Stack direction={"row"} justifyContent="space-between" >
                     <DialogTitle width={'27vw'}>{title}</DialogTitle>

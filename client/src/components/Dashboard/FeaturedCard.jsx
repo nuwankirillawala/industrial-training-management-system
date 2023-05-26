@@ -14,7 +14,7 @@ const FeaturedCard = ({ title, color, icon, link }) => {
     return (
         <ClickableTile
             width={'auto'}
-            height={110}
+            height={100}
             backgroundColor={'#fff'}
             sx={{
                 ':hover': {
@@ -23,7 +23,7 @@ const FeaturedCard = ({ title, color, icon, link }) => {
             }}
             onClick={handleClick}
         >
-            <Icon component={icon} />
+            <Icon component={icon} style={{ color: color }} />
             <Stack direction={'column'}>
                 <Typography variant="head4" color={"initial"} textAlign={'left'} fontWeight={500}>{title}</Typography>
                 {/* <Button size="small"><KeyboardDoubleArrowRightIcon /></Button> */}

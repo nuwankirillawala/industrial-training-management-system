@@ -15,25 +15,34 @@ import axios from "axios";
 const InternProcessCompany = () => {
   const [students, setStudents] = useState([]);
   const [selectedStudents, setSelectedStudents] = useState([]);
+  const [filteredStudents, setFilteredStudents] = useState([]);
   const [alertOpen, setAlertOpen] = useState(false);
   const [company, setCompany] = useState({})
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogData, setDialogData] = useState();
   const { companyId } = useParams();
 
-  const { data } = useFetch('POST', 'http://localhost:5000/api/v1/company/intern-process-company', { companyId: companyId })
+  const { data } = useFetch('GET', `http://localhost:5000/api/v1/company/intern-process/company/${companyId}`)
+
+  console.log('dattaaa', data);
 
   const theme = useTheme();
 
   useEffect(() => {
-    if (data && data.users) {
-      setStudents(data.users);
-    }
-
     if (data && data.company) {
       setCompany(data.company);
+      console.log("data.company.internApplications.applicationList",data.company.internApplications.applicationList);
+      const updatedApplicationList = data.company.internApplications.applicationList.map(item => ({
+        ...item.candidate
+      }));
+      setSelectedStudents(updatedApplicationList)
     }
-  }, [data]);
+
+    if (data && data.users) {
+      const filteredStudents = data.users.filter(student => !selectedStudents.some(selected => selected.regNo === student.regNo));
+      setStudents(filteredStudents);
+    }
+  }, [data, selectedStudents && data]);
   console.log(students);
 
   const handleAddStudent = (student) => {
@@ -54,7 +63,7 @@ const InternProcessCompany = () => {
 
   const handleSave = async () => {
     console.log(company, selectedStudents);
-    const res = await axios.post("http://localhost:5000/api/v1/company/intern-process-company", { companyId: company._id, candidateList: selectedStudents }, { withCredentials: true })
+    const res = await axios.post("http://localhost:5000/api/v1/company/intern-process/company", { companyId: company._id, candidateList: selectedStudents }, { withCredentials: true })
     if (res) {
       setDialogData(res.data);
       setDialogOpen(true);
@@ -133,10 +142,12 @@ const InternProcessCompany = () => {
   return (
     <Grid container spacing={1} direction='column'>
       <Grid item>
+        <Typography variant="pageTitle" sx={{ marginBottom: 1 }}>Intern Selection For Company</Typography>
+      </Grid>
+      <Grid item>
         <Tile>
           <Grid container direction='row'>
             <Grid item xs={8}>
-              <Typography variant="head1" sx={{ marginBottom: 1 }}>Intern Selection For Company</Typography>
               <Typography variant="h6" color="secondary">Instructions</Typography>
               <Tile padding='10px'>
                 <Typography variant="body1" color="secondary">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus, illum?</Typography>
@@ -207,10 +218,6 @@ const InternProcessCompany = () => {
           </Grid>
         </Grid>
       </Grid>
-
-
-
-
     </Grid>
   )
 }

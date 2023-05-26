@@ -7,7 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { Unilogo } from '../shared/Images/Unilogo';
 import { Grid } from '@mui/material';
-import { Apartment, ArrowBack, Article, Assessment, Ballot, ChevronLeft, Create, Dashboard, Delete, LocationCity, Logout, Margin, Menu, Notifications, NotificationsNone, Settings } from '@mui/icons-material';
+import { AddBusiness, Apartment, ArrowBack, ArrowUpward, Article, Assessment, Ballot, Business, ChevronLeft, Create, Dashboard, Delete, LocationCity, Logout, Margin, Menu, Note, Notifications, NotificationsNone, Settings } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import MuiDrawer from '@mui/material/Drawer';
@@ -95,30 +95,30 @@ const users = [
         id: 3,
         primaryText: 'Intern Status',
         icon: <Assessment />,
-        element: '/daily-report'
+        element: '/student-company'
       },
       {
         id: 4,
         primaryText: 'Internship',
-        icon: <Apartment />,
-        element: '/add-company'
+        icon: <AddBusiness />,
+        element: '/student-company'
       },
       {
         id: 5,
         primaryText: 'Company',
-        icon: <Notifications />,
+        icon: <Business />,
         element: '/company/all'
       },
       {
         id: 6,
         primaryText: 'Report Submision',
-        icon: <Notifications />,
-        element: '/notice'
+        icon: <ArrowUpward />,
+        element: '/student-report'
       },
       {
         id: 7,
         primaryText: 'Private Notes',
-        icon: <Notifications />,
+        icon: <Note />,
         element: '/notice'
       },
       {
@@ -148,25 +148,25 @@ const users = [
         id: 3,
         primaryText: 'Companies',
         icon: <LocationCity />,
-        element: '/add-company'
+        element: '/manage-company'
       },
       {
         id: 4,
         primaryText: 'Results',
         icon: <Assessment />,
-        element: '/daily-report'
+        element: '/result-sheet/view'
       },
       {
         id: 5,
         primaryText: 'Intern Process',
         icon: <Notifications />,
-        element: '/notice'
+        element: '/intern-process/type'
       },
       {
         id: 6,
         primaryText: 'Intern Reports',
         icon: <Create />,
-        element: '/noticeform'
+        element: '/report-portal'
       },
       {
         id: 7,
@@ -376,6 +376,8 @@ export default function Sidebar() {
             </Box>
           )}
         </Box>
+        <Stack>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'center' }}>
         {open && (
           <Stack position={'relative'} top={0}>
             <Grid container justifyContent="center">
@@ -394,6 +396,8 @@ export default function Sidebar() {
             </Typography>
           </Stack>
         )}
+        </Toolbar>
+        </Stack>
         <Stack sx={{ position: 'relative', top: 50, justifyContent: 'center' }}>
           {users.map((user) => (
             <ListItem key={user.name} disablePadding>

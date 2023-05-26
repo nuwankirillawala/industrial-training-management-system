@@ -40,7 +40,7 @@ module.exports.uploadResultSheetAndAddResult = catchAsync(async (req, res) => {
     const resultSheet = resultbook.Sheets[resultbook.SheetNames[0]];
 
     // Convert the sheet to a JSON object
-    const resultJson = xlsx.utils.sheet_to_json(resultSheet);
+    const resultJson = xlsx.utils.sheet_to_json(resultSheet, { defval: '' });
 
     for (const resultData of resultJson) {
       const { name, regNo, ...courses } = resultData;
@@ -48,7 +48,7 @@ module.exports.uploadResultSheetAndAddResult = catchAsync(async (req, res) => {
       // Create an array of objects representing the courses
       const courseArray = Object.entries(courses).map(([courseId, grade]) => ({
         courseId,
-        grade
+        grade : grade || "-"
       }));
 
       const currentResult = await Result.findOne({ regNo });
@@ -113,7 +113,6 @@ module.exports.uploadResultSheetAndAddResult = catchAsync(async (req, res) => {
 // Endpoint: "/get-all"
 // Description: get all results
 // User: admin
-
 module.exports.getResults = catchAsync( async(req, res) => {
   try {
     const results = await Result.find();
@@ -121,6 +120,7 @@ module.exports.getResults = catchAsync( async(req, res) => {
     if(!results){
       return res.status(404).json({error: "results not found"});
     }
+    console.log(results);
     res.status(200).json(results);
   } catch (err) {
     console.log(err);

@@ -47,6 +47,7 @@ import ViewResultsheet from './Resultsheet/ViewResultsheet';
 import AssignSupervisorForIntern from './Supervisor/AssignSupervisorForIntern';
 import SupervisorList from './Supervisor/SupervisorList';
 
+import StudentProfile from './Student/StudentProfile';
 
 export {
     AddAdmin,
@@ -88,4 +89,5 @@ export {
     ViewResultsheet,
     AssignSupervisorForIntern,
     SupervisorList,
+    StudentProfile,
 };

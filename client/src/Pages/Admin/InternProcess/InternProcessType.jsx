@@ -8,16 +8,16 @@ import MiniCard from '../../../components/InternProcess/MiniCard';
 const InternProcessType = () => {
   return (
     <Grid container direction='column' sx={{ margin: '5px 10px' }}>
-      <Typography variant="head1">
+      <Typography variant="pageTitle">
         Intern Selection Process
-      </Typography><br />
+      </Typography>
 
       <Grid container rowSpacing={2} columnSpacing={2}>
         <Grid item xs={8}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Tile>
-                <Typography variant="h6" color="initial">Welcome to Intern Selection Process</Typography>
+                {/* <Typography variant="h6" color="initial">Welcome to Intern Selection Process</Typography> */}
                 <Typography variant="body1" color="secondary">To continue with intern selection process please select one of following options.</Typography>
               </Tile>
             </Grid>
@@ -31,7 +31,7 @@ const InternProcessType = () => {
                     content='Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Numquam dolore tempore rem, debitis incidunt tenetur porro
                 perferendis exercitationem earum. Quaerat.'
-                    goto='/select-company'
+                    goto='/intern-process/company/select'
                   />
                 </Grid>
 
@@ -42,7 +42,7 @@ const InternProcessType = () => {
                     content='Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Numquam dolore tempore rem, debitis incidunt tenetur porro
                 perferendis exercitationem earum. Quaerat.'
-                    goto='/select-student'
+                    goto='/intern-process/student/select'
                   />
                 </Grid>
               </Grid>
@@ -56,19 +56,19 @@ const InternProcessType = () => {
               title='Complete Intern Candidate List'
               content='Lorem ipsum dolor sit amet consectetur adipisicing elit.
           Numquam dolore tempore rem'
-              goto='/view-intern-list'
+              goto='/intern-process/intern-list'
             />
             <MiniCard
               title='Remain Intern Candidate List'
               content='Lorem ipsum dolor sit amet consectetur adipisicing elit.
           Numquam dolore tempore rem'
-              goto='/view-intern-list-remain'
+              goto='/intern-process/intern-list/remain'
             />
             <MiniCard
               title='Selected Intern List for Companies'
               content='Lorem ipsum dolor sit amet consectetur adipisicing elit.
           Numquam dolore tempore rem'
-              goto='/company-intern-list'
+              goto='/company/intern-list'
             />
           </Stack>
 

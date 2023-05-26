@@ -23,14 +23,16 @@ router.route('/:companyId/ratings/admin')
     .patch(companyController.editCompanyRatingByAdmin)
 
 router.route('/:companyId/ratings/alumni')
-    .patch(companyController.editCompanyRatingByAlumni )
+    .patch(companyController.editCompanyRatingByAlumni)
 
 router.route('/intern-process/company-list')
     .get(companyController.internProcessCompanyList)
 
 router.route('/intern-process/company')
-    .get(companyController.internProcessCompany)
     .post(companyController.updateCompanyInternApplicationList)
+
+router.route('/intern-process/company/:companyId')
+    .get(companyController.internProcessCompany)
 
 router.route('/intern-process/student')
     .patch(companyController.addCandidateToApplicationList)

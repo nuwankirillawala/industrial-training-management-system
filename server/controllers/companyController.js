@@ -89,7 +89,7 @@ module.exports.getAllCompanies = catchAsync(async (req, res) => {
             return res.status(404).json({ error: "no any company found" });
         }
 
-        res.status(201).json({
+        res.status(200).json({
             companyList
         });
     } catch (err) {
@@ -254,7 +254,7 @@ module.exports.editCompanyRatingByAdmin = catchAsync(async (req, res) => {
         if (!company) {
             return res.status(404).json({ error: "company not found" });
         }
-        
+
         company.adminRatings.push({ user: user._id, ratings });
         company.calculateAverageRatings();
 
@@ -361,21 +361,11 @@ module.exports.internProcessCompanyList = catchAsync(async (req, res) => {
         }
 
         // res.status(200).json({companyList});
-        res.status(200).json({
-            status: "success",
-            length: companyList.length,
-            data: companyList
-        });
+        res.status(200).json(companyList);
     } catch (err) {
         res.status(500).json(err);
     }
 });
-
-
-
-
-
-
 
 // Method: PATCH
 // Endpoint: "/intern-process/recommendations"
@@ -497,15 +487,17 @@ module.exports.internProcess = catchAsync(async (req, res) => {
 
 
 // Method: GET
-// Endpoint: "/intern-process/company"
+// Endpoint: "/intern-process/company/:companyId"
 // Description: get companies that offer internships through university
 // User: Admin, Undergraduate
 module.exports.internProcessCompany = catchAsync(async (req, res) => {
     try {
-        const companyId = req.body.companyId;
-        const company = await Company.findById(companyId);
+        const companyId = req.params.companyId;
+        const company = await Company.findById(companyId).populate({
+            path: 'internApplications.applicationList.candidate',
+            model: Undergraduate
+        });
         const users = await Undergraduate.find().select('name regNo gpa weightedGPA internStatus');
-
         if (!company) {
             return res.status(400).json({ message: "Can't find the company" });
         }
@@ -530,18 +522,30 @@ module.exports.updateCompanyInternApplicationList = catchAsync(async (req, res) 
             return res.status(404).json({ error: 'Company not found!' });
         }
 
-        candidateList.forEach((candidate) => {
-            while (company.internApplications.applicationListSize >= company.internApplications.applicationList.length) {
-                company.internApplications.applicationList.push({ candidate: candidate.id })
-            }
-        })
+        const applicationList = [];
 
+        console.log(company.internApplications.applicationList);
+        const existingCandidates = company.internApplications.applicationList.map(
+            (item) => item.candidate.toString()
+        );
+
+        candidateList.forEach((candidate) => {
+            const candidateId = candidate.id.toString();
+            const candidateExists = existingCandidates.includes(candidateId);
+
+            if (!candidateExists && applicationList.length < company.internApplications.applicationListSize) {
+                applicationList.push({ candidate: candidate.id });
+            }
+        });
+
+        company.internApplications.applicationList = applicationList;
         company.internApplications.applicationStatus = 'saved';
 
         await company.save();
 
         res.status(201).json({ company });
     } catch (err) {
+        console.log(err);
         res.status(500).json(err);
     }
 });

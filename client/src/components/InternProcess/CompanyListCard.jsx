@@ -6,7 +6,7 @@ const CompanyListCard = ({ company, select, profile }) => {
     const navigate = useNavigate();
 
     const handleSelectButton = (companyId) => {
-        navigate(`/intern-process-company/${companyId}`)
+        navigate(`/intern-process/company/${companyId}`)
     }
 
     return (

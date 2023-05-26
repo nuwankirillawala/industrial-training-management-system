@@ -20,7 +20,7 @@ const InternDataGridMini = ({users, rows, columns }) => {
                 {tableLoaded ? (
                     <DataGrid
                         rows={rows && rows}
-                        columns={columns}
+                        columns={columns && columns}
                         components={{ Toolbar: GridToolbar }}
                         getRowId={(row) => row.id}
                         

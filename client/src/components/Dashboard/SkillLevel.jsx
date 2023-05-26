@@ -14,7 +14,7 @@ const SkillLevel = ({ skill, value }) => {
             <Typography flex={1}>{skill}</Typography>
             <Typography sx={{ mr: 1 }} flex={0.1}>:</Typography>
             <LinearProgress variant="determinate" value={value} sx={{ width: '50%' }} flex={12} />
-            <Typography sx={{ ml: 1 }} flex={0.5}>{'50%'}</Typography>
+            <Typography sx={{ ml: 1 }} flex={0.5}>{`${value}%`}</Typography>
         </Box>
         {/* <Divider sx={{m: '5px'}}/> */}
         </Fragment>

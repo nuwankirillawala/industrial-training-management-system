@@ -15,6 +15,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import ContactPageIcon from '@mui/icons-material/ContactPage';
 import { useNavigate } from 'react-router-dom';
+import ImageDisplay from '../../components/ImageDisplay/ImageDisplay';
 
 export const StudentDashboard = () => {
   const { user } = useAuth();
@@ -42,10 +43,10 @@ export const StudentDashboard = () => {
         </Grid>
         <Grid item xs={12}>
           <Stack direction={'row'} spacing={2}>
-            <FeaturedCard title='Exam Results' color='#fff' icon={LeaderboardIcon} link='/student-company'/>
-            <FeaturedCard title='Intern Application' color='#2ECC40' icon={DescriptionIcon} link='/intern-application'/>
-            <FeaturedCard title='Report Submission' color='#0074D9' icon={UploadFileIcon} link='/report-portal'/>
-            <FeaturedCard title='Your Portfolio' color='#FFDC00' icon={ContactPageIcon} link='/portfolio'/>
+            <FeaturedCard title='Exam Results' color='blueColor' icon={LeaderboardIcon} link='/student-company'/>
+            <FeaturedCard title='Intern Application' color='red' icon={DescriptionIcon} link='/intern-application'/>
+            <FeaturedCard title='Report Submission' color='green' icon={UploadFileIcon} link='/report-portal'/>
+            <FeaturedCard title='Your Portfolio' color='yellow' icon={ContactPageIcon} link='/portfolio'/>
           </Stack>
         </Grid>
         {/* left half of the grid and it shows user profile and the result */}
@@ -56,11 +57,18 @@ export const StudentDashboard = () => {
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <Tile flex={7}>
-                    <Typography variant="h6" color="initial">Profile</Typography>
+                    <Typography variant="head6">Profile</Typography>
                     <Divider sx={{ m: 1 }} />
                     <Stack direction={'row'} spacing={4}>
                       <Stack justifyItems={'center'} alignItems={'center'} flex={3} >
-                        <Avatar width={'140px'} height={'140px'} />
+                      {!data.user
+                          ? <Avatar width={"140px"} height={"140px"} />
+                          : <ImageDisplay 
+                          imagePath={`http://localhost:5000/${data.user.profileImage}`} 
+                          width={140}
+                          height={140}
+                          />
+                        }
                         <Typography variant='h6' fontWeight={'bold'}>Undergraduate</Typography>
                       </Stack>
 
@@ -79,13 +87,13 @@ export const StudentDashboard = () => {
                 <Grid item xs={12}>
                   <Tile height={'100%'}>
                     <Stack spacing={0.8} flex={12} direction={'column'}>
-                      <Typography variant="h6" color="initial">Skills</Typography>
+                      <Typography variant="head6">Skills</Typography>
                       <Divider sx={{ m: 1 }} />
                       <SkillLevel skill={'Programming'} value={80} />
                       <SkillLevel skill={'Database'} value={60} />
                       <SkillLevel skill={'Project Management'} value={50} />
-                      <SkillLevel skill={'Database'} value={90} />
-                      <SkillLevel skill={'Database'} value={40} />
+                      <SkillLevel skill={'Web Development'} value={90} />
+                      <SkillLevel skill={'Analytics'} value={40} />
                     </Stack>
                   </Tile>
                 </Grid>
