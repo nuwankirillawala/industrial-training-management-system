@@ -66,9 +66,9 @@ export const SupervisorCreateForm = () => {
     try {
       const res = await axios.get("http://localhost:5000/api/v1/company/all");
       console.log("company list ", res);
+      setCompanyList(res.data);
       if (res.status === 200) {
         console.log("company list : ", res.data);
-        setCompanyList(res.data);
       }
     } catch (error) {
       console.log("errrrrr", error);
@@ -267,13 +267,12 @@ export const SupervisorCreateForm = () => {
                                       name="supervisorCompany"
                                       value={values.supervisorCompany}
                                       onChange={handleChange}
-                                      label="supervisorCompany"
                                     >
-                                      {companyList.map((company) => (
+                                      {/* {companyList.map((company) => (
                                         <MenuItem value={company._id}>
                                           {company.name}
                                         </MenuItem>
-                                      ))}
+                                      ))} */}
                                     </Select>
                                   </FormControl>
                                 </Stack>
