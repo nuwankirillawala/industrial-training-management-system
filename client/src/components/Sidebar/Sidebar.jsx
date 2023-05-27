@@ -101,7 +101,7 @@ const users = [
         id: 4,
         primaryText: 'Internship',
         icon: <AddBusiness />,
-        element: '/student-company'
+        element: '/student-internship'
       },
       {
         id: 5,

@@ -102,7 +102,7 @@ export const StudentCvUpdate = () => {
                   </PopUpDialog>
                 </Stack>
                 <Stack mt={1} direction={"row"} spacing={0.5}>
-                  {data.olResult !== "" && (
+                  {(data.olResult !== "" || data.olResult != "undefined") && (
                     <>
                       <Chip
                         label={`Ordinary Level result : ${data.olResult}`}

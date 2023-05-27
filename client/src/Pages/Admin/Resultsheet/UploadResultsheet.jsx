@@ -11,6 +11,9 @@ const UploadResultsheet = () => {
   const [excelFileStatus, setExcelFileStatus] = useState(null);
   //End of on change states
 
+  //State for Backdrop
+  const [openBackdrop, setOpenBackdrop] = useState(false);
+
   //statusSnackBar state
   const [trigger, setTrigger] = useState(false);
   //End of statusSnackBar state
@@ -35,6 +38,7 @@ const UploadResultsheet = () => {
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   ];
   const handleFile = (e) => {
+    setOpenBackdrop(true);
     let selectedFile = e.target.files[0];
     if (selectedFile) {
       // console.log(selectedFile.type);
@@ -53,6 +57,7 @@ const UploadResultsheet = () => {
       // setExcelFile(null);
       // handleSnackBar("inputError");
     }
+    setOpenBackdrop(false);
   };
   //End of Handle file
 
@@ -68,6 +73,7 @@ const UploadResultsheet = () => {
 
   // submit function
   const handleSubmit = async (e) => {
+    setOpenBackdrop(true);
     console.log("End point here");
 
     if (excelFileStatus === "Success") {
@@ -93,6 +99,7 @@ const UploadResultsheet = () => {
       setExcelFileStatus("Please select your file");
       handleSnackBar("inputError");
     }
+    setOpenBackdrop(false);
   };
   //End of Submit Function
 
@@ -182,15 +189,17 @@ const UploadResultsheet = () => {
                         onChange={handleFile}
                       /> */}
                       <br />
-                      <Button
-                        type="submit"
-                        variant="itms"
-                        size="itms-x-small"
-                        onClick={handleSubmit}
-                        style={{ marginTop: "8px" }}
-                      >
-                        Submit
-                      </Button>
+                      {excelFileStatus === "Success" && (
+                        <Button
+                          type="submit"
+                          variant="itms"
+                          size="itms-x-small"
+                          onClick={handleSubmit}
+                          style={{ marginTop: "8px" }}
+                        >
+                          Submit
+                        </Button>
+                      )}
                     </form>
                     <StatusSnackBar
                       trigger={trigger}
@@ -198,6 +207,7 @@ const UploadResultsheet = () => {
                       severity="error"
                       alertMessage={excelFileStatus}
                     />
+                    {openBackdrop && <CustomBackdrop />}
                   </Grid>
                 </Grid>
               </Grid>

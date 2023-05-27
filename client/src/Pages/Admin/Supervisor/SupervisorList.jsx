@@ -23,6 +23,9 @@ const SupervisorList = () => {
   //state for the supervisor list
   const [supervisorList, setSupervisorList] = useState([]);
 
+  //State for Backdrop
+  const [openBackdrop, setOpenBackdrop] = useState(false);
+
   //state for errors
   const [errorDetails, setErrorDetails] = useState("");
   //End of state
@@ -38,6 +41,7 @@ const SupervisorList = () => {
 
   //Fetch company list
   const getCompanyDetails = async () => {
+    setOpenBackdrop(true);
     try {
       const res = await axios.get(
         "http://localhost:5000/api/v1/company/intern-process/company-list",
@@ -55,6 +59,7 @@ const SupervisorList = () => {
       setErrorDetails(error.message);
       console.log(typeof errorDetails);
     }
+    setOpenBackdrop(false);
   };
 
   useEffect(() => {
@@ -65,6 +70,7 @@ const SupervisorList = () => {
 
   //Fetch supervisor List
   const getSupervisorDetails = async () => {
+    setOpenBackdrop(true);
     try {
       const res = await axios.get(
         "http://localhost:5000/api/v1/admin/users/supervisor",
@@ -82,6 +88,7 @@ const SupervisorList = () => {
     } catch (error) {
       console.log(error);
     }
+    setOpenBackdrop(false);
   };
 
   useEffect(() => {
@@ -221,6 +228,7 @@ const SupervisorList = () => {
           </Tile>
         </Stack>
       </Box>
+      {openBackdrop && <CustomBackdrop />}
     </Box>
   );
 };
