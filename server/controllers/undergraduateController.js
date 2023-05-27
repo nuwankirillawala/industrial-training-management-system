@@ -587,52 +587,48 @@ module.exports.setWeightedGPA = catchAsync(async (req, res) => {
 // Description = add intern status
 module.exports.addInternStatus = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
-        const { companyId, newStatus } = req.body;
-
-        const user = await Undergraduate.findById(userId);
-
-        if (!user) {
-            res.status(404).json({ message: "user not found!" });
-        }
-        else {
-            const company = await Company.findById(companyId);
-
-            if (!company) {
-                res.status(404).json({ message: "company not found" });
-            }
-            else {
-                const existingInternStatus = user.internStatus.filter((status) => {
-                    return status.company.equals(companyId);
-                });
-
-                if (existingInternStatus) {
-                    res.status(400).json({ message: "Error! User already listed on that company" });
-                } else {
-                    const newInternSatatus = { company: companyId, status: newStatus };
-
-                    const updatedUser = await Undergraduate.findByIdAndUpdate(
-                        userId,
-                        { $push: { internStatus: newInternSatatus } },
-                        { new: true }
-                    );
-
-                    if (updatedUser) {
-                        res.status(200).json(updatedUser.internStatus);
-                    }
-                    else {
-                        res.status(400).json("error");
-                    }
-                }
-            }
-        }
+      const userId = req.user.id; // 🛑 user id must get from jwt in future 🛑
+      const { companyId, newStatus } = req.body;
+  
+      const user = await Undergraduate.findById(userId);
+  
+      if (!user) {
+        return res.status(404).json({ message: "user not found!" });
+      }
+  
+      const company = await Company.findById(companyId);
+  
+      if (!company) {
+        return res.status(404).json({ message: "company not found" });
+      }
+  
+      const existingInternStatus = user.internStatus.length > 0 && user.internStatus.find((status) => {
+        return status.company.equals(companyId);
+      });
+      
+      if (existingInternStatus) {
+        return res.status(400).json({ message: "Error! User already listed on that company" });
+      }
+  
+      const newInternStatus = { company: companyId, status: newStatus };
+  
+      const updatedUser = await Undergraduate.findByIdAndUpdate(
+        userId,
+        { $push: { internStatus: newInternStatus } },
+        { new: true }
+      );
+  
+      if (updatedUser) {
+        return res.status(200).json(updatedUser.internStatus);
+      }
+  
+      return res.status(400).json("error");
     } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
-
+      console.log(err);
+      return res.status(500).json(err);
     }
-});
-
+  });
+  
 // Method = PATCH
 // Endpoint = "/intern/status"
 // Description = Update intern status
@@ -767,7 +763,7 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
 
         const internshipStart = internshipStartDate.toISOString();
         const internshipEnd = internshipEndDate.toISOString();
-        
+
         const user = await Undergraduate.findById(userId).session(session);
         const company = await Company.findById(companyId).session(session);
         if (!user) {
