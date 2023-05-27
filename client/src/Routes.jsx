@@ -25,6 +25,7 @@ import InternApplicationMenu from './Pages/Undergraduate/InternApplication/Inter
 import ViewAllCompanies from './Pages/Admin/Company/ViewAllComapnies'
 import { SupervisorDashboard } from './Pages/Supervisor/SupervisorDashboard'
 import { StudentReportPortal } from './Pages/Undergraduate/ReportSubmission/StudentReportPortel'
+import { Internship } from './Pages/Undergraduate/Internship/Internship'
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path='/' element={<RootLayout />}>
@@ -51,6 +52,7 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path="intern-application/menu" element={<InternApplicationMenu />} />
             <Route path="company/all" element={<ViewAllCompanies />} />
             <Route path="student-report" element={<StudentReportPortal />} />
+            <Route path="student-internship" element={<Internship />} />
 
 
 
