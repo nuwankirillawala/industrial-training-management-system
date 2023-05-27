@@ -58,7 +58,10 @@ module.exports.getUndergraduate = catchAsync(async (req, res) => {
     try {
         const userId = req.params.undergraduateId;
         console.log(userId);
-        const user = await Undergraduate.findById(userId).select('-password');
+        const user = await Undergraduate.findById(userId).select('-password')
+        .populate({
+            path: 'internStatus.company',
+        });
 
         if (!user) {
             res.status(404).json({ error: "user not found!" })
