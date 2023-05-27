@@ -26,7 +26,8 @@ import CompanyCreated from './Company/CompanyCreated';
 import ManageCompany from './Company/ManageCompany';
 import ViewCompany from './Company/ViewCompany';
 
-import CompanyInternList from './InternProcess/CompanyInternList';
+import CompanyInternList from './Company/CompanyInternList';
+import SelectCompanyInternList from './Company/SelectCompanyInternList'
 import InternProcessCompany from './InternProcess/InternProcessCompany';
 import InternProcessStudent from './InternProcess/InternProcessStudent';
 import InternProcessType from './InternProcess/InternProcessType';
@@ -72,6 +73,7 @@ export {
     CompanyCreated,
     ManageCompany,
     ViewCompany,
+    SelectCompanyInternList,
     CompanyInternList,
     InternProcessCompany,
     InternProcessStudent,

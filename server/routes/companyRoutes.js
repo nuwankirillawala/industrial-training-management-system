@@ -6,7 +6,7 @@ const router = Router();
 router.route('/create')
     .post(companyController.createCompany)
 
-router.route('/:companyId/profile')
+router.route('/profile/:companyId')
     .get(companyController.getCompanyProfile)
     .patch(companyController.updateCompanyProfile)
 

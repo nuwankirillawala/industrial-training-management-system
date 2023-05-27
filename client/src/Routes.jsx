@@ -87,7 +87,9 @@ const router = createBrowserRouter(createRoutesFromElements(
             <Route path='company-created' element={<Admin.CompanyCreated />} />
             <Route path='company/manage' element={<Admin.ManageCompany />} />
             <Route path='company/view' element={<Admin.ViewCompany />} />
-            <Route path='company/intern-list' element={<Admin.CompanyInternList />} />
+            <Route path='company/intern-list' element={<Admin.SelectCompanyInternList />} />
+            <Route path='company/intern-list/:companyId' element={<Admin.CompanyInternList />} />
+
 
             <Route path='intern-process/type' element={<Admin.InternProcessType />} />
             <Route path='intern-process/company/select' element={<Admin.SelectCompany />} />

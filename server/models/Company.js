@@ -122,7 +122,7 @@ const companySchema = new mongoose.Schema({
         applicationList: [{
             candidate: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'Undergraduate'
+                ref: "Undergraduate"
             }
         }],
         recommendations: [{

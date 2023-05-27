@@ -26,6 +26,9 @@ router.route('/profile/image')
 router.route('/dashboard')
     .get(restrictedTo('undergraduate'), undergraduateController.undergraduateDashboard)
 
+router.route('/delete/:userId')
+    .delete(restrictedTo('system-admin', 'department-coordinator'), undergraduateController.deleteUndergraduate)
+
 // ############################## Private Notes ##############################
 
 router.route('/note')
