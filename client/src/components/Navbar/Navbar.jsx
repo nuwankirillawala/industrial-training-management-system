@@ -25,7 +25,7 @@ export default function Navbar() {
 
   function RedirectDashboardPage(text) {
     switch (text) {
-      case 'student':
+      case 'undergraduate':
         return ('/student-dashboard');
         break;
       case 'system-admin':
