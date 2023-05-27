@@ -37,6 +37,8 @@ export const CVUpload = () => {
   const [errorOpen, setErrorOpen] = useState(false);
   //use State for filename
   const [fileName, setFileName] = useState("");
+  //State for Backdrop
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   //End of states
 
   //handling dialog closing
@@ -55,6 +57,7 @@ export const CVUpload = () => {
 
   //handling the change in file picker
   const handleChange = (e) => {
+    setOpenBackdrop(true);
     let selectedFile = e.target.files[0];
     console.log(selectedFile.type);
     if (selectedFile) {
@@ -75,6 +78,7 @@ export const CVUpload = () => {
       //if a file not selected
       setErrorOpen(true);
     }
+    setOpenBackdrop(false);
   };
   //end of handling the changes in file picker
 
@@ -104,6 +108,7 @@ export const CVUpload = () => {
   //handle submit         End point
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setOpenBackdrop(true);
     console.log("EndPoint here");
 
     const headers = {
@@ -120,6 +125,7 @@ export const CVUpload = () => {
       headers
     );
     console.log(res);
+    setOpenBackdrop(false);
   };
   //End of handle submit
   return (
@@ -236,6 +242,7 @@ export const CVUpload = () => {
                   severity="error"
                   alertMessage="Error"
                 />
+                {openBackdrop && <CustomBackdrop />}
               </Box>
             </Stack>
           </form>
