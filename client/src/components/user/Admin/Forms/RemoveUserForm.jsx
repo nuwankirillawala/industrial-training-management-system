@@ -7,26 +7,62 @@ import { Formik } from "formik"
 import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
 
 const RemoveuserData = {
-    userId: '',
+    userID: '',
 }
 
-export const RemoveUserForm = () => {
-    const [SnackbarOpen, setSnackbarOpen] = useState(false)
+export const RemoveUserForm = ({ userId }) => {
+    //statusSnackBar state
+    const [trigger, setTrigger] = useState({
+        success: false,
+        error: false,
+    });
 
+    //End of statusSnackBar state
     const handleSnackBar = (key) => {
-        setSnackbarOpen((prevState) => {
+        setTrigger((prevState) => {
             let newState = { ...prevState };
             newState[key] = !newState[key];
             return newState;
         });
     };
 
+    const getAlumniData = async () => {
+        try {
+            const res = await axios.delete(`http://localhost:5000/api/v1/admin/delete/${userId}`, { withCredentials: true });
+            console.log(res);
+            if (res.status === 202) {
+                //console.log(res.data);
+                // setRecords(res.data.users)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
+        if (res.status === 202) {
+            handleSnackBar("success");
+        } else {
+            handleSnackBar("error");
+        }
+    }
+
+    useEffect(() => {
+        getAlumniData();
+    }, [])
+
+    // const handleSnackBar = (key) => {
+    //     setSnackbarOpen((prevState) => {
+    //         let newState = { ...prevState };
+    //         newState[key] = !newState[key];
+    //         return newState;
+    //     });
+    // };
+
     //const [YesNoValue, setYesNoValue] = useState();
     // const handleYesNo = (text) => {
     //     setYesNoValue({ YesNovalue: text })
     // }
     const handleFormSubmit = (values) => { // send req only if 'yes'
-        alert(JSON.stringify(values));
+        // alert(JSON.stringify(values));
         console.log(values)
         handleSnackBar("success");
     }
@@ -56,12 +92,21 @@ export const RemoveUserForm = () => {
                     </form>)}
             </Formik>
             <StatusSnackBar
-                trigger={SnackbarOpen.success}
+                severity="success"
+                trigger={trigger.success}
                 setTrigger={() => {
-                    handleSnackBar("success");
+                    handleSnackBar(" Update success");
                 }}
-                severity='success'
-                alertMessage={' User successfully removed '}></StatusSnackBar>
+                alertMessage={"Remove Succefully"}
+            />
+            <StatusSnackBar
+                severity="error"
+                trigger={trigger.error}
+                setTrigger={() => {
+                    handleSnackBar("error");
+                }}
+                alertMessage={"Update Fail"}
+            />
         </Tile >
 
     )
