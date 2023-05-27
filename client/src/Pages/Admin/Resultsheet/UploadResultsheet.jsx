@@ -189,15 +189,17 @@ const UploadResultsheet = () => {
                         onChange={handleFile}
                       /> */}
                       <br />
-                      <Button
-                        type="submit"
-                        variant="itms"
-                        size="itms-x-small"
-                        onClick={handleSubmit}
-                        style={{ marginTop: "8px" }}
-                      >
-                        Submit
-                      </Button>
+                      {excelFileStatus === "Success" && (
+                        <Button
+                          type="submit"
+                          variant="itms"
+                          size="itms-x-small"
+                          onClick={handleSubmit}
+                          style={{ marginTop: "8px" }}
+                        >
+                          Submit
+                        </Button>
+                      )}
                     </form>
                     <StatusSnackBar
                       trigger={trigger}

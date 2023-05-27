@@ -170,16 +170,20 @@ export const CVUpload = () => {
                   />
                 </Stack>
                 <Stack direction={"row"} mt={1.5}>
-                  <Button
-                    variant="itms"
-                    size="itms-x-small"
-                    onClick={viewButtonHandle}
-                  >
-                    View
-                  </Button>
-                  <Button type="submit" variant="itms" size="itms-x-small">
-                    Submit
-                  </Button>
+                  {PDFFile && (
+                    <Box>
+                      <Button
+                        variant="itms"
+                        size="itms-x-small"
+                        onClick={viewButtonHandle}
+                      >
+                        View
+                      </Button>
+                      <Button type="submit" variant="itms" size="itms-x-small">
+                        Submit
+                      </Button>
+                    </Box>
+                  )}
                 </Stack>
                 {/* viewing the cv dialog*/}
                 <Dialog
