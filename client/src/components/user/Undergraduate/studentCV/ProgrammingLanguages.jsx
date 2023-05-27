@@ -1,6 +1,8 @@
 import {
+  Backdrop,
   Box,
   Button,
+  CircularProgress,
   FormControl,
   FormLabel,
   InputLabel,
@@ -9,18 +11,26 @@ import {
   Stack,
 } from "@mui/material";
 import React, { useState } from "react";
+import { CustomBackdrop } from "../../../backdrop/CustomBackdrop";
+import axios from "axios";
 
 export const ProgrammingLanguages = () => {
   //Knowledge level
   const level = ["Beginer", "Intermediate", "Pro"];
   //End of Knowledge level
 
+  //Programming languages
+  const languages = ["java", "javascript", "python", "c", "c++"];
+
   //useState for colected values
   const [value, setValue] = useState({
     language: "",
     level: "",
   });
-  //End of statesS
+
+  //State for backdrop
+  const [openBackdrop, setOpenBackdrop] = useState(false);
+  //End of states
 
   //onchange Radio group
   const onChange = (e) => {
@@ -32,8 +42,24 @@ export const ProgrammingLanguages = () => {
   //End of onchange Radio group
 
   //handleChange the submit button        End point
-  const handleSubmit = () => {
-    console.log("End point here!");
+  const handleSubmit = async () => {
+    try {
+      setOpenBackdrop(true);
+      const req = await axios.post(
+        "http://localhost:5000/api/v1/undergraduate/info/technology-skill",
+        {
+          name: value.language,
+          advancedLevel: value.level,
+        },
+        { withCredentials: true }
+      );
+
+      if (req.status === 201) console.log("created!");
+      else console.log(req);
+    } catch (error) {
+      console.log(error);
+    }
+    setOpenBackdrop(false);
   };
   //End of handleChange
 
@@ -52,7 +78,7 @@ export const ProgrammingLanguages = () => {
               label="language"
               onChange={onChange}
             >
-              {level.map((option, index) => (
+              {languages.map((option, index) => (
                 <MenuItem key={index} value={option}>
                   {option}
                 </MenuItem>
@@ -85,6 +111,7 @@ export const ProgrammingLanguages = () => {
           Submit
         </Button>
       </Stack>
+      {openBackdrop && <CustomBackdrop />}
     </Box>
   );
 };

@@ -9,6 +9,7 @@ import FormLabel from "@mui/material/FormLabel";
 import Box from "@mui/material/Box";
 import { Button, InputLabel, MenuItem, Select } from "@mui/material";
 import axios from "axios";
+import { CustomBackdrop } from "../../../backdrop/CustomBackdrop";
 
 export const EnglishProficiency = ({ passDataFromChild }) => {
   //Result array for level-01/02 english
@@ -36,6 +37,9 @@ export const EnglishProficiency = ({ passDataFromChild }) => {
     level02: "",
     certificates: [],
   });
+
+  //State for back drop
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   //End of statesS
 
   //onchange Radio group
@@ -49,6 +53,7 @@ export const EnglishProficiency = ({ passDataFromChild }) => {
 
   //handle submit button
   const handleSubmit = async () => {
+    setOpenBackdrop(true);
     console.log(value);
     try {
       const req = await axios.post(
@@ -62,12 +67,13 @@ export const EnglishProficiency = ({ passDataFromChild }) => {
         },
         { withCredentials: true }
       );
-      if (req.status === 200) {
+      if (req.status === 201) {
         console.log("success");
       } else console.log("failed");
     } catch (error) {
       console.log(error);
     }
+    setOpenBackdrop(false);
   };
   //end of handle submit button
 
@@ -150,6 +156,7 @@ export const EnglishProficiency = ({ passDataFromChild }) => {
         <Button variant="itms" size="itms-small" onClick={handleSubmit}>
           Submit
         </Button>
+        {openBackdrop && <CustomBackdrop />}
       </Stack>
     </form>
   );
