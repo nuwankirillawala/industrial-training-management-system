@@ -22,4 +22,8 @@ router.route('/users')
 router.route('/:userId')
     .get(restrictedTo('system-admin', 'department-coordinator'), supervisorController.viewSupervisor)
 
+router.route('/delete/:userId')
+    .delete(restrictedTo('system-admin', 'department-coordinator'), supervisorController.deleteSupervisor)
+
+
 module.exports = router;

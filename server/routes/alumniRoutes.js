@@ -20,4 +20,10 @@ router.route('/user/:userId')
 router.route('/user/all')
     .get(alumniController.getAllAlumniUsers)
 
+router.route('/delete/:userId')
+    .delete(alumniController.deleteAlumni)
+
+
+
+
 module.exports = router;

@@ -54,25 +54,31 @@ module.exports.updateCompanyProfile = catchAsync(async (req, res) => {
 });
 
 // Method: GET
-// Endpoint: "/:companyId/profile"
+// Endpoint: "/profile/:companyId"
 // Description: get a company
 // User: Admin
 module.exports.getCompanyProfile = catchAsync(async (req, res) => {
     try {
         const companyId = req.params.companyId;
+        console.log(companyId);
 
-        const company = await Company.findById(companyId);
+        const company = await Company.findById(companyId)
+        .populate({
+            path: 'internApplications.applicationList.candidate',
+            model: Undergraduate
+        });
 
         if (!company) {
             return res.status(404).json({ error: "company not found" });
         }
+        console.log(company);
 
-        res.status(201).json({
+        res.status(200).json({
             company
         });
     } catch (err) {
         // const errors = handleErrors(err);
-        console.log(errors);
+        console.log(err);
         res.status(400).json(err);
     }
 });
@@ -524,7 +530,7 @@ module.exports.updateCompanyInternApplicationList = catchAsync(async (req, res) 
         if (!company) {
             return res.status(404).json({ error: 'Company not found!' });
         }
-        console.log("company",company);
+        console.log("company", company);
 
         const applicationList = company.internApplications.applicationList;
 

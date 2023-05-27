@@ -58,7 +58,10 @@ module.exports.getUndergraduate = catchAsync(async (req, res) => {
     try {
         const userId = req.params.undergraduateId;
         console.log(userId);
-        const user = await Undergraduate.findById(userId).select('-password');
+        const user = await Undergraduate.findById(userId).select('-password')
+        .populate({
+            path: 'internStatus.company',
+        });
 
         if (!user) {
             res.status(404).json({ error: "user not found!" })
@@ -208,6 +211,26 @@ module.exports.undergraduateDashboard = catchAsync(async (req, res) => {
         const companies = await Company.find();
 
         res.status(200).json({ user, companies });
+    } catch (err) {
+        res.status(500).json({ error: "server error!" });
+    }
+});
+
+// Method: DELETE
+// Endpoint: "/delete"
+// Description: Delete an undergraduate
+// User: Admin
+module.exports.deleteUndergraduate = catchAsync(async (req, res) => {
+    try {
+        const userId = req.params.userId;
+
+        const deletedUser = await Undergraduate.findByIdAndDelete(userId);
+
+        if (!deletedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(202).json({ message: 'User deleted successfully' });
     } catch (err) {
         res.status(500).json({ error: "server error!" });
     }
@@ -567,49 +590,46 @@ module.exports.setWeightedGPA = catchAsync(async (req, res) => {
 // Description = add intern status
 module.exports.addInternStatus = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id // 🛑 user id must get from jwt in future 🛑
+        const userId = req.user.id; // 🛑 user id must get from jwt in future 🛑
         const { companyId, newStatus } = req.body;
 
         const user = await Undergraduate.findById(userId);
 
         if (!user) {
-            res.status(404).json({ message: "user not found!" });
+            return res.status(404).json({ message: "user not found!" });
         }
-        else {
-            const company = await Company.findById(companyId);
 
-            if (!company) {
-                res.status(404).json({ message: "company not found" });
-            }
-            else {
-                const existingInternStatus = user.internStatus.filter((status) => {
-                    return status.company.equals(companyId);
-                });
+        const company = await Company.findById(companyId);
 
-                if (existingInternStatus) {
-                    res.status(400).json({ message: "Error! User already listed on that company" });
-                } else {
-                    const newInternSatatus = { company: companyId, status: newStatus };
-
-                    const updatedUser = await Undergraduate.findByIdAndUpdate(
-                        userId,
-                        { $push: { internStatus: newInternSatatus } },
-                        { new: true }
-                    );
-
-                    if (updatedUser) {
-                        res.status(200).json(updatedUser.internStatus);
-                    }
-                    else {
-                        res.status(400).json("error");
-                    }
-                }
-            }
+        if (!company) {
+            return res.status(404).json({ message: "company not found" });
         }
+
+        const existingInternStatus = user.internStatus.length > 0 && user.internStatus.find((status) => {
+            return status.company.equals(companyId);
+        });
+
+        if (existingInternStatus) {
+            return res.status(400).json({ message: "Error! User already listed on that company" });
+        }
+
+        const newInternStatus = { company: companyId, status: newStatus };
+
+        const updatedUser = await Undergraduate.findByIdAndUpdate(
+            userId,
+            { $push: { internStatus: newInternStatus } },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(400).json("error");
+        }
+        return res.status(200).json({internStatus: updatedUser.internStatus, company});
+
+
     } catch (err) {
         console.log(err);
-        res.status(500).json(err);
-
+        return res.status(500).json(err);
     }
 });
 
@@ -743,7 +763,13 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
     session.startTransaction();
     try {
         const userId = req.user.id;
-        const { companyId, jobRole, type, internshipStart, internshipEnd } = req.body;
+        const { companyId, jobRole, type, internshipStartDate, internshipEndDate } = req.body;
+        console.log(companyId, jobRole, type, internshipStartDate, internshipEndDate);
+
+        const internshipStart = new Date(internshipStartDate)
+        const internshipEnd = new Date(internshipEndDate)
+
+        console.log(internshipStart, internshipEnd);
 
         const user = await Undergraduate.findById(userId).session(session);
         const company = await Company.findById(companyId).session(session);
@@ -871,7 +897,7 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
 
         await session.commitTransaction();
 
-        res.status(201).json({ message: "internship update successfully", candidate });
+        res.status(201).json({ message: "internship update successfully", user });
 
     } catch (err) {
         await session.abortTransaction();
