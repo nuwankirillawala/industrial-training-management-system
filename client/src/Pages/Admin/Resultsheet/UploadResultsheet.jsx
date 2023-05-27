@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Tile } from "../../../components/card/Tile";
 import { Box, Button, Divider, Grid, Stack, Typography } from "@mui/material";
 import { StatusSnackBar } from "../../../components/StatusSnackBar/StatusSnackBar";
 import axios from "axios";
-
+import { Upload } from "@mui/icons-material";
+// import { useHistory } from "react-router-dom"
 const UploadResultsheet = () => {
   // on change states
   const [excelFile, setExcelFile] = useState(null);
@@ -11,12 +12,12 @@ const UploadResultsheet = () => {
   //End of on change states
 
   //statusSnackBar state
-  const [trigger, setTrigger] = useState({
-    inputError: false,
-    onlyExcel: false,
-    success: false,
-  });
+  const [trigger, setTrigger] = useState(false);
   //End of statusSnackBar state
+
+  //use State for filename
+  const [fileName, setFileName] = useState("");
+  //End of states
 
   //handle snackbar
   const handleSnackBar = (key) => {
@@ -39,6 +40,7 @@ const UploadResultsheet = () => {
       // console.log(selectedFile.type);
       if (selectedFile && fileType.includes(selectedFile.type)) {
         setExcelFile(selectedFile);
+        setFileName(selectedFile.name);
         setExcelFileStatus("Success");
         console.log(excelFile);
       } else {
@@ -47,12 +49,22 @@ const UploadResultsheet = () => {
         handleSnackBar("onlyExcel");
       }
     } else {
-      setExcelFileStatus("please select your file");
-      setExcelFile(null);
-      handleSnackBar("inputError");
+      // setExcelFileStatus("please select your file");
+      // setExcelFile(null);
+      // handleSnackBar("inputError");
     }
   };
   //End of Handle file
+
+  //reference for input
+  const fileInputRef = useRef(null);
+  //End of reference
+
+  //Calling the reference
+  const handleAttachButtonClick = () => {
+    fileInputRef.current.click();
+  };
+  //end of calling the reference
 
   // submit function
   const handleSubmit = async (e) => {
@@ -89,11 +101,7 @@ const UploadResultsheet = () => {
       <Grid item xs={12}>
         <Box mb={1}>
           <Box>
-            <Typography
-              variant="pageTitle"
-            >
-              Upload Result Sheet
-            </Typography>
+            <Typography variant="pageTitle">Upload Result Sheet</Typography>
           </Box>
         </Box>
       </Grid>
@@ -101,7 +109,9 @@ const UploadResultsheet = () => {
         <Grid container spacing={1} style={{ height: "100%" }}>
           <Grid item xs={12}>
             <Tile style={{ height: "100%" }}>
-              <Typography variant="head6">Instruction for the upload:</Typography>
+              <Typography variant="head6">
+                Instruction for the upload:
+              </Typography>
               <Divider sx={{ m: 1 }} />
               <Grid
                 container
@@ -117,14 +127,14 @@ const UploadResultsheet = () => {
                     2. Navigate to the folder on your device where the Excel
                     file is located.
                     <br />
-                    3. Select the Excel file by clicking on it and then click
-                    on the "Open" button in the dialog box.
+                    3. Select the Excel file by clicking on it and then click on
+                    the "Open" button in the dialog box.
                     <br />
                     4. Once you've selected the file, the file input field
                     should display the file name or path to the file.
                     <br />
-                    5. Submit the form or perform any other necessary actions
-                    to upload or process the selected Excel file. <br />
+                    5. Submit the form or perform any other necessary actions to
+                    upload or process the selected Excel file. <br />
                     <br />
                     <br />
                   </Typography>
@@ -132,21 +142,48 @@ const UploadResultsheet = () => {
                     Note: It's important to ensure that the Excel file you are
                     selecting is in a format that is compatible with the webpage
                     or application you are using. Some file formats, such as
-                    older versions of Excel files, may not be compatible and
-                    may cause errors or problems.
+                    older versions of Excel files, may not be compatible and may
+                    cause errors or problems.
                   </Typography>
                 </Grid>
                 <Grid item>
                   <Grid container justifyContent="center">
                     <form onSubmit={handleSubmit}>
-                      <input
+                      <Stack direction={"column"}>
+                        <Box>
+                          <Button
+                            variant="itms"
+                            size="itms-x-small"
+                            endIcon={<Upload />}
+                            sx={{ textTransform: "capitalize" }}
+                            onClick={handleAttachButtonClick}
+                          >
+                            Attach
+                          </Button>
+                        </Box>
+                        <Box>
+                          {fileName && (
+                            <Typography variant="body2" sx={{ ml: 1 }}>
+                              {fileName}
+                            </Typography>
+                          )}
+                        </Box>
+                        <input
+                          type="file"
+                          accept="*"
+                          ref={fileInputRef}
+                          onChange={handleFile}
+                          style={{ display: "none" }}
+                        />
+                      </Stack>
+                      {/* <input
                         onSubmit={handleSubmit}
                         type="file"
                         onChange={handleFile}
-                      />
+                      /> */}
                       <br />
                       <Button
-                        // type="submit"
+                        type="submit"
                         variant="itms"
                         size="itms-x-small"
                         onClick={handleSubmit}
@@ -155,6 +192,12 @@ const UploadResultsheet = () => {
                         Submit
                       </Button>
                     </form>
+                    <StatusSnackBar
+                      trigger={trigger}
+                      setTrigger={setTrigger}
+                      severity="error"
+                      alertMessage={excelFileStatus}
+                    />
                   </Grid>
                 </Grid>
               </Grid>
