@@ -109,7 +109,7 @@ export const AdminDashboard = () => {
               title="Undergraduate Profile"
               color="primary"
               icon={GroupIcon}
-              link="/portfolio"
+              link="/student/profile"
             />
           </Stack>
         </Grid>
