@@ -7,7 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { Unilogo } from '../shared/Images/Unilogo';
 import { Grid } from '@mui/material';
-import { AddBusiness, Apartment, ArrowBack, ArrowUpward, Article, Assessment, Ballot, Business, ChevronLeft, Create, Dashboard, Delete, LocationCity, Logout, Margin, Menu, Note, Notifications, NotificationsNone, Settings } from '@mui/icons-material';
+import { AddBusiness, Apartment, ArrowBack, ArrowUpward, Article, Assessment, Autorenew, Ballot, Business, ChevronLeft, Create, Dashboard, Delete, Groups, Info, LocationCity, Logout, ManageAccounts, Margin, Menu, Note, Notes, Notifications, NotificationsNone, Settings, UploadFile } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import MuiDrawer from '@mui/material/Drawer';
@@ -112,7 +112,7 @@ const users = [
       {
         id: 6,
         primaryText: 'Report Submision',
-        icon: <ArrowUpward />,
+        icon: <UploadFile />,
         element: '/student-report'
       },
       {
@@ -141,7 +141,7 @@ const users = [
       {
         id: 2,
         primaryText: 'User Management',
-        icon: <Article />,
+        icon: <ManageAccounts />,
         element: '/manage-user'
       },
       {
@@ -153,31 +153,31 @@ const users = [
       {
         id: 4,
         primaryText: 'Results',
-        icon: <Assessment />,
+        icon: <Info />,
         element: '/result-sheet/view'
       },
       {
         id: 5,
         primaryText: 'Intern Process',
-        icon: <Notifications />,
+        icon: <Autorenew />,
         element: '/intern-process/type'
       },
       {
         id: 6,
         primaryText: 'Intern Reports',
-        icon: <Create />,
+        icon: <Ballot />,
         element: '/report-portal'
       },
       {
         id: 7,
         primaryText: 'Private Notes',
-        icon: <Delete />,
+        icon: <Note />,
         element: '/deletenotices'
       },
       {
         id: 8,
         primaryText: 'Notices',
-        icon: <Delete />,
+        icon: <Notifications />,
         element: '/deletenotices'
       }
     ]
@@ -194,19 +194,19 @@ const users = [
       {
         id: 2,
         primaryText: 'Intern Members',
-        icon: <Ballot />,
+        icon: <Groups />,
         element: '/intern-process-student'
       },
       {
         id: 3,
         primaryText: 'Report Submission',
-        icon: <LocationCity />,
+        icon: <UploadFile />,
         element: '/student-company'
       },
       {
         id: 4,
         primaryText: 'Private Notes',
-        icon: <Assessment />,
+        icon: <Note />,
         element: '/daily-report-list'
       }
     ]

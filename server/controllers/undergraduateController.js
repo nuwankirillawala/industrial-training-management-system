@@ -760,10 +760,13 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
         const { companyId, jobRole, type, internshipStartDate, internshipEndDate } = req.body;
+        console.log(companyId, jobRole, type, internshipStartDate, internshipEndDate );
 
-        const internshipStart = internshipStartDate.toISOString();
-        const internshipEnd = internshipEndDate.toISOString();
+        const internshipStart = new Date(internshipStartDate)
+        const internshipEnd = new Date(internshipEndDate)
 
+        console.log(internshipStart, internshipEnd);
+        
         const user = await Undergraduate.findById(userId).session(session);
         const company = await Company.findById(companyId).session(session);
         if (!user) {
@@ -890,7 +893,7 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
 
         await session.commitTransaction();
 
-        res.status(201).json({ message: "internship update successfully", candidate });
+        res.status(201).json({ message: "internship update successfully", user });
 
     } catch (err) {
         await session.abortTransaction();
