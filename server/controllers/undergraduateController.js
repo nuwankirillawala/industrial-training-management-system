@@ -763,8 +763,11 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
     session.startTransaction();
     try {
         const userId = req.user.id;
-        const { companyId, jobRole, type, internshipStart, internshipEnd } = req.body;
+        const { companyId, jobRole, type, internshipStartDate, internshipEndDate } = req.body;
 
+        const internshipStart = internshipStartDate.toISOString();
+        const internshipEnd = internshipEndDate.toISOString();
+        
         const user = await Undergraduate.findById(userId).session(session);
         const company = await Company.findById(companyId).session(session);
         if (!user) {
