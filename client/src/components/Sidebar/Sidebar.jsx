@@ -175,7 +175,7 @@ const users = [
         element: '/deletenotices'
       },
       {
-        id: 7,
+        id: 8,
         primaryText: 'Notices',
         icon: <Delete />,
         element: '/deletenotices'

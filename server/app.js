@@ -26,6 +26,7 @@ app.use(cors({
 app.use(cookieParser());
 
 app.use('/files/images', express.static('files/images'));
+app.use('/files/pdf', express.static('files/pdf'));
 
 // routes
 app.get('*', checkUser);

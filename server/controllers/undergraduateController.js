@@ -213,6 +213,26 @@ module.exports.undergraduateDashboard = catchAsync(async (req, res) => {
     }
 });
 
+// Method: DELETE
+// Endpoint: "/delete"
+// Description: Delete an undergraduate
+// User: Admin
+module.exports.deleteUndergraduate = catchAsync(async (req, res) => {
+    try {
+        const userId = req.params.userId;
+
+        const deletedUser = await Undergraduate.findByIdAndDelete(userId);
+
+        if (!deletedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(202).json({ message: 'User deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ error: "server error!" });
+    }
+});
+
 // Method: POST
 // Endpoint: "/note"
 // Description: Add a note

@@ -25,5 +25,9 @@ router.route('/users/:userType')
 router.route('/users/search/:userType')
     .get(adminController.searchUsers)
 
+router.route('/delete/:userId')
+    .delete(adminController.deleteAdmin)
+
+
 
 module.exports = router;

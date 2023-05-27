@@ -6,18 +6,18 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import { useNavigate } from 'react-router-dom';
 
 
-const CompanyInternList = () => {
+const SelectCompanyInternList = () => {
   const { data } = useFetch('GET', 'http://localhost:5000/api/v1/company/intern-process/company-list', null);
   const companies = data;
 
   const navigate = useNavigate();
 
   const handleView = (company) => {
-    navigate(`/intern-process/c/${company.id}`)
+    navigate(`/company/intern-list/${company.id}`)
   }
   
   const handleSend = (company) => {
-    navigate(`/intern-process/c/${company.id}`)
+    navigate(`intern-process/c/${company.id}`)
   }
 
   const rows =
@@ -75,4 +75,4 @@ const CompanyInternList = () => {
   );
 };
 
-export default CompanyInternList;
+export default SelectCompanyInternList;

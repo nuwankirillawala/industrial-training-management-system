@@ -235,3 +235,24 @@ module.exports.searchUsers = catchAsync(async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+
+// Method: DELETE
+// Endpoint: "/delete/:userId"
+// Description: Delete an Admin
+// User: Admin
+module.exports.deleteAdmin = catchAsync(async (req, res) => {
+    try {
+        const userId = req.params.userId;
+
+        const deletedUser = await Admin.findByIdAndDelete(userId);
+
+        if (!deletedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(202).json({ message: 'User deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ error: "server error!" });
+    }
+});

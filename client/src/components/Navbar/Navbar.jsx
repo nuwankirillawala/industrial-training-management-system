@@ -17,7 +17,7 @@ const drawerWidth = "auto";
 export default function Navbar() {
   const navigate = useNavigate()
   const { user } = useAuth();
-  console.log(user);
+  // console.log(user);
 
   // const [Name, setName] = useState('');
   // setName(user.role)  //needs user.name while integrate
