@@ -503,21 +503,30 @@ module.exports.internProcessCompany = catchAsync(async (req, res) => {
         const companyId = req.params.companyId;
         const company = await Company.findById(companyId)
             .maxTimeMS(15000)
-            .populate({
-                path: 'internApplications.applicationList.candidate',
-                model: Undergraduate,
-                session
-            })
+            .populate(
+                {
+                    path: 'internApplications.applicationList.candidate',
+                    model: Undergraduate,
+                    session
+                },
+                {
+                    path: 'internApplications.recommendations.candidate',
+                    model: Undergraduate,
+                    session
+                })
             .session(session);
-        const users = await Undergraduate.find().session(session);
+
         if (!company) {
             await session.abortTransaction();
             return res.status(400).json({ message: "Can't find the company" });
         }
+
+        const users = await Undergraduate.find().session(session);
         users.forEach(async (user) => {
+            // check company selections
             const companySelection = user.companySelection;
             const choices = Object.keys(companySelection);
-            let isCompanySelected = false; // Track if the company is already selected
+            let isCompanySelected = false;
 
             choices.forEach((choice) => {
                 const choiceNumber = parseInt(choice.replace('choice', ''));
@@ -527,14 +536,13 @@ module.exports.internProcessCompany = catchAsync(async (req, res) => {
                 const companyExists = companyInChoice === companyId;
 
                 if (companyExists && !isCompanySelected) {
-                    // Update isListed attribute to indicate undergraduate's choice
                     user.isListed = {
                         choice: {
                             isSelected: true,
                             choiceNumber: choiceNumber
                         }
                     };
-                    isCompanySelected = true; // Set the flag to true after selecting a company
+                    isCompanySelected = true;
                 } else {
                     user.isListed = {
                         choice: {
@@ -544,22 +552,11 @@ module.exports.internProcessCompany = catchAsync(async (req, res) => {
                     };
                 }
 
-                // console.log(user.isListed.choice.choiceNumber);
                 // user.markModified('isListed');
             });
-            console.log(user.name);
-            console.log(user.isListed);
-            console.log(user.internStatus);
-            // await user.save({ session });
-            // user = '';
 
-            // user = await Undergraduate.findOneAndUpdate(user._id, { isListed: user.isListed }, { session, runValidators: true });
-            // if (!user) {
-            //     console.log("error");
-            //     await session.abortTransaction();
-            //     return;
-
-            // }
+            internApplications.recommendations.find()
+            
 
         });
 
@@ -597,20 +594,10 @@ module.exports.updateCompanyInternApplicationList = catchAsync(async (req, res) 
 
         console.log("company", company);
 
-        //   const applicationList = company.internApplications.applicationList;
         const applicationList = [];
-
-
-        //   const existingCandidates = company.internApplications.applicationList.map(
-        //     (item) => item.candidate.toString()
-        //   );
 
         candidateList.forEach(async (candidate) => {
             console.log(candidate);
-            // const user = await Undergraduate.findById(candidate._id);
-            // const candidateExists = existingCandidates.includes(candidateId);
-
-            // if (!candidateExists && applicationList.length < company.internApplications.applicationListSize) {
             if (applicationList.length < company.internApplications.applicationListSize) {
 
                 applicationList.push({ candidate: candidate._id });
