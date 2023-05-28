@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { Tile } from "../../../../components/card/Tile";
 import Dialogbox from "../../../../components/Dialogbox/Dialogbox";
-import { RemoveAdminForm } from "../../../../components/user/Admin/Forms/Removes/RemoveAdminForm";
 import { RemoveUserForm } from "../../../../components/user/Admin/Forms/RemoveUserForm";
 import axios from "axios";
 
