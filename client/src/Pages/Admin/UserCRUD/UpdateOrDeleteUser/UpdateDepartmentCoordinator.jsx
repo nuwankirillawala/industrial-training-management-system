@@ -62,7 +62,7 @@ const UpdateDepartmentCoordinator = () => {
                   <TableCell >   {r.contactNo}  </TableCell>
                   <TableCell >   {r.staffId} </TableCell>
                   <TableCell> <Dialogbox title="Update Department Coordinator" btn_name="update"><UpdateDepartmentCoordForm userId={r._id} /></Dialogbox></TableCell>
-                  <TableCell> <Dialogbox title="Remove Department Coordinator" btn_name="remove"><RemoveUserForm /></Dialogbox></TableCell>
+                  <TableCell> <Dialogbox title="Remove Department Coordinator" btn_name="remove"><RemoveUserForm userId={r._id} userRole={r.role} /></Dialogbox></TableCell>
                 </TableRow> //id,title,description need to change as json file
               )}
 

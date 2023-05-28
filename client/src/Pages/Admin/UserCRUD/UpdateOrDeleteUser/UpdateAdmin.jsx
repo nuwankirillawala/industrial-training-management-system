@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { Tile } from "../../../../components/card/Tile";
 import Dialogbox from "../../../../components/Dialogbox/Dialogbox";
+import { RemoveAdminForm } from "../../../../components/user/Admin/Forms/Removes/RemoveAdminForm";
 import { RemoveUserForm } from "../../../../components/user/Admin/Forms/RemoveUserForm";
 import axios from "axios";
 
@@ -61,7 +62,7 @@ const UpdateAdmin = () => {
                   <TableCell >   {r.contactNo}  </TableCell>
                   <TableCell >   {r.staffId} </TableCell>
                   <TableCell> <Dialogbox title="Update Administrator" btn_name="update"><UpdateAdminForm userId={r._id} /></Dialogbox></TableCell>
-                  <TableCell> <Dialogbox title="Remove Administrator" btn_name="remove"><RemoveUserForm userId={r._id} /></Dialogbox></TableCell>
+                  <TableCell> <Dialogbox title="Remove Administrator" btn_name="remove"><RemoveUserForm userId={r._id} userRole={r.role} /></Dialogbox></TableCell>
                 </TableRow> //id,title,description need to change as json file
               )}
 
