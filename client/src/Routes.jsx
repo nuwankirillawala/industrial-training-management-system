@@ -32,6 +32,7 @@ import { StudentReportPortal } from "./Pages/Undergraduate/ReportSubmission/Stud
 import { Internship } from "./Pages/Undergraduate/Internship/Internship";
 import { InternStatus } from "./Pages/Undergraduate/InternStatus/InternStatus";
 import { CVUpload } from "./Pages/Undergraduate/CVUpload";
+import { ReportPortalSupervisor } from "./Pages/Supervisor/ReportSubmission/ReportPortalSupervisor";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -69,6 +70,10 @@ const router = createBrowserRouter(
 
         {/* Supervisor */}
         <Route path="supervisor-dashboard" element={<SupervisorDashboard />} />
+        <Route
+          path="supervisor-report-portal"
+          element={<ReportPortalSupervisor />}
+        />
 
         {/* Admin Routes  */}
         <Route path="admin/add" element={<Admin.AddAdmin />} />
