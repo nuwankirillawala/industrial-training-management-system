@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import {
   Stack,
@@ -14,6 +14,8 @@ import {
   Box,
 } from "@mui/material";
 import { Tile } from "../../components/card/Tile";
+import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
+import axios from "axios";
 
 function resultsData(courseUnitCode, courseUnitName, courseUnitGrade) {
   return {
@@ -53,9 +55,47 @@ const results = [
 const tableHeight = 480;
 
 export const StudentShowResult = () => {
+  //State for selected Level
   const [level, setLevels] = useState("");
+  //state for selected semester
   const [semester, setSemesters] = useState("");
-  const [unitcode, setUnitCode] = useState("");
+  //State for selected unicode
+  const [data, setData] = useState("");
+  //State for backdrop
+  const [openBackdrop, setOpenBackdrop] = useState(false);
+  //End of States
+
+  //MenuItems for selection
+  // const level = ['level-01', 'level-02', ]
+  //End of menu items for selection
+
+  //Onchange function in select
+  const onChangeLevel = (e) => {
+    setLevels(e.target.value);
+  };
+
+  const onChangeSemester = (e) => {
+    setSemesters(e.target.value);
+  };
+  //End of onChange
+
+  //Fetch data from the backend
+  const getData = async () => {
+    setOpenBackdrop(true);
+    try {
+      const res = await axios.get("");
+      if (res.status === 200) console.log(res.data);
+      else console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+    setOpenBackdrop(false);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+  //End of fetching data
 
   return (
     <Box>
@@ -64,7 +104,7 @@ export const StudentShowResult = () => {
           <Typography variant="pageTitle">View Results</Typography>
         </Box>
         <Tile>
-          <Stack direction={"column"} spacing={2} height={"82vh"}>
+          <Stack direction={"column"} spacing={2} height={"75vh"}>
             <Stack
               direction={"row"}
               spacing={2}
@@ -75,53 +115,33 @@ export const StudentShowResult = () => {
                 <Typography variant="body" fontWeight={"bold"}>
                   Level
                 </Typography>
-                <Select variant="outlined" size="small" fullWidth>
-                  <MenuItem
-                    onClick={() => {
-                      setLevels("1");
-                      console.log(level);
-                    }}
-                  >
-                    Level 1
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      setLevels("2");
-                      console.log(level);
-                    }}
-                  >
-                    Level 2
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      setLevels("3");
-                      console.log(typeof level);
-                    }}
-                  >
-                    Level 3
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      setLevels("");
-                      console.log(level);
-                    }}
-                  >
-                    All
-                  </MenuItem>
+                <Select
+                  value={level}
+                  variant="outlined"
+                  size="small"
+                  onChange={onChangeLevel}
+                  fullWidth
+                >
+                  <MenuItem value="1">Level 1</MenuItem>
+                  <MenuItem value="2">Level 2</MenuItem>
+                  <MenuItem value="3">Level 3</MenuItem>
+                  <MenuItem value="">All</MenuItem>
                 </Select>
               </Stack>
               <Stack direction={"row"} spacing={2} flex={3}>
                 <Typography variant="body" fontWeight={"bold"}>
                   Semester
                 </Typography>
-                <Select variant="outlined" size="small" fullWidth>
-                  <MenuItem onClick={() => setSemesters("1")}>
-                    Semester 1
-                  </MenuItem>
-                  <MenuItem onClick={() => setSemesters("2")}>
-                    Semester 2
-                  </MenuItem>
-                  <MenuItem onClick={() => setSemesters("")}>All</MenuItem>
+                <Select
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={semester}
+                  onChange={onChangeSemester}
+                >
+                  <MenuItem value="1">Semester 1</MenuItem>
+                  <MenuItem value="2">Semester 2</MenuItem>
+                  <MenuItem value="">All</MenuItem>
                 </Select>
               </Stack>
             </Stack>
@@ -215,6 +235,7 @@ export const StudentShowResult = () => {
           </Stack>
         </Tile>
       </Stack>
+      {openBackdrop && <CustomBackdrop />}
     </Box>
   );
 };
