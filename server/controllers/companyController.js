@@ -106,6 +106,29 @@ module.exports.getAllCompanies = catchAsync(async (req, res) => {
 });
 
 
+// Method: DELETE
+// Endpoint: "/delete/:companyId"
+// Description: Delete an company
+// User: Admin
+module.exports.deleteCompany = catchAsync(async (req, res) => {
+    try {
+        const companyId = req.params.companyId;
+
+        const deletedCompany = await Company.findByIdAndDelete(companyId);
+
+        if (!deletedCompany) {
+            return res.status(404).json({ message: 'Company not found' });
+        }
+
+        res.status(202).json({ message: 'Company deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ error: "server error!" });
+    }
+});
+
+
+
+
 // Method: POST
 // Endpoint: "/:companyID/contact-person"
 // Description: add a contact person for a company
