@@ -65,12 +65,12 @@ export const StudentCompany = () => {
   const getCompanyList = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/v1/company/intern-process/company-list",
-        { withCredentials: true }
+        "http://localhost:5000/api/v1/company/intern-process/company-list"
       );
-      if (res.data.status === "success") {
+      // console.log(res.status);
+      if (res.status === 200) {
         // console.log(res.data.data);
-        setCompanyList(res.data.data);
+        setCompanyList(res.data);
       }
     } catch (error) {
       console.log(error);
@@ -98,7 +98,6 @@ export const StudentCompany = () => {
                     <Tabs value={value} onChange={handleChange}>
                       <Tab label="Company Choice" />
                       <Tab label="Intern Status" />
-                      <Tab label="Intern Period" />
                     </Tabs>
                   </Box>
                   <TabPanel value={value} index={0}>
@@ -113,9 +112,6 @@ export const StudentCompany = () => {
                   <TabPanel value={value} index={2}>
                     {page.no === 2 && (
                       <StudentAddCompany pageNo={page} setPage={setPage} />
-                    )}
-                    {page.no === 1 && (
-                      <StudentInternPeriod pageNo={page} setPage={setPage} />
                     )}
                   </TabPanel>
                 </Box>
