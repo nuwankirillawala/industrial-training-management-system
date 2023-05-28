@@ -75,7 +75,7 @@ export const StudentDashboard = () => {
               title="Report Submission"
               color="green"
               icon={UploadFileIcon}
-              link="/report-portal"
+              link="/student-report"
             />
             <FeaturedCard
               title="Your Portfolio"
