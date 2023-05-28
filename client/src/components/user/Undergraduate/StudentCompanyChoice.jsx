@@ -34,6 +34,7 @@ export const StudentCompanyChoice = () => {
   const [choice, setChoice] = useState(CompanyChoice);
   const [companyList, setCompanyList] = useState([]);
   const [choisedCompany, setChoisedCompany] = useState();
+  const [message, setMessage] = useState();
 
   //statusSnackBar state
   const [trigger, setTrigger] = useState({
@@ -53,12 +54,12 @@ export const StudentCompanyChoice = () => {
   const getCompanyList = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/v1/company/intern-process/company-list",
-        { withCredentials: true }
+        "http://localhost:5000/api/v1/company/intern-process/company-list"
       );
-      if (res.data.status === "success") {
-        console.log("company list : ", res.data.data);
-        setCompanyList(res.data.data);
+      //   console.log(res);
+      if (res.status === 200) {
+        // console.log("company list : ", res.data);
+        setCompanyList(res.data);
       }
     } catch (error) {
       console.log(error);
@@ -67,12 +68,11 @@ export const StudentCompanyChoice = () => {
   const getChoisedCompany = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/v1/undergraduate/intern/company-selection",
-        { withCredentials: true }
+        "http://localhost:5000/api/v1/undergraduate/intern/company-selection"
       );
       if (res.status === 200) {
-        console.log("Student choices : ", res.data.companySelection);
-        setChoisedCompany(res.data.companySelection);
+        console.log("Student choices : ", res.data);
+        setChoisedCompany(res.data.companySelection.companySelection);
       }
     } catch (error) {
       console.log(error);
@@ -115,11 +115,13 @@ export const StudentCompanyChoice = () => {
         { withCredentials: true }
       );
       console.log(res.status);
-      if (res.status === 200) {
+      if (res.status === 201) {
+        setMessage("Update Succefully");
         handleSnackBar("success");
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.error);
+      setMessage(error.response.data.error);
       handleSnackBar("error");
     }
   };
@@ -157,9 +159,6 @@ export const StudentCompanyChoice = () => {
                         onChange={handleChange}
                         label="company01"
                       >
-                        <MenuItem value="none">
-                          <em>None</em>
-                        </MenuItem>
                         {companyList.map((company) => (
                           <MenuItem value={company._id}>
                             {company.name}
@@ -180,9 +179,6 @@ export const StudentCompanyChoice = () => {
                         onChange={handleChange}
                         label="jobRole01"
                       >
-                        <MenuItem value="none">
-                          <em>None</em>
-                        </MenuItem>
                         <MenuItem value={"software_engineering"}>
                           Software eng
                         </MenuItem>
@@ -213,9 +209,6 @@ export const StudentCompanyChoice = () => {
                         onChange={handleChange}
                         label="company02"
                       >
-                        <MenuItem value="none">
-                          <em>None</em>
-                        </MenuItem>
                         {companyList.map((company) => (
                           <MenuItem value={company._id}>
                             {company.name}
@@ -236,9 +229,6 @@ export const StudentCompanyChoice = () => {
                         onChange={handleChange}
                         label="jobRole02"
                       >
-                        <MenuItem value="none">
-                          <em>None</em>
-                        </MenuItem>
                         <MenuItem value={"software_engineering"}>
                           Software eng
                         </MenuItem>
@@ -269,9 +259,6 @@ export const StudentCompanyChoice = () => {
                         onChange={handleChange}
                         label="company03"
                       >
-                        <MenuItem value="none">
-                          <em>None</em>
-                        </MenuItem>
                         {companyList.map((company) => (
                           <MenuItem value={company._id}>
                             {company.name}
@@ -292,9 +279,6 @@ export const StudentCompanyChoice = () => {
                         onChange={handleChange}
                         label="jobRole03"
                       >
-                        <MenuItem value="none">
-                          <em>None</em>
-                        </MenuItem>
                         <MenuItem value={"software_engineering"}>
                           Software eng
                         </MenuItem>
@@ -325,9 +309,6 @@ export const StudentCompanyChoice = () => {
                         onChange={handleChange}
                         label="company04"
                       >
-                        <MenuItem value="none">
-                          <em>None</em>
-                        </MenuItem>
                         {companyList.map((company) => (
                           <MenuItem value={company._id}>
                             {company.name}
@@ -348,9 +329,6 @@ export const StudentCompanyChoice = () => {
                         onChange={handleChange}
                         label="jobRole04"
                       >
-                        <MenuItem value="none">
-                          <em>None</em>
-                        </MenuItem>
                         <MenuItem value={"software_engineering"}>
                           Software eng
                         </MenuItem>
@@ -381,9 +359,6 @@ export const StudentCompanyChoice = () => {
                         onChange={handleChange}
                         label="company05"
                       >
-                        <MenuItem value="none">
-                          <em>None</em>
-                        </MenuItem>
                         {companyList.map((company) => (
                           <MenuItem value={company._id}>
                             {company.name}
@@ -404,9 +379,6 @@ export const StudentCompanyChoice = () => {
                         onChange={handleChange}
                         label="jobRole05"
                       >
-                        <MenuItem value="none">
-                          <em>None</em>
-                        </MenuItem>
                         <MenuItem value={"software_engineering"}>
                           Software eng
                         </MenuItem>
@@ -446,7 +418,7 @@ export const StudentCompanyChoice = () => {
           setTrigger={() => {
             handleSnackBar("success");
           }}
-          alertMessage={"Update Successfully"}
+          alertMessage={message}
         />
         <StatusSnackBar
           severity="error"
@@ -454,7 +426,7 @@ export const StudentCompanyChoice = () => {
           setTrigger={() => {
             handleSnackBar("error");
           }}
-          alertMessage={"Update fail"}
+          alertMessage={message}
         />
       </Grid>
     </Grid>
