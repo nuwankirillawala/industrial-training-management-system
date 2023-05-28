@@ -377,74 +377,97 @@ export default function Sidebar() {
           )}
         </Box>
         <Stack>
-        <Toolbar sx={{ display: 'flex', justifyContent: 'center' }}>
-        {open && (
-          <Stack position={'relative'} top={0}>
-            <Grid container justifyContent="center">
-              <Unilogo width='50px' height='100px' />
-            </Grid>
-            <Typography
-              variant={'h6'}
-              fontWeight={'bold'}
-              letterSpacing={5}
-              sx={{
-                position: 'relative',
-                top: 5,
-                lineHeight: 1.2,
-              }}>
-              ITMS
-            </Typography>
-          </Stack>
-        )}
-        </Toolbar>
+          <Toolbar sx={{ display: 'flex', justifyContent: 'center' }}>
+            {open && (
+              <Stack position={'relative'} top={0}>
+                <Grid container justifyContent="center">
+                  <Unilogo width='50px' height='100px' />
+                </Grid>
+                <Typography
+                  variant={'h6'}
+                  fontWeight={'bold'}
+                  letterSpacing={5}
+                  sx={{
+                    position: 'relative',
+                    top: 5,
+                    lineHeight: 1.2,
+                  }}>
+                  ITMS
+                </Typography>
+              </Stack>
+            )}
+          </Toolbar>
         </Stack>
-        <Stack sx={{ position: 'relative', top: 50, justifyContent: 'center' }}>
+        <Stack
+          sx={{
+            position: 'absolute',
+            top: 200,
+            left: 0,
+            right: 0
+          }}
+        >
           {users.map((user) => (
             <ListItem key={user.name} disablePadding>
             </ListItem>
           ))}
-          {currentUser && currentUser.items.map((item) => (
-            <ListItemButton
-              key={item.id}
-              sx={buttonStyles}
-              onClick={() => handleCurrentUserItem(currentUser, item.element)}
-            >
-              {!open ? (
-                <ListItemIconWrapper sx={{ color: 'inherit' }}>
+          <Stack
+            sx={{
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
+            {currentUser && currentUser.items.map((item) => (
+              <ListItemButton
+                key={item.id}
+                sx={buttonStyles}
+                onClick={() => handleCurrentUserItem(currentUser, item.element)}
+              >
+                <ListItemIcon
+                 sx={{ 
+                    color: 'inherit',
+                    justifyContent: 'center',
+                    position: 'relative',
+                    left: open ? '0' : '-8px',
+                    transition: 'left 0.3s'
+                  }}
+                >
                   {item.icon}
-                </ListItemIconWrapper>
-              ) : null}
-              {!open ? null : (
-                <React.Fragment>
-                  <ListItemIcon sx={{ color: 'inherit', justifyContent: 'center' }}>
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={item.primaryText} />
-                </React.Fragment>
-              )}
-            </ListItemButton>
-          ))}
+                </ListItemIcon>
+                  {open && (
+                    <ListItemText primary={item.primaryText} />
+                  )}
+              </ListItemButton>
+            ))}
+          </Stack>  
         </Stack>
-        <Stack sx={{ position: 'relative', top: 100 }}>
-          {controlItems.map((controlItem) => (
+        <Stack 
+          sx={{
+            position: 'absolute',
+            bottom: 20,
+            left: 0,
+            right: 0
+          }}
+        >
+          {controlItems.map((controlItem ) => (
             <ListItemButton
               key={controlItem.id}
               sx={buttonStyles}
               onClick={(e) => controlItem.id === 3 ? handleLogout(e) : handleControlItem(controlItem.page)}
             >
-              {!open ? (
-                <ListItemIconWrapper sx={{ color: 'inherit' }}>
-                  {controlItem.icon}
-                </ListItemIconWrapper>
-              ) : null}
-              {!open ? null : (
-                <React.Fragment>
-                  <ListItemIcon sx={{ color: 'inherit', justifyContent: 'center' }}>
-                    {controlItem.icon}
-                  </ListItemIcon>
+              <ListItemIcon
+               sx={{
+                  color: 'inherit',
+                  justifyContent: 'center',
+                  position: 'relative',
+                  left: open ? '0' : '-8px',
+                  transition: 'left 0.3s'
+                }}
+              >
+                {controlItem.icon}
+              </ListItemIcon>
+                {open && (
                   <ListItemText primary={controlItem.label} />
-                </React.Fragment>
-              )}
+                )}
             </ListItemButton>
           ))}
         </Stack>
