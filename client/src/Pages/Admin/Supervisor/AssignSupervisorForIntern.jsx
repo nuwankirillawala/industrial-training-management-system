@@ -31,11 +31,15 @@ const AssignSupervisorForIntern = () => {
 
   //state for the assigned supervisor
   const [selectedSupervisor, setSelectedSupervisor] = useState("");
+
+  //State for Backdrop
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   //End of state
 
   //Fetching data
   //function for get intern student list
   const getStudentList = async () => {
+    setOpenBackdrop(true);
     try {
       const res = await axios.get(
         "http://localhost:5000/api/v1/undergraduate/intern/list",
@@ -58,10 +62,12 @@ const AssignSupervisorForIntern = () => {
     } catch (error) {
       console.log(error);
     }
+    setOpenBackdrop(false);
   };
 
   //function for get company and supervisor details
   const getSupervisor = async () => {
+    setOpenBackdrop(true);
     try {
       const res = await axios.get(
         `http://localhost:5000/api/v1/undergraduate/intern/assign-supervisor/${selectedStudent.id}`,
@@ -78,6 +84,7 @@ const AssignSupervisorForIntern = () => {
     } catch (error) {
       console.log(error);
     }
+    setOpenBackdrop(false);
   };
 
   useEffect(() => {
@@ -231,6 +238,7 @@ const AssignSupervisorForIntern = () => {
           </Tile>
         </Stack>
       </Box>
+      {openBackdrop && <CustomBackdrop />}
     </Box>
   );
 };

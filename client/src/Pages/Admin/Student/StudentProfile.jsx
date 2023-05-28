@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Stack, Box, Divider, Paper, Grid, Typography } from "@mui/material";
+import {
+  Stack,
+  Box,
+  Divider,
+  Paper,
+  Grid,
+  Typography,
+  Button,
+} from "@mui/material";
 import { Tile } from "../../../components/card/Tile";
 import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
 import { ShowStudentResults } from "../../../components/user/Department/ShowStudentResults";
 import { DepartmentShowStudentProfile } from "../../../components/user/Department/DepartmentShowStudentProfile";
+import FeaturedCard from "../../../components/Dashboard/FeaturedCard";
+import ContactPageIcon from "@mui/icons-material/ContactPage";
 
 const StudentProfile = () => {
   const [selecteduser, setSelectedUser] = useState();
@@ -157,7 +167,7 @@ const StudentProfile = () => {
       {select === true && (
         <>
           {/* <Grid container spacing={1}> */}
-          <Grid item md={3}>
+          {/* <Grid item md={3}>
             <Tile>
               <Stack spacing={2}>
                 <Stack>
@@ -196,18 +206,52 @@ const StudentProfile = () => {
                 </Stack>
               </Stack>
             </Tile>
-          </Grid>
-          <Grid item md={9}>
-            <Tile>
-              <Stack direction={"row"} spacing={2} justifyContent={"center"}>
-                <Stack>
-                  <DepartmentShowStudentProfile />
+          </Grid> */}
+
+          <Grid item md={12}>
+            <Grid container spacing={2}>
+              <Grid item md={12}>
+                <Stack
+                  direction={"row"}
+                  justifyContent={"space-between"}
+                  spacing={2}
+                >
+                  <Stack>
+                    <Stack direction={"row"} spacing={2}>
+                      <FeaturedCard
+                        title="Resume"
+                        color="primary"
+                        icon={ContactPageIcon}
+                        link="/student-company"
+                      />
+                    </Stack>
+                  </Stack>
+                  <Stack alignContent={"flex-end"}>
+                    <Button variant="itms">Student List</Button>
+                  </Stack>
                 </Stack>
-                <Stack>
-                  <ShowStudentResults />
+              </Grid>
+              <Grid item md={12}>
+                <Stack direction={"row"} spacing={2}>
+                  {/* <Stack direction={"row"} spacing={2} justifyContent={"center"}> */}
+                  <Stack spacing={2} direction={"column"}>
+                    <Stack>
+                      <Tile>
+                        <DepartmentShowStudentProfile />
+                      </Tile>
+                    </Stack>
+                    <Stack>
+                      <Tile>skills in here</Tile>
+                    </Stack>
+                  </Stack>
+                  <Stack>
+                    <Tile>
+                      <ShowStudentResults />
+                    </Tile>
+                  </Stack>
                 </Stack>
-              </Stack>
-            </Tile>
+              </Grid>
+            </Grid>
           </Grid>
           {/* </Grid> */}
         </>

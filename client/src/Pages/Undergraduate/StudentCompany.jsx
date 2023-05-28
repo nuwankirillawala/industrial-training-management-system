@@ -65,12 +65,12 @@ export const StudentCompany = () => {
   const getCompanyList = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/v1/company/intern-process/company-list",
-        { withCredentials: true }
+        "http://localhost:5000/api/v1/company/intern-process/company-list"
       );
-      if (res.data.status === "success") {
+      // console.log(res.status);
+      if (res.status === 200) {
         // console.log(res.data.data);
-        setCompanyList(res.data.data);
+        setCompanyList(res.data);
       }
     } catch (error) {
       console.log(error);
@@ -85,7 +85,7 @@ export const StudentCompany = () => {
   return (
     <Grid container spacing={1}>
       <Grid item md={12}>
-        <Typography variant="pageTitle">Company Choice</Typography>
+        <Typography variant="pageTitle">Company Selection</Typography>
       </Grid>
 
       <Grid item md={12}>
@@ -94,30 +94,7 @@ export const StudentCompany = () => {
             <Grid item md={7}>
               <Tile>
                 <Box sx={{ width: "100%", height: "74vh" }}>
-                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                    <Tabs value={value} onChange={handleChange}>
-                      <Tab label="Company Choice" />
-                      <Tab label="Intern Status" />
-                      <Tab label="Intern Period" />
-                    </Tabs>
-                  </Box>
-                  <TabPanel value={value} index={0}>
-                    <StudentCompanyChoice />
-                  </TabPanel>
-                  <TabPanel value={value} index={1}>
-                    <StudentCompanyStatus
-                      companyState={companyState}
-                      setCompanyState={setCompanyState}
-                    />
-                  </TabPanel>
-                  <TabPanel value={value} index={2}>
-                    {page.no === 2 && (
-                      <StudentAddCompany pageNo={page} setPage={setPage} />
-                    )}
-                    {page.no === 1 && (
-                      <StudentInternPeriod pageNo={page} setPage={setPage} />
-                    )}
-                  </TabPanel>
+                  <StudentCompanyChoice />
                 </Box>
               </Tile>
             </Grid>
