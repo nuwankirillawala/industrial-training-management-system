@@ -59,163 +59,162 @@ export const StudentShowResult = () => {
 
   return (
     <Box>
-      <Tile>
-        <Stack direction={"column"} spacing={2} height={"75vh"}>
-          <Stack alignItems={"center"}>
-            <Typography variant="h6" fontWeight={"bold"}>
-              Results
-            </Typography>
-          </Stack>
-
-          <Stack
-            direction={"row"}
-            spacing={2}
-            width={"100%"}
-            maxHeight={"35px"}
-          >
-            <Stack direction={"row"} spacing={2} flex={3}>
-              <Typography variant="body" fontWeight={"bold"}>
-                Level
-              </Typography>
-              <Select variant="outlined" size="small" fullWidth>
-                <MenuItem
-                  onClick={() => {
-                    setLevels("1");
-                    console.log(level);
-                  }}
-                >
-                  Level 1
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    setLevels("2");
-                    console.log(level);
-                  }}
-                >
-                  Level 2
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    setLevels("3");
-                    console.log(typeof level);
-                  }}
-                >
-                  Level 3
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    setLevels("");
-                    console.log(level);
-                  }}
-                >
-                  All
-                </MenuItem>
-              </Select>
+      <Stack direction={"column"} spacing={1}>
+        <Box>
+          <Typography variant="pageTitle">View Results</Typography>
+        </Box>
+        <Tile>
+          <Stack direction={"column"} spacing={2} height={"82vh"}>
+            <Stack
+              direction={"row"}
+              spacing={2}
+              width={"100%"}
+              maxHeight={"35px"}
+            >
+              <Stack direction={"row"} spacing={2} flex={3}>
+                <Typography variant="body" fontWeight={"bold"}>
+                  Level
+                </Typography>
+                <Select variant="outlined" size="small" fullWidth>
+                  <MenuItem
+                    onClick={() => {
+                      setLevels("1");
+                      console.log(level);
+                    }}
+                  >
+                    Level 1
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setLevels("2");
+                      console.log(level);
+                    }}
+                  >
+                    Level 2
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setLevels("3");
+                      console.log(typeof level);
+                    }}
+                  >
+                    Level 3
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setLevels("");
+                      console.log(level);
+                    }}
+                  >
+                    All
+                  </MenuItem>
+                </Select>
+              </Stack>
+              <Stack direction={"row"} spacing={2} flex={3}>
+                <Typography variant="body" fontWeight={"bold"}>
+                  Semester
+                </Typography>
+                <Select variant="outlined" size="small" fullWidth>
+                  <MenuItem onClick={() => setSemesters("1")}>
+                    Semester 1
+                  </MenuItem>
+                  <MenuItem onClick={() => setSemesters("2")}>
+                    Semester 2
+                  </MenuItem>
+                  <MenuItem onClick={() => setSemesters("")}>All</MenuItem>
+                </Select>
+              </Stack>
             </Stack>
-            <Stack direction={"row"} spacing={2} flex={3}>
-              <Typography variant="body" fontWeight={"bold"}>
-                Semester
-              </Typography>
-              <Select variant="outlined" size="small" fullWidth>
-                <MenuItem onClick={() => setSemesters("1")}>
-                  Semester 1
-                </MenuItem>
-                <MenuItem onClick={() => setSemesters("2")}>
-                  Semester 2
-                </MenuItem>
-                <MenuItem onClick={() => setSemesters("")}>All</MenuItem>
-              </Select>
+
+            <Stack width={"100%"} height={tableHeight}>
+              <TableContainer sx={{ maxHeight: "60vh" }}>
+                <Table stickyHeader size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="left" width={"130px"}>
+                        <Typography fontWeight={"bold"}>Course Unit</Typography>
+                      </TableCell>
+                      <TableCell align="center">
+                        <Typography fontWeight={"bold"}>Subjet Name</Typography>
+                      </TableCell>
+                      <TableCell align="center">
+                        <Typography fontWeight={"bold"}>Grade</Typography>
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+
+                  <TableBody>
+                    {results.map((result, index) => (
+                      <>
+                        {level === "" && (
+                          <>
+                            {semester === "" && (
+                              <TableRow key={index}>
+                                <TableCell align="left">
+                                  {result.courseUnitCode}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {result.courseUnitName}
+                                </TableCell>
+                                <TableCell align="center">
+                                  {result.courseUnitGrade}
+                                </TableCell>
+                              </TableRow>
+                            )}
+                            {semester === result.courseUnitCode.charAt(4) && (
+                              <TableRow key={index}>
+                                <TableCell align="left">
+                                  {result.courseUnitCode}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {result.courseUnitName}
+                                </TableCell>
+                                <TableCell align="center">
+                                  {result.courseUnitGrade}
+                                </TableCell>
+                              </TableRow>
+                            )}
+                          </>
+                        )}
+                        {level === result.courseUnitCode.charAt(3) && (
+                          <>
+                            {semester === "" && (
+                              <TableRow key={index}>
+                                <TableCell align="left">
+                                  {result.courseUnitCode}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {result.courseUnitName}
+                                </TableCell>
+                                <TableCell align="center">
+                                  {result.courseUnitGrade}
+                                </TableCell>
+                              </TableRow>
+                            )}
+                            {semester === result.courseUnitCode.charAt(4) && (
+                              <TableRow key={index}>
+                                <TableCell align="left">
+                                  {result.courseUnitCode}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {result.courseUnitName}
+                                </TableCell>
+                                <TableCell align="center">
+                                  {result.courseUnitGrade}
+                                </TableCell>
+                              </TableRow>
+                            )}
+                          </>
+                        )}
+                      </>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </Stack>
           </Stack>
-
-          <Stack width={"100%"} height={tableHeight}>
-            <TableContainer sx={{ maxHeight: "60vh" }}>
-              <Table stickyHeader size="small">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="left" width={"130px"}>
-                      <Typography fontWeight={"bold"}>Course Unit</Typography>
-                    </TableCell>
-                    <TableCell align="center">
-                      <Typography fontWeight={"bold"}>Subjet Name</Typography>
-                    </TableCell>
-                    <TableCell align="center">
-                      <Typography fontWeight={"bold"}>Grade</Typography>
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-
-                <TableBody>
-                  {results.map((result, index) => (
-                    <>
-                      {level === "" && (
-                        <>
-                          {semester === "" && (
-                            <TableRow key={index}>
-                              <TableCell align="left">
-                                {result.courseUnitCode}
-                              </TableCell>
-                              <TableCell align="left">
-                                {result.courseUnitName}
-                              </TableCell>
-                              <TableCell align="center">
-                                {result.courseUnitGrade}
-                              </TableCell>
-                            </TableRow>
-                          )}
-                          {semester === result.courseUnitCode.charAt(4) && (
-                            <TableRow key={index}>
-                              <TableCell align="left">
-                                {result.courseUnitCode}
-                              </TableCell>
-                              <TableCell align="left">
-                                {result.courseUnitName}
-                              </TableCell>
-                              <TableCell align="center">
-                                {result.courseUnitGrade}
-                              </TableCell>
-                            </TableRow>
-                          )}
-                        </>
-                      )}
-                      {level === result.courseUnitCode.charAt(3) && (
-                        <>
-                          {semester === "" && (
-                            <TableRow key={index}>
-                              <TableCell align="left">
-                                {result.courseUnitCode}
-                              </TableCell>
-                              <TableCell align="left">
-                                {result.courseUnitName}
-                              </TableCell>
-                              <TableCell align="center">
-                                {result.courseUnitGrade}
-                              </TableCell>
-                            </TableRow>
-                          )}
-                          {semester === result.courseUnitCode.charAt(4) && (
-                            <TableRow key={index}>
-                              <TableCell align="left">
-                                {result.courseUnitCode}
-                              </TableCell>
-                              <TableCell align="left">
-                                {result.courseUnitName}
-                              </TableCell>
-                              <TableCell align="center">
-                                {result.courseUnitGrade}
-                              </TableCell>
-                            </TableRow>
-                          )}
-                        </>
-                      )}
-                    </>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Stack>
-        </Stack>
-      </Tile>
+        </Tile>
+      </Stack>
     </Box>
   );
 };

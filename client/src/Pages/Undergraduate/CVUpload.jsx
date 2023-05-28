@@ -131,127 +131,140 @@ export const CVUpload = () => {
   //End of handle submit
   return (
     <Box>
-      <Tile sx={{ height: "100%" }}>
-        <Box display={"flex"} justifyContent="center">
-          <form onSubmit={handleSubmit}>
-            <Stack
-              height={"100%"}
-              display={"flex"}
-              justifyContent={"space-around"}
-            >
-              <Box sx={{ m: 1 }}>
-                <Typography variant="body2" align="center" fontWeight={"bold"}>
-                  Upload your CV
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="body2" mb={1}>
-                  Attach file:
-                </Typography>
-                {/* <input type="file" onChange={handleChange} /> */}
-                <Stack direction={"column"}>
-                  <Box>
-                    <Button
-                      variant="itms"
-                      size="itms-x-small"
-                      endIcon={<Upload />}
-                      sx={{ textTransform: "capitalize" }}
-                      onClick={handleAttachButtonClick}
-                    >
-                      Attach
-                    </Button>
-                  </Box>
-                  <Box>
-                    {fileName && (
-                      <Typography variant="body2" sx={{ ml: 1 }}>
-                        {fileName}
-                      </Typography>
-                    )}
-                  </Box>
-                  <input
-                    type="file"
-                    accept="*"
-                    ref={fileInputRef}
-                    onChange={handleChange}
-                    style={{ display: "none" }}
-                  />
-                </Stack>
-                <Stack direction={"row"} mt={1.5}>
-                  {PDFFile && (
+      <Stack direction={"column"} spacing={1}>
+        <Box>
+          <Typography variant="pageTitle">View Results</Typography>
+        </Box>
+        <Tile sx={{ height: "100%" }}>
+          <Box display={"flex"} justifyContent="center">
+            <form onSubmit={handleSubmit}>
+              <Stack
+                height={"100%"}
+                display={"flex"}
+                justifyContent={"space-around"}
+              >
+                <Box sx={{ m: 1 }}>
+                  <Typography
+                    variant="body2"
+                    align="center"
+                    fontWeight={"bold"}
+                  >
+                    Upload your CV
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" mb={1}>
+                    Attach file:
+                  </Typography>
+                  {/* <input type="file" onChange={handleChange} /> */}
+                  <Stack direction={"column"}>
                     <Box>
                       <Button
                         variant="itms"
                         size="itms-x-small"
-                        onClick={viewButtonHandle}
+                        endIcon={<Upload />}
+                        sx={{ textTransform: "capitalize" }}
+                        onClick={handleAttachButtonClick}
                       >
-                        View
-                      </Button>
-                      <Button type="submit" variant="itms" size="itms-x-small">
-                        Submit
+                        Attach
                       </Button>
                     </Box>
-                  )}
-                </Stack>
-                {/* viewing the cv dialog*/}
-                <Dialog
-                  fullScreen
-                  open={open}
-                  onClose={handleClose}
-                  TransitionComponent={Transition}
-                >
-                  <AppBar sx={{ position: "relative" }} elevation={0}>
-                    <Toolbar>
-                      <IconButton
-                        edge="start"
-                        color="#363853"
-                        onClick={handleClose}
-                        aria-label="close"
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                      <Typography
-                        sx={{ ml: 2, flex: 1 }}
-                        variant="body2"
-                        fontWeight="bold"
-                      >
-                        Uploaded File
-                      </Typography>
-                    </Toolbar>
-                  </AppBar>
-                  <Box
-                    justifyContent="center"
-                    justifyItems="center"
-                    sx={{
-                      height: "900px",
-                      width: "100%",
-                    }}
-                    overflow-y="auto"
-                  >
-                    <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-                      {viewPDF && (
-                        <>
-                          <Viewer fileUrl={viewPDF} plugins={[newplugin]} />
-                        </>
+                    <Box>
+                      {fileName && (
+                        <Typography variant="body2" sx={{ ml: 1 }}>
+                          {fileName}
+                        </Typography>
                       )}
-                      {!viewPDF && <>No PDF</>}
-                    </Worker>
-                  </Box>
-                </Dialog>
-                <StatusSnackBar
-                  trigger={errorOpen}
-                  setTrigger={setErrorOpen}
-                  severity="error"
-                  alertMessage="Error"
-                />
-                {openBackdrop && <CustomBackdrop />}
-              </Box>
-            </Stack>
-          </form>
+                    </Box>
+                    <input
+                      type="file"
+                      accept="*"
+                      ref={fileInputRef}
+                      onChange={handleChange}
+                      style={{ display: "none" }}
+                    />
+                  </Stack>
+                  <Stack direction={"row"} mt={1.5}>
+                    {PDFFile && (
+                      <Box>
+                        <Button
+                          variant="itms"
+                          size="itms-x-small"
+                          onClick={viewButtonHandle}
+                        >
+                          View
+                        </Button>
+                        <Button
+                          type="submit"
+                          variant="itms"
+                          size="itms-x-small"
+                        >
+                          Submit
+                        </Button>
+                      </Box>
+                    )}
+                  </Stack>
+                  {/* viewing the cv dialog*/}
+                  <Dialog
+                    fullScreen
+                    open={open}
+                    onClose={handleClose}
+                    TransitionComponent={Transition}
+                  >
+                    <AppBar sx={{ position: "relative" }} elevation={0}>
+                      <Toolbar>
+                        <IconButton
+                          edge="start"
+                          color="#363853"
+                          onClick={handleClose}
+                          aria-label="close"
+                        >
+                          <CloseIcon />
+                        </IconButton>
+                        <Typography
+                          sx={{ ml: 2, flex: 1 }}
+                          variant="body2"
+                          fontWeight="bold"
+                        >
+                          Uploaded File
+                        </Typography>
+                      </Toolbar>
+                    </AppBar>
+                    <Box
+                      justifyContent="center"
+                      justifyItems="center"
+                      sx={{
+                        height: "900px",
+                        width: "100%",
+                      }}
+                      overflow-y="auto"
+                    >
+                      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+                        {viewPDF && (
+                          <>
+                            <Viewer fileUrl={viewPDF} plugins={[newplugin]} />
+                          </>
+                        )}
+                        {!viewPDF && <>No PDF</>}
+                      </Worker>
+                    </Box>
+                  </Dialog>
+                  <StatusSnackBar
+                    trigger={errorOpen}
+                    setTrigger={setErrorOpen}
+                    severity="error"
+                    alertMessage="Error"
+                  />
+                  {openBackdrop && <CustomBackdrop />}
+                </Box>
+              </Stack>
+            </form>
+          </Box>
+        </Tile>
+        <Box display={"flex"} justifyContent={"center"}>
+          <img src={UploadImg} alt="Resume" width={"32%"} />
         </Box>
-      </Tile>
-      <Box display={"flex"} justifyContent={"center"}>
-        <img src={UploadImg} alt="Resume" width={"35%"} />
-      </Box>
+      </Stack>
     </Box>
   );
 };
