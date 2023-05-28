@@ -7,7 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { Unilogo } from '../shared/Images/Unilogo';
 import { Grid } from '@mui/material';
-import { AddBusiness, ArrowBack, Article, Assessment, Autorenew, Ballot, Business, ChevronLeft, Dashboard, Groups, Info, LocationCity, Logout, ManageAccounts, Menu, Note, Notifications, Settings, UploadFile } from '@mui/icons-material';
+import { ArrowBack, Article, Assessment, Autorenew, Badge, Ballot, Business, ChevronLeft, Dashboard, Description, Groups, LocationCity, Logout, ManageAccounts, Menu, Notifications, Settings, Sort, UploadFile } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import MuiDrawer from '@mui/material/Drawer';
@@ -100,7 +100,7 @@ const users = [
       {
         id: 4,
         primaryText: 'Internship',
-        icon: <AddBusiness />,
+        icon: <Badge />,
         element: '/student-company'
       },
       {
@@ -118,7 +118,7 @@ const users = [
       {
         id: 7,
         primaryText: 'Private Notes',
-        icon: <Note />,
+        icon: <Description />,
         element: '/notice'
       },
       {
@@ -153,7 +153,7 @@ const users = [
       {
         id: 4,
         primaryText: 'Results',
-        icon: <Info />,
+        icon: <Sort />,
         element: '/result-sheet/view'
       },
       {
@@ -171,7 +171,7 @@ const users = [
       {
         id: 7,
         primaryText: 'Private Notes',
-        icon: <Note />,
+        icon: <Description />,
         element: '/deletenotices'
       },
       {
@@ -206,7 +206,7 @@ const users = [
       {
         id: 4,
         primaryText: 'Private Notes',
-        icon: <Note />,
+        icon: <Description />,
         element: '/daily-report-list'
       }
     ]
