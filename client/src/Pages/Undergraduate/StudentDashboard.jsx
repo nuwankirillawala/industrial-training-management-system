@@ -63,7 +63,7 @@ export const StudentDashboard = () => {
               title="Exam Results"
               color="blueColor"
               icon={LeaderboardIcon}
-              link="/student-company"
+              link="/student-showresult"
             />
             <FeaturedCard
               title="Intern Application"
