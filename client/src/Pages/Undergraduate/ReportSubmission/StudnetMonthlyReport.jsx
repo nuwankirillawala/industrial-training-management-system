@@ -13,8 +13,8 @@ import axios from "axios";
 import { StatusSnackBar } from "../../../components/StatusSnackBar/StatusSnackBar";
 
 const reportValues = {
-  weekNo: "",
-  monthNo: "",
+  // weekNo: "",
+  // monthNo: "",
   reportContent: "",
 };
 export const StudnetMonthlyReport = ({ reportData }) => {
@@ -22,7 +22,9 @@ export const StudnetMonthlyReport = ({ reportData }) => {
   const [reportUpdateValues, setReportUpdateValues] = useState(reportValues);
   const [edit, setEdit] = useState(false);
   const [weekNumber, setWeekNumber] = useState(null);
+
   //statusSnackBar state
+  const [message, setMessage] = useState("");
   const [trigger, setTrigger] = useState({
     success: false,
     error: false,
@@ -37,19 +39,22 @@ export const StudnetMonthlyReport = ({ reportData }) => {
     });
   };
 
-  const handleSave = async (values) => {
-    console.log(values);
+  const handleOnSubmit = async (e) => {
+    // e.priventDefault();
+    console.log("run", reportUpdateValues);
+    console.log("run1", weekNumber);
+    console.log("run2", reportData.monthNumber);
     try {
-      const res = await axios.patch(
+      const res = await axios.post(
         " http://localhost:5000/api/v1/undergraduate/monthly-report/week",
         {
           weekNo: weekNumber,
-          monthNo: dailyReportData.monthNumber,
-          reportContent: values.reportContent,
+          monthNo: reportData.monthNumber,
+          reportContent: { reportUpdateValues },
         },
         { withCredentials: true }
       );
-      console.log(res.status);
+      console.log(res);
 
       if (res.status === 200) {
         // handleSnackBar("update_success");
@@ -64,8 +69,10 @@ export const StudnetMonthlyReport = ({ reportData }) => {
     setWeekNumber(null);
   };
 
+  const hanldeOnSubmits = (values) => {};
+
   return (
-    <Box height={"83vh"} overflow={"auto"}>
+    <Box height={"75vh"} overflow={"auto"}>
       <Stack direction={"column"} spacing={3}>
         <Stack alignItems={"center"}>
           <Typography variant="h6" fontWeight={"bold"}>
@@ -94,93 +101,91 @@ export const StudnetMonthlyReport = ({ reportData }) => {
               <Divider />
 
               {/* Data */}
-
-              <Formik initialValues={reportUpdateValues} onSubmit={handleSave}>
-                {({
-                  values,
-                  handleBlur,
-                  handleChange,
-                  handleSubmit,
-                  handleReset, //this gives initialvalues not clear fields
-                }) => (
-                  <form onSubmit={handleSubmit}>
-                    <Stack>
-                      {dailyReportData.weeklyReports.map((report, index) => (
-                        <Stack
-                          direction={"column"}
-                          key={index}
-                          minHeight={"8vh"}
-                        >
-                          <Stack direction={"row"}>
-                            <Stack flex={1} alignItems={"center"}>
-                              <Typography>{report.weekNumber}</Typography>
-                            </Stack>
-                            <Stack flex={4}>
-                              {edit === false && (
-                                <Typography>{report.content}</Typography>
-                              )}
-                              {edit === true &&
-                                weekNumber === report.weekNumber && (
-                                  <TextField
-                                    variant="outlined"
-                                    multiline
-                                    fullWidth
-                                    type="text"
-                                    // placeholder={userData.adminRole}
-                                    value={values.reportContent}
-                                    defaultValue={report.content}
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    name="reportContent"
-                                  ></TextField>
-                                )}
-                            </Stack>
-                            <Stack flex={0.5} alignItems={"flex-end"}>
-                              {edit === false && (
-                                <Button
-                                  variant="contained"
-                                  size="small"
-                                  onClick={() => {
-                                    setEdit(true);
-                                    setWeekNumber(report.weekNumber);
-                                  }}
-                                >
-                                  Edit
-                                </Button>
-                              )}
-                              {edit === true &&
-                                weekNumber === report.weekNumber && (
-                                  <Stack direction={"column"} spacing={1}>
-                                    <Button
-                                      variant="contained"
-                                      size="small"
-                                      color="warning"
-                                      onClick={
-                                        // setEdit(false); // handleSnackBar("error"); // {() => {
-                                        handleReset
-                                      }
-                                      // }}
-                                    >
-                                      cancel
-                                    </Button>
-                                    <Button
-                                      variant="contained"
-                                      size="small"
-                                      onClick={handleSave}
-                                    >
-                                      save
-                                    </Button>
-                                  </Stack>
-                                )}
-                            </Stack>
+              <Stack>
+                {/* <Formik initialValues={reportValues} onSubmit={hanldeOnSubmit}>
+                  {({
+                    values,
+                    handleBlur,
+                    handleChange,
+                    handleSubmit,
+                    handleReset, //this gives initialvalues not clear fields
+                  }) => ( */}
+                <form onSubmit={handleOnSubmit}>
+                  <Stack>
+                    {dailyReportData.weeklyReports.map((report, index) => (
+                      <Stack direction={"column"} key={index} minHeight={"8vh"}>
+                        <Stack direction={"row"}>
+                          <Stack flex={1} alignItems={"center"}>
+                            <Typography>{report.weekNumber}</Typography>
                           </Stack>
-                          <Divider />
+
+                          <Stack flex={4}>
+                            {edit === false && (
+                              <Typography>{report.content}</Typography>
+                            )}
+                            {edit === true &&
+                              weekNumber === report.weekNumber && (
+                                <TextField
+                                  variant="outlined"
+                                  multiline
+                                  fullWidth
+                                  type="text"
+                                  // placeholder={report.content}
+                                  // value={values.reportContent}
+                                  defaultValue={report.content}
+                                  // onBlur={handleBlur}
+                                  onChange={(e) => {
+                                    setReportUpdateValues(e.target.value);
+                                  }}
+                                  // name="reportContent"
+                                />
+                              )}
+                          </Stack>
+
+                          <Stack flex={0.5} alignItems={"flex-end"}>
+                            {edit === false && (
+                              <Button
+                                variant="contained"
+                                size="small"
+                                onClick={() => {
+                                  setEdit(true);
+                                  setWeekNumber(report.weekNumber);
+                                }}
+                              >
+                                Edit
+                              </Button>
+                            )}
+                            {edit === true &&
+                              weekNumber === report.weekNumber && (
+                                <Stack direction={"column"} spacing={1}>
+                                  <Button
+                                    variant="contained"
+                                    size="small"
+                                    color="warning"
+                                    // onClick={handleReset}
+                                  >
+                                    cancel
+                                  </Button>
+                                  <Button
+                                    variant="contained"
+                                    size="small"
+                                    onClick={handleOnSubmit}
+                                    // type="submit"
+                                  >
+                                    save
+                                  </Button>
+                                </Stack>
+                              )}
+                          </Stack>
                         </Stack>
-                      ))}
-                    </Stack>
-                  </form>
-                )}
-              </Formik>
+                        <Divider />
+                      </Stack>
+                    ))}
+                  </Stack>
+                </form>
+                {/* )}
+                </Formik> */}
+              </Stack>
             </Stack>
             <Divider />
             <Stack></Stack>
@@ -252,54 +257,6 @@ export const StudnetMonthlyReport = ({ reportData }) => {
           </Box>
         </Stack>
       </Stack>
-      {/* <StatusSnackBar
-        severity="update_success"
-        trigger={trigger.success}
-        setTrigger={() => {
-          handleSnackBar(" Update success");
-        }}
-        alertMessage={"Update Succefully"}
-      />
-      <StatusSnackBar
-        severity="update_error"
-        trigger={trigger.error}
-        setTrigger={() => {
-          handleSnackBar("error");
-        }}
-        alertMessage={"Update Fail"}
-      />
-      <StatusSnackBar
-        severity="submit_success"
-        trigger={trigger.success}
-        setTrigger={() => {
-          handleSnackBar(" Update success");
-        }}
-        alertMessage={"Submit Succefully"}
-      />
-      <StatusSnackBar
-        severity="submit_error"
-        trigger={trigger.error}
-        setTrigger={() => {
-          handleSnackBar("error");
-        }}
-        alertMessage={"Submit Fail"}
-      />
-      <StatusSnackBar
-        severity="notSave_error"
-        trigger={trigger.error}
-        setTrigger={() => {
-          handleSnackBar("error");
-        }}
-        alertMessage={"Not save Content"}
-      />
-      <StatusSnackBar
-        severity="error"
-        trigger={trigger.error}
-        setTrigger={() => {
-          handleSnackBar("error");
-        }}
-        alertMessage={"Not save Content"}
-      /> */}
     </Box>
   );
 };
