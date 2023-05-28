@@ -108,7 +108,6 @@ module.exports.uploadResultSheetAndAddResult = catchAsync(async (req, res) => {
   }
 });
 
-
 // Method: GET
 // Endpoint: "/get-all"
 // Description: get all results
@@ -116,6 +115,28 @@ module.exports.uploadResultSheetAndAddResult = catchAsync(async (req, res) => {
 module.exports.getResults = catchAsync( async(req, res) => {
   try {
     const results = await Result.find();
+
+    if(!results){
+      return res.status(404).json({error: "results not found"});
+    }
+    console.log(results);
+    res.status(200).json(results);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+})
+
+// Method: GET
+// Endpoint: "/individual"
+// Description: get all results
+// User: admin
+module.exports.individualResults = catchAsync( async(req, res) => {
+  try {
+    const userId = req.user.id
+
+    const user = await Undergraduate.findById(userId).select('-password');
+    const results = await Result.findById(user.results);
 
     if(!results){
       return res.status(404).json({error: "results not found"});

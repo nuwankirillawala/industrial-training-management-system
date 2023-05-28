@@ -12,5 +12,8 @@ router.route('/upload')
 router.route('/all')
     .get(restrictedTo('system-admin', 'department-coordinator'), resultController.getResults)
 
+router.route('/individual')
+    .get(restrictedTo('undergraduate'), resultController.individualResults)
+
 
 module.exports = router;
