@@ -60,6 +60,7 @@ export const UndergraduateCreateForm = () => {
   const handleFormSubmit = async (values) => {
     console.log(values);
     try {
+      console.log(values.studentPassword);
       const res = await axios.post(
         "http://localhost:5000/api/v1/undergraduate/create",
         {
