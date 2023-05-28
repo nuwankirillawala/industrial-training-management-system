@@ -59,7 +59,7 @@ export const ShowStudentResults = () => {
   const [unitcode, setUnitCode] = useState("");
 
   return (
-    <Stack direction={"column"} spacing={2} width={"35vw"} height={"75vh"}>
+    <Stack direction={"column"} spacing={2} width={"38vw"} height={"75vh"}>
       <Stack alignItems={"center"}>
         <Typography variant="h6" fontWeight={"bold"}>
           Results

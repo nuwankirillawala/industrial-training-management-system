@@ -115,6 +115,15 @@ const companySchema = new mongoose.Schema({
         }
     }],
     internApplications: {
+        choices: [{
+            candidate: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Undergraduate"
+            },
+            choiceNo: {
+                type: Number,
+            }
+        }],
         applicationListSize: {
             type: Number,
             default: 10
@@ -150,49 +159,49 @@ const companySchema = new mongoose.Schema({
 // Calculate average ratings for each criteria and update the ratings document
 companySchema.methods.calculateAverageRatings = function () {
     const { adminRatings, alumniRatings } = this;
-  
+
     // Calculate average ratings for admin and alumni separately
     const calculateAverage = (ratingsArray) => {
-      const criteriaCount = Object.keys(ratingsArray[0].ratings).length;
-      const averageRatings = {};
-  
-      for (let i = 0; i < criteriaCount; i++) {
-        const criteria = Object.keys(ratingsArray[0].ratings)[i];
-        let total = 0;
-        let count = 0;
-  
-        for (let j = 0; j < ratingsArray.length; j++) {
-          total += ratingsArray[j].ratings[criteria] || 0;
-          count++;
+        const criteriaCount = Object.keys(ratingsArray[0].ratings).length;
+        const averageRatings = {};
+
+        for (let i = 0; i < criteriaCount; i++) {
+            const criteria = Object.keys(ratingsArray[0].ratings)[i];
+            let total = 0;
+            let count = 0;
+
+            for (let j = 0; j < ratingsArray.length; j++) {
+                total += ratingsArray[j].ratings[criteria] || 0;
+                count++;
+            }
+
+            averageRatings[criteria] = total / count;
         }
-  
-        averageRatings[criteria] = total / count;
-      }
-  
-      return averageRatings;
+
+        return averageRatings;
     };
-  
+
     const adminAverageRatings = adminRatings.length ? calculateAverage(adminRatings) : {};
     const alumniAverageRatings = alumniRatings.length ? calculateAverage(alumniRatings) : {};
-  
+
     // Calculate the overall average ratings
     const criteriaCount = Object.keys(adminAverageRatings).length;
     const totalRatings = {};
-  
+
     for (let i = 0; i < criteriaCount; i++) {
-      const criteria = Object.keys(adminAverageRatings)[i];
-      const adminRating = adminAverageRatings[criteria] || 0;
-      const alumniRating = alumniAverageRatings[criteria] || 0;
-      const averageRating = (adminRating * 2 + alumniRating) / 3;
-  
-      totalRatings[criteria] = averageRating;
+        const criteria = Object.keys(adminAverageRatings)[i];
+        const adminRating = adminAverageRatings[criteria] || 0;
+        const alumniRating = alumniAverageRatings[criteria] || 0;
+        const averageRating = (adminRating * 2 + alumniRating) / 3;
+
+        totalRatings[criteria] = averageRating;
     }
-  
+
     // Update the ratings document
     this.ratings = totalRatings;
     this.markModified('ratings'); // Mark the field as modified to trigger save properly
-  };
-  
+};
+
 
 //confirm the creation
 companySchema.post('save', function (doc, next) {
