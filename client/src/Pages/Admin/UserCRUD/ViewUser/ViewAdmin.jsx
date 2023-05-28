@@ -43,21 +43,21 @@ const ViewAdmin = () => {
     getAdminData();
   }, []);
 
-  const fetchUser = async () => {
-    try {
-      const res = await axios.get(
-        "http://localhost:5000/api/v1/admin/users/admin"
-      );
-      if (res.status) {
-        setSingleUser(JSON.stringify(res.data));
-      }
-      // console.log(res);
-    } catch (err) {
-      // console.log(err);
-    }
-  };
+  // const fetchUser = async () => {
+  //   try {
+  //     const res = await axios.get(
+  //       "http://localhost:5000/api/v1/admin/users/admin"
+  //     );
+  //     if (res.status) {
+  //       setSingleUser(JSON.stringify(res.data));
+  //     }
+  //     // console.log(res);
+  //   } catch (err) {
+  //     // console.log(err);
+  //   }
+  // };
 
-  useEffect(() => fetchUser, []);
+  // useEffect(() => fetchUser, []);
   const Column = [
     { columnName: "Admin Name" },
     { columnName: "  Email" },

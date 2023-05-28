@@ -261,6 +261,7 @@ export const CompanyCreateForm = () => {
                                 </Stack>
                                 <Stack flex={3} maxWidth={"30vw"}>
                                   <TextField
+                                    InputProps={{ inputProps: { min: 0, step: 1 } }}
                                     fullWidth
                                     size="small"
                                     variant="outlined"

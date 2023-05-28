@@ -130,7 +130,7 @@ export const ManageCompany = () => {
                                                     </React.Fragment>
                                                 ))} */}
                                                 <TableCell> <Dialogbox title="Update Company" btn_name="update"><UpdateCompanyForm companyId={r._id} /></Dialogbox></TableCell>
-                                                <TableCell> <Dialogbox title="Remove Company" btn_name="remove"><RemoveCompanyForm /></Dialogbox></TableCell>
+                                                <TableCell> <Dialogbox title="Remove Company" btn_name="remove"><RemoveCompanyForm companyId={r._id} /></Dialogbox></TableCell>
                                             </TableRow> //id,title,description need to change as json file
                                         )}
                                     </TableBody>

@@ -135,7 +135,8 @@ export const UpdateUndergraduateForm = ({ userId }) => {
                     <form onReset={handleReset}
                         onSubmit={(e) => { e.preventDefault(); handleSubmit; handleFormSubmit(values); }} >
                         <>
-                            {/* <Stack direction="row" spacing={2}>
+                            <Stack spacing={1}>
+                                {/* <Stack direction="row" spacing={2}>
                                 <Stack width='150px'>
                                     <Typography variant="body1">Name</Typography>
                                 </Stack>
@@ -154,113 +155,119 @@ export const UpdateUndergraduateForm = ({ userId }) => {
                                     />
                                 </Stack>
                             </Stack> */}
-                            <Typography fontWeight={'bold'}>SC Number : {userData.regNo}</Typography>
-                            <Typography fontWeight={'bold'} paddingBottom={'10px'}>Name : {userData.name}</Typography>
+                                <Typography fontWeight={'bold'}>SC Number : {userData.regNo}</Typography>
+                                <Typography fontWeight={'bold'} paddingBottom={'10px'}>Name : {userData.name}</Typography>
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">E-mail</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">E-mail</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={userData.email}
+                                            value={values.studnetEmail}
+                                            name="studnetEmail"
+                                            error={!!touched.studnetEmail && !!errors.studnetEmail}
+                                            helperText={touched.studnetEmail && errors.studnetEmail}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={userData.email}
-                                        value={values.studnetEmail}
-                                        name="studnetEmail"
-                                        error={!!touched.studnetEmail && !!errors.studnetEmail}
-                                        helperText={touched.studnetEmail && errors.studnetEmail}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">Contact Number</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">Contact Number</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={userData.contactNo}
+                                            value={values.studnetContactNo}
+                                            name="studnetContactNo"
+                                            error={!!touched.studnetContactNo && !!errors.studnetContactNo}
+                                            helperText={touched.studnetContactNo && errors.studnetContactNo}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={userData.contactNo}
-                                        value={values.studnetContactNo}
-                                        name="studnetContactNo"
-                                        error={!!touched.studnetContactNo && !!errors.studnetContactNo}
-                                        helperText={touched.studnetContactNo && errors.studnetContactNo}
-                                    />
-                                </Stack>
-                            </Stack>
-
-
-
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">Intern Status</Typography>
-                                </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={userData.internStatus}
-                                        value={values.studnetInternStatus}
-                                        name="studnetInternStatus"
-                                        error={!!touched.studnetInternStatus && !!errors.studnetInternStatus}
-                                        helperText={touched.studnetInternStatus && errors.studnetInternStatus}
-                                    />
-                                </Stack>
-                            </Stack>
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">LinkedIn URl</Typography>
-                                </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={userData.linkedInURL}
-                                        value={values.studnetLinkedInURL}
-                                        name="studnetLinkedInURL"
-                                        error={!!touched.studnetLinkedInURL && !!errors.studnetLinkedInURL}
-                                        helperText={touched.studnetLinkedInURL && errors.studnetLinkedInURL}
-                                    />
-                                </Stack>
-                            </Stack>
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">Github URL</Typography>
-                                </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={userData.githubURL}
-                                        value={values.studnetGithubURL}
-                                        name="studnetGithubURL"
-                                        error={!!touched.studnetGithubURL && !!errors.studnetGithubURL}
-                                        helperText={touched.studnetGithubURL && errors.studnetGithubURL}
-                                    />
-                                </Stack>
-                            </Stack>
 
 
-                            <Stack direction="row" display={'flex'} justifyContent="flex-end" paddingRight={'0px'}>
-                                <Button variant="itms" type="submit"  >Submit</Button>
-                                <Button variant="itms" type="reset"  >Reset</Button>
+
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">Intern Status</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={userData.internStatus}
+                                            value={values.studnetInternStatus}
+                                            name="studnetInternStatus"
+                                            error={!!touched.studnetInternStatus && !!errors.studnetInternStatus}
+                                            helperText={touched.studnetInternStatus && errors.studnetInternStatus}
+                                        />
+                                    </Stack>
+                                </Stack>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">LinkedIn URl</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={userData.linkedInURL}
+                                            value={values.studnetLinkedInURL}
+                                            name="studnetLinkedInURL"
+                                            error={!!touched.studnetLinkedInURL && !!errors.studnetLinkedInURL}
+                                            helperText={touched.studnetLinkedInURL && errors.studnetLinkedInURL}
+                                        />
+                                    </Stack>
+                                </Stack>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">Github URL</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={userData.githubURL}
+                                            value={values.studnetGithubURL}
+                                            name="studnetGithubURL"
+                                            error={!!touched.studnetGithubURL && !!errors.studnetGithubURL}
+                                            helperText={touched.studnetGithubURL && errors.studnetGithubURL}
+                                        />
+                                    </Stack>
+                                </Stack>
+
+
+                                <Stack direction="row" display={'flex'} justifyContent="flex-end" paddingRight={'0px'}>
+                                    <Button variant="itms" type="submit"  >Submit</Button>
+                                    <Button variant="itms" type="reset"  >Reset</Button>
+                                </Stack>
                             </Stack>
                         </>
                     </form>

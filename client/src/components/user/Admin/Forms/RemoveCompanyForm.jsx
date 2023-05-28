@@ -1,68 +1,74 @@
-import { Button, DialogActions, Typography } from "@mui/material"
+import { Button, Typography } from "@mui/material"
 import React from "react"
 import { Tile } from '../../../card/Tile'
-import { useState, useEffect } from "react"  //ref attribute -> an element to access it directly in the DOM.
+import { useState } from "react"  //ref attribute -> an element to access it directly in the DOM.
 import { Stack } from "@mui/system"
-import { Formik } from "formik"
 import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
+import axios from "axios"
 
 
-const RemoveCompanydata = {
-    CompanyName: '',
-}
-
-export const RemoveCompanyForm = () => {
-    const [SnackbarOpen, setSnackbarOpen] = useState(false)
+export const RemoveCompanyForm = ({ companyId }) => {
+    const [trigger, setTrigger] = useState({
+        success: false,
+        error: false,
+    });
 
     const handleSnackBar = (key) => {
-        setSnackbarOpen((prevState) => {
-            let newState = { ...prevState };
-            newState[key] = !newState[key];
-            return newState;
-        });
+        setTrigger((prevState) => ({
+            ...prevState,
+            [key]: !prevState[key],
+        }));
     };
 
-    //const [YesNoValue, setYesNoValue] = useState();
-    // const handleYesNo = (text) => {
-    //     setYesNoValue({ YesNovalue: text })
-    // }
-    const handleFormSubmit = (values) => { // send req only if 'yes'
-        alert(JSON.stringify(values));
-        console.log(values)
-        handleSnackBar("success");
-    }
+    // remove company function
+    const removeCompany = async () => {
+        try {
+            const res = await axios.delete(
+                `http://localhost:5000/api/v1/company/delete/${companyId}`,
+                { withCredentials: true }
+            );
+            console.log(res.data); // Log the response message
+
+            if (res.status === 202) {
+                handleSnackBar("success");
+            }
+            window.location.reload(false);
+
+        } catch (error) {
+            console.log(error);
+            handleSnackBar("error");
+        }
+    };
+
     return (
         <Tile width={'450px'} >
-            <Formik
-                initialValues={RemoveCompanydata}>
-                {({
-                    values,
-                    handleSubmit,
-                }) => (
-                    <form onSubmit={(e) => { e.preventDefault(); handleSubmit; }}>
-                        <Typography>
-                            Are you sure to remove this company? {values.CompanyName} ?
-                        </Typography>
-                        <Stack direction={"row"} justifyContent="flex-end" paddingRight={'0px'}>
-                            <Button variant="itms" type='submit'
-                                onClick={() => { handleFormSubmit(values); }}>
-                                Yes
-                            </Button>
-                            {/* <Button variant="itms" type='submit'
-                              onClick={() => { setYesNoValue({ YesNovalue: "no" }) }} 
-                            >
-                                No
-                            </Button> */}
-                        </Stack>
-                    </form>)}
-            </Formik>
+
+            <Typography>
+                Are you sure to remove this company {companyId} ?
+            </Typography>
+            <Stack direction={"row"} justifyContent="flex-end" paddingRight={'0px'}>
+                <Button variant="itms" type='submit'
+                    onClick={removeCompany}>
+                    Yes
+                </Button>
+            </Stack>
+
             <StatusSnackBar
-                trigger={SnackbarOpen.success}
+                severity="success"
+                trigger={trigger.success}
                 setTrigger={() => {
                     handleSnackBar("success");
                 }}
-                severity='success'
-                alertMessage={'  Company successfully removed  '}></StatusSnackBar>
+                alertMessage={"Removed Successfully"}
+            />
+            <StatusSnackBar
+                severity="error"
+                trigger={trigger.error}
+                setTrigger={() => {
+                    handleSnackBar("error");
+                }}
+                alertMessage={"Removal Failed"}
+            />
         </Tile >
 
     )

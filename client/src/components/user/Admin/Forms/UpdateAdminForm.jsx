@@ -124,110 +124,117 @@ export const UpdateAdminForm = ({ userId }) => {
                     <form onReset={handleReset}
                         onSubmit={(e) => { e.preventDefault(); handleSubmit; handleFormSubmit(values); }} >
                         <>
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">Name</Typography>
+                            <Stack spacing={1}>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">Name</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={userData.name}
+                                            name="adminName"
+                                            value={values.adminName}
+                                            error={!!touched.adminName && !!errors.adminName}
+                                            helperText={touched.adminName && errors.adminName}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={userData.name}
-                                        name="adminName"
-                                        value={values.adminName}
-                                        error={!!touched.adminName && !!errors.adminName}
-                                        helperText={touched.adminName && errors.adminName}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">E-mail</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">E-mail</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            placeholder={userData.email}
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            value={values.adminEmail}
+                                            name="adminEmail"
+                                            error={!!touched.adminEmail && !!errors.adminEmail}
+                                            helperText={touched.adminEmail && errors.adminEmail}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        placeholder={userData.email}
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.adminEmail}
-                                        name="adminEmail"
-                                        error={!!touched.adminEmail && !!errors.adminEmail}
-                                        helperText={touched.adminEmail && errors.adminEmail}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">Contact Number</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">Contact Number</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            placeholder={userData.contactNo}
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            value={values.adminContactNo}
+                                            name="adminContactNo"
+                                            error={!!touched.adminContactNo && !!errors.adminContactNo}
+                                            helperText={touched.adminContactNo && errors.adminContactNo}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        placeholder={userData.contactNo}
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.adminContactNo}
-                                        name="adminContactNo"
-                                        error={!!touched.adminContactNo && !!errors.adminContactNo}
-                                        helperText={touched.adminContactNo && errors.adminContactNo}
-                                    />
-                                </Stack>
-                            </Stack>
 
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">Staff ID </Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">Staff ID </Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            placeholder={userData.staffId}
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            value={values.adminStaffId}
+                                            name="adminStaffId"
+                                            error={!!touched.adminStaffId && !!errors.adminStaffId}
+                                            helperText={touched.adminStaffId && errors.adminStaffId}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        placeholder={userData.staffId}
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.adminStaffId}
-                                        name="adminStaffId"
-                                        error={!!touched.adminStaffId && !!errors.adminStaffId}
-                                        helperText={touched.adminStaffId && errors.adminStaffId}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">Administrator role</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">Administrator role</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            placeholder={userData.adminRole}
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            value={values.adminRole}
+                                            name="adminRole"
+                                            error={!!touched.adminRole && !!errors.adminRole}
+                                            helperText={touched.adminRole && errors.adminRole}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        placeholder={userData.adminRole}
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.adminRole}
-                                        name="adminRole"
-                                        error={!!touched.adminRole && !!errors.adminRole}
-                                        helperText={touched.adminRole && errors.adminRole}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" display={'flex'} justifyContent="flex-end" paddingRight={'0px'}>
-                                <Button variant="itms" type="submit"  >Submit</Button>
-                                <Button variant="itms" type="reset"  >Reset</Button>
+                                <Stack direction="row" display={'flex'} justifyContent="flex-end" paddingRight={'0px'}>
+                                    <Button variant="itms" type="submit"  >Submit</Button>
+                                    <Button variant="itms" type="reset"  >Reset</Button>
+                                </Stack>
                             </Stack>
                         </>
                     </form>

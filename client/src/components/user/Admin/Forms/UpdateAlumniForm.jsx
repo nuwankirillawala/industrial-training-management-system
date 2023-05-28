@@ -123,90 +123,96 @@ export const UpdateAlumniForm = ({ userId }) => {
                     <form onReset={handleReset}
                         onSubmit={(e) => { e.preventDefault(); handleSubmit; handleFormSubmit(values); }} >
                         <>
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">Name</Typography>
+                            <Stack spacing={1}>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">Name</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={userData.name}
+                                            value={values.alumniName} //if u use User here it will not let change text
+                                            name="alumniName"
+                                            error={!!touched.alumniName && !!errors.alumniName}
+                                            helperText={touched.alumniName && errors.alumniName}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={userData.name}
-                                        value={values.alumniName} //if u use User here it will not let change text
-                                        name="alumniName"
-                                        error={!!touched.alumniName && !!errors.alumniName}
-                                        helperText={touched.alumniName && errors.alumniName}
-                                    />
-                                </Stack>
-                            </Stack>
 
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">E-mail</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">E-mail</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={userData.email}
+                                            value={values.alumniEmail}
+                                            name="alumniEmail"
+                                            error={!!touched.alumniEmail && !!errors.alumniEmail}
+                                            helperText={touched.alumniEmail && errors.alumniEmail}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={userData.email}
-                                        value={values.alumniEmail}
-                                        name="alumniEmail"
-                                        error={!!touched.alumniEmail && !!errors.alumniEmail}
-                                        helperText={touched.alumniEmail && errors.alumniEmail}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">Contact Number</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">Contact Number</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={userData.contactNo}
+                                            value={values.alumniContactNo}
+                                            name="alumniContactNo"
+                                            error={!!touched.alumniContactNo && !!errors.alumniContactNo}
+                                            helperText={touched.alumniContactNo && errors.alumniContactNo}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={userData.contactNo}
-                                        value={values.alumniContactNo}
-                                        name="alumniContactNo"
-                                        error={!!touched.alumniContactNo && !!errors.alumniContactNo}
-                                        helperText={touched.alumniContactNo && errors.alumniContactNo}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">Graduated Year</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">Graduated Year</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={userData.graduatedYear}
+                                            value={values.alumniGraduatedYear}
+                                            name="alumniGraduatedYear"
+                                            error={!!touched.alumniGraduatedYear && !!errors.alumniGraduatedYear}
+                                            helperText={touched.alumniGraduatedYear && errors.alumniGraduatedYear}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={userData.graduatedYear}
-                                        value={values.alumniGraduatedYear}
-                                        name="alumniGraduatedYear"
-                                        error={!!touched.alumniGraduatedYear && !!errors.alumniGraduatedYear}
-                                        helperText={touched.alumniGraduatedYear && errors.alumniGraduatedYear}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" display={'flex'} justifyContent="flex-end" paddingRight={'0px'}>
-                                <Button variant="itms" type="submit"  >Submit</Button>
-                                <Button variant="itms" type="reset"  >Reset</Button>
+                                <Stack direction="row" display={'flex'} justifyContent="flex-end" paddingRight={'0px'}>
+                                    <Button variant="itms" type="submit"  >Submit</Button>
+                                    <Button variant="itms" type="reset"  >Reset</Button>
+                                </Stack>
                             </Stack>
                         </>
                     </form>

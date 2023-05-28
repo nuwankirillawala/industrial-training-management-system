@@ -119,13 +119,14 @@ export const UpdateDepartmentCoordForm = ({ userId }) => {
                 }) => (
                     <form onReset={handleReset}
                         onSubmit={(e) => { e.preventDefault(); handleSubmit; handleFormSubmit(values); }} >
-                        <>
+                        <><Stack spacing={1}>
                             <Stack direction="row" spacing={2}>
                                 <Stack width='150px'>
                                     <Typography variant="body1">Name</Typography>
                                 </Stack>
                                 <Stack width='300px'>
                                     <TextField
+                                        size="small"
                                         fullWidth
                                         variant="outlined"
                                         type="text"
@@ -146,6 +147,7 @@ export const UpdateDepartmentCoordForm = ({ userId }) => {
                                 </Stack>
                                 <Stack width='300px'>
                                     <TextField
+                                        size="small"
                                         fullWidth
                                         variant="outlined"
                                         type="text"
@@ -166,6 +168,7 @@ export const UpdateDepartmentCoordForm = ({ userId }) => {
                                 </Stack>
                                 <Stack width='300px'>
                                     <TextField
+                                        size="small"
                                         fullWidth
                                         variant="outlined"
                                         type="text"
@@ -187,6 +190,7 @@ export const UpdateDepartmentCoordForm = ({ userId }) => {
                                 </Stack>
                                 <Stack width='300px'>
                                     <TextField
+                                        size="small"
                                         fullWidth
                                         variant="outlined"
                                         type="text"
@@ -231,6 +235,7 @@ export const UpdateDepartmentCoordForm = ({ userId }) => {
                                 <Button variant="itms" type="submit"  >Submit</Button>
                                 <Button variant="itms" type="reset"  >Reset</Button>
                             </Stack>
+                        </Stack>
                         </>
                     </form>
                 )}
