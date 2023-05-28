@@ -262,7 +262,7 @@ export const CVUpload = () => {
           </Box>
         </Tile>
         <Box display={"flex"} justifyContent={"center"}>
-          <img src={UploadImg} alt="Resume" width={"32%"} />
+          <img src={UploadImg} alt="Resume" width={"25%"} />
         </Box>
       </Stack>
     </Box>
