@@ -9,10 +9,13 @@ import { EnglishProficiency } from "../../components/user/Undergraduate/studentC
 import { PopUpDialog } from "../../components/user/Undergraduate/studentCV/PopUpDialog";
 import { CVUpload } from "./CVUpload";
 import { ProgrammingLanguages } from "../../components/user/Undergraduate/studentCV/ProgrammingLanguages";
+import axios from "axios";
 
 export const StudentCvUpdate = () => {
   //state for fetched data
   const [data, setData] = useState([]);
+  //state for backdrop
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   //End of State
 
   //useState for PopUpDialog
@@ -24,20 +27,19 @@ export const StudentCvUpdate = () => {
   });
   //End of useState for PopUpDialog
 
-  //Control Stack toggle
-  // const [isStackOpen, setStackOpen] = useState({
-  //   englishProficiency: false,
-  //   programmingLanguages: false,
-  //   otherSkills: false,
-  //   projects: false,
-  // });
-
-  // const toggleStack = (key) => {
-  //   setStackOpen((prevState) => {
-  //     prevState[key] = !prevState[key];
-  //   });
-  // };
-  //End of Control Stack toggle
+  //fetching data
+  const getData = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/v1/undergraduate/info"
+      );
+      if (res.status === 200) console.log(res);
+      else console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //End of fetching data
 
   //Handling state for PopUpDialog
   const togglePopup = (key) => {
@@ -334,6 +336,7 @@ export const StudentCvUpdate = () => {
           </Grid> */}
         </Grid>
       </Box>
+      {openBackdrop && <CustomBackdrop />}
     </Box>
   );
 };
