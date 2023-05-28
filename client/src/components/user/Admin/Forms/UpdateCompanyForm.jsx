@@ -148,148 +148,156 @@ export const UpdateCompanyForm = ({ companyId }) => {
                     <form onReset={handleReset}
                         onSubmit={(e) => { e.preventDefault(); handleSubmit; handleFormSubmit(values); }} >
                         <>
+                            <Stack spacing={1}>
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='200px'>
-                                    <Typography variant="body1">Company Name</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='200px'>
+                                        <Typography variant="body1">Company Name</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={companyData.name}
+                                            value={values.CompanyName}
+                                            name="CompanyName"
+                                            error={!!touched.CompanyName && !!errors.CompanyName}
+                                            helperText={touched.CompanyName && errors.CompanyName}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={companyData.name}
-                                        value={values.CompanyName}
-                                        name="CompanyName"
-                                        error={!!touched.CompanyName && !!errors.CompanyName}
-                                        helperText={touched.CompanyName && errors.CompanyName}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='200px'>
-                                    <Typography variant="body1">Company E-mail</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='200px'>
+                                        <Typography variant="body1">Company E-mail</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={companyData.email}
+                                            value={values.CompanyEmail}
+                                            name="CompanyEmail"
+                                            error={!!touched.CompanyEmail && !!errors.CompanyEmail}
+                                            helperText={touched.CompanyEmail && errors.CompanyEmail}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={companyData.email}
-                                        value={values.CompanyEmail}
-                                        name="CompanyEmail"
-                                        error={!!touched.CompanyEmail && !!errors.CompanyEmail}
-                                        helperText={touched.CompanyEmail && errors.CompanyEmail}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='200px'>
-                                    <Typography variant="body1">Company Contact</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='200px'>
+                                        <Typography variant="body1">Company Contact</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={companyData.contactNo}
+                                            value={values.CompanyContact}
+                                            name="CompanyContact"
+                                            error={!!touched.CompanyContact && !!errors.CompanyContact}
+                                            helperText={touched.CompanyContact && errors.CompanyContact}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={companyData.contactNo}
-                                        value={values.CompanyContact}
-                                        name="CompanyContact"
-                                        error={!!touched.CompanyContact && !!errors.CompanyContact}
-                                        helperText={touched.CompanyContact && errors.CompanyContact}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='200px'>
-                                    <Typography variant="body1">Company Address</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='200px'>
+                                        <Typography variant="body1">Company Address</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={companyData.address}
+                                            value={values.CompanyAddress}
+                                            name="CompanyAddress"
+                                            error={!!touched.CompanyAddress && !!errors.CompanyAddress}
+                                            helperText={touched.CompanyAddress && errors.CompanyAddress}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={companyData.address}
-                                        value={values.CompanyAddress}
-                                        name="CompanyAddress"
-                                        error={!!touched.CompanyAddress && !!errors.CompanyAddress}
-                                        helperText={touched.CompanyAddress && errors.CompanyAddress}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='200px'>
-                                    <Typography variant="body1">No of Internships</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='200px'>
+                                        <Typography variant="body1">No of Internships</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={companyData.internSeats}
+                                            value={values.NoInternshipSeats}
+                                            name="NoInternshipSeats"
+                                            error={!!touched.NoInternshipSeats && !!errors.NoInternshipSeats}
+                                            helperText={touched.NoInternshipSeats && errors.NoInternshipSeats}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={companyData.internSeats}
-                                        value={values.NoInternshipSeats}
-                                        name="NoInternshipSeats"
-                                        error={!!touched.NoInternshipSeats && !!errors.NoInternshipSeats}
-                                        helperText={touched.NoInternshipSeats && errors.NoInternshipSeats}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='200px'>
-                                    <Typography variant="body1">Company Description</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='200px'>
+                                        <Typography variant="body1">Company Description</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={companyData.description}
+                                            value={values.CompanyDescription}
+                                            name="CompanyDescription"
+                                            error={!!touched.CompanyDescription && !!errors.CompanyDescription}
+                                            helperText={touched.CompanyDescription && errors.CompanyDescription}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={companyData.description}
-                                        value={values.CompanyDescription}
-                                        name="CompanyDescription"
-                                        error={!!touched.CompanyDescription && !!errors.CompanyDescription}
-                                        helperText={touched.CompanyDescription && errors.CompanyDescription}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='200px'>
-                                    <Typography variant="body1">Connected for Intern</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='200px'>
+                                        <Typography variant="body1">Connected for Intern</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={companyData.connectedForIntern}
+                                            value={values.ConnectedForIntern}
+                                            name="ConnectedForIntern"
+                                            error={!!touched.ConnectedForIntern && !!errors.ConnectedForIntern}
+                                            helperText={touched.ConnectedForIntern && errors.ConnectedForIntern}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={companyData.connectedForIntern}
-                                        value={values.ConnectedForIntern}
-                                        name="ConnectedForIntern"
-                                        error={!!touched.ConnectedForIntern && !!errors.ConnectedForIntern}
-                                        helperText={touched.ConnectedForIntern && errors.ConnectedForIntern}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            {/* <Stack direction="row" spacing={2}>
+                                {/* <Stack direction="row" spacing={2}>
                                 <Stack width='200px'>
                                     <Typography variant="body1">Company Rating</Typography>
                                 </Stack>
@@ -366,9 +374,10 @@ export const UpdateCompanyForm = ({ companyId }) => {
                             </Stack>
                             */}
 
-                            <Stack direction="row" display={'flex'} justifyContent="flex-end" paddingRight={'0px'}>
-                                <Button variant="itms" type="submit"  >Submit</Button>
-                                <Button variant="itms" type="reset"  >Reset</Button>
+                                <Stack direction="row" display={'flex'} justifyContent="flex-end" paddingRight={'0px'}>
+                                    <Button variant="itms" type="submit"  >Submit</Button>
+                                    <Button variant="itms" type="reset"  >Reset</Button>
+                                </Stack>
                             </Stack>
 
                         </>
