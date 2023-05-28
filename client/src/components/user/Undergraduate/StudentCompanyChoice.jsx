@@ -10,10 +10,13 @@ import {
   Button,
   Stack,
   Box,
+  Divider,
+  Paper,
 } from "@mui/material";
 import { Formik } from "formik";
 import axios from "axios";
 import { StatusSnackBar } from "../../StatusSnackBar/StatusSnackBar";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
 axios.defaults.withCredentials = true;
 
@@ -138,288 +141,321 @@ export const StudentCompanyChoice = () => {
   return (
     // <Tile>
     <Grid container spacing={3}>
-      <Grid item md={12}>
-        <Typography variant="h6" fontWeight={"bold"}>
-          Company Selection
-        </Typography>
-        <Typography variant="body1">
-          Select 3 companies you wish to apply Internship
-        </Typography>
+      <Grid item md={12} spacing={3}>
+        <Stack spacing={1}>
+          <Stack direction={"column"}>
+            <Typography variant="head3">Company Selection</Typography>
+          </Stack>
+          <Stack>
+            <Typography variant="body">
+              Select 5 companies you wish to apply Internship
+            </Typography>
+          </Stack>
+          <Divider />
+        </Stack>
       </Grid>
 
       <Grid item md={12}>
-        <Formik initialValues={CompanyChoice} onSubmit={handleOnSubmit}>
-          {({ values, handleChange, handleSubmit, handleReset }) => (
-            <form onSubmit={handleSubmit}>
-              <Stack direction={"column"} spacing={1}>
-                <Stack direction={"row"} spacing={2}>
-                  <Stack flex={2}>
-                    <Typography variant="body1">Choice 01</Typography>
-                  </Stack>
-                  <Stack flex={3}>
-                    <FormControl fullWidth size="small">
-                      <InputLabel>Company</InputLabel>
-                      <Select
-                        variant="outlined"
-                        labelId="company01"
-                        id="company01"
-                        name="company01"
-                        value={values.company01}
-                        onChange={handleChange}
-                        label="company01"
-                      >
-                        {companyList.map((company) => (
-                          <MenuItem value={company._id}>
-                            {company.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Stack>
-                  <Stack flex={3}>
-                    <FormControl fullWidth size="small">
-                      <InputLabel>Job Role</InputLabel>
-                      <Select
-                        variant="outlined"
-                        labelId="jobRole01"
-                        id="jobRole01"
-                        name="jobRole01"
-                        value={values.jobRole01}
-                        onChange={handleChange}
-                        label="jobRole01"
-                      >
-                        <MenuItem value={"software_engineering"}>
-                          Software eng
-                        </MenuItem>
-                        <MenuItem value={"business_analyst"}>
-                          Business Analyst
-                        </MenuItem>
-                        <MenuItem value={"quality_achueance"}>
-                          Quality Achueance
-                        </MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Stack>
+        <Stack spacing={2}>
+          <Stack>
+            <Paper
+              variant="outlined"
+              sx={{
+                bgcolor: "#faf7dc",
+                padding: 2,
+                borderColor: "#fff",
+              }}
+            >
+              <Stack spacing={1}>
+                <Stack direction={"row"} spacing={1}>
+                  <WarningAmberIcon color="error" />
+                  <Typography color={"error"} fontWeight={"bold"}>
+                    warning !!
+                  </Typography>
                 </Stack>
-
-                <Stack direction={"row"} spacing={2}>
-                  <Stack flex={2}>
-                    <Typography variant="body1">Choice 02</Typography>
-                  </Stack>
-                  <Stack flex={3}>
-                    <FormControl fullWidth size="small">
-                      <InputLabel>Company</InputLabel>
-                      <Select
-                        variant="outlined"
-                        labelId="company02"
-                        id="company02"
-                        name="company02"
-                        value={values.company02}
-                        onChange={handleChange}
-                        label="company02"
-                      >
-                        {companyList.map((company) => (
-                          <MenuItem value={company._id}>
-                            {company.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Stack>
-                  <Stack flex={3}>
-                    <FormControl fullWidth size="small">
-                      <InputLabel>Job Role</InputLabel>
-                      <Select
-                        variant="outlined"
-                        labelId="jobRole02"
-                        id="jobRole02"
-                        name="jobRole02"
-                        value={values.jobRole02}
-                        onChange={handleChange}
-                        label="jobRole02"
-                      >
-                        <MenuItem value={"software_engineering"}>
-                          Software eng
-                        </MenuItem>
-                        <MenuItem value={"business_analyst"}>
-                          Business Analyst
-                        </MenuItem>
-                        <MenuItem value={"quality_achueance"}>
-                          Quality Achueance
-                        </MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Stack>
-                </Stack>
-
-                <Stack direction={"row"} spacing={2}>
-                  <Stack flex={2}>
-                    <Typography variant="body1">Choice 03</Typography>
-                  </Stack>
-                  <Stack flex={3}>
-                    <FormControl fullWidth size="small">
-                      <InputLabel>Company</InputLabel>
-                      <Select
-                        variant="outlined"
-                        labelId="company03"
-                        id="company03"
-                        name="company03"
-                        value={values.company03}
-                        onChange={handleChange}
-                        label="company03"
-                      >
-                        {companyList.map((company) => (
-                          <MenuItem value={company._id}>
-                            {company.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Stack>
-                  <Stack flex={3}>
-                    <FormControl fullWidth size="small">
-                      <InputLabel>Job Role</InputLabel>
-                      <Select
-                        variant="outlined"
-                        labelId="jobRole03"
-                        id="jobRole03"
-                        name="jobRole03"
-                        value={values.jobRole03}
-                        onChange={handleChange}
-                        label="jobRole03"
-                      >
-                        <MenuItem value={"software_engineering"}>
-                          Software eng
-                        </MenuItem>
-                        <MenuItem value={"business_analyst"}>
-                          Business Analyst
-                        </MenuItem>
-                        <MenuItem value={"quality_achueance"}>
-                          Quality Achueance
-                        </MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Stack>
-                </Stack>
-
-                <Stack direction={"row"} spacing={2}>
-                  <Stack flex={2}>
-                    <Typography variant="body1">Choice 04</Typography>
-                  </Stack>
-                  <Stack flex={3}>
-                    <FormControl fullWidth size="small">
-                      <InputLabel>Company</InputLabel>
-                      <Select
-                        variant="outlined"
-                        labelId="company04"
-                        id="company04"
-                        name="company04"
-                        value={values.company04}
-                        onChange={handleChange}
-                        label="company04"
-                      >
-                        {companyList.map((company) => (
-                          <MenuItem value={company._id}>
-                            {company.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Stack>
-                  <Stack flex={3}>
-                    <FormControl fullWidth size="small">
-                      <InputLabel>Job Role</InputLabel>
-                      <Select
-                        variant="outlined"
-                        labelId="jobRole04"
-                        id="jobRole04"
-                        name="jobRole04"
-                        value={values.jobRole04}
-                        onChange={handleChange}
-                        label="jobRole04"
-                      >
-                        <MenuItem value={"software_engineering"}>
-                          Software eng
-                        </MenuItem>
-                        <MenuItem value={"business_analyst"}>
-                          Business Analyst
-                        </MenuItem>
-                        <MenuItem value={"quality_achueance"}>
-                          Quality Achueance
-                        </MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Stack>
-                </Stack>
-
-                <Stack direction={"row"} spacing={2}>
-                  <Stack flex={2}>
-                    <Typography variant="body1">Choice 05</Typography>
-                  </Stack>
-                  <Stack flex={3}>
-                    <FormControl fullWidth size="small">
-                      <InputLabel>Company</InputLabel>
-                      <Select
-                        variant="outlined"
-                        labelId="company05"
-                        id="company05"
-                        name="company05"
-                        value={values.company05}
-                        onChange={handleChange}
-                        label="company05"
-                      >
-                        {companyList.map((company) => (
-                          <MenuItem value={company._id}>
-                            {company.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Stack>
-                  <Stack flex={3}>
-                    <FormControl fullWidth size="small">
-                      <InputLabel>Job Role</InputLabel>
-                      <Select
-                        variant="outlined"
-                        labelId="jobRole05"
-                        id="jobRole05"
-                        name="jobRole05"
-                        value={values.jobRole05}
-                        onChange={handleChange}
-                        label="jobRole05"
-                      >
-                        <MenuItem value={"software_engineering"}>
-                          Software eng
-                        </MenuItem>
-                        <MenuItem value={"business_analyst"}>
-                          Business Analyst
-                        </MenuItem>
-                        <MenuItem value={"quality_achueance"}>
-                          Quality Achueance
-                        </MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Stack>
-                </Stack>
-
-                <Stack alignItems="flex-end">
-                  <Stack direction={"row"}>
-                    <Button
-                      variant="itms"
-                      size="itms-small"
-                      onClick={handleReset}
-                    >
-                      cancel
-                    </Button>
-                    <Button variant="itms" size="itms-small" type="submit">
-                      Save
-                    </Button>
-                  </Stack>
+                <Stack>
+                  <Typography variant="body" color={"GrayText"}>
+                    The form restricted to edit again, Fill the form at once.
+                  </Typography>
                 </Stack>
               </Stack>
-            </form>
-          )}
-        </Formik>
+            </Paper>
+          </Stack>
+          <Stack>
+            <Formik initialValues={CompanyChoice} onSubmit={handleOnSubmit}>
+              {({ values, handleChange, handleSubmit, handleReset }) => (
+                <form onSubmit={handleSubmit}>
+                  <Stack direction={"column"} spacing={1}>
+                    <Stack direction={"row"} spacing={2}>
+                      <Stack flex={2}>
+                        <Typography variant="body1">Choice 01</Typography>
+                      </Stack>
+                      <Stack flex={3}>
+                        <FormControl fullWidth size="small">
+                          <InputLabel>Company</InputLabel>
+                          <Select
+                            variant="outlined"
+                            labelId="company01"
+                            id="company01"
+                            name="company01"
+                            value={values.company01}
+                            onChange={handleChange}
+                            label="company01"
+                          >
+                            {companyList.map((company) => (
+                              <MenuItem value={company._id}>
+                                {company.name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Stack>
+                      <Stack flex={3}>
+                        <FormControl fullWidth size="small">
+                          <InputLabel>Job Role</InputLabel>
+                          <Select
+                            variant="outlined"
+                            labelId="jobRole01"
+                            id="jobRole01"
+                            name="jobRole01"
+                            value={values.jobRole01}
+                            onChange={handleChange}
+                            label="jobRole01"
+                          >
+                            <MenuItem value={"software_engineering"}>
+                              Software eng
+                            </MenuItem>
+                            <MenuItem value={"business_analyst"}>
+                              Business Analyst
+                            </MenuItem>
+                            <MenuItem value={"quality_achueance"}>
+                              Quality Achueance
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Stack>
+                    </Stack>
+
+                    <Stack direction={"row"} spacing={2}>
+                      <Stack flex={2}>
+                        <Typography variant="body1">Choice 02</Typography>
+                      </Stack>
+                      <Stack flex={3}>
+                        <FormControl fullWidth size="small">
+                          <InputLabel>Company</InputLabel>
+                          <Select
+                            variant="outlined"
+                            labelId="company02"
+                            id="company02"
+                            name="company02"
+                            value={values.company02}
+                            onChange={handleChange}
+                            label="company02"
+                          >
+                            {companyList.map((company) => (
+                              <MenuItem value={company._id}>
+                                {company.name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Stack>
+                      <Stack flex={3}>
+                        <FormControl fullWidth size="small">
+                          <InputLabel>Job Role</InputLabel>
+                          <Select
+                            variant="outlined"
+                            labelId="jobRole02"
+                            id="jobRole02"
+                            name="jobRole02"
+                            value={values.jobRole02}
+                            onChange={handleChange}
+                            label="jobRole02"
+                          >
+                            <MenuItem value={"software_engineering"}>
+                              Software eng
+                            </MenuItem>
+                            <MenuItem value={"business_analyst"}>
+                              Business Analyst
+                            </MenuItem>
+                            <MenuItem value={"quality_achueance"}>
+                              Quality Achueance
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Stack>
+                    </Stack>
+
+                    <Stack direction={"row"} spacing={2}>
+                      <Stack flex={2}>
+                        <Typography variant="body1">Choice 03</Typography>
+                      </Stack>
+                      <Stack flex={3}>
+                        <FormControl fullWidth size="small">
+                          <InputLabel>Company</InputLabel>
+                          <Select
+                            variant="outlined"
+                            labelId="company03"
+                            id="company03"
+                            name="company03"
+                            value={values.company03}
+                            onChange={handleChange}
+                            label="company03"
+                          >
+                            {companyList.map((company) => (
+                              <MenuItem value={company._id}>
+                                {company.name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Stack>
+                      <Stack flex={3}>
+                        <FormControl fullWidth size="small">
+                          <InputLabel>Job Role</InputLabel>
+                          <Select
+                            variant="outlined"
+                            labelId="jobRole03"
+                            id="jobRole03"
+                            name="jobRole03"
+                            value={values.jobRole03}
+                            onChange={handleChange}
+                            label="jobRole03"
+                          >
+                            <MenuItem value={"software_engineering"}>
+                              Software eng
+                            </MenuItem>
+                            <MenuItem value={"business_analyst"}>
+                              Business Analyst
+                            </MenuItem>
+                            <MenuItem value={"quality_achueance"}>
+                              Quality Achueance
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Stack>
+                    </Stack>
+
+                    <Stack direction={"row"} spacing={2}>
+                      <Stack flex={2}>
+                        <Typography variant="body1">Choice 04</Typography>
+                      </Stack>
+                      <Stack flex={3}>
+                        <FormControl fullWidth size="small">
+                          <InputLabel>Company</InputLabel>
+                          <Select
+                            variant="outlined"
+                            labelId="company04"
+                            id="company04"
+                            name="company04"
+                            value={values.company04}
+                            onChange={handleChange}
+                            label="company04"
+                          >
+                            {companyList.map((company) => (
+                              <MenuItem value={company._id}>
+                                {company.name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Stack>
+                      <Stack flex={3}>
+                        <FormControl fullWidth size="small">
+                          <InputLabel>Job Role</InputLabel>
+                          <Select
+                            variant="outlined"
+                            labelId="jobRole04"
+                            id="jobRole04"
+                            name="jobRole04"
+                            value={values.jobRole04}
+                            onChange={handleChange}
+                            label="jobRole04"
+                          >
+                            <MenuItem value={"software_engineering"}>
+                              Software eng
+                            </MenuItem>
+                            <MenuItem value={"business_analyst"}>
+                              Business Analyst
+                            </MenuItem>
+                            <MenuItem value={"quality_achueance"}>
+                              Quality Achueance
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Stack>
+                    </Stack>
+
+                    <Stack direction={"row"} spacing={2}>
+                      <Stack flex={2}>
+                        <Typography variant="body1">Choice 05</Typography>
+                      </Stack>
+                      <Stack flex={3}>
+                        <FormControl fullWidth size="small">
+                          <InputLabel>Company</InputLabel>
+                          <Select
+                            variant="outlined"
+                            labelId="company05"
+                            id="company05"
+                            name="company05"
+                            value={values.company05}
+                            onChange={handleChange}
+                            label="company05"
+                          >
+                            {companyList.map((company) => (
+                              <MenuItem value={company._id}>
+                                {company.name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Stack>
+                      <Stack flex={3}>
+                        <FormControl fullWidth size="small">
+                          <InputLabel>Job Role</InputLabel>
+                          <Select
+                            variant="outlined"
+                            labelId="jobRole05"
+                            id="jobRole05"
+                            name="jobRole05"
+                            value={values.jobRole05}
+                            onChange={handleChange}
+                            label="jobRole05"
+                          >
+                            <MenuItem value={"software_engineering"}>
+                              Software eng
+                            </MenuItem>
+                            <MenuItem value={"business_analyst"}>
+                              Business Analyst
+                            </MenuItem>
+                            <MenuItem value={"quality_achueance"}>
+                              Quality Achueance
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Stack>
+                    </Stack>
+
+                    <Stack alignItems="flex-end">
+                      <Stack direction={"row"}>
+                        <Button
+                          variant="itms"
+                          size="itms-small"
+                          onClick={handleReset}
+                        >
+                          cancel
+                        </Button>
+                        <Button variant="itms" size="itms-small" type="submit">
+                          Save
+                        </Button>
+                      </Stack>
+                    </Stack>
+                  </Stack>
+                </form>
+              )}
+            </Formik>
+          </Stack>
+        </Stack>
         {/* success and error messagers */}
         <StatusSnackBar
           severity="success"

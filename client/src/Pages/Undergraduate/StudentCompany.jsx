@@ -2,14 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Tile } from "../../components/card/Tile";
 import { Grid, Box, Typography, Stack, Divider } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { StudentAddCompany } from "../../components/user/Undergraduate/StudentAddCompany";
 import { StudentCompanyChoice } from "../../components/user/Undergraduate/StudentCompanyChoice";
-import { StudentCompanyStatus } from "../../components/user/Undergraduate/StudentCompanyStatus";
-import { StudentInternPeriod } from "../../components/user/Undergraduate/StudentInternPeriod";
-import { StudentPrivateCompanyStatus } from "../../components/user/Undergraduate/StudentPrivateCompanyStatus";
 import axios from "axios";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
 
 const StudentcompanyState = {
   companyName: "",
@@ -20,19 +14,19 @@ const companyDataColumns = [
   {
     field: "name",
     headerName: "Name",
-    width: 150,
+    flex: 2,
     editable: false,
   },
   {
     field: "rating",
     headerName: "Rating",
-    width: 100,
+    flex: 1,
     editable: false,
   },
   {
     field: "internSeats",
     headerName: "InternSeats",
-    width: 120,
+    flex: 2,
     editable: false,
   },
 ];
@@ -93,32 +87,50 @@ export const StudentCompany = () => {
           <Grid container spacing={1}>
             <Grid item md={7}>
               <Tile>
-                <Box sx={{ width: "100%", height: "74vh" }}>
+                <Box sx={{ width: "100%", height: "79vh" }}>
                   <StudentCompanyChoice />
                 </Box>
               </Tile>
             </Grid>
 
             <Grid item md={5}>
-              <Tile height={"79vh"}>
-                <Stack maxHeight={"78vh"} padding={2} spacing={1}>
-                  <Typography variant="h6" fontWeight={"bold"}>
-                    Company Ranking List
-                  </Typography>
+              <Tile>
+                <Stack height={"78vh"} padding={2} spacing={2}>
+                  <Stack>
+                    <Typography variant="head3">
+                      Company Ranking List
+                    </Typography>
+                  </Stack>
                   <Divider />
-                  <DataGrid
-                    rows={companyList.map((company, index) => {
-                      return {
-                        name: company.name,
-                        rating: company.rating,
-                        internSeats: company.internSeats,
-                        email: company.email,
-                      };
-                    })}
-                    columns={companyDataColumns}
-                    autoHeight={true}
-                    getRowId={(rows) => rows.email}
-                  />
+
+                  <Stack>
+                    <Box
+                      sx={{
+                        height: "61vh",
+                        width: "100%",
+                        justifyContent: "center",
+                        textAlign: "center",
+                      }}
+                    >
+                      <DataGrid
+                        rows={companyList.map((company, index) => {
+                          return {
+                            name: company.name,
+                            rating: company.rating,
+                            internSeats: company.internSeats,
+                            email: company.email,
+                          };
+                        })}
+                        // rows
+                        columns={companyDataColumns}
+                        getRowId={(rows) => rows.email}
+                        disableSelectionOnClick
+                        experimentalFeatures={{ newEditingApi: true }}
+                        hideFooter={true}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </Box>
+                  </Stack>
                 </Stack>
               </Tile>
             </Grid>
