@@ -122,109 +122,116 @@ export const UpdateCompanySupervisorForm = ({ userId }) => {
                     <form onReset={handleReset}
                         onSubmit={(e) => { e.preventDefault(); handleSubmit; handleFormSubmit(values); }} >
                         <>
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">Name</Typography>
+                            <Stack spacing={1}>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">Name</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={userData.name}
+                                            value={values.supervisorName} //if u use User here it will not let change text
+                                            name="supervisorName"
+                                            error={!!touched.supervisorName && !!errors.supervisorName}
+                                            helperText={touched.supervisorName && errors.supervisorName}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={userData.name}
-                                        value={values.supervisorName} //if u use User here it will not let change text
-                                        name="supervisorName"
-                                        error={!!touched.supervisorName && !!errors.supervisorName}
-                                        helperText={touched.supervisorName && errors.supervisorName}
-                                    />
-                                </Stack>
-                            </Stack>
 
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">E-mail</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">E-mail</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={userData.email}
+                                            value={values.supervisorEmail}
+                                            name="supervisorEmail"
+                                            error={!!touched.supervisorEmail && !!errors.supervisorEmail}
+                                            helperText={touched.supervisorEmail && errors.supervisorEmail}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={userData.email}
-                                        value={values.supervisorEmail}
-                                        name="supervisorEmail"
-                                        error={!!touched.supervisorEmail && !!errors.supervisorEmail}
-                                        helperText={touched.supervisorEmail && errors.supervisorEmail}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">Contact Number</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">Contact Number</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={userData.contactNo}
+                                            value={values.supervisorContactNo}
+                                            name="supervisorContactNo"
+                                            error={!!touched.supervisorContactNo && !!errors.supervisorContactNo}
+                                            helperText={touched.supervisorContactNo && errors.supervisorContactNo}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={userData.contactNo}
-                                        value={values.supervisorContactNo}
-                                        name="supervisorContactNo"
-                                        error={!!touched.supervisorContactNo && !!errors.supervisorContactNo}
-                                        helperText={touched.supervisorContactNo && errors.supervisorContactNo}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">Company Name</Typography>
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">Company Name</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={userData.company}
+                                            value={values.supervisorCompany}
+                                            name="supervisorCompany"
+                                            error={!!touched.supervisorCompany && !!errors.supervisorCompany}
+                                            helperText={touched.supervisorCompany && errors.supervisorCompany}
+                                        />
+                                    </Stack>
                                 </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={userData.company}
-                                        value={values.supervisorCompany}
-                                        name="supervisorCompany"
-                                        error={!!touched.supervisorCompany && !!errors.supervisorCompany}
-                                        helperText={touched.supervisorCompany && errors.supervisorCompany}
-                                    />
+                                <Stack direction="row" spacing={2}>
+                                    <Stack width='150px'>
+                                        <Typography variant="body1">Job Role</Typography>
+                                    </Stack>
+                                    <Stack width='300px'>
+                                        <TextField
+                                            size="small"
+                                            fullWidth
+                                            variant="outlined"
+                                            type="text"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            placeholder={userData.jobRole}
+                                            value={values.supervisorJobRole}
+                                            name="supervisorJobRole"
+                                            error={!!touched.supervisorJobRole && !!errors.supervisorJobRole}
+                                            helperText={touched.supervisorJobRole && errors.supervisorJobRole}
+                                        />
+                                    </Stack>
                                 </Stack>
-                            </Stack>
-                            <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">Job Role</Typography>
-                                </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={userData.jobRole}
-                                        value={values.supervisorJobRole}
-                                        name="supervisorJobRole"
-                                        error={!!touched.supervisorJobRole && !!errors.supervisorJobRole}
-                                        helperText={touched.supervisorJobRole && errors.supervisorJobRole}
-                                    />
-                                </Stack>
-                            </Stack>
 
-                            <Stack direction="row" display={'flex'} justifyContent="flex-end" paddingRight={'0px'}>
-                                <Button variant="itms" type="submit"  >Submit</Button>
-                                <Button variant="itms" type="reset"  >Reset</Button>
+                                <Stack direction="row" display={'flex'} justifyContent="flex-end" paddingRight={'0px'}>
+                                    <Button variant="itms" type="submit"  >Submit</Button>
+                                    <Button variant="itms" type="reset"  >Reset</Button>
+                                </Stack>
                             </Stack>
                         </>
                     </form>

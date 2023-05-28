@@ -20,6 +20,7 @@ import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { StatusSnackBar } from "../../components/StatusSnackBar/StatusSnackBar";
 import { Upload } from "@mui/icons-material";
+import { UploadImg } from "../../assets";
 
 //creating transition for dialog
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -248,6 +249,9 @@ export const CVUpload = () => {
           </form>
         </Box>
       </Tile>
+      <Box display={"flex"} justifyContent={"center"}>
+        <img src={UploadImg} alt="Resume" width={"35%"} />
+      </Box>
     </Box>
   );
 };

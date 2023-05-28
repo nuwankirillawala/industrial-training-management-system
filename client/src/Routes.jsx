@@ -31,6 +31,7 @@ import { SupervisorDashboard } from "./Pages/Supervisor/SupervisorDashboard";
 import { StudentReportPortal } from "./Pages/Undergraduate/ReportSubmission/StudentReportPortel";
 import { Internship } from "./Pages/Undergraduate/Internship/Internship";
 import { InternStatus } from "./Pages/Undergraduate/InternStatus/InternStatus";
+import { CVUpload } from "./Pages/Undergraduate/CVUpload";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -51,7 +52,8 @@ const router = createBrowserRouter(
 
         {/* student routes */}
         <Route path="student-dashboard" element={<StudentDashboard />} />
-        <Route path="student-cvupdate" element={<StudentCvUpdate />} />
+        <Route path="student-aditional" element={<StudentCvUpdate />} />
+        <Route path="student-cvupload" element={<CVUpload />} />
         <Route path="student-company" element={<StudentCompany />} />
         <Route path="student-settings" element={<StudentSettings />} />
         <Route path="notice" element={<Notice />} />
