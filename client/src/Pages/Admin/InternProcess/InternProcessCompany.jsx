@@ -24,22 +24,23 @@ const InternProcessCompany = () => {
 
   const { data } = useFetch('GET', `http://localhost:5000/api/v1/company/intern-process/company/${companyId}`)
 
-  console.log('dattaaa', data);
+  console.log('dattaaa', data.users);
 
   const theme = useTheme();
 
+
   useEffect(() => {
-    if (data && data.company) {
+    if (data && data.company  && data.users) {
       setCompany(data.company);
-      console.log("data.company.internApplications.applicationList",data.company.internApplications.applicationList);
+
       const updatedApplicationList = data.company.internApplications.applicationList.map(item => ({
         ...item.candidate
       }));
-      setSelectedStudents(updatedApplicationList)
-    }
 
-    if (data && data.users) {
-      const filteredStudents = data.users.filter(student => !selectedStudents.some(selected => selected.regNo === student.regNo));
+      const filteredStudents = data.users.filter(student => !updatedApplicationList.some(selected => selected.regNo === student.regNo));
+      const filteredSelectedStudents = data.users.filter(student => updatedApplicationList.some(selected => selected.regNo === student.regNo));
+      
+      setSelectedStudents(filteredSelectedStudents);
       setStudents(filteredStudents);
     }
   }, [data, selectedStudents && data]);
@@ -47,7 +48,10 @@ const InternProcessCompany = () => {
 
   const handleAddStudent = (student) => {
     if (selectedStudents.length < 10) {
-      setSelectedStudents([...selectedStudents, student]);
+      const user = data.users.find((user) => user.regNo === student.regNo);
+      if (user) {
+        setSelectedStudents([...selectedStudents, user]);
+      }
       setStudents(students.filter(s => s.regNo !== student.regNo));
     }
     else {
@@ -56,13 +60,18 @@ const InternProcessCompany = () => {
   };
 
   const handleRemoveStudent = (student) => {
-    console.log(typeof students);
-    setStudents([...students, student]);
+    console.log(students);
+    console.log(student);
+    const user = data.users.find((user) => user.regNo === student.regNo);
+    if (user) {
+      setStudents([...students, user]);
+    }
+    console.log(students);
     setSelectedStudents(selectedStudents.filter(s => s.regNo !== student.regNo));
   };
 
   const handleSave = async () => {
-    console.log(company, selectedStudents);
+    console.log('save', company, selectedStudents);
     const res = await axios.post("http://localhost:5000/api/v1/company/intern-process/company", { companyId: company._id, candidateList: selectedStudents }, { withCredentials: true })
     if (res) {
       setDialogData(res.data);
@@ -84,7 +93,26 @@ const InternProcessCompany = () => {
     { field: 'name', headerName: 'Name', width: 180, headerClassName: 'data-grid-header' },
     { field: 'gpa', headerName: 'GPA', type: 'number', width: 50, headerClassName: 'data-grid-header' },
     { field: 'weightedGPA', headerName: 'WGPA', type: 'number', width: 60, headerClassName: 'data-grid-header' },
-    { field: 'choice', headerName: 'Choice', width: 70, headerClassName: 'data-grid-header' },
+    {
+      field: 'choice',
+      headerName: 'Choice',
+      width: 70,
+      headerClassName: 'data-grid-header',
+      renderCell: (params) => (
+        <Typography
+          variant="body1"
+          style={{
+            color: params.row.choice === 'Yes' ? theme.palette.success.main : theme.palette.error.main
+          }}
+        >
+          {params.row.choice}
+        </Typography>
+      ),
+    },
+    { field: 'choiceNo', headerName: 'Priority', width: 70, headerClassName: 'data-grid-header' },
+
+    // { field: 'selection', headerName: 'Choice', width: 70, headerClassName: 'data-grid-header' },
+
     {
       field: 'action',
       headerName: 'Action',
@@ -106,6 +134,8 @@ const InternProcessCompany = () => {
         name: user.name,
         gpa: user.gpa,
         weightedGPA: user.weightedGPA,
+        choice: user.isListed.choice.isSelected ? 'Yes' : 'No',
+        choiceNo: user.isListed.choice.choiceNumber || '-',
       };
     });
 
@@ -114,7 +144,23 @@ const InternProcessCompany = () => {
     { field: 'name', headerName: 'Name', width: 180, headerClassName: 'data-grid-header' },
     { field: 'gpa', headerName: 'GPA', type: 'number', width: 50, headerClassName: 'data-grid-header' },
     { field: 'weightedGPA', headerName: 'WGPA', type: 'number', width: 60, headerClassName: 'data-grid-header' },
-    { field: 'choice', headerName: 'Choice', width: 70, headerClassName: 'data-grid-header' },
+    {
+      field: 'choice',
+      headerName: 'Choice',
+      width: 70,
+      headerClassName: 'data-grid-header',
+      renderCell: (params) => (
+        <Typography
+          variant="body1"
+          style={{
+            color: params.row.choice === 'Yes' ? theme.palette.success.main : theme.palette.error.main
+          }}
+        >
+          {params.row.choice}
+        </Typography>
+      ),
+    },
+    { field: 'choiceNo', headerName: 'Priority', width: 70, headerClassName: 'data-grid-header' },
     {
       field: 'action',
       headerName: 'Action',
@@ -136,6 +182,8 @@ const InternProcessCompany = () => {
         name: user.name,
         gpa: user.gpa,
         weightedGPA: user.weightedGPA,
+        choice: user.isListed && user.isListed.choice.isSelected ? 'Yes' : 'No',
+        choiceNo: user.isListed && user.isListed.choice.choiceNumber || '-',
       };
     });
 

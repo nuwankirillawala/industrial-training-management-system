@@ -67,7 +67,7 @@ const undergraduateSchema = new mongoose.Schema({
     },
     results: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: Result
+        ref: 'Result'
     },
     additionalInformation: {
         softSkills: [{
@@ -113,55 +113,95 @@ const undergraduateSchema = new mongoose.Schema({
         choice01: {
             company: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: Company
+                ref: 'Company'
             },
             jobRole: {
                 type: String
+            },
+            isSelected: {
+                type: Boolean
+            },
+            choiceNumber: {
+                type: Number
             }
         },
         choice02: {
             company: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: Company
+                ref: 'Company'
             },
             jobRole: {
                 type: String
+            },
+            isSelected: {
+                type: Boolean
+            },
+            choiceNumber: {
+                type: Number
             }
         },
         choice03: {
             company: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: Company
+                ref: 'Company'
             },
             jobRole: {
                 type: String
+            },
+            isSelected: {
+                type: Boolean
+            },
+            choiceNumber: {
+                type: Number
             }
         },
         choice04: {
             company: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: Company
+                ref: 'Company'
             },
             jobRole: {
                 type: String
+            },
+            isSelected: {
+                type: Boolean
+            },
+            choiceNumber: {
+                type: Number
             }
         },
         choice05: {
             company: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: Company
+                ref: 'Company'
             },
             jobRole: {
                 type: String
+            },
+            isSelected: {
+                type: Boolean
+            },
+            choiceNumber: {
+                type: Number
             }
         },
+    },
+    isListed:{
+        choice:{
+            isSelected: {
+                type: Boolean
+            },
+            choiceNumber: {
+                type: Number
+            }
+        }
     },
     //for update the status of intern application process
     // about companies that sent cv by department
     internStatus: [{
         company: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: Company
+            ref: 'Company'
         },
         jobRole: {
             type: String
@@ -175,7 +215,7 @@ const undergraduateSchema = new mongoose.Schema({
     internship: {
         company: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: Company
+            ref: 'Company'
         },
         jobRole: {
             type: String
@@ -324,7 +364,7 @@ const undergraduateSchema = new mongoose.Schema({
         },
         signatureOfSupervisor: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: Supervisor
+            ref: 'Supervisor'
         },
         reportStatus: {
             type: String,
