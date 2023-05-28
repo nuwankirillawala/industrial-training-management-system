@@ -7,6 +7,12 @@ import {
   Grid,
   Typography,
   Button,
+  Dialog,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Icon,
+  Slide,
 } from "@mui/material";
 import { Tile } from "../../../components/card/Tile";
 import axios from "axios";
@@ -15,10 +21,25 @@ import { ShowStudentResults } from "../../../components/user/Department/ShowStud
 import { DepartmentShowStudentProfile } from "../../../components/user/Department/DepartmentShowStudentProfile";
 import FeaturedCard from "../../../components/Dashboard/FeaturedCard";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
+import { CustomBackdrop } from "../../../components/backdrop/CustomBackdrop";
+import { Viewer, Worker } from "@react-pdf-viewer/core";
+
+import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
+import "@react-pdf-viewer/core/lib/styles/index.css";
+import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+import CloseIcon from "@mui/icons-material/Close";
+import { ClickableTile } from "../../../components/card/ClickableTile";
+
+//creating transition for dialog
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+//end of creation transition for dialog
 
 const StudentProfile = () => {
   const [selecteduser, setSelectedUser] = useState();
   const [select, setSelect] = useState(false);
+  const [selectedPDFURL, setSelectedPDFURL] = useState("");
   const [records, setRecords] = useState([
     {
       role: "",
@@ -37,8 +58,22 @@ const StudentProfile = () => {
       contactNo: "",
     },
   ]);
+  const [openBackdrop, setOpenBackdrop] = useState(false);
+  //useState for dialogbox
+  const [open, setOpen] = useState(false);
+
+  //handling dialog closing
+  const handleClose = () => {
+    setOpen(false);
+  };
+  //End of Handling dialog closing
+
+  //newpluging creation for pdf viewer
+  const newplugin = defaultLayoutPlugin();
+  //end of new plugin creation for pdf viewer
 
   const getUndergraduateData = async () => {
+    setOpenBackdrop(true);
     try {
       const res = await axios.get(
         "http://localhost:5000/api/v1/undergraduate/user/all"
@@ -51,6 +86,7 @@ const StudentProfile = () => {
     } catch (error) {
       console.log(error);
     }
+    setOpenBackdrop(false);
   };
 
   useEffect(() => {
@@ -58,14 +94,19 @@ const StudentProfile = () => {
   }, []);
 
   const selectRowData = (params) => {
+    setOpenBackdrop(true);
     try {
-      // const userid = params.row.id;
+      let userid = params.row.regNo;
       setSelect(true);
-      // setStudentId(userid);
-      console.log(params);
+      setSelectedUser(userid);
+      // console.log(params);
+      let pdfURL = records.find((item) => item.regNo === userid);
+      console.log(pdfURL.cvURL);
+      setSelectedPDFURL(pdfURL.cvURL);
     } catch (error) {
       console.log(error);
     }
+    setOpenBackdrop(false);
   };
 
   const undergraduateColumns = [
@@ -218,12 +259,21 @@ const StudentProfile = () => {
                 >
                   <Stack>
                     <Stack direction={"row"} spacing={2}>
-                      <FeaturedCard
+                      {/* <FeaturedCard
                         title="Resume"
                         color="primary"
                         icon={ContactPageIcon}
                         link="/student-company"
-                      />
+                      /> */}
+                      <Button
+                        variant="itms"
+                        onClick={(e) => {
+                          e.preventDefault;
+                          setOpen(true);
+                        }}
+                      >
+                        View CV
+                      </Button>
                     </Stack>
                   </Stack>
                   <Stack alignContent={"flex-end"}>
@@ -256,6 +306,55 @@ const StudentProfile = () => {
                     <Tile>
                       <ShowStudentResults />
                     </Tile>
+                    {openBackdrop && <CustomBackdrop />}
+                    {/* viewing the cv dialog*/}
+                    <Dialog
+                      fullScreen
+                      open={open}
+                      onClose={handleClose}
+                      TransitionComponent={Transition}
+                    >
+                      <AppBar sx={{ position: "relative" }} elevation={0}>
+                        <Toolbar>
+                          <IconButton
+                            edge="start"
+                            color="#363853"
+                            onClick={handleClose}
+                            aria-label="close"
+                          >
+                            <CloseIcon />
+                          </IconButton>
+                          <Typography
+                            sx={{ ml: 2, flex: 1 }}
+                            variant="body2"
+                            fontWeight="bold"
+                          >
+                            Uploaded File
+                          </Typography>
+                        </Toolbar>
+                      </AppBar>
+                      <Box
+                        justifyContent="center"
+                        justifyItems="center"
+                        sx={{
+                          height: "900px",
+                          width: "100%",
+                        }}
+                        overflow-y="auto"
+                      >
+                        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+                          {selectedPDFURL && (
+                            <>
+                              <Viewer
+                                fileUrl={selectedPDFURL}
+                                plugins={[newplugin]}
+                              />
+                            </>
+                          )}
+                          {!selectedPDFURL && <>No PDF</>}
+                        </Worker>
+                      </Box>
+                    </Dialog>
                   </Stack>
                 </Stack>
               </Grid>
