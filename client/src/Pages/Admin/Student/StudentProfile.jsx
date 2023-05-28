@@ -227,7 +227,15 @@ const StudentProfile = () => {
                     </Stack>
                   </Stack>
                   <Stack alignContent={"flex-end"}>
-                    <Button variant="itms">Student List</Button>
+                    <Button
+                      variant="itms"
+                      onClick={(e) => {
+                        e.preventDefault;
+                        setSelect(false);
+                      }}
+                    >
+                      Student List
+                    </Button>
                   </Stack>
                 </Stack>
               </Grid>
