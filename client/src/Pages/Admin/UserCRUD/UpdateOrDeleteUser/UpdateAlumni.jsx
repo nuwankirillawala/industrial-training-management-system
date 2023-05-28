@@ -62,9 +62,9 @@ const UpdateAlumni = () => {
                   <TableCell >   {r.graduatedYear} </TableCell>
                   <TableCell >   {r.contactNo} </TableCell>
                   <TableCell> <Dialogbox title="Update Alumni user" btn_name="update"><UpdateAlumniForm userId={r._id} /></Dialogbox></TableCell>
-                  <TableCell ><Dialogbox title="Remove Alumni user" btn_name="remove"><RemoveUserForm /></Dialogbox>
-
+                  <TableCell ><Dialogbox title="Remove Alumni user" btn_name="remove"><RemoveUserForm userId={r._id} userRole={r.role} /></Dialogbox>
                   </TableCell>
+
                 </TableRow> //id,title,description need to change as json file
               )}
 
@@ -72,7 +72,7 @@ const UpdateAlumni = () => {
           </Table>
 
         </Stack>
-      </Tile>
+      </Tile >
     </>
 
   )

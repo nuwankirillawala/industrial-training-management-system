@@ -1,68 +1,155 @@
-import { Button, DialogActions, Typography } from "@mui/material"
-import React from "react"
-import { Tile } from '../../../card/Tile'
-import { useState, useEffect } from "react"  //ref attribute -> an element to access it directly in the DOM.
-import { Stack } from "@mui/system"
-import { Formik } from "formik"
-import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
 
-const RemoveuserData = {
-    userId: '',
-}
+import React, { useState } from "react";
+import axios from "axios";
+import { Button, Typography } from "@mui/material";
+import { Tile } from "../../../card/Tile";
+import { Stack } from "@mui/system";
+import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar";
 
-export const RemoveUserForm = () => {
-    const [SnackbarOpen, setSnackbarOpen] = useState(false)
+export const RemoveUserForm = ({ userId, userRole }) => {
+
+    const [trigger, setTrigger] = useState({
+        success: false,
+        error: false,
+    });
 
     const handleSnackBar = (key) => {
-        setSnackbarOpen((prevState) => {
-            let newState = { ...prevState };
-            newState[key] = !newState[key];
-            return newState;
-        });
+        setTrigger((prevState) => ({
+            ...prevState,
+            [key]: !prevState[key],
+        }));
     };
 
-    //const [YesNoValue, setYesNoValue] = useState();
-    // const handleYesNo = (text) => {
-    //     setYesNoValue({ YesNovalue: text })
-    // }
-    const handleFormSubmit = (values) => { // send req only if 'yes'
-        alert(JSON.stringify(values));
-        console.log(values)
-        handleSnackBar("success");
+
+    function RedirectRemoveuser(userRole) {
+        switch (userRole) {
+            case 'system-admin':
+                removeAdminNCoordinator();
+                break;
+            case 'undergraduate':
+                removeUndergraduate();
+                break;
+            case 'department-coordinator':
+                removeAdminNCoordinator();
+                break;
+            case 'supervisor':
+
+                break;
+            case 'alumni':
+                removeAlumni();
+                break;
+
+        }
     }
+    //remove Admin, remove coordinator function
+    const removeAdminNCoordinator = async () => {
+        try {
+            const res = await axios.delete(
+                `http://localhost:5000/api/v1/admin/delete/${userId}`,
+                { withCredentials: true }
+            );
+            console.log(res.data); // Log the response message
+
+            if (res.status === 202) {
+                handleSnackBar("success");
+            }
+            window.location.reload(false);
+
+        } catch (error) {
+            console.log(error);
+            handleSnackBar("error");
+        }
+    };
+
+    // remove undergraduate function
+    const removeUndergraduate = async () => {
+        try {
+            const res = await axios.delete(
+                `http://localhost:5000/api/v1/undergraduate/delete/${userId}`,
+                { withCredentials: true }
+            );
+            console.log(res.data); // Log the response message
+
+            if (res.status === 202) {
+                handleSnackBar("success");
+            }
+            window.location.reload(false);
+
+        } catch (error) {
+            console.log(error);
+            handleSnackBar("error");
+        }
+    };
+
+    // remove supervisor function
+    // const removeSupervisor = async () => {
+    //     try {
+    //         const res = await axios.delete(
+    //             `http://localhost:5000/api/v1/undergraduate/delete/${userId}`,
+    //             { withCredentials: true }
+    //         );
+    //         console.log(res.data); // Log the response message
+
+    //         if (res.status === 202) {
+    //             handleSnackBar("success");
+    //         }
+    //         window.location.reload(false);
+
+    //     } catch (error) {
+    //         console.log(error);
+    //         handleSnackBar("error");
+    //     }
+    // };
+
+    // remove Alumni function
+    const removeAlumni = async () => {
+        try {
+            const res = await axios.delete(
+                `http://localhost:5000/api/v1/alumni/delete/${userId}`,
+                { withCredentials: true }
+            );
+            console.log(res.data); // Log the response message
+
+            if (res.status === 202) {
+                handleSnackBar("success");
+            }
+            window.location.reload(false);
+
+        } catch (error) {
+            console.log(error);
+            handleSnackBar("error");
+        }
+    };
+
+
     return (
-        <Tile width={'450px'} >
-            <Formik
-                initialValues={RemoveuserData}>
-                {({
-                    values,
-                    handleSubmit,
-                }) => (
-                    <form onSubmit={(e) => { e.preventDefault(); handleSubmit; }}>
-                        <Typography>
-                            Are you sure to remove user {values.userId} ?
-                        </Typography>
-                        <Stack direction={"row"} justifyContent="flex-end" paddingRight={'0px'}>
-                            <Button variant="itms" type='submit'
-                                onClick={() => { handleFormSubmit(values); }}>
-                                Yes
-                            </Button>
-                            {/* <Button variant="itms" type='submit'
-                              onClick={() => { setYesNoValue({ YesNovalue: "no" }) }} 
-                            >
-                                No
-                            </Button> */}
-                        </Stack>
-                    </form>)}
-            </Formik>
+        <Tile width={"450px"}>
+
+            <Typography>
+                Are you sure you want to remove user {userId}?
+            </Typography>
+            <Stack direction="row" justifyContent="flex-end" paddingRight={'0px'}>
+                <Button variant="itms" type="submit" onClick={() => (RedirectRemoveuser(userRole))}>
+                    Yes
+                </Button>
+            </Stack>
+
             <StatusSnackBar
-                trigger={SnackbarOpen.success}
+                severity="success"
+                trigger={trigger.success}
                 setTrigger={() => {
                     handleSnackBar("success");
                 }}
-                severity='success'
-                alertMessage={' User successfully removed '}></StatusSnackBar>
+                alertMessage={"Removed Successfully"}
+            />
+            <StatusSnackBar
+                severity="error"
+                trigger={trigger.error}
+                setTrigger={() => {
+                    handleSnackBar("error");
+                }}
+                alertMessage={"Removal Failed"}
+            />
         </Tile >
-
-    )
-} 
+    );
+};
