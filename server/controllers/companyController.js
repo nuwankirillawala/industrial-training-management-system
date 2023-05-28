@@ -63,10 +63,10 @@ module.exports.getCompanyProfile = catchAsync(async (req, res) => {
         console.log(companyId);
 
         const company = await Company.findById(companyId)
-        .populate({
-            path: 'internApplications.applicationList.candidate',
-            model: Undergraduate
-        });
+            .populate({
+                path: 'internApplications.applicationList.candidate',
+                model: Undergraduate
+            });
 
         if (!company) {
             return res.status(404).json({ error: "company not found" });
@@ -520,22 +520,84 @@ module.exports.internProcess = catchAsync(async (req, res) => {
 // Description: get companies that offer internships through university
 // User: Admin, Undergraduate
 module.exports.internProcessCompany = catchAsync(async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
         const companyId = req.params.companyId;
-        const company = await Company.findById(companyId).populate({
-            path: 'internApplications.applicationList.candidate',
-            model: Undergraduate
-        });
-        const users = await Undergraduate.find().select('name regNo gpa weightedGPA internStatus');
+        const company = await Company.findById(companyId)
+            .maxTimeMS(15000)
+            .populate(
+                {
+                    path: 'internApplications.applicationList.candidate',
+                    model: Undergraduate,
+                    session
+                },
+                {
+                    path: 'internApplications.recommendations.candidate',
+                    model: Undergraduate,
+                    session
+                })
+            .session(session);
+
         if (!company) {
+            await session.abortTransaction();
             return res.status(400).json({ message: "Can't find the company" });
         }
-        console.log(company, users);
+
+        const users = await Undergraduate.find().session(session);
+        users.forEach(async (user) => {
+            // check company selections
+            const companySelection = user.companySelection;
+            const choices = Object.keys(companySelection);
+            let isCompanySelected = false;
+
+            choices.forEach((choice) => {
+                const choiceNumber = parseInt(choice.replace('choice', ''));
+                const companyInChoice = companySelection[choice].company && companySelection[choice].company.toString();
+
+                // Check if the company exists in the undergraduate's choices
+                const companyExists = companyInChoice === companyId;
+
+                if (companyExists && !isCompanySelected) {
+                    user.isListed = {
+                        choice: {
+                            isSelected: true,
+                            choiceNumber: choiceNumber
+                        }
+                    };
+                    isCompanySelected = true;
+                } else {
+                    user.isListed = {
+                        choice: {
+                            isSelected: false,
+                            choiceNumber: null
+                        }
+                    };
+                }
+
+                // user.markModified('isListed');
+            });
+
+            internApplications.recommendations.find()
+            
+
+        });
+
+        // await Promise.all(users.map((user) => user.save({ session })));
+
+        await session.commitTransaction();
+
         res.status(200).json({ company, users });
     } catch (err) {
+        await session.abortTransaction();
+        console.log(err);
         res.status(500).json(err);
+    } finally {
+        session.endSession();
     }
 });
+
+
 
 // Method: POST
 // Endpoint: "/intern-process/company"
@@ -547,27 +609,20 @@ module.exports.updateCompanyInternApplicationList = catchAsync(async (req, res) 
         console.log("candidateList", candidateList);
         console.log("companyId", companyId);
 
-
         const company = await Company.findById(companyId);
 
         if (!company) {
             return res.status(404).json({ error: 'Company not found!' });
         }
+
         console.log("company", company);
 
-        const applicationList = company.internApplications.applicationList;
+        const applicationList = [];
 
-        console.log(company.internApplications.applicationList);
+        candidateList.forEach(async (candidate) => {
+            console.log(candidate);
+            if (applicationList.length < company.internApplications.applicationListSize) {
 
-        const existingCandidates = company.internApplications.applicationList.map(
-            (item) => item.candidate.toString()
-        );
-
-        candidateList.forEach((candidate) => {
-            const candidateId = candidate._id.toString();
-            const candidateExists = existingCandidates.includes(candidateId);
-
-            if (!candidateExists && applicationList.length < company.internApplications.applicationListSize) {
                 applicationList.push({ candidate: candidate._id });
             }
         });

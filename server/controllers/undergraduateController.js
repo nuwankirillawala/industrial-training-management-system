@@ -1281,11 +1281,11 @@ module.exports.editMonthlyReportWeek = catchAsync(async (req, res) => {
 
         const monthlyReport = user.monthlyReports.find((report) => report.monthNumber === monthNo);
         if (!monthlyReport) {
-            return res.status(404).json({ error: "moonthly report not found" });
+            return res.status(404).json({ error: "monthly report not found" });
         }
 
         const weeklyReport = monthlyReport.weeklyReports.find((report) => report.weekNumber === weekNo);
-        if (!dailyReport) {
+        if (!weeklyReport) {
             return res.status(404).json({ error: "weekly report not found" });
         }
 

@@ -28,6 +28,9 @@ export const ProgrammingLanguages = () => {
     level: "",
   });
 
+  //use State for button disable
+  const [isDisabled, setIsDisabled] = useState(true);
+
   //State for backdrop
   const [openBackdrop, setOpenBackdrop] = useState(false);
   //End of states
@@ -38,6 +41,20 @@ export const ProgrammingLanguages = () => {
       ...prevState,
       [e.target.name]: e.target.value,
     }));
+    if (
+      e.target.name === "language" &&
+      e.target.value !== "" &&
+      value.level !== ""
+    ) {
+      setIsDisabled(false);
+    }
+    if (
+      e.target.name === "level" &&
+      e.target.value !== "" &&
+      value.language !== ""
+    ) {
+      setIsDisabled(false);
+    }
   };
   //End of onchange Radio group
 
@@ -49,13 +66,14 @@ export const ProgrammingLanguages = () => {
         "http://localhost:5000/api/v1/undergraduate/info/technology-skill",
         {
           name: value.language,
-          advancedLevel: value.level,
+          level: value.level,
         },
         { withCredentials: true }
       );
 
-      if (req.status === 201) console.log("created!");
-      else console.log(req);
+      if (req.status === 201) {
+        console.log("created!");
+      } else console.log(req);
     } catch (error) {
       console.log(error);
     }
@@ -107,7 +125,13 @@ export const ProgrammingLanguages = () => {
           </FormControl>
         </Box>
         <br />
-        <Button variant="itms" size="itms-x-small" onClick={handleSubmit}>
+        <Button
+          type="submit"
+          variant="itms"
+          size="itms-x-small"
+          onClick={handleSubmit}
+          disabled={isDisabled}
+        >
           Submit
         </Button>
       </Stack>
