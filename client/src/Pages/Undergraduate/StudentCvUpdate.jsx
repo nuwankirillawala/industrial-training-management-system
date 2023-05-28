@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Box, Grid, Typography, Stack, IconButton, Chip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -7,13 +7,16 @@ import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { EnglishProficiency } from "../../components/user/Undergraduate/studentCV/EnglishProficiency";
 import { PopUpDialog } from "../../components/user/Undergraduate/studentCV/PopUpDialog";
-import { CVUpload } from "./CVUpload";
 import { ProgrammingLanguages } from "../../components/user/Undergraduate/studentCV/ProgrammingLanguages";
 import axios from "axios";
+import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
+import { SoftSkills } from "../../components/user/Undergraduate/studentCV/SoftSkills";
 
 export const StudentCvUpdate = () => {
   //state for fetched data
-  const [data, setData] = useState([]);
+  const [englishProficiency, setEnglishProficiency] = useState([]);
+  const [technologies, setTechnologies] = useState([]);
+  const [softSkills, setSoftSkills] = useState([]);
   //state for backdrop
   const [openBackdrop, setOpenBackdrop] = useState(false);
   //End of State
@@ -29,16 +32,28 @@ export const StudentCvUpdate = () => {
 
   //fetching data
   const getData = async () => {
+    setOpenBackdrop(true);
     try {
       const res = await axios.get(
         "http://localhost:5000/api/v1/undergraduate/info"
       );
-      if (res.status === 200) console.log(res);
-      else console.log(res);
+      if (res.status === 200) {
+        setEnglishProficiency(res.data.additionalInformation.englishSkill);
+        console.log(res.data.additionalInformation.technologies);
+        setTechnologies(res.data.additionalInformation.technologies);
+        setSoftSkills(res.data.additionalInformation.softSkills);
+      } else {
+        console.log(res);
+      }
     } catch (error) {
       console.log(error);
     }
+    setOpenBackdrop(false);
   };
+
+  useEffect(() => {
+    getData();
+  }, []);
   //End of fetching data
 
   //Handling state for PopUpDialog
@@ -104,46 +119,38 @@ export const StudentCvUpdate = () => {
                   </PopUpDialog>
                 </Stack>
                 <Stack mt={1} direction={"row"} spacing={0.5}>
-                  {(data.olResult !== "" || data.olResult != "undefined") && (
+                  {(englishProficiency.odinaryLevel !== "" ||
+                    englishProficiency.odinaryLevel != "undefined") && (
                     <>
                       <Chip
-                        label={`Ordinary Level result : ${data.olResult}`}
+                        label={`Ordinary Level result : ${englishProficiency.odinaryLevel}`}
                         variant="outlined"
                         color="primary"
                       />
                     </>
                   )}
-                  {data.alResult !== "" && (
+                  {englishProficiency.advancedLevel !== "" && (
                     <>
                       <Chip
-                        label={`Ordinary Level result : ${data.alResult}`}
+                        label={`Ordinary Level result : ${englishProficiency.advancedLevel}`}
                         variant="outlined"
                         color="primary"
                       />
                     </>
                   )}
-                  {data.speakingLevel !== "" && (
+                  {englishProficiency.level01 !== "" && (
                     <>
                       <Chip
-                        label={`Ordinary Level result : ${data.speakingLevel}`}
+                        label={`Ordinary Level result : ${englishProficiency.level01}`}
                         variant="outlined"
                         color="primary"
                       />
                     </>
                   )}
-                  {data.writingLevel !== "" && (
+                  {englishProficiency.level02 !== "" && (
                     <>
                       <Chip
-                        label={`Ordinary Level result : ${data.writingLevel}`}
-                        variant="outlined"
-                        color="primary"
-                      />
-                    </>
-                  )}
-                  {data.readingLevel !== "" && (
-                    <>
-                      <Chip
-                        label={`Ordinary Level result : ${data.readingLevel}`}
+                        label={`Ordinary Level result : ${englishProficiency.level02}`}
                         variant="outlined"
                         color="primary"
                       />
@@ -180,24 +187,19 @@ export const StudentCvUpdate = () => {
                   </PopUpDialog>
                 </Stack>
                 <Stack mt={1} direction={"row"} spacing={0.5}>
-                  {data.language !== "" && (
-                    <>
-                      <Chip
-                        label={`Language : ${data.language}`}
-                        variant="outlined"
-                        color="primary"
-                      />
-                    </>
-                  )}
-                  {data.languageLevel !== "" && (
-                    <>
-                      <Chip
-                        label={`Level : ${data.languageLevel}`}
-                        variant="outlined"
-                        color="primary"
-                      />
-                    </>
-                  )}
+                  {technologies.map((item, index) => (
+                    <Box key={index}>
+                      {item.name !== "" && (
+                        <Stack>
+                          <Chip
+                            label={`Language : ${item.name} - Level : ${item.level}`}
+                            variant="outlined"
+                            color="primary"
+                          />
+                        </Stack>
+                      )}
+                    </Box>
+                  ))}
                 </Stack>
               </Tile>
 
@@ -209,7 +211,7 @@ export const StudentCvUpdate = () => {
                   justifyContent="space-between"
                 >
                   <Typography varient="h2" fontWeight="bold">
-                    Other Skills
+                    Soft Skills
                   </Typography>
                   <IconButton
                     name="addOtherSkills"
@@ -225,27 +227,24 @@ export const StudentCvUpdate = () => {
                       togglePopup("otherSkills");
                     }}
                     id={"OtherSkills"}
-                  ></PopUpDialog>
+                  >
+                    <SoftSkills />
+                  </PopUpDialog>
                 </Stack>
                 <Stack mt={1} direction={"row"} spacing={0.5}>
-                  {data.skill !== "" && (
-                    <>
-                      <Chip
-                        label={`Other Skill : ${data.skill}`}
-                        variant="outlined"
-                        color="primary"
-                      />
-                    </>
-                  )}
-                  {data.skillCertificates !== "" && (
-                    <>
-                      <Chip
-                        label={`Certificate : ${data.skillCertificates}`}
-                        variant="outlined"
-                        color="primary"
-                      />
-                    </>
-                  )}
+                  {softSkills.map((skill, index) => (
+                    <Box key={index}>
+                      {skill !== "" && (
+                        <>
+                          <Chip
+                            label={`Soft Skill : ${skill}`}
+                            variant="outlined"
+                            color="primary"
+                          />
+                        </>
+                      )}
+                    </Box>
+                  ))}
                 </Stack>
               </Tile>
 
@@ -275,65 +274,56 @@ export const StudentCvUpdate = () => {
                     id={"projects"}
                   ></PopUpDialog>
                 </Stack>
-                <Stack mt={1} direction={"row"} spacing={0.5}>
-                  {data.projects !== "" && (
-                    <>
-                      <Chip
-                        label={`project Name : ${data.projects}`}
-                        variant="outlined"
-                        color="primary"
-                      />
-                    </>
-                  )}
-                  {data.projectDescription !== "" && (
-                    <>
-                      <Chip
-                        label={`Project Description : ${data.projectDescription}`}
-                        variant="outlined"
-                        color="primary"
-                      />
-                    </>
-                  )}
-                  {data.projectTechnologies !== "" && (
-                    <>
-                      <Chip
-                        label={`Used Technologies : ${data.projectTechnologies}`}
-                        variant="outlined"
-                        color="primary"
-                      />
-                    </>
-                  )}
-                  {data.projectRepoLink !== "" && (
-                    <>
-                      <Chip
-                        label={`Project Repositary : ${data.projectRepoLink}`}
-                        variant="outlined"
-                        color="primary"
-                      />
-                    </>
-                  )}
-                  {data.projectLiveLink !== "" && (
-                    <>
-                      <Chip
-                        label={`Project URL : ${data.projectLiveLink}`}
-                        variant="outlined"
-                        color="primary"
-                      />
-                    </>
-                  )}
-                </Stack>
+                {/* <Stack mt={1} direction={"row"} spacing={0.5}> */}
+                {/* {data.projects !== "" && (
+                  <>
+                    <Chip
+                      label={`project Name : ${data.projects}`}
+                      variant="outlined"
+                      color="primary"
+                    />
+                  </>
+                )}
+                {data.projectDescription !== "" && (
+                  <>
+                    <Chip
+                      label={`Project Description : ${data.projectDescription}`}
+                      variant="outlined"
+                      color="primary"
+                    />
+                  </>
+                )}
+                {data.projectTechnologies !== "" && (
+                  <>
+                    <Chip
+                      label={`Used Technologies : ${data.projectTechnologies}`}
+                      variant="outlined"
+                      color="primary"
+                    />
+                  </>
+                )}
+                {data.projectRepoLink !== "" && (
+                  <>
+                    <Chip
+                      label={`Project Repositary : ${data.projectRepoLink}`}
+                      variant="outlined"
+                      color="primary"
+                    />
+                  </>
+                )}
+                {data.projectLiveLink !== "" && (
+                  <>
+                    <Chip
+                      label={`Project URL : ${data.projectLiveLink}`}
+                      variant="outlined"
+                      color="primary"
+                    />
+                  </>
+                )} */}
+                {/* </Stack> */}
               </Tile>
             </Stack>
           </Grid>
-          {/* <Grid item xs={3}>
-            <Stack direction="column" spacing={1} height={"100%"}>
-              <Box sx={{ height: "100%" }}>
-                <Tile sx={{ height: "100%" }}>
-                  <CVUpload />
-                </Tile>
-              </Box>
-            </Stack>
-          </Grid> */}
         </Grid>
       </Box>
       {openBackdrop && <CustomBackdrop />}

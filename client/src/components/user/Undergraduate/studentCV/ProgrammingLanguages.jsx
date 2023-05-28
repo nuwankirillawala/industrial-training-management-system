@@ -49,13 +49,14 @@ export const ProgrammingLanguages = () => {
         "http://localhost:5000/api/v1/undergraduate/info/technology-skill",
         {
           name: value.language,
-          advancedLevel: value.level,
+          level: value.level,
         },
         { withCredentials: true }
       );
 
-      if (req.status === 201) console.log("created!");
-      else console.log(req);
+      if (req.status === 201) {
+        console.log("created!");
+      } else console.log(req);
     } catch (error) {
       console.log(error);
     }
@@ -107,7 +108,12 @@ export const ProgrammingLanguages = () => {
           </FormControl>
         </Box>
         <br />
-        <Button variant="itms" size="itms-x-small" onClick={handleSubmit}>
+        <Button
+          type="submit"
+          variant="itms"
+          size="itms-x-small"
+          onClick={handleSubmit}
+        >
           Submit
         </Button>
       </Stack>

@@ -11,7 +11,7 @@ import { Button, InputLabel, MenuItem, Select } from "@mui/material";
 import axios from "axios";
 import { CustomBackdrop } from "../../../backdrop/CustomBackdrop";
 
-export const EnglishProficiency = ({ passDataFromChild }) => {
+export const EnglishProficiency = () => {
   //Result array for level-01/02 english
   const grade = [
     "A+",
@@ -78,86 +78,88 @@ export const EnglishProficiency = ({ passDataFromChild }) => {
   //end of handle submit button
 
   return (
-    <form>
-      <Stack>
-        <FormControl required>
-          <FormLabel id="label-olResult">Ordinary Level</FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="olResult"
-            name="olResult"
-            value={value.olResult}
-            onChange={onChange}
-          >
-            <FormControlLabel value="A" control={<Radio />} label="A" />
-            <FormControlLabel value="B" control={<Radio />} label="B" />
-            <FormControlLabel value="C" control={<Radio />} label="C" />
-            <FormControlLabel value="S" control={<Radio />} label="S" />
-            <FormControlLabel value="F" control={<Radio />} label="F" />
-          </RadioGroup>
+    <Stack>
+      <FormControl required>
+        <FormLabel id="label-olResult">Ordinary Level</FormLabel>
+        <RadioGroup
+          row
+          aria-labelledby="olResult"
+          name="olResult"
+          value={value.olResult}
+          onChange={onChange}
+        >
+          <FormControlLabel value="A" control={<Radio />} label="A" />
+          <FormControlLabel value="B" control={<Radio />} label="B" />
+          <FormControlLabel value="C" control={<Radio />} label="C" />
+          <FormControlLabel value="S" control={<Radio />} label="S" />
+          <FormControlLabel value="F" control={<Radio />} label="F" />
+        </RadioGroup>
 
-          <FormLabel id="label-alResult">Advance Level</FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="alResult"
-            name="alResult"
-            value={value.alResult}
-            // value={otherProps.alResult}
+        <FormLabel id="label-alResult">Advance Level</FormLabel>
+        <RadioGroup
+          row
+          aria-labelledby="alResult"
+          name="alResult"
+          value={value.alResult}
+          // value={otherProps.alResult}
+          onChange={onChange}
+        >
+          <FormControlLabel value="A" control={<Radio />} label="A" />
+          <FormControlLabel value="B" control={<Radio />} label="B" />
+          <FormControlLabel value="C" control={<Radio />} label="C" />
+          <FormControlLabel value="S" control={<Radio />} label="S" />
+          <FormControlLabel value="F" control={<Radio />} label="F" />
+        </RadioGroup>
+      </FormControl>
+      <FormLabel id="label-olResult">Level One English</FormLabel>
+      <Box sx={{ minWidth: 60, mt: 1 }}>
+        <FormControl fullWidth>
+          <InputLabel id="level-one-english">Level01</InputLabel>
+          <Select
+            labelId="level-one-english"
+            id="level01"
+            name="level01"
+            value={value.level01}
+            label="Level01"
             onChange={onChange}
           >
-            <FormControlLabel value="A" control={<Radio />} label="A" />
-            <FormControlLabel value="B" control={<Radio />} label="B" />
-            <FormControlLabel value="C" control={<Radio />} label="C" />
-            <FormControlLabel value="S" control={<Radio />} label="S" />
-            <FormControlLabel value="F" control={<Radio />} label="F" />
-          </RadioGroup>
+            {grade.map((option, index) => (
+              <MenuItem key={index} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
         </FormControl>
-        <FormLabel id="label-olResult">Level One English</FormLabel>
-        <Box sx={{ minWidth: 60, mt: 1 }}>
-          <FormControl fullWidth>
-            <InputLabel id="level-one-english">Level01</InputLabel>
-            <Select
-              labelId="level-one-english"
-              id="level01"
-              name="level01"
-              value={value.level01}
-              label="Level01"
-              onChange={onChange}
-            >
-              {grade.map((option, index) => (
-                <MenuItem key={index} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-        <FormLabel id="label-olResult">Level Two English</FormLabel>
-        <Box sx={{ minWidth: 60, mt: 1 }}>
-          <FormControl fullWidth>
-            <InputLabel id="level-two-english">Level02</InputLabel>
-            <Select
-              labelId="level-two-english"
-              id="level02"
-              name="level02"
-              value={value.level02}
-              label="Level02"
-              onChange={onChange}
-            >
-              {grade.map((option, index) => (
-                <MenuItem key={index} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-        <br />
-        <Button variant="itms" size="itms-small" onClick={handleSubmit}>
-          Submit
-        </Button>
-        {openBackdrop && <CustomBackdrop />}
-      </Stack>
-    </form>
+      </Box>
+      <FormLabel id="label-olResult">Level Two English</FormLabel>
+      <Box sx={{ minWidth: 60, mt: 1 }}>
+        <FormControl fullWidth>
+          <InputLabel id="level-two-english">Level02</InputLabel>
+          <Select
+            labelId="level-two-english"
+            id="level02"
+            name="level02"
+            value={value.level02}
+            label="Level02"
+            onChange={onChange}
+          >
+            {grade.map((option, index) => (
+              <MenuItem key={index} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+      <Button
+        type="submit"
+        variant="itms"
+        size="itms-x-small"
+        onClick={handleSubmit}
+      >
+        Submit
+      </Button>
+      {openBackdrop && <CustomBackdrop />}
+    </Stack>
   );
 };
