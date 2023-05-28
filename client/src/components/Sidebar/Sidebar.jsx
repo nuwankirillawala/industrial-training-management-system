@@ -54,11 +54,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const ListItemIconWrapper = styled(ListItemIcon)({
-  display: 'flex',
-  justifyContent: 'center',
-});
-
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -258,7 +253,6 @@ const controlItems = [
 ];
 
 export default function Sidebar() {
-  const theme = useTheme();
   const navigate = useNavigate();
   const { logout, user, isAuthenticated } = useAuth();
 
