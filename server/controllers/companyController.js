@@ -117,7 +117,7 @@ module.exports.deleteCompany = catchAsync(async (req, res) => {
         const deletedCompany = await Company.findByIdAndDelete(companyId);
 
         if (!deletedCompany) {
-            return res.status(404).json({ message: 'Company not found' });
+            return res.status(404).json({ error: 'Company not found' });
         }
 
         res.status(202).json({ message: 'Company deleted successfully' });
