@@ -28,6 +28,9 @@ export const ProgrammingLanguages = () => {
     level: "",
   });
 
+  //use State for button disable
+  const [isDisabled, setIsDisabled] = useState(true);
+
   //State for backdrop
   const [openBackdrop, setOpenBackdrop] = useState(false);
   //End of states
@@ -38,6 +41,20 @@ export const ProgrammingLanguages = () => {
       ...prevState,
       [e.target.name]: e.target.value,
     }));
+    if (
+      e.target.name === "language" &&
+      e.target.value !== "" &&
+      value.level !== ""
+    ) {
+      setIsDisabled(false);
+    }
+    if (
+      e.target.name === "level" &&
+      e.target.value !== "" &&
+      value.language !== ""
+    ) {
+      setIsDisabled(false);
+    }
   };
   //End of onchange Radio group
 
@@ -113,6 +130,7 @@ export const ProgrammingLanguages = () => {
           variant="itms"
           size="itms-x-small"
           onClick={handleSubmit}
+          disabled={isDisabled}
         >
           Submit
         </Button>

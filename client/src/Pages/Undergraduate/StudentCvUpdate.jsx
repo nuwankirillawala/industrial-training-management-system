@@ -132,7 +132,7 @@ export const StudentCvUpdate = () => {
                   {englishProficiency.advancedLevel !== "" && (
                     <>
                       <Chip
-                        label={`Ordinary Level result : ${englishProficiency.advancedLevel}`}
+                        label={`Advance Level result : ${englishProficiency.advancedLevel}`}
                         variant="outlined"
                         color="primary"
                       />
@@ -141,7 +141,7 @@ export const StudentCvUpdate = () => {
                   {englishProficiency.level01 !== "" && (
                     <>
                       <Chip
-                        label={`Ordinary Level result : ${englishProficiency.level01}`}
+                        label={`English level one : ${englishProficiency.level01}`}
                         variant="outlined"
                         color="primary"
                       />
@@ -150,7 +150,7 @@ export const StudentCvUpdate = () => {
                   {englishProficiency.level02 !== "" && (
                     <>
                       <Chip
-                        label={`Ordinary Level result : ${englishProficiency.level02}`}
+                        label={`English level two : ${englishProficiency.level02}`}
                         variant="outlined"
                         color="primary"
                       />
@@ -189,7 +189,7 @@ export const StudentCvUpdate = () => {
                 <Stack mt={1} direction={"row"} spacing={0.5}>
                   {technologies.map((item, index) => (
                     <Box key={index}>
-                      {item.name !== "" && (
+                      {item.name !== "" && item.name !== "" && (
                         <Stack>
                           <Chip
                             label={`Language : ${item.name} - Level : ${item.level}`}
