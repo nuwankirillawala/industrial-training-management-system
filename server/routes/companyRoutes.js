@@ -13,6 +13,9 @@ router.route('/profile/:companyId')
 router.route('/all')
     .get(companyController.getAllCompanies)
 
+router.route('/delete/:companyId')
+    .delete(companyController.deleteCompany)
+
 router.route('/:companyId/contact-person')
     .post(companyController.addContactPerson)
 

@@ -7,24 +7,14 @@ import { ShowStudentResults } from "./ShowStudentResults";
 export const DepartmentShowStudentProfile = () => {
   return (
     // {/* student profile details */}
-    <Paper variant="outlined" sx={{ padding: 1, bgcolor: "#ffff" }}>
-      <Stack direction={"column"} spacing={3}>
+    <Paper variant="" sx={{ padding: 1, bgcolor: "#ffff" }}>
+      <Stack direction={"row"} spacing={5}>
         <Stack alignItems={"center"} spacing={2} direction={"column"} flex={1}>
           <Avatar width={"140px"} height={"140px"} />
-          <Stack direction={"column"} alignItems={"center"}>
-            <Typography variant="body" fontWeight={"bold"}>
-              Gavesh Madushan Sooriyaarachchi
-            </Typography>
-            <Box>
-              <Button variant="outlined" size="small">
-                show resume
-              </Button>
-            </Box>
-          </Stack>
         </Stack>
 
         <Stack direction={"row"} justifyContent={"center"} spacing={2} flex={2}>
-          <Stack spacing={0.5} minWidth={"100px"}>
+          <Stack spacing={1} minWidth={"100px"}>
             {[
               "Name ",
               "Reg. No ",
@@ -41,7 +31,7 @@ export const DepartmentShowStudentProfile = () => {
             ))}
           </Stack>
           {/* in here we have to show data fron database. update that and test with backend */}
-          <Stack spacing={0.5} minWidth={"300px"}>
+          <Stack spacing={1} minWidth={"300px"}>
             {[
               "Gavesh Madshan Sooriyaarachchi ",
               "SC/2019/11121 ",

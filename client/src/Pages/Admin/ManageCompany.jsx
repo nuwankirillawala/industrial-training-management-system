@@ -19,9 +19,9 @@ export const ManageCompany = () => {
     const getAllCompanyData = async () => {
         try {
             const res = await axios.get('http://localhost:5000/api/v1/company/all', { withCredentials: true });
-            console.log(res);
-            if (res.status === 201) {
-                console.log(res.data);
+            console.log("hi", res);
+            if (res.status === 200) {
+                // console.log(res.data.companyList);
                 setRecords(res.data.companyList)
             }
         } catch (error) {
@@ -117,8 +117,8 @@ export const ManageCompany = () => {
                                                 <TableCell >   {r.name}  </TableCell>
                                                 <TableCell >   {r.email}  </TableCell>
                                                 <TableCell >   {r.contactNo} </TableCell>
-                                                <TableCell >   {r.address}  </TableCell>
-                                                {/* <TableCell >   {r.internSeats}  </TableCell>
+                                                {/* <TableCell >   {r.address}  </TableCell>
+                                                 <TableCell >   {r.internSeats}  </TableCell>
                                                 <TableCell >   {r.description} </TableCell>
                                                 <TableCell >   {r.rating}  </TableCell>
                                                 {r.contactPerson.map((Person, j) => (
@@ -130,7 +130,7 @@ export const ManageCompany = () => {
                                                     </React.Fragment>
                                                 ))} */}
                                                 <TableCell> <Dialogbox title="Update Company" btn_name="update"><UpdateCompanyForm companyId={r._id} /></Dialogbox></TableCell>
-                                                <TableCell> <Dialogbox title="Remove Company" btn_name="remove"><RemoveCompanyForm /></Dialogbox></TableCell>
+                                                <TableCell> <Dialogbox title="Remove Company" btn_name="remove"><RemoveCompanyForm companyId={r._id} /></Dialogbox></TableCell>
                                             </TableRow> //id,title,description need to change as json file
                                         )}
                                     </TableBody>

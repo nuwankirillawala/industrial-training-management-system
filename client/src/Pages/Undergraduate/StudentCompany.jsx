@@ -2,14 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Tile } from "../../components/card/Tile";
 import { Grid, Box, Typography, Stack, Divider } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { StudentAddCompany } from "../../components/user/Undergraduate/StudentAddCompany";
 import { StudentCompanyChoice } from "../../components/user/Undergraduate/StudentCompanyChoice";
-import { StudentCompanyStatus } from "../../components/user/Undergraduate/StudentCompanyStatus";
-import { StudentInternPeriod } from "../../components/user/Undergraduate/StudentInternPeriod";
-import { StudentPrivateCompanyStatus } from "../../components/user/Undergraduate/StudentPrivateCompanyStatus";
 import axios from "axios";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
 
 const StudentcompanyState = {
   companyName: "",
@@ -20,19 +14,19 @@ const companyDataColumns = [
   {
     field: "name",
     headerName: "Name",
-    width: 150,
+    flex: 2,
     editable: false,
   },
   {
     field: "rating",
     headerName: "Rating",
-    width: 100,
+    flex: 1,
     editable: false,
   },
   {
     field: "internSeats",
     headerName: "InternSeats",
-    width: 120,
+    flex: 2,
     editable: false,
   },
 ];
@@ -65,12 +59,12 @@ export const StudentCompany = () => {
   const getCompanyList = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/v1/company/intern-process/company-list",
-        { withCredentials: true }
+        "http://localhost:5000/api/v1/company/intern-process/company-list"
       );
-      if (res.data.status === "success") {
+      // console.log(res.status);
+      if (res.status === 200) {
         // console.log(res.data.data);
-        setCompanyList(res.data.data);
+        setCompanyList(res.data);
       }
     } catch (error) {
       console.log(error);
@@ -85,7 +79,7 @@ export const StudentCompany = () => {
   return (
     <Grid container spacing={1}>
       <Grid item md={12}>
-        <Typography variant="pageTitle">Company Choice</Typography>
+        <Typography variant="pageTitle">Company Selection</Typography>
       </Grid>
 
       <Grid item md={12}>
@@ -93,55 +87,50 @@ export const StudentCompany = () => {
           <Grid container spacing={1}>
             <Grid item md={7}>
               <Tile>
-                <Box sx={{ width: "100%", height: "74vh" }}>
-                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                    <Tabs value={value} onChange={handleChange}>
-                      <Tab label="Company Choice" />
-                      <Tab label="Intern Status" />
-                      <Tab label="Intern Period" />
-                    </Tabs>
-                  </Box>
-                  <TabPanel value={value} index={0}>
-                    <StudentCompanyChoice />
-                  </TabPanel>
-                  <TabPanel value={value} index={1}>
-                    <StudentCompanyStatus
-                      companyState={companyState}
-                      setCompanyState={setCompanyState}
-                    />
-                  </TabPanel>
-                  <TabPanel value={value} index={2}>
-                    {page.no === 2 && (
-                      <StudentAddCompany pageNo={page} setPage={setPage} />
-                    )}
-                    {page.no === 1 && (
-                      <StudentInternPeriod pageNo={page} setPage={setPage} />
-                    )}
-                  </TabPanel>
+                <Box sx={{ width: "100%", height: "79vh" }}>
+                  <StudentCompanyChoice />
                 </Box>
               </Tile>
             </Grid>
 
             <Grid item md={5}>
-              <Tile height={"79vh"}>
-                <Stack maxHeight={"78vh"} padding={2} spacing={1}>
-                  <Typography variant="h6" fontWeight={"bold"}>
-                    Company Ranking List
-                  </Typography>
+              <Tile>
+                <Stack height={"78vh"} padding={2} spacing={2}>
+                  <Stack>
+                    <Typography variant="head3">
+                      Company Ranking List
+                    </Typography>
+                  </Stack>
                   <Divider />
-                  <DataGrid
-                    rows={companyList.map((company, index) => {
-                      return {
-                        name: company.name,
-                        rating: company.rating,
-                        internSeats: company.internSeats,
-                        email: company.email,
-                      };
-                    })}
-                    columns={companyDataColumns}
-                    autoHeight={true}
-                    getRowId={(rows) => rows.email}
-                  />
+
+                  <Stack>
+                    <Box
+                      sx={{
+                        height: "61vh",
+                        width: "100%",
+                        justifyContent: "center",
+                        textAlign: "center",
+                      }}
+                    >
+                      <DataGrid
+                        rows={companyList.map((company, index) => {
+                          return {
+                            name: company.name,
+                            rating: company.rating,
+                            internSeats: company.internSeats,
+                            email: company.email,
+                          };
+                        })}
+                        // rows
+                        columns={companyDataColumns}
+                        getRowId={(rows) => rows.email}
+                        disableSelectionOnClick
+                        experimentalFeatures={{ newEditingApi: true }}
+                        hideFooter={true}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </Box>
+                  </Stack>
                 </Stack>
               </Tile>
             </Grid>

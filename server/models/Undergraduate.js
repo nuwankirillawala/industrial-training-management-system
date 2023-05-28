@@ -387,7 +387,7 @@ const undergraduateSchema = new mongoose.Schema({
 undergraduateSchema.pre('save', async function (next) {
     if (this.password) {
         const salt = await bcrypt.genSalt();
-        this.password = bcrypt.hash(this.password, salt);
+        this.password = await bcrypt.hash(this.password, salt);
     }
     next();
 });

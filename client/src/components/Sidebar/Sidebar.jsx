@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Hidden, IconButton, List, ListItemButton, ListItemIcon, Stack, Toolbar, useTheme } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, ListItemButton, ListItemIcon, Stack, Toolbar, useTheme } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { Unilogo } from '../shared/Images/Unilogo';
 import { Grid } from '@mui/material';
-import { AddBusiness, Apartment, ArrowBack, ArrowUpward, Article, Assessment, Autorenew, Ballot, Business, ChevronLeft, Create, Dashboard, Delete, Groups, Info, LocationCity, Logout, ManageAccounts, Margin, Menu, Note, Notes, Notifications, NotificationsNone, Settings, UploadFile } from '@mui/icons-material';
+import { AddBusiness, ArrowBack, Article, Assessment, Autorenew, Ballot, Business, ChevronLeft, Dashboard, Groups, Info, LocationCity, Logout, ManageAccounts, Menu, Note, Notifications, Settings, UploadFile } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import MuiDrawer from '@mui/material/Drawer';
@@ -275,26 +275,24 @@ export default function Sidebar() {
     setOpen(!open);
   };
 
-
   const [currentUser, setCurrentUser] = useState();
 
   useEffect(() => {  
-      if(user && user.role){
-        if(user.role === 'undergraduate'){
-          setCurrentUser(users[0])
-        }
-        else if(user.role === 'department-coordinator' || user.role === 'system-admin'){
-          setCurrentUser(users[1]);
-        }
-        else if(user.role === 'supervisor'){
-          setCurrentUser(users[2]);
-        }
-        else if(user.role === 'alumni'){
-          setCurrentUser(users[3]);
-        }
+    if(user && user.role){
+      if(user.role === 'undergraduate'){
+        setCurrentUser(users[0])
       }
-  
-    }, [user]);
+      else if(user.role === 'department-coordinator' || user.role === 'system-admin'){
+        setCurrentUser(users[1]);
+      }
+      else if(user.role === 'supervisor'){
+        setCurrentUser(users[2]);
+      }
+      else if(user.role === 'alumni'){
+        setCurrentUser(users[3]);
+      }
+    }  
+  }, [user]);
 
 
   const handleCurrentUserItem = (user, element) => {
@@ -377,7 +375,12 @@ export default function Sidebar() {
           )}
         </Box>
         <Stack>
-          <Toolbar sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Toolbar
+            sx={{
+              display: 'flex',
+              justifyContent: 'center'
+            }}
+          >
             {open && (
               <Stack position={'relative'} top={0}>
                 <Grid container justifyContent="center">
@@ -423,7 +426,7 @@ export default function Sidebar() {
                 onClick={() => handleCurrentUserItem(currentUser, item.element)}
               >
                 <ListItemIcon
-                 sx={{ 
+                  sx={{
                     color: 'inherit',
                     justifyContent: 'center',
                     position: 'relative',
@@ -433,14 +436,14 @@ export default function Sidebar() {
                 >
                   {item.icon}
                 </ListItemIcon>
-                  {open && (
-                    <ListItemText primary={item.primaryText} />
-                  )}
+                {open && (
+                  <ListItemText primary={item.primaryText} />
+                )}
               </ListItemButton>
             ))}
           </Stack>  
         </Stack>
-        <Stack 
+        <Stack
           sx={{
             position: 'absolute',
             bottom: 20,
@@ -448,14 +451,14 @@ export default function Sidebar() {
             right: 0
           }}
         >
-          {controlItems.map((controlItem ) => (
+          {controlItems.map((controlItem) => (
             <ListItemButton
               key={controlItem.id}
               sx={buttonStyles}
               onClick={(e) => controlItem.id === 3 ? handleLogout(e) : handleControlItem(controlItem.page)}
             >
               <ListItemIcon
-               sx={{
+                sx={{
                   color: 'inherit',
                   justifyContent: 'center',
                   position: 'relative',
@@ -465,9 +468,9 @@ export default function Sidebar() {
               >
                 {controlItem.icon}
               </ListItemIcon>
-                {open && (
-                  <ListItemText primary={controlItem.label} />
-                )}
+              {open && (
+                <ListItemText primary={controlItem.label} />
+              )}
             </ListItemButton>
           ))}
         </Stack>

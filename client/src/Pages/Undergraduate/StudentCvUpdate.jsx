@@ -7,7 +7,7 @@ import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { EnglishProficiency } from "../../components/user/Undergraduate/studentCV/EnglishProficiency";
 import { PopUpDialog } from "../../components/user/Undergraduate/studentCV/PopUpDialog";
-import { CVUpload } from "../../components/user/Undergraduate/studentCV/CVUpload";
+import { CVUpload } from "./CVUpload";
 import { ProgrammingLanguages } from "../../components/user/Undergraduate/studentCV/ProgrammingLanguages";
 
 export const StudentCvUpdate = () => {
@@ -64,7 +64,7 @@ export const StudentCvUpdate = () => {
       </Box>
       <Box sx={{ height: "100%" }}>
         <Grid container spacing={1} sx={{ height: "100%" }}>
-          <Grid item xs={9}>
+          <Grid item xs={12}>
             {/* content here */}
             <Stack
               height={"100%"}
@@ -102,7 +102,7 @@ export const StudentCvUpdate = () => {
                   </PopUpDialog>
                 </Stack>
                 <Stack mt={1} direction={"row"} spacing={0.5}>
-                  {data.olResult !== "" && (
+                  {(data.olResult !== "" || data.olResult != "undefined") && (
                     <>
                       <Chip
                         label={`Ordinary Level result : ${data.olResult}`}
@@ -323,7 +323,7 @@ export const StudentCvUpdate = () => {
               </Tile>
             </Stack>
           </Grid>
-          <Grid item xs={3}>
+          {/* <Grid item xs={3}>
             <Stack direction="column" spacing={1} height={"100%"}>
               <Box sx={{ height: "100%" }}>
                 <Tile sx={{ height: "100%" }}>
@@ -331,7 +331,7 @@ export const StudentCvUpdate = () => {
                 </Tile>
               </Box>
             </Stack>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Box>
     </Box>

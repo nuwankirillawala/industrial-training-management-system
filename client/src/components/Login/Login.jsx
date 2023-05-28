@@ -3,7 +3,7 @@ import './Login.css'
 import { Unilogo } from '../../components/shared/Images/Unilogo';
 import { Button, Checkbox, CircularProgress, FilledInput, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import classnames from 'classnames';
@@ -18,6 +18,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [rememberUser, setRememberUser] = useState(false);
     const navigate = useNavigate();
     const { loginUser, isAuthenticated, loading, user, error } = useAuth();
 
@@ -34,6 +35,12 @@ const Login = () => {
             e.preventDefault();
             setLoginLoading(true);
             await loginUser({ email, password });
+
+            if (rememberUser) {
+                localStorage.setItem('userEmail', email);
+            } else {
+                localStorage.removeItem('userEmail');
+            }
         } catch (err) {
             console.log(err);
         } finally {
@@ -83,6 +90,17 @@ const Login = () => {
         }
 
     }, [isAuthenticated, user, error]);
+
+    useEffect(() => {
+        localStorage.setItem('rememberUser', rememberUser.toString());
+    }, [rememberUser]);
+
+    useEffect(() => {
+        const rememberUserValue = localStorage.getItem('rememberUser');
+        if (rememberUserValue !== null) {
+            setRememberUser(rememberUserValue === 'true');
+        }
+    }, []);
 
     return (
         <div className="app__login">
@@ -190,29 +208,33 @@ const Login = () => {
                                         label="Password"
                                     />
                                     {passwordError && (
-                                        <FormHelperText id={passwordError} sx={{color: '#d32f2f'}}>{passwordError}</FormHelperText>
+                                        <FormHelperText id={passwordError} sx={{ color: '#d32f2f' }}>{passwordError}</FormHelperText>
                                     )}
                                 </FormControl>
 
                             </div>
                             <div className="app__login-container-form_forgotPassword">
                                 <div className='app__login-remember'>
-                                    <Checkbox size="small" />
+                                    <Checkbox
+                                        size="small"
+                                        checked={rememberUser}
+                                        onChange={(e) => setRememberUser(e.target.checked)}
+                                    />
                                     <p>Remember User</p>
                                 </div>
-                                <p><a href="/">Forgot Password</a></p>
+                                <p><Link to="/forgot-password">Forgot Password</Link></p>
                             </div>
 
-                            {loginLoading ?  
-                            <CircularProgress />
-                            : <Button
-                                type="submit"
-                                variant="contained"
-                                size="large"
-                                sx={{ borderRadius: '15px', width: '100%', marginTop: '16px' }}
-                            >
-                                LOGIN
-                            </Button>}
+                            {loginLoading ?
+                                <CircularProgress />
+                                : <Button
+                                    type="submit"
+                                    variant="contained"
+                                    size="large"
+                                    sx={{ borderRadius: '15px', width: '100%', marginTop: '16px' }}
+                                >
+                                    LOGIN
+                                </Button>}
                         </form>
                     </div>
                 </div>
