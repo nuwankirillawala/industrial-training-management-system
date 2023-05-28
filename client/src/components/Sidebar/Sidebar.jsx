@@ -147,7 +147,7 @@ const users = [
         id: 7,
         primaryText: "Private Notes",
         icon: <Description />,
-        element: "/notice",
+        element: "/private-note",
       },
       {
         id: 8,
