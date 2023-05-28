@@ -71,7 +71,10 @@ export const StudentCompanyChoice = () => {
         "http://localhost:5000/api/v1/undergraduate/intern/company-selection"
       );
       if (res.status === 200) {
-        console.log("Student choices : ", res.data);
+        console.log(
+          "Student choices : ",
+          res.data.companySelection.companySelection
+        );
         setChoisedCompany(res.data.companySelection.companySelection);
       }
     } catch (error) {
@@ -115,14 +118,20 @@ export const StudentCompanyChoice = () => {
         { withCredentials: true }
       );
       console.log(res.status);
-      if (res.status === 201) {
+      if (res.status === 200) {
         setMessage("Update Succefully");
         handleSnackBar("success");
       }
     } catch (error) {
-      console.log(error.response.data.error);
-      setMessage(error.response.data.error);
-      handleSnackBar("error");
+      console.log(error.response.status);
+      //   console.log(error.response.data.error);
+      if (error.response.status === 400) {
+        setMessage("You can not update the choices");
+        handleSnackBar("error");
+      } else {
+        setMessage("update Fail");
+        handleSnackBar("error");
+      }
     }
   };
 
