@@ -1,22 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Stack, Box, Paper, Typography, Divider } from "@mui/material";
+import {
+  Grid,
+  Stack,
+  Box,
+  Paper,
+  Typography,
+  Divider,
+  TableContainer,
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell,
+} from "@mui/material";
 import { Tile } from "../../../components/card/Tile";
 import { Report } from "../../../assets/index";
 import axios from "axios";
 
 export const ReportPortalSupervisor = () => {
+  const [studentIdList, setStudentIdList] = useState();
+  const [studetList, setStudentList] = useState();
+
   //Fetch company list
-  const getCompanyDetails = async () => {
+  const getStudentIdList = async () => {
     try {
       const res = await axios.get(
         "http://localhost:5000/api/v1/supervisor/profile"
       );
-      console.log(res.data.interns);
+      console.log(res.data.user.company.interns);
       if (res.status === 200) {
-        // res.data && setCompanyList(res.data.data);
-        // setSupervisorList(res.data.data.supervisors);
-      } else {
-        // setErrorDetails(res.message);
+        setStudentIdList(res.data.user.company.interns);
       }
     } catch (error) {
       console.log(error);
@@ -24,7 +37,7 @@ export const ReportPortalSupervisor = () => {
   };
 
   useEffect(() => {
-    getCompanyDetails();
+    getStudentIdList();
     // console.log(companyList);
   }, []);
   //End of fetch company list
@@ -59,7 +72,26 @@ export const ReportPortalSupervisor = () => {
                 </Stack>
                 <Divider />
                 <Stack height={"60vh"}>
-                  <Box></Box>
+                  <Box>
+                    <TableContainer style={{ cursor: "pointer" }}>
+                      <Table stickyHeader>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Student ID</TableCell>
+                          </TableRow>
+                        </TableHead>
+
+                        <TableBody>
+                          {/* {studentIdList.map((id, index) => ( */}
+                          <TableRow>
+                            <TableCell></TableCell>
+                          </TableRow>
+                          {/* ))} */}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Box>
                 </Stack>
                 <Stack></Stack>
               </Stack>

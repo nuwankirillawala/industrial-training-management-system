@@ -112,7 +112,7 @@ export const StudnetMonthlyReport = ({ reportData }) => {
                   }) => ( */}
                 <form onSubmit={handleOnSubmit}>
                   <Stack>
-                    {dailyReportData.weeklyReports.map((report, index) => (
+                    {reportData.weeklyReports.map((report, index) => (
                       <Stack direction={"column"} key={index} minHeight={"8vh"}>
                         <Stack direction={"row"}>
                           <Stack flex={1} alignItems={"center"}>
