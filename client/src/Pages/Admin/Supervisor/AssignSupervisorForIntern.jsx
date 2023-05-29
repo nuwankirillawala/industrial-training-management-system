@@ -49,7 +49,7 @@ const AssignSupervisorForIntern = () => {
         }
       );
       if (res.status === 200) {
-        console.log(res.data.users);
+        // console.log(res.data.users);
         let rawStudentList = res.data.users;
         // setStudentList(res.data.users);
         setStudentList(
@@ -108,7 +108,7 @@ const AssignSupervisorForIntern = () => {
   //handle click for the supervisor select                                                    End Point
   const handleSubmit = async (key) => {
     setOpenBackdrop(true);
-    console.log(`supervisor id: ${key}`);
+    // console.log(`supervisor id: ${key}`);
     setSelectedSupervisor(key);
     try {
       const req = await axios.patch(
