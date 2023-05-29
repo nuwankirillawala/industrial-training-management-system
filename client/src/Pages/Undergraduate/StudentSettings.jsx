@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Tile } from "../../components/card/Tile";
-import { Grid, Stack, Box, Typography, TextField, Button } from "@mui/material";
+import {
+  Grid,
+  Stack,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Paper,
+  Divider,
+} from "@mui/material";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { ChangePassword } from "../../components/ChangePassword/ChangePassword";
@@ -178,54 +187,59 @@ export const StudentSettings = () => {
       {/* set the current values as default values */}
       <Grid item md={9}>
         <Tile>
-          <Box padding={"20px"}>
+          <Box padding={"20px"} height={"74vh"}>
             <Stack spacing={2} direction="column">
-              {/* <Stack>
-                        <Typography variant='h6' fontWeight={'bold'}>Update Your Profile</Typography>
-                    </Stack> */}
+              <Stack>
+                <Typography variant="head3">Update Your Profile</Typography>
+              </Stack>
+              <Divider />
               <Stack alignItems={"center"}>
                 <Box width={"70%"}>
-                  <Formik
-                    initialValues={studentValues}
-                    validationSchema={validationForm}
-                    onSubmit={handleFormSubmit}
+                  <Paper
+                    variant="outlined"
+                    sx={{ bgcolor: "#fff", padding: 2 }}
                   >
-                    {({
-                      values,
-                      errors,
-                      touched,
-                      handleBlur,
-                      handleChange,
-                      handleSubmit,
-                      handleReset,
-                    }) => (
-                      <form onSubmit={handleSubmit}>
-                        <Stack spacing={1}>
-                          <Stack direction={"row"}>
-                            <Stack minWidth={"200px"} flex={1}>
-                              <Typography>First Name</Typography>
+                    <Formik
+                      initialValues={studentValues}
+                      validationSchema={validationForm}
+                      onSubmit={handleFormSubmit}
+                    >
+                      {({
+                        values,
+                        errors,
+                        touched,
+                        handleBlur,
+                        handleChange,
+                        handleSubmit,
+                        handleReset,
+                      }) => (
+                        <form onSubmit={handleSubmit}>
+                          <Stack spacing={1}>
+                            <Stack direction={"row"}>
+                              <Stack minWidth={"200px"} flex={1}>
+                                <Typography>First Name</Typography>
+                              </Stack>
+                              <Stack flex={3}>
+                                <TextField
+                                  variant="outlined"
+                                  size="small"
+                                  placeholder={studentData.firstName}
+                                  type="text"
+                                  name="firstName"
+                                  fullWidth
+                                  value={values.firstName}
+                                  onBlur={handleBlur}
+                                  onChange={handleChange}
+                                  error={
+                                    !!touched.firstName && !!errors.firstName
+                                  }
+                                  helperText={
+                                    touched.firstName && errors.firstName
+                                  }
+                                />
+                              </Stack>
                             </Stack>
-                            <Stack flex={3}>
-                              <TextField
-                                variant="outlined"
-                                size="small"
-                                placeholder={studentData.firstName}
-                                type="text"
-                                name="firstName"
-                                fullWidth
-                                value={values.firstName}
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                error={
-                                  !!touched.firstName && !!errors.firstName
-                                }
-                                helperText={
-                                  touched.firstName && errors.firstName
-                                }
-                              />
-                            </Stack>
-                          </Stack>
-                          {/* <Stack direction={'row'}>
+                            {/* <Stack direction={'row'}>
                                             <Stack minWidth={'200px'} flex={1}>
                                                 <Typography>Last Name</Typography>
                                             </Stack>
@@ -245,7 +259,7 @@ export const StudentSettings = () => {
                                                 />
                                             </Stack>
                                         </Stack> */}
-                          {/* 
+                            {/* 
                                         <Stack direction={'row'}>
                                             <Stack minWidth={'200px'} flex={1}>
                                                 <Typography>Name With Initials</Typography>
@@ -267,124 +281,131 @@ export const StudentSettings = () => {
                                             </Stack>
                                         </Stack> */}
 
-                          <Stack direction={"row"}>
-                            <Stack flex={1} minWidth={"200px"}>
-                              <Typography>Registration Number</Typography>
+                            <Stack direction={"row"}>
+                              <Stack flex={1} minWidth={"200px"}>
+                                <Typography>Registration Number</Typography>
+                              </Stack>
+                              <Stack flex={3}>
+                                <TextField
+                                  variant="outlined"
+                                  size="small"
+                                  type="text"
+                                  placeholder={studentData.regNo}
+                                  name="regNo"
+                                  fullWidth
+                                  value={values.regNo}
+                                  onBlur={handleBlur}
+                                  onChange={handleChange}
+                                  error={!!touched.regNo && !!errors.regNo}
+                                  helperText={touched.regNo && errors.regNo}
+                                />
+                              </Stack>
                             </Stack>
-                            <Stack flex={3}>
-                              <TextField
-                                variant="outlined"
-                                size="small"
-                                type="text"
-                                placeholder={studentData.regNo}
-                                name="regNo"
-                                fullWidth
-                                value={values.regNo}
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                error={!!touched.regNo && !!errors.regNo}
-                                helperText={touched.regNo && errors.regNo}
-                              />
+                            <Stack direction={"row"} minWidth={"200px"}>
+                              <Stack flex={1} minWidth={"200px"}>
+                                <Typography>Email Address</Typography>
+                              </Stack>
+                              <Stack flex={3}>
+                                <TextField
+                                  variant="outlined"
+                                  size="small"
+                                  type="text"
+                                  placeholder={studentData.email}
+                                  name="email"
+                                  fullWidth
+                                  value={values.email}
+                                  onBlur={handleBlur}
+                                  onChange={handleChange}
+                                  error={!!touched.email && !!errors.email}
+                                  helperText={touched.email && errors.email}
+                                />
+                              </Stack>
+                            </Stack>
+                            <Stack direction={"row"}>
+                              <Stack flex={1} minWidth={"200px"}>
+                                <Typography>Contact Number</Typography>
+                              </Stack>
+                              <Stack flex={3}>
+                                <TextField
+                                  variant="outlined"
+                                  size="small"
+                                  type="text"
+                                  placeholder={studentData.contactNo}
+                                  name="contactNo"
+                                  fullWidth
+                                  value={values.contactNo}
+                                  onBlur={handleBlur}
+                                  onChange={handleChange}
+                                  error={
+                                    !!touched.contactNo && !!errors.contactNo
+                                  }
+                                  helperText={
+                                    touched.contactNo && errors.contactNo
+                                  }
+                                />
+                              </Stack>
+                            </Stack>
+                            <Stack direction={"row"}>
+                              <Stack flex={1} minWidth={"200px"}>
+                                <Typography>
+                                  Linkedin Account Address
+                                </Typography>
+                              </Stack>
+                              <Stack flex={3}>
+                                <TextField
+                                  variant="outlined"
+                                  size="small"
+                                  type="url"
+                                  placeholder={studentData.linkedin}
+                                  name="linkedin"
+                                  fullWidth
+                                  value={values.linkedin}
+                                  onBlur={handleBlur}
+                                  onChange={handleChange}
+                                  error={
+                                    !!touched.linkedin && !!errors.linkedin
+                                  }
+                                  helperText={
+                                    touched.linkedin && errors.linkedin
+                                  }
+                                />
+                              </Stack>
+                            </Stack>
+                            <Stack direction={"row"}>
+                              <Stack flex={1} minWidth={"200px"}>
+                                <Typography>Github Account Address</Typography>
+                              </Stack>
+                              <Stack flex={3}>
+                                <TextField
+                                  variant="outlined"
+                                  size="small"
+                                  type="url"
+                                  placeholder={studentData.githubURL}
+                                  name="github"
+                                  fullWidth
+                                  value={values.github}
+                                  onBlur={handleBlur}
+                                  onChange={handleChange}
+                                  error={!!touched.github && !!errors.github}
+                                  helperText={touched.github && errors.github}
+                                />
+                              </Stack>
+                            </Stack>
+                            <Stack alignItems={"flex-end"}>
+                              <Box>
+                                <Button variant="itms" onClick={handleReset}>
+                                  reset
+                                </Button>
+                                <Button variant="itms" type="submit">
+                                  Update
+                                </Button>
+                              </Box>
                             </Stack>
                           </Stack>
-                          <Stack direction={"row"} minWidth={"200px"}>
-                            <Stack flex={1} minWidth={"200px"}>
-                              <Typography>Email Address</Typography>
-                            </Stack>
-                            <Stack flex={3}>
-                              <TextField
-                                variant="outlined"
-                                size="small"
-                                type="text"
-                                placeholder={studentData.email}
-                                name="email"
-                                fullWidth
-                                value={values.email}
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                error={!!touched.email && !!errors.email}
-                                helperText={touched.email && errors.email}
-                              />
-                            </Stack>
-                          </Stack>
-                          <Stack direction={"row"}>
-                            <Stack flex={1} minWidth={"200px"}>
-                              <Typography>Contact Number</Typography>
-                            </Stack>
-                            <Stack flex={3}>
-                              <TextField
-                                variant="outlined"
-                                size="small"
-                                type="text"
-                                placeholder={studentData.contactNo}
-                                name="contactNo"
-                                fullWidth
-                                value={values.contactNo}
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                error={
-                                  !!touched.contactNo && !!errors.contactNo
-                                }
-                                helperText={
-                                  touched.contactNo && errors.contactNo
-                                }
-                              />
-                            </Stack>
-                          </Stack>
-                          <Stack direction={"row"}>
-                            <Stack flex={1} minWidth={"200px"}>
-                              <Typography>Linkedin Account Address</Typography>
-                            </Stack>
-                            <Stack flex={3}>
-                              <TextField
-                                variant="outlined"
-                                size="small"
-                                type="url"
-                                placeholder={studentData.linkedin}
-                                name="linkedin"
-                                fullWidth
-                                value={values.linkedin}
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                error={!!touched.linkedin && !!errors.linkedin}
-                                helperText={touched.linkedin && errors.linkedin}
-                              />
-                            </Stack>
-                          </Stack>
-                          <Stack direction={"row"}>
-                            <Stack flex={1} minWidth={"200px"}>
-                              <Typography>Github Account Address</Typography>
-                            </Stack>
-                            <Stack flex={3}>
-                              <TextField
-                                variant="outlined"
-                                size="small"
-                                type="url"
-                                placeholder={studentData.githubURL}
-                                name="github"
-                                fullWidth
-                                value={values.github}
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                error={!!touched.github && !!errors.github}
-                                helperText={touched.github && errors.github}
-                              />
-                            </Stack>
-                          </Stack>
-                          <Stack alignItems={"flex-end"}>
-                            <Box>
-                              <Button variant="itms" onClick={handleReset}>
-                                reset
-                              </Button>
-                              <Button variant="itms" type="submit">
-                                Update
-                              </Button>
-                            </Box>
-                          </Stack>
-                        </Stack>
-                      </form>
-                    )}
-                  </Formik>
+                        </form>
+                      )}
+                    </Formik>
+                  </Paper>
                   <StatusSnackBar
                     severity="success"
                     trigger={trigger.success}

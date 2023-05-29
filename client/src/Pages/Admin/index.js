@@ -49,7 +49,7 @@ import AssignSupervisorForIntern from './Supervisor/AssignSupervisorForIntern';
 import SupervisorList from './Supervisor/SupervisorList';
 
 import StudentProfile from './Student/StudentProfile';
-import { AdminSettigns } from './AdminSettings/AdminSettings'
+import { AdminSettings } from './AdminSettings/AdminSettings'
 
 export {
     AddAdmin,
@@ -93,5 +93,5 @@ export {
     AssignSupervisorForIntern,
     SupervisorList,
     StudentProfile,
-    AdminSettigns,
+    AdminSettings,
 };
