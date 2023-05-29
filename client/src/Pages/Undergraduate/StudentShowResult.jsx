@@ -25,32 +25,32 @@ function resultsData(courseUnitCode, courseUnitName, courseUnitGrade) {
   };
 }
 
-const results = [
-  resultsData("AMT112β", "Mathematical Foundations of Computer Science", "A"),
-  resultsData("CSC1113", "Programing Techniques", "A-"),
-  resultsData("CSC1122", "Computer Systems I", "C"),
-  resultsData("CSC113α", "Internet Services and Web Development", "B+"),
-  resultsData("CSC1142", "System Analyst & Design", "D+"),
-  resultsData("CSC1153", "Laboratory Assignments", "B+"),
-  resultsData("MAT112δ", "Differential Equation", "A"),
-  resultsData("MAT113δ", "Introductory Statistics", "A-"),
-  resultsData("CSC1213", "Database Management Systems", "B"),
-  resultsData("CSC1223", "Data Structure and Algorithms", "B+"),
-  resultsData("CSC1233", "Software Engineering", "C"),
-  resultsData("CSC1242", "Object Oriented System Development", "B-"),
-  resultsData("CSC1251", "Computer Laboratory", "B"),
-  resultsData("ENG1201", "Preliminary English II (Level 01)", "D+"),
-  resultsData("MAT121β", "Algebra", "B"),
-  resultsData("MAT122β", "Calculus", "B"),
-  resultsData("AMT212β", "Computational Mathematics", "C+"),
-  resultsData("CSC2113", "Data Communication & Computer Networks", "B-"),
-  resultsData("CSC2123", "Object Oriented Programming", "B"),
-  resultsData("CSC2133", "Operating Systems", "B"),
-  resultsData("CSC2143", "Computer Graphics and Image Processing", "MC"),
-  resultsData("MAT211β", "Linear Algebra", "A-"),
-  resultsData("PHY2112", "Electronics", "C"),
-  resultsData("CSC2263", "Multimedia and Video Production", "B+"),
-];
+// const results = [
+//   resultsData("AMT112β", "Mathematical Foundations of Computer Science", "A"),
+//   resultsData("CSC1113", "Programing Techniques", "A-"),
+//   resultsData("CSC1122", "Computer Systems I", "C"),
+//   resultsData("CSC113α", "Internet Services and Web Development", "B+"),
+//   resultsData("CSC1142", "System Analyst & Design", "D+"),
+//   resultsData("CSC1153", "Laboratory Assignments", "B+"),
+//   resultsData("MAT112δ", "Differential Equation", "A"),
+//   resultsData("MAT113δ", "Introductory Statistics", "A-"),
+//   resultsData("CSC1213", "Database Management Systems", "B"),
+//   resultsData("CSC1223", "Data Structure and Algorithms", "B+"),
+//   resultsData("CSC1233", "Software Engineering", "C"),
+//   resultsData("CSC1242", "Object Oriented System Development", "B-"),
+//   resultsData("CSC1251", "Computer Laboratory", "B"),
+//   resultsData("ENG1201", "Preliminary English II (Level 01)", "D+"),
+//   resultsData("MAT121β", "Algebra", "B"),
+//   resultsData("MAT122β", "Calculus", "B"),
+//   resultsData("AMT212β", "Computational Mathematics", "C+"),
+//   resultsData("CSC2113", "Data Communication & Computer Networks", "B-"),
+//   resultsData("CSC2123", "Object Oriented Programming", "B"),
+//   resultsData("CSC2133", "Operating Systems", "B"),
+//   resultsData("CSC2143", "Computer Graphics and Image Processing", "MC"),
+//   resultsData("MAT211β", "Linear Algebra", "A-"),
+//   resultsData("PHY2112", "Electronics", "C"),
+//   resultsData("CSC2263", "Multimedia and Video Production", "B+"),
+// ];
 
 const tableHeight = 480;
 
@@ -60,7 +60,7 @@ export const StudentShowResult = () => {
   //state for selected semester
   const [semester, setSemesters] = useState("");
   //State for selected unicode
-  const [data, setData] = useState("");
+  const [data, setData] = useState([]);
   //State for backdrop
   const [openBackdrop, setOpenBackdrop] = useState(false);
   //End of States
@@ -83,9 +83,14 @@ export const StudentShowResult = () => {
   const getData = async () => {
     setOpenBackdrop(true);
     try {
-      const res = await axios.get("");
-      if (res.status === 200) console.log(res.data);
-      else console.log(res);
+      const res = await axios.get(
+        "http://localhost:5000/api/v1/result/individual",
+        { withCredentials: true }
+      );
+      if (res.status === 200) {
+        // console.log(res.data.courses);
+        setData(res.data.courses);
+      } else console.log(res);
     } catch (error) {
       console.log(error);
     }
@@ -96,6 +101,35 @@ export const StudentShowResult = () => {
     getData();
   }, []);
   //End of fetching data
+
+  //Result object
+  const results = [
+    resultsData("AMT112β", "Mathematical Foundations of Computer Science", "C"),
+    resultsData("CSC1113", "Programing Techniques", "A-"),
+    resultsData("CSC1122", "Computer Systems I", "C"),
+    resultsData("CSC113α", "Internet Services and Web Development", "B+"),
+    resultsData("CSC1142", "System Analyst & Design", "D+"),
+    resultsData("CSC1153", "Laboratory Assignments", "B+"),
+    resultsData("MAT112δ", "Differential Equation", "A"),
+    resultsData("MAT113δ", "Introductory Statistics", "A-"),
+    resultsData("CSC1213", "Database Management Systems", "B"),
+    resultsData("CSC1223", "Data Structure and Algorithms", "B+"),
+    resultsData("CSC1233", "Software Engineering", "C"),
+    resultsData("CSC1242", "Object Oriented System Development", "B-"),
+    resultsData("CSC1251", "Computer Laboratory", "B"),
+    resultsData("ENG1201", "Preliminary English II (Level 01)", "D+"),
+    resultsData("MAT121β", "Algebra", "B"),
+    resultsData("MAT122β", "Calculus", "B"),
+    resultsData("AMT212β", "Computational Mathematics", "C+"),
+    resultsData("CSC2113", "Data Communication & Computer Networks", "B-"),
+    resultsData("CSC2123", "Object Oriented Programming", "B"),
+    resultsData("CSC2133", "Operating Systems", "B"),
+    resultsData("CSC2143", "Computer Graphics and Image Processing", "MC"),
+    resultsData("MAT211β", "Linear Algebra", "A-"),
+    resultsData("PHY2112", "Electronics", "C"),
+    resultsData("CSC2263", "Multimedia and Video Production", "B+"),
+  ];
+  //End of Result object
 
   return (
     <Box>
