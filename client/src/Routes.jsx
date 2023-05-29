@@ -32,6 +32,10 @@ import { StudentReportPortal } from "./Pages/Undergraduate/ReportSubmission/Stud
 import { Internship } from "./Pages/Undergraduate/Internship/Internship";
 import { InternStatus } from "./Pages/Undergraduate/InternStatus/InternStatus";
 import { CVUpload } from "./Pages/Undergraduate/CVUpload";
+import { ReportPortalSupervisor } from "./Pages/Supervisor/ReportSubmission/ReportPortalSupervisor";
+import { ShowStudentResults } from "./components/user/Department/ShowStudentResults";
+import { StudentShowResult } from "./Pages/Undergraduate/StudentShowResult";
+import PrivateNotePanel from "./Pages/Undergraduate/PrivateNotePanel";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -56,6 +60,7 @@ const router = createBrowserRouter(
         <Route path="student-cvupload" element={<CVUpload />} />
         <Route path="student-company" element={<StudentCompany />} />
         <Route path="student-settings" element={<StudentSettings />} />
+        <Route path="student-showresult" element={<StudentShowResult />} />
         <Route path="notice" element={<Notice />} />
         <Route path="sidebar" element={<Sidebar />} />
         <Route
@@ -66,9 +71,14 @@ const router = createBrowserRouter(
         <Route path="student-report" element={<StudentReportPortal />} />
         <Route path="student-internship" element={<Internship />} />
         <Route path="student-internstatus" element={<InternStatus />} />
+        <Route path="private-note" element={<PrivateNotePanel />} />
 
         {/* Supervisor */}
         <Route path="supervisor-dashboard" element={<SupervisorDashboard />} />
+        <Route
+          path="supervisor-report-portal"
+          element={<ReportPortalSupervisor />}
+        />
 
         {/* Admin Routes  */}
         <Route path="admin/add" element={<Admin.AddAdmin />} />

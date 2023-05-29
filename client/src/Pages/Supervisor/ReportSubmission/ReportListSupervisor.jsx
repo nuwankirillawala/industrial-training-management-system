@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Stack, Grid, Button, Typography, Box, Divider } from "@mui/material";
-import { Tile } from "../../components/card/Tile";
+import { Tile } from "../../../components/card/Tile";
 import { DataGrid } from "@mui/x-data-grid";
-import { DailyReport } from "./DailyReport";
-import { MonthlyReport } from "./MonthlyReport";
-import { FinalFeedback } from "./FinalFeedback";
+// import { DailyReport } from "./DailyReport";
+// import { MonthlyReport } from "./MonthlyReport";
+// import { FinalFeedback } from "./FinalFeedback";
 import axios from "axios";
 
 export const ReportListSupervisor = ({

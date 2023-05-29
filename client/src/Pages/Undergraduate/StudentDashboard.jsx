@@ -63,7 +63,7 @@ export const StudentDashboard = () => {
               title="Exam Results"
               color="blueColor"
               icon={LeaderboardIcon}
-              link="/student-company"
+              link="/student-showresult"
             />
             <FeaturedCard
               title="Intern Application"
@@ -75,7 +75,7 @@ export const StudentDashboard = () => {
               title="Report Submission"
               color="green"
               icon={UploadFileIcon}
-              link="/report-portal"
+              link="/student-report"
             />
             <FeaturedCard
               title="Your Portfolio"
