@@ -97,7 +97,7 @@ module.exports.uploadResultSheetAndAddResult = catchAsync(async (req, res) => {
       console.log("totalGradePoints", totalGradePoints);
       console.log("totalCourseUnits", totalCourseUnits);
 
-      const weightedGPA = totalGradePoints / totalCourseUnits;
+      const weightedGPA = (totalGradePoints / totalCourseUnits).toFixed(2);;
       console.log("weightedGPA", weightedGPA);
 
       const filter = { regNo: result.regNo };
