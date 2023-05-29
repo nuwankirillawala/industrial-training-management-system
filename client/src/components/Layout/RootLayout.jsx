@@ -14,7 +14,7 @@ const color_red = "#D24665";
 const color_gray = "#666666";
 const color_light_gray = "#ccc";
 const color_blue_purple = "#675FD6";
-const color_yellow = '#FFDC00';
+const color_yellow = "#FFDC00";
 
 const getTheme = (theme) => ({
   background: {
@@ -64,7 +64,7 @@ const getTheme = (theme) => ({
     },
     yellow: {
       main: color_yellow,
-    }
+    },
   },
 
   typography: {
@@ -97,9 +97,9 @@ const getTheme = (theme) => ({
       fontWeight: "500",
     },
     head6: {
-      color: baseColor,
+      color: "#111",
       fontSize: "1.5rem",
-      fontWeight: "500",
+      fontWeight: "bold",
     },
     pageTitle: {
       color: baseColor,
@@ -107,7 +107,7 @@ const getTheme = (theme) => ({
       fontWeight: "500",
       marginBottom: "5px",
       letterSpacing: 2,
-    }
+    },
   },
 
   components: {
@@ -163,7 +163,7 @@ const getTheme = (theme) => ({
             background: color_green,
             color: "#FFF",
             "&:hover": {
-              background: '#8CE28C',
+              background: "#8CE28C",
             },
             "&.Mui-disabled": {
               background: color_gray,
@@ -180,7 +180,7 @@ const getTheme = (theme) => ({
             background: color_purple,
             color: "#FFF",
             "&:hover": {
-              background: '#8CE28C',
+              background: "#8CE28C",
             },
             "&.Mui-disabled": {
               background: color_gray,
@@ -197,7 +197,7 @@ const getTheme = (theme) => ({
             background: color_red,
             color: "#FFF",
             "&:hover": {
-              background: '#8CE28C',
+              background: "#8CE28C",
             },
             "&.Mui-disabled": {
               background: color_gray,
