@@ -233,7 +233,7 @@ export const ReportList = ({
           <Grid item md={12}>
             <Stack spacing={1} direction={"row"}>
               {/* student list in here */}
-              <Stack flex={1} maxWidth={"330px"}>
+              <Stack flex={1} minWidth={"330px"} maxWidth={"330px"}>
                 <Tile>
                   <Stack direction={"column"} spacing={4} height={"75vh"}>
                     <Stack alignItems={"center"}>
@@ -366,6 +366,13 @@ export const ReportList = ({
                   )}
                 </Stack>
               )}
+
+              {selectStudent === true &&
+                reportType === "Final Feedback Report" && (
+                  <Stack flex={10}>
+                    <FinalFeedback reportData={reportData} />
+                  </Stack>
+                )}
             </Stack>
           </Grid>
         </Grid>
