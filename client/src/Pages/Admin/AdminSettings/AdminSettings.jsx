@@ -106,9 +106,7 @@ export const AdminSettings = () => {
   return (
     <Grid container spacing={2}>
       <Grid item md={12}>
-        <Typography variant="head3" marginBottom={"5px"}>
-          Settings
-        </Typography>
+        <Typography variant="pageTitle">Settings</Typography>
       </Grid>
 
       <Grid item md={12}>
@@ -124,9 +122,7 @@ export const AdminSettings = () => {
                   {/* change password */}
                   <Stack direction={"column"} spacing={2}>
                     <Stack>
-                      <Typography variant="h6" fontWeight={"bold"}>
-                        Change Password
-                      </Typography>
+                      <Typography variant="head6">Change Password</Typography>
                     </Stack>
 
                     {/* Use change password component */}
@@ -146,7 +142,7 @@ export const AdminSettings = () => {
               <Box padding={"20px"} height={"74vh"}>
                 <Stack spacing={2} direction="column">
                   <Stack>
-                    <Typography variant="head3">Update Your Profile</Typography>
+                    <Typography variant="head6">Update Your Profile</Typography>
                   </Stack>
                   <Divider />
                   <Stack alignItems={"center"}>
