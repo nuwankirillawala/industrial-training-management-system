@@ -106,6 +106,12 @@ export const AdminDashboard = () => {
               link="/portfolio"
             /> */}
             <FeaturedCard
+              title="Assign Supervisor"
+              color="yellow"
+              icon={ContactPageIcon}
+              link="/assign-supervisor-for-intern"
+            />
+            <FeaturedCard
               title="Undergraduate Profile"
               color="primary"
               icon={GroupIcon}
