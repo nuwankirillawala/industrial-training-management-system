@@ -115,7 +115,11 @@ module.exports.viewProfile = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
         console.log(userId);
-        const user = await Undergraduate.findById(userId).select('-password');
+        const user = await Undergraduate.findById(userId).select('-password')
+        // .populate({
+        //     path: 'internStatus.company',
+        //     model: 'Company'
+        // });
 
         if (!user) {
             return res.status(404).json({ error: "user not found!" })
@@ -723,42 +727,72 @@ module.exports.addInternStatus = catchAsync(async (req, res) => {
 // Endpoint = "/intern/status"
 // Description = Update intern status
 // User: undergraduate
+// module.exports.updateInternStatus = catchAsync(async (req, res) => {
+//     try {
+//         const userId = req.user.id;
+//         const { companyId, newStatus } = req.body;
+
+//         const user = await Undergraduate.findById(userId).select('-password')
+//         // .populate({
+//         //     model: 'Company',
+//         //     path: 'internStatus.company',
+//         // });
+//         if (!user) {
+//             return res.status(404).json({ error: "user not found" });
+//         }
+
+//         const company = await Company.findById(companyId);
+//         if (!company) {
+//             return res.status(404).json({ error: "company not found" });
+//         }
+
+//         // console.log(user.internStatus);
+//         const existingInternStatus = user.internStatus.findOne((status) => { return status.company.equals(companyId) });
+//         console.log(existingInternStatus);
+//         if (!existingInternStatus) {
+//             return res.status(400).json({ error: "user hasn't listed on that company" });
+//         }
+
+//         // const newInternSatatus = {status: newStatus };
+//         const updatedUser = await Undergraduate.findOneAndUpdate(
+//             { _id: userId, "internStatus._id": existingInternStatus._id },
+//             { $set: { "internStatus.$.status": newStatus } },
+//             { new: true }
+//         );
+
+//         if (!updatedUser) {
+//             return res.status(400).json({ error: "update failed" });
+//         }
+
+//         res.status(201).json(updatedUser.internStatus);
+//     } catch (err) {
+//         console.log(err);
+//         res.status(500).json(err);
+//     }
+// });
 module.exports.updateInternStatus = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
         const { companyId, newStatus } = req.body;
 
-        const user = await Undergraduate.findById(userId).select('-password')
-        .populate({
-            model: 'Company',
-            path: 'internStatus.company',
-        });
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
-            return res.status(404).json({ error: "user not found" });
+            return res.status(404).json({ error: "User not found" });
         }
 
         const company = await Company.findById(companyId);
         if (!company) {
-            return res.status(404).json({ error: "company not found" });
+            return res.status(404).json({ error: "Company not found" });
         }
 
-        // console.log(user.internStatus);
-        const existingInternStatus = user.internStatus.findOne((status) => { return status.company.equals(companyId) });
-        console.log(existingInternStatus);
+        const existingInternStatus = user.internStatus.find(status => status.company.equals(companyId));
         if (!existingInternStatus) {
-            return res.status(400).json({ error: "user hasn't listed on that company" });
+            return res.status(400).json({ error: "User hasn't listed on that company" });
         }
 
-        // const newInternSatatus = {status: newStatus };
-        const updatedUser = await Undergraduate.findOneAndUpdate(
-            { _id: userId, "internStatus._id": existingInternStatus._id },
-            { $set: { "internStatus.$.status": newStatus } },
-            { new: true }
-        );
+        existingInternStatus.status = newStatus;
 
-        if (!updatedUser) {
-            return res.status(400).json({ error: "update failed" });
-        }
+        const updatedUser = await user.save();
 
         res.status(201).json(updatedUser.internStatus);
     } catch (err) {
@@ -766,6 +800,7 @@ module.exports.updateInternStatus = catchAsync(async (req, res) => {
         res.status(500).json(err);
     }
 });
+
 
 // Method: GET
 // Endpoint: "/intern/assign-supervisor/:undergraduateId"
