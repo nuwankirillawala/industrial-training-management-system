@@ -49,7 +49,7 @@ const AssignSupervisorForIntern = () => {
         }
       );
       if (res.status === 200) {
-        // console.log(res.data.users);
+        console.log(res.data.users);
         let rawStudentList = res.data.users;
         // setStudentList(res.data.users);
         setStudentList(
