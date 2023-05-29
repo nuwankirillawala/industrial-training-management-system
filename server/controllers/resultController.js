@@ -5,7 +5,10 @@ const xlsx = require('xlsx');
 const catchAsync = require('../utils/catchAsync');
 const Result = require('../models/Result');
 const Undergraduate = require('../models/Undergraduate');
-const { findById } = require('../models/Alumni');
+const gradeValue = require('../utils/gradeValue')
+const setCreditValue = require('../utils/setCreditValue')
+
+
 
 // Method: POST
 // Endpoint: "/upload-resultsheet"
@@ -48,7 +51,7 @@ module.exports.uploadResultSheetAndAddResult = catchAsync(async (req, res) => {
       // Create an array of objects representing the courses
       const courseArray = Object.entries(courses).map(([courseId, grade]) => ({
         courseId,
-        grade : grade || "-"
+        grade: grade || "-"
       }));
 
       const currentResult = await Result.findOne({ regNo });
@@ -69,10 +72,36 @@ module.exports.uploadResultSheetAndAddResult = catchAsync(async (req, res) => {
       }
 
 
+      // calculate weightedGPA based on results
 
-      // Get the `Undergraduate` user for the registration number
+      let totalGradePoints = 0;
+      let totalCourseUnits = 0;
+      // console.log("$$$$$$$$$$$$$$$$$result.courses", result.courses);
+
+      result.courses && result.courses.forEach((course) => {
+        const { grade, courseId } = course;
+
+        const gradePoint = gradeValue(grade);
+        // console.log("gradePoint", gradePoint);
+
+        if (gradePoint !== null) {
+          const creditValue = setCreditValue(courseId);
+          // console.log("creditValue", creditValue);
+
+
+          totalGradePoints += gradePoint * creditValue;
+          totalCourseUnits += creditValue;
+        }
+      });
+
+      console.log("totalGradePoints", totalGradePoints);
+      console.log("totalCourseUnits", totalCourseUnits);
+
+      const weightedGPA = totalGradePoints / totalCourseUnits;
+      console.log("weightedGPA", weightedGPA);
+
       const filter = { regNo: result.regNo };
-      const user = await Undergraduate.findOneAndUpdate(filter, { $set: { results: result._id } }, { session });
+      const user = await Undergraduate.findOneAndUpdate(filter, { $set: { results: result._id, weightedGPA } }, { session });
 
       console.log(`Result saved for ${regNo}`);
 
@@ -108,17 +137,38 @@ module.exports.uploadResultSheetAndAddResult = catchAsync(async (req, res) => {
   }
 });
 
-
 // Method: GET
 // Endpoint: "/get-all"
 // Description: get all results
 // User: admin
-module.exports.getResults = catchAsync( async(req, res) => {
+module.exports.getResults = catchAsync(async (req, res) => {
   try {
     const results = await Result.find();
 
-    if(!results){
-      return res.status(404).json({error: "results not found"});
+    if (!results) {
+      return res.status(404).json({ error: "results not found" });
+    }
+    console.log(results);
+    res.status(200).json(results);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+})
+
+// Method: GET
+// Endpoint: "/individual"
+// Description: get all results
+// User: admin
+module.exports.individualResults = catchAsync(async (req, res) => {
+  try {
+    const userId = req.user.id
+
+    const user = await Undergraduate.findById(userId).select('-password');
+    const results = await Result.findById(user.results);
+
+    if (!results) {
+      return res.status(404).json({ error: "results not found" });
     }
     console.log(results);
     res.status(200).json(results);

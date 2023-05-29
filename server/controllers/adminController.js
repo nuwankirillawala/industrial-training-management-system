@@ -57,7 +57,7 @@ module.exports.createAdmin = catchAsync(async (req, res) => {
 module.exports.getAdminProfile = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
-        const user = await Admin.findById(userId);
+        const user = await Admin.findById(userId).select('-password');
 
         if (!user) {
             return res.status(404).json({ "error": "User not found!" })
@@ -108,7 +108,7 @@ module.exports.updateAdminProfile = catchAsync(async (req, res) => {
 module.exports.getAdminUser = catchAsync(async (req, res) => {
     try {
         const userId = req.params.userId;
-        const user = await Admin.findById(userId);
+        const user = await Admin.findById(userId).select('-password');
 
         if (!user) {
             return res.status(404).json({ "error": "User not found!" })
@@ -196,16 +196,16 @@ module.exports.viewAllUsers = catchAsync(async (req, res) => {
         let users = [];
 
         if (userType === "admin") {
-            users = await Admin.find();
+            users = await Admin.find().select('-password');
         }
         else if (userType === "undergraduate") {
-            users = await Undergraduate.find();
+            users = await Undergraduate.find().select('-password');
         }
         else if (userType === "supervisor") {
-            users = await Supervisor.find();
+            users = await Supervisor.find().select('-password');
         }
         else if (userType === "alumni") {
-            users = await Alumni.find();
+            users = await Alumni.find().select('-password');
         }
 
         console.log(users);

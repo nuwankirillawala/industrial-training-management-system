@@ -14,8 +14,8 @@ module.exports.createSupervisor = catchAsync(async (req, res) => {
         const user = await Supervisor.create({ name, email, contactNo, company, jobRole, password });
         // company = should be company object id
 
-        if(!user){
-            return res.status(400).json({error: "supervisor user creation failed"});
+        if (!user) {
+            return res.status(400).json({ error: "supervisor user creation failed" });
         }
 
         const updatedCompany = await Company.findByIdAndUpdate(
@@ -59,7 +59,7 @@ module.exports.updateSupervisor = catchAsync(async (req, res) => {
             update,
             options
         );
-        
+
         if (!user) {
             return res.status(400).json({ error: "user not found" });
         }
@@ -89,9 +89,11 @@ module.exports.updateProfileImage = catchAsync(async (req, res) => {
 
         const user = await Supervisor.findByIdAndUpdate(
             userId,
-            {$set: {
-                profileImage: filePath
-            }},
+            {
+                $set: {
+                    profileImage: filePath
+                }
+            },
             { new: true }
         );
 
@@ -101,7 +103,7 @@ module.exports.updateProfileImage = catchAsync(async (req, res) => {
             return res.status(404).json({ error: "user not found" });
         }
 
-        res.status(201).json({profileImage: user.profileImage});
+        res.status(201).json({ profileImage: user.profileImage });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -117,13 +119,21 @@ module.exports.getSupervisor = catchAsync(async (req, res) => {
 
         const user = await Supervisor.findById(userId).populate({
             path: 'company',
-            model: 'company'});
-        
+            model: 'company',
+
+        },
+        {
+            path: 'interns',
+            model: 'Undergraduate',
+            
+        }
+        ).select('-password');
+
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
 
-        res.status(200).json({user});
+        res.status(200).json({ user });
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
@@ -137,8 +147,8 @@ module.exports.getAllSupervisors = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
 
-        const user = await Supervisor.find();
-        
+        const user = await Supervisor.find().select('-password');
+
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -157,8 +167,8 @@ module.exports.viewSupervisor = catchAsync(async (req, res) => {
     try {
         const userId = req.params.userId;
 
-        const user = await Supervisor.findById(userId);
-        
+        const user = await Supervisor.findById(userId).select('-password');
+
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
