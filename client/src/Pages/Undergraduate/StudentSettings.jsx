@@ -34,6 +34,7 @@ const studentValues = {
 export const StudentSettings = () => {
   const [profile, setProfile] = useState(studentValues);
   const [userId, setUserId] = useState("");
+  const [profileImage, setProfileImage] = useState();
   const [studentData, setStudentData] = useState({
     firstName: "",
     // lastName : '',
@@ -67,6 +68,7 @@ export const StudentSettings = () => {
           userId: res.data._id,
         });
         setUserId(res.data._id);
+        setProfileImage(res.data.profileImage);
       }
     } catch (error) {
       console.log(error);
@@ -156,8 +158,8 @@ export const StudentSettings = () => {
                 sumbitProfileImage={
                   "http://localhost:5000/api/v1/undergraduate/profile/image"
                 }
-                getProfileImage={
-                  "http://localhost:5000/api/v1/undergraduate/profile"
+                profileImage={
+                  profileImage
                 }
               />
             </Stack>
@@ -217,7 +219,7 @@ export const StudentSettings = () => {
                           <Stack spacing={1}>
                             <Stack direction={"row"}>
                               <Stack minWidth={"200px"} flex={1}>
-                                <Typography>First Name</Typography>
+                                <Typography>Name</Typography>
                               </Stack>
                               <Stack flex={3}>
                                 <TextField
@@ -348,7 +350,7 @@ export const StudentSettings = () => {
                             <Stack direction={"row"}>
                               <Stack flex={1} minWidth={"200px"}>
                                 <Typography>
-                                  Linkedin Account Address
+                                  Linkedin Account
                                 </Typography>
                               </Stack>
                               <Stack flex={3}>
@@ -373,7 +375,7 @@ export const StudentSettings = () => {
                             </Stack>
                             <Stack direction={"row"}>
                               <Stack flex={1} minWidth={"200px"}>
-                                <Typography>Github Account Address</Typography>
+                                <Typography>Github Account</Typography>
                               </Stack>
                               <Stack flex={3}>
                                 <TextField
@@ -394,7 +396,7 @@ export const StudentSettings = () => {
                             <Stack alignItems={"flex-end"}>
                               <Box>
                                 <Button variant="itms" onClick={handleReset}>
-                                  reset
+                                  Reset
                                 </Button>
                                 <Button variant="itms" type="submit">
                                   Update
