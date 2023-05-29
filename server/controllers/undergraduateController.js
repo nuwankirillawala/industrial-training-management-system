@@ -728,7 +728,11 @@ module.exports.updateInternStatus = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { companyId, newStatus } = req.body;
 
-        const user = await Undergraduate.findById(userId).select('-password');
+        const user = await Undergraduate.findById(userId).select('-password')
+        .populate({
+            model: 'Company',
+            path: 'internStatus.company',
+        });
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
