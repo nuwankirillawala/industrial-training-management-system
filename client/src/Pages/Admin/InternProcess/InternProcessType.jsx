@@ -1,14 +1,22 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Divider, Grid, Paper, Stack, Typography } from '@mui/material'
-import React from 'react'
+import { Button, Card, CardActions, CardContent, CardMedia, Divider, Grid, LinearProgress, Paper, Stack, Typography } from '@mui/material'
+import React, { useState } from 'react'
 import { Tile } from '../../../components/card/Tile';
 import * as assets from '../../../assets';
 import TypeSelectionCard from '../../../components/InternProcess/TypeSelectionCard/TypeSelectionCard';
 import MiniCard from '../../../components/InternProcess/MiniCard';
 
 const InternProcessType = () => {
+  const [showProgress, setShowProgress] = useState(false);
 
-  const generateRecommendations = () => {
-    // const res = await axios
+  const generateRecommendations = async () => {
+    setShowProgress(true);
+    try {
+      const res = await axios.patch('http://localhost:5000/api/v1/intern-process/recommendations', { withCredentials: true });
+
+      setShowProgress(false);
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <Grid container direction='column' sx={{ margin: '5px 10px' }}>
@@ -22,14 +30,12 @@ const InternProcessType = () => {
             <Grid item xs={12}>
               <Tile>
                 {/* <Typography variant="h6" color="initial">Welcome to Intern Selection Process</Typography> */}
-                <Typography variant="body1" color="secondary">To continue with intern selection process please select one of following options.</Typography>
+                <Typography variant="body1" color="secondary">To continue with intern selection process please select one of the following options.</Typography>
                 <br />
-                <Button variant="itms"
-                  fontWeight="bold"
-                  onClick={generateRecommendations}
-                >
+                <Button variant="itms" fontWeight="bold" onClick={generateRecommendations}>
                   Generate Recommendations
                 </Button >
+                {showProgress && <LinearProgress />} {/* Render the progress bar if showProgress is true */}
               </Tile>
             </Grid>
 

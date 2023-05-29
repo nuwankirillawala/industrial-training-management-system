@@ -99,7 +99,6 @@ export const StudentSettings = () => {
     try {
       const res = await axios.patch(
         "http://localhost:5000/api/v1/undergraduate/profile",
-        { withCredentials: true },
         {
           // name: values.adminName === "" ? studentData.name : values.adminName,
           email: values.email === "" ? studentData.email : values.email,
@@ -109,10 +108,6 @@ export const StudentSettings = () => {
             values.githubURL === "" ? studentData.github : values.githubURL,
           linkedin:
             values.linkedin === "" ? studentData.linkedin : values.linkedin,
-          internStatus:
-            values.internStatus === ""
-              ? studentData.internStatus
-              : values.internStatus,
         },
         { withCredentials: true }
       );

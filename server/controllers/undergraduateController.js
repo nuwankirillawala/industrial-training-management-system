@@ -139,7 +139,8 @@ module.exports.viewProfile = catchAsync(async (req, res) => {
 module.exports.updateProfile = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
-        const { email, contactNo, linkdinURL, githubURL, internStatus } = req.body;
+        const { email, contactNo, linkdinURL, githubURL, regNo,  } = req.body;
+        console.log(email, contactNo, linkdinURL, githubURL, );
 
         const user = await Undergraduate.findByIdAndUpdate(
             userId,
@@ -148,7 +149,7 @@ module.exports.updateProfile = catchAsync(async (req, res) => {
                 contactNo,
                 linkdinURL,
                 githubURL,
-                internStatus,
+                regNo,
             },
             { new: true }
         );
