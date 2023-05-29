@@ -106,9 +106,23 @@ const AssignSupervisorForIntern = () => {
   //End of handle cellClick function for the cell button
 
   //handle click for the supervisor select                                                    End Point
-  const handleSubmit = (key) => {
-    console.log(`supervisor id: ${key}`);
+  const handleSubmit = async (key) => {
+    setOpenBackdrop(true);
+    // console.log(`supervisor id: ${key}`);
     setSelectedSupervisor(key);
+    try {
+      const req = await axios.patch(
+        `http://localhost:5000/api/v1/undergraduate/intern/assign-supervisor/${selectedStudent.id}`,
+        { supervisorId: selectedSupervisor },
+        { withCredentials: true }
+      );
+      if (req.status === 201) {
+        console.log("success");
+      } else console.log(req.data);
+    } catch (error) {
+      console.log(error);
+    }
+    setOpenBackdrop(false);
   };
   //End of handle click for the supervisor select
 
@@ -180,7 +194,7 @@ const AssignSupervisorForIntern = () => {
     <Box sx={{ height: "88vh" }}>
       <Box sx={{ width: "100%" }}>
         <Typography
-          variant="h6"
+          variant="pageTitle"
           color="primary"
           marginBottom={"5px"}
           paddingLeft={"15px"}
@@ -194,7 +208,11 @@ const AssignSupervisorForIntern = () => {
             <Box height={"100%"}>
               <Stack direction={"column"} height={"100%"} spacing={1}>
                 <Box>
-                  <Typography align="center" fontWeight={"bold"}>
+                  <Typography
+                    variant="head6"
+                    align="center"
+                    fontWeight={"bold"}
+                  >
                     Student Selection
                   </Typography>
                 </Box>
@@ -212,7 +230,7 @@ const AssignSupervisorForIntern = () => {
           </Tile>
           <Tile sx={{ height: "100%", width: "50%" }}>
             <Box>
-              <Typography align="center" fontWeight={"bold"}>
+              <Typography variant="head6" align="center" fontWeight={"bold"}>
                 Assign supervisors
               </Typography>
             </Box>

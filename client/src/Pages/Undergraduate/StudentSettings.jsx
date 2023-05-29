@@ -104,15 +104,15 @@ export const StudentSettings = () => {
           email: values.email === "" ? studentData.email : values.email,
           contactNo:
             values.contactNo === "" ? studentData.contactNo : values.contactNo,
-          githubURL:
-            values.githubURL === "" ? studentData.github : values.githubURL,
-          linkedin:
+          linkdinURL:
             values.linkedin === "" ? studentData.linkedin : values.linkedin,
+          githubURL: values.github === "" ? studentData.github : values.github,
+          regNo: values.regNo === "" ? studentData.regNo : values.regNo,
         },
         { withCredentials: true }
       );
       console.log("reponse : ", res.status);
-      if (res.status === 200) {
+      if (res.status === 201) {
         handleSnackBar("success");
       }
     } catch (error) {
@@ -153,9 +153,7 @@ export const StudentSettings = () => {
                 sumbitProfileImage={
                   "http://localhost:5000/api/v1/undergraduate/profile/image"
                 }
-                profileImage={
-                  profileImage
-                }
+                profileImage={profileImage}
               />
             </Stack>
           </Tile>
@@ -344,9 +342,7 @@ export const StudentSettings = () => {
                             </Stack>
                             <Stack direction={"row"}>
                               <Stack flex={1} minWidth={"200px"}>
-                                <Typography>
-                                  Linkedin Account
-                                </Typography>
+                                <Typography>Linkedin Account</Typography>
                               </Stack>
                               <Stack flex={3}>
                                 <TextField
@@ -377,7 +373,7 @@ export const StudentSettings = () => {
                                   variant="outlined"
                                   size="small"
                                   type="url"
-                                  placeholder={studentData.githubURL}
+                                  placeholder={studentData.github}
                                   name="github"
                                   fullWidth
                                   value={values.github}

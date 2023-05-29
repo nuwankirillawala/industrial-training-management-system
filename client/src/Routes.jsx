@@ -36,6 +36,7 @@ import { ReportPortalSupervisor } from "./Pages/Supervisor/ReportSubmission/Repo
 import { ShowStudentResults } from "./components/user/Department/ShowStudentResults";
 import { StudentShowResult } from "./Pages/Undergraduate/StudentShowResult";
 import PrivateNotePanel from "./Pages/Undergraduate/PrivateNotePanel";
+import { ViewInterns } from "./Pages/Supervisor/ViewInterns";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -79,6 +80,7 @@ const router = createBrowserRouter(
           path="supervisor-report-portal"
           element={<ReportPortalSupervisor />}
         />
+        <Route path="supervisor-internmembers" element={<ViewInterns />} />
 
         {/* Admin Routes  */}
         <Route path="admin/add" element={<Admin.AddAdmin />} />

@@ -17,6 +17,14 @@ import { Tile } from "../../../components/card/Tile";
 import { Report } from "../../../assets/index";
 import axios from "axios";
 
+//dummy data
+const studentList = [
+  { name: "Sanjana Dasanayaka", regNo: "SC/2019/11139" },
+  { name: "Saman kumara", regNo: "SC/2019/11102" },
+  { name: "Udani Kaluwala", regNo: "SC/2019/11100" },
+];
+//End of Dummy data
+
 export const ReportPortalSupervisor = () => {
   const [studentIdList, setStudentIdList] = useState();
   const [studetList, setStudentList] = useState();

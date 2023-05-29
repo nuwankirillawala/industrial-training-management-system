@@ -6,7 +6,7 @@ export const DailyReport = ({ reportData }) => {
   return (
     <Tile>
       <Box height={"75vh"} overflow={"auto"}>
-        <Stack direction={"column"} spacing={1}>
+        <Stack direction={"column"} spacing={1} padding={1}>
           <Stack direction={"column"} spacing={2}>
             <Stack alignItems={"center"}>
               <Typography variant="head6">Daily Report</Typography>
@@ -17,21 +17,25 @@ export const DailyReport = ({ reportData }) => {
                 variant="outlined"
                 sx={{ bgcolor: "white", borderColor: "#4665D2", padding: 1 }}
               >
-                <Stack>
+                <Stack spacing={2}>
                   {/* <Divider variant="middle" /> */}
                   <Stack direction={"row"} justifyContent={"space-evenly"}>
                     <Stack alignItems={"center"} flex={1}>
-                      <Typography fontWeight={"bold"}>Date</Typography>
+                      <Typography variant="h6" fontWeight={"bold"}>
+                        Date
+                      </Typography>
                     </Stack>
 
                     <Stack alignItems={"center"} flex={4}>
-                      <Typography fontWeight={"bold"}>
+                      <Typography variant="h6" fontWeight={"bold"}>
                         Brief Description of Work Carried Out
                       </Typography>
                     </Stack>
 
                     <Stack alignItems={"center"} flex={1}>
-                      <Typography fontWeight={"bold"}>Varification</Typography>
+                      <Typography variant="h6" fontWeight={"bold"}>
+                        Varification
+                      </Typography>
                     </Stack>
                   </Stack>
 
@@ -40,77 +44,86 @@ export const DailyReport = ({ reportData }) => {
                   {/* report data show here */}
                   <Stack>
                     {reportData.map((report) => (
-                      <Stack minHeight={"6vh"}>
-                        <Stack
-                          direction={"row"}
-                          justifyContent={"space-around"}
-                        >
-                          {/* report date */}
+                      <Paper
+                        variant="outlined"
+                        sx={{ bgcolor: "#fff", padding: 1 }}
+                        square
+                      >
+                        <Stack minHeight={"7vh"}>
                           <Stack
-                            flex={1}
-                            alignItems={"center"}
-                            direction={"column"}
+                            direction={"row"}
+                            justifyContent={"space-around"}
                           >
+                            {/* report date */}
                             <Stack
                               flex={1}
                               alignItems={"center"}
-                              direction={"row"}
+                              direction={"column"}
                             >
-                              <Typography fontWeight={"bold"}>
-                                {report.date.substring(0, 10)}
-                              </Typography>
-                            </Stack>
-                          </Stack>
-
-                          {/* report content */}
-                          <Stack flex={4} direction={"row"}>
-                            <Box>
-                              <Box
-                                flex={5}
-                                sx={{
-                                  padding: "10px",
-                                  alignItems: "center",
-                                }}
+                              <Stack
+                                flex={1}
+                                alignItems={"center"}
+                                direction={"row"}
                               >
-                                <Typography>{report.content}</Typography>
-                              </Box>
-                            </Box>
-                          </Stack>
+                                <Typography fontWeight={"bold"}>
+                                  {report.date.substring(0, 10)}
+                                </Typography>
+                              </Stack>
+                            </Stack>
 
-                          {/*report approval sratus */}
-                          <Stack
-                            flex={1}
-                            alignItems={"center"}
-                            direction={"column"}
-                          >
+                            {/* report content */}
+                            <Stack flex={4} direction={"row"}>
+                              <Box>
+                                <Box
+                                  flex={5}
+                                  sx={{
+                                    padding: "10px",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <Typography>{report.content}</Typography>
+                                </Box>
+                              </Box>
+                            </Stack>
+
+                            {/*report approval sratus */}
                             <Stack
                               flex={1}
                               alignItems={"center"}
-                              direction={"row"}
+                              direction={"column"}
                             >
-                              {report.approvalStatus === "approved" && (
-                                <Typography fontWeight={"bold"} color={"green"}>
-                                  Approved
-                                </Typography>
-                              )}
-                              {report.approvalStatus === "notApproved" && (
-                                <Typography fontWeight={"bold"} color={"red"}>
-                                  Not Approved
-                                </Typography>
-                              )}
-                              {report.approvalStatus === "empty" && (
-                                <Typography
-                                  fontWeight={"bold"}
-                                  color={"darkgray"}
-                                >
-                                  Empty
-                                </Typography>
-                              )}
+                              <Stack
+                                flex={1}
+                                alignItems={"center"}
+                                direction={"row"}
+                              >
+                                {report.approvalStatus === "approved" && (
+                                  <Typography
+                                    fontWeight={"bold"}
+                                    color={"green"}
+                                  >
+                                    Approved
+                                  </Typography>
+                                )}
+                                {report.approvalStatus === "notApproved" && (
+                                  <Typography fontWeight={"bold"} color={"red"}>
+                                    Not Approved
+                                  </Typography>
+                                )}
+                                {report.approvalStatus === "empty" && (
+                                  <Typography
+                                    fontWeight={"bold"}
+                                    color={"darkgray"}
+                                  >
+                                    Empty
+                                  </Typography>
+                                )}
+                              </Stack>
                             </Stack>
                           </Stack>
+                          {/* <Divider orientation="horizontal" /> */}
                         </Stack>
-                        <Divider orientation="horizontal" />
-                      </Stack>
+                      </Paper>
                     ))}
                   </Stack>
                 </Stack>
@@ -125,7 +138,7 @@ export const DailyReport = ({ reportData }) => {
               <Box padding={"10px"}>
                 <Stack direction={"column"}>
                   <Stack alignItems={"center"}>
-                    <Typography fontWeight={"bold"}>
+                    <Typography variant="h6" fontWeight={"bold"}>
                       Problems Encounted and Solution Found
                     </Typography>
                   </Stack>

@@ -17,17 +17,19 @@ export const MonthlyReport = ({ reportData }) => {
                 variant="outlined"
                 sx={{ bgcolor: "white", borderColor: "#4665D2", padding: 1 }}
               >
-                <Stack>
+                <Stack spacing={1}>
                   {/* <Divider variant="middle" /> */}
                   <Stack direction={"row"} justifyContent={"space-evenly"}>
                     <Stack alignItems={"center"} flex={1}>
-                      <Typography fontWeight={"bold"}>Week</Typography>
+                      <Typography variant="h6" fontWeight={"bold"}>
+                        Week
+                      </Typography>
                     </Stack>
 
                     <Divider orientation="vertical" />
 
                     <Stack alignItems={"center"} flex={4}>
-                      <Typography fontWeight={"bold"}>
+                      <Typography variant="h6" fontWeight={"bold"}>
                         Brief Description of Work Carried Out
                       </Typography>
                     </Stack>
@@ -35,96 +37,107 @@ export const MonthlyReport = ({ reportData }) => {
                     <Divider orientation="vertical" />
 
                     <Stack alignItems={"center"} flex={1}>
-                      <Typography fontWeight={"bold"}>Varification</Typography>
+                      <Typography variant="h6" fontWeight={"bold"}>
+                        Varification
+                      </Typography>
                     </Stack>
                   </Stack>
 
                   <Divider variant="middle" />
 
                   {/* report data show here */}
-                  <Box>
+                  <Stack>
                     {reportData.map((report) => (
-                      <Stack minHeight={"10vh"}>
-                        <Stack
-                          direction={"row"}
-                          justifyContent={"space-around"}
-                        >
-                          <Divider orientation="vertical" />
-
-                          {/* report date */}
+                      <Paper
+                        variant="outlined"
+                        sx={{ bgcolor: "#fff", padding: 1 }}
+                        square
+                      >
+                        <Stack minHeight={"7vh"}>
                           <Stack
-                            flex={1}
-                            alignItems={"center"}
-                            direction={"column"}
+                            direction={"row"}
+                            justifyContent={"space-around"}
                           >
+                            {/* <Divider orientation="vertical" /> */}
+
+                            {/* report date */}
                             <Stack
                               flex={1}
                               alignItems={"center"}
-                              direction={"row"}
+                              direction={"column"}
                             >
-                              <Typography fontWeight={"bold"}>
-                                {report.weekNumber}
-                              </Typography>
-                            </Stack>
-                          </Stack>
-
-                          <Divider orientation="vertical" />
-
-                          {/* report content */}
-                          <Stack flex={4} direction={"row"}>
-                            <Box>
-                              <Box
-                                flex={5}
-                                sx={{
-                                  padding: "10px",
-                                  alignItems: "center",
-                                }}
+                              <Stack
+                                flex={1}
+                                alignItems={"center"}
+                                direction={"row"}
                               >
-                                <Typography>{report.content}</Typography>
+                                <Typography fontWeight={"bold"}>
+                                  {report.weekNumber}
+                                </Typography>
+                              </Stack>
+                            </Stack>
+
+                            {/* <Divider orientation="vertical" /> */}
+
+                            {/* report content */}
+                            <Stack flex={4} direction={"row"}>
+                              <Box>
+                                <Box
+                                  flex={5}
+                                  sx={{
+                                    padding: "10px",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <Typography>{report.content}</Typography>
+                                </Box>
                               </Box>
-                            </Box>
-                          </Stack>
+                            </Stack>
 
-                          <Divider orientation="vertical" />
+                            {/* <Divider orientation="vertical" /> */}
 
-                          {/*report approval sratus */}
-                          <Stack
-                            flex={1}
-                            alignItems={"center"}
-                            direction={"column"}
-                          >
+                            {/*report approval sratus */}
                             <Stack
                               flex={1}
                               alignItems={"center"}
-                              direction={"row"}
+                              direction={"column"}
                             >
-                              {report.approvalStatus === "approved" && (
-                                <Typography fontWeight={"bold"} color={"green"}>
-                                  Approved
-                                </Typography>
-                              )}
-                              {report.approvalStatus === "notApproved" && (
-                                <Typography fontWeight={"bold"} color={"red"}>
-                                  Not Approved
-                                </Typography>
-                              )}
-                              {report.approvalStatus === "empty" && (
-                                <Typography
-                                  fontWeight={"bold"}
-                                  color={"darkgray"}
-                                >
-                                  Empty
-                                </Typography>
-                              )}
+                              <Stack
+                                flex={1}
+                                alignItems={"center"}
+                                direction={"row"}
+                              >
+                                {report.approvalStatus === "approved" && (
+                                  <Typography
+                                    fontWeight={"bold"}
+                                    color={"green"}
+                                  >
+                                    Approved
+                                  </Typography>
+                                )}
+                                {report.approvalStatus === "notApproved" && (
+                                  <Typography fontWeight={"bold"} color={"red"}>
+                                    Not Approved
+                                  </Typography>
+                                )}
+                                {report.approvalStatus === "empty" && (
+                                  <Typography
+                                    fontWeight={"bold"}
+                                    color={"darkgray"}
+                                  >
+                                    Empty
+                                  </Typography>
+                                )}
+                              </Stack>
                             </Stack>
-                          </Stack>
 
-                          <Divider orientation="vertical" />
+                            {/* <Divider orientation="vertical" /> */}
+                          </Stack>
+                          {/* <Divider orientation="horizontal" /> */}
                         </Stack>
-                        <Divider orientation="horizontal" />
-                      </Stack>
+                      </Paper>
                     ))}
-                  </Box>
+                  </Stack>
                 </Stack>
               </Paper>
             </Stack>
@@ -137,7 +150,7 @@ export const MonthlyReport = ({ reportData }) => {
                 <Box padding={"10px"}>
                   <Stack direction={"column"}>
                     <Stack alignItems={"center"}>
-                      <Typography fontWeight={"bold"}>
+                      <Typography variant="h6" fontWeight={"bold"}>
                         Problems Encounted and Solution Found
                       </Typography>
                     </Stack>
@@ -152,7 +165,9 @@ export const MonthlyReport = ({ reportData }) => {
 
             <Stack spacing={2} direction={"column"}>
               <Stack>
-                <Typography fontWeight={"bold"}>Leave Record</Typography>
+                <Typography variant="h6" fontWeight={"bold"}>
+                  Leave Record
+                </Typography>
               </Stack>
               <Stack direction={"row"} spacing={5}>
                 <Stack>
