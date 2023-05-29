@@ -39,7 +39,7 @@ export const SupervisorDashboard = () => {
   const [openBackdrop, setOpenBackdrop] = useState(false);
 
   //State for supervisorId
-  const [userId, setUserId] = useState("");
+  // const [userId, setUserId] = useState("");
 
   //State for fetched data
   const [data, setData] = useState({
@@ -61,8 +61,8 @@ export const SupervisorDashboard = () => {
         { withCredentials: true }
       );
       if (res.status === 200) {
-        // console.log(res.data.user._id);
-        setUserId(res.data.user._id);
+        // console.log(res.data.user);
+        // setUserId(res.data.user._id);
         setData(res.data.user);
       }
     } catch (error) {
@@ -90,12 +90,12 @@ export const SupervisorDashboard = () => {
         </Grid>
         <Grid item xs={12}>
           <Stack direction={"row"} spacing={2}>
-            <FeaturedCard
+            {/* <FeaturedCard
               title="Internship"
               color="blueColor"
               icon={LeaderboardIcon}
               link="/student-company"
-            />
+            /> */}
             <FeaturedCard
               title="Interns"
               color="red"
@@ -106,7 +106,7 @@ export const SupervisorDashboard = () => {
               title="Reports"
               color="green"
               icon={UploadFileIcon}
-              link="/report-portal"
+              link="/supervisor-report-portal"
             />
             <FeaturedCard
               title="Company Profile"

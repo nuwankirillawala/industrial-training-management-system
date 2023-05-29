@@ -229,7 +229,7 @@ const users = [
         id: 1,
         primaryText: "Dashboard",
         icon: <Dashboard />,
-        element: "/student-dashboard",
+        element: "/supervisor-dashboard",
       },
       {
         id: 2,
@@ -241,7 +241,7 @@ const users = [
         id: 3,
         primaryText: "Report Submission",
         icon: <UploadFile />,
-        element: "/student-company",
+        element: "/supervisor-report-portal",
       },
       {
         id: 4,
