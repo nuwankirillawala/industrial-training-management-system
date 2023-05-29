@@ -123,13 +123,13 @@ const users = [
         id: 3,
         primaryText: "Intern Status",
         icon: <Assessment />,
-        element: "/student-company",
+        element: "/student-internstatus",
       },
       {
         id: 4,
         primaryText: "Internship",
         icon: <Badge />,
-        element: "/student-company",
+        element: "/student-internship",
       },
       {
         id: 5,
@@ -147,7 +147,7 @@ const users = [
         id: 7,
         primaryText: "Private Notes",
         icon: <Description />,
-        element: "/notice",
+        element: "/private-note",
       },
       {
         id: 8,
