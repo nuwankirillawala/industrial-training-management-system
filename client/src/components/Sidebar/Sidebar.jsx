@@ -212,7 +212,7 @@ const users = [
         id: 8,
         primaryText: "Notices",
         icon: <Notifications />,
-        element: "/deletenotices",
+        element: "/notice",
       },
       {
         id: 9,
