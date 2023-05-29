@@ -3,6 +3,12 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { Stack, Grid, Button, Typography, Divider } from "@mui/material";
 import { Tile } from "../../../components/card/Tile";
 import { ReportList } from "./ReportList";
+import {
+  dailyReport,
+  monthlyReport,
+  progressReport,
+  finalFeedback,
+} from "../../../assets/index";
 
 export const ReportPortal = () => {
   const [reportType, setReportType] = useState("");
@@ -36,9 +42,9 @@ export const ReportPortal = () => {
                       <Divider />
                     </Stack>
                     <Stack>
-                      <Typography variant="body">
-                        About the Daily Report
-                      </Typography>
+                      <Stack alignItems="center">
+                        <img src={dailyReport} alt="dailyReport" width={200} />
+                      </Stack>
                     </Stack>
                     <Stack>
                       <Button
@@ -72,9 +78,13 @@ export const ReportPortal = () => {
                       <Divider />
                     </Stack>
                     <Stack>
-                      <Typography variant="body">
-                        About the Monthly Report
-                      </Typography>
+                      <Stack alignItems="center">
+                        <img
+                          src={monthlyReport}
+                          alt="monthlyReport"
+                          width={200}
+                        />
+                      </Stack>
                     </Stack>
                     <Stack>
                       <Button
@@ -110,9 +120,13 @@ export const ReportPortal = () => {
                       <Divider />
                     </Stack>
                     <Stack>
-                      <Typography variant="body">
-                        About the Progress Report
-                      </Typography>
+                      <Stack alignItems="center">
+                        <img
+                          src={progressReport}
+                          alt="progressReport"
+                          width={200}
+                        />
+                      </Stack>
                     </Stack>
                     <Stack>
                       <Button
@@ -148,9 +162,13 @@ export const ReportPortal = () => {
                       <Divider />
                     </Stack>
                     <Stack>
-                      <Typography variant="body">
-                        About the Final Feedback Report
-                      </Typography>
+                      <Stack alignItems="center">
+                        <img
+                          src={finalFeedback}
+                          alt="finalFeedback"
+                          width={300}
+                        />
+                      </Stack>
                     </Stack>
                     <Stack>
                       <Button
