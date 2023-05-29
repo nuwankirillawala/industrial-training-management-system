@@ -21,6 +21,11 @@ import { Tile } from "../../card/Tile";
 import { Formik } from "formik";
 import axios from "axios";
 
+const studentStatus = {
+  companyId: "",
+  internStatus: "",
+};
+
 export const StudentCompanyStatus = () => {
   const [studentData, setStudentData] = useState();
 
@@ -30,7 +35,7 @@ export const StudentCompanyStatus = () => {
       const res = await axios.get(
         "http://localhost:5000/api/v1/undergraduate/profile"
       );
-      console.log(res.data);
+      console.log("student data : ", res.data);
       if (res.status === 200) {
         setStudentData(res.data.internStatus);
       }

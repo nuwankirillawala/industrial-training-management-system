@@ -117,6 +117,7 @@ const router = createBrowserRouter(
         <Route path="company-created" element={<Admin.CompanyCreated />} />
         <Route path="company/manage" element={<Admin.ManageCompany />} />
         <Route path="company/view" element={<Admin.ViewCompany />} />
+        <Route path="admin-settings" element={<Admin.AdminSettings />} />
         <Route
           path="company/intern-list"
           element={<Admin.SelectCompanyInternList />}

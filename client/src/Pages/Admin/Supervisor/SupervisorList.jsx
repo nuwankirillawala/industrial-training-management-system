@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Tile } from "../../../components/card/Tile";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
+import { CustomBackdrop } from "../../../components/backdrop/CustomBackdrop";
 
 const data = [
   { id: 1, company: "A" },

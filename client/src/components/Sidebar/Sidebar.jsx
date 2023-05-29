@@ -155,6 +155,12 @@ const users = [
         icon: <Notifications />,
         element: "/notice",
       },
+      {
+        id: 9,
+        primaryText: "Settings",
+        icon: <Settings />,
+        element: "/student-settings",
+      },
     ],
   },
   {
@@ -200,13 +206,19 @@ const users = [
         id: 7,
         primaryText: "Private Notes",
         icon: <Description />,
-        element: "/deletenotices",
+        element: "/private-note",
       },
       {
         id: 8,
         primaryText: "Notices",
         icon: <Notifications />,
         element: "/notice",
+      },
+      {
+        id: 9,
+        primaryText: "Settings",
+        icon: <Settings />,
+        element: "/admin-settings",
       },
     ],
   },
@@ -229,7 +241,7 @@ const users = [
         id: 3,
         primaryText: "Report Submission",
         icon: <UploadFile />,
-        element: "/supervisor-report-portal",
+        element: "/student-company",
       },
       {
         id: 4,
@@ -265,12 +277,12 @@ const users = [
 ];
 
 const controlItems = [
-  {
-    id: 1,
-    label: "Settings",
-    icon: <Settings />,
-    page: "/student-settings",
-  },
+  // {
+  //   id: 1,
+  //   label: "Settings",
+  //   icon: <Settings />,
+  //   page: "/student-settings",
+  // },
   {
     id: 2,
     label: "Back",

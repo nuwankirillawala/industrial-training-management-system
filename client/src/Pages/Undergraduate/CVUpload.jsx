@@ -21,6 +21,7 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { StatusSnackBar } from "../../components/StatusSnackBar/StatusSnackBar";
 import { Upload } from "@mui/icons-material";
 import { UploadImg } from "../../assets";
+import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 
 //creating transition for dialog
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -125,6 +126,8 @@ export const CVUpload = () => {
       formData,
       headers
     );
+    if (res.status === 201) {
+    }
     console.log(res);
     setOpenBackdrop(false);
   };

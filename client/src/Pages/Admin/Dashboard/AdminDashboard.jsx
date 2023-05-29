@@ -75,12 +75,12 @@ export const AdminDashboard = () => {
         </Grid>
         <Grid item xs={12}>
           <Stack direction={"row"} spacing={2}>
-            <FeaturedCard
+            {/* <FeaturedCard
               title="Intern Status"
               color="primary"
               icon={LeaderboardIcon}
               link="/student-company"
-            />
+            /> */}
             <FeaturedCard
               title="Manage Users"
               color="red"
@@ -99,11 +99,17 @@ export const AdminDashboard = () => {
               icon={UploadFileIcon}
               link="/report-portal"
             />
-            <FeaturedCard
+            {/* <FeaturedCard
               title="Company Ratings"
               color="yellow"
               icon={ContactPageIcon}
               link="/portfolio"
+            /> */}
+            <FeaturedCard
+              title="Assign Supervisor"
+              color="yellow"
+              icon={ContactPageIcon}
+              link="/assign-supervisor-for-intern"
             />
             <FeaturedCard
               title="Undergraduate Profile"
