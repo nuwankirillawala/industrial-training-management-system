@@ -235,7 +235,7 @@ const users = [
         id: 2,
         primaryText: "Intern Members",
         icon: <Groups />,
-        element: "/intern-process-student",
+        element: "/supervisor-internmembers",
       },
       {
         id: 3,
