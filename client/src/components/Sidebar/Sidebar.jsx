@@ -206,7 +206,7 @@ const users = [
         id: 7,
         primaryText: "Private Notes",
         icon: <Description />,
-        element: "/deletenotices",
+        element: "/private-note",
       },
       {
         id: 8,
