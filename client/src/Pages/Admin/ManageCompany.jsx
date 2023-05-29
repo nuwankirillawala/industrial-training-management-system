@@ -61,13 +61,13 @@ export const ManageCompany = () => {
                             <Typography variant="head6">Add New Company</Typography>
                             <Divider sx={{ m: 1 }} />
                             <Typography margin={2}> Click here for add a new company to the system</Typography>
-                            <Button
-                                variant="itms-add"
+                            <Button  variant="itms-add"
                                 fontWeight="bold"
                                 onClick={() => navigate('/company/add')}
                             >
                                 Add New Company
                             </Button >
+                              
                         </Tile>
                     </Grid>
                     <Grid item sm={5} md={5}>

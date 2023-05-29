@@ -274,7 +274,7 @@ module.exports.editCompanyRatingByAdmin = catchAsync(async (req, res) => {
 
         console.log(ratings);
 
-        const user = await Admin.findById(userId);
+        const user = await Admin.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -348,7 +348,7 @@ module.exports.editCompanyRatingByAlumni = catchAsync(async (req, res) => {
 
         console.log(ratings);
 
-        const user = await Alumni.findById(userId);
+        const user = await Alumni.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -404,7 +404,7 @@ module.exports.internProcess = catchAsync(async (req, res) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-        const candidates = await Undergraduate.find().session(session);
+        const candidates = await Undergraduate.find().select('-password').session(session);
         const weightedGPAList = await quickSortByWGPA(candidates);
 
         for (let i = 0; i < weightedGPAList.length; i++) {
@@ -443,7 +443,7 @@ module.exports.internProcess = catchAsync(async (req, res) => {
                         return console.log(err);
                     }
                     console.log(doc);
-                }).session(session);
+                });
                 companyCount++;
             }
 
@@ -455,7 +455,7 @@ module.exports.internProcess = catchAsync(async (req, res) => {
                         return console.log(err);
                     }
                     console.log(doc);
-                }).session(session);
+                });
                 companyCount++;
             }
 
@@ -467,7 +467,7 @@ module.exports.internProcess = catchAsync(async (req, res) => {
                         return console.log(err);
                     }
                     console.log(doc);
-                }).session(session);
+                });
                 companyCount++;
             }
 
@@ -478,7 +478,7 @@ module.exports.internProcess = catchAsync(async (req, res) => {
                         return console.log(err);
                     }
                     console.log(doc);
-                }).session(session);
+                });
                 companyCount++;
             }
 
@@ -489,7 +489,7 @@ module.exports.internProcess = catchAsync(async (req, res) => {
                         return console.log(err);
                     }
                     console.log(doc);
-                }).session(session);
+                });
                 companyCount++;
             }
         }
@@ -531,11 +531,6 @@ module.exports.internProcessCompany = catchAsync(async (req, res) => {
                     path: 'internApplications.applicationList.candidate',
                     model: Undergraduate,
                     session
-                },
-                {
-                    path: 'internApplications.recommendations.candidate',
-                    model: Undergraduate,
-                    session
                 })
             .session(session);
 
@@ -544,18 +539,69 @@ module.exports.internProcessCompany = catchAsync(async (req, res) => {
             return res.status(400).json({ message: "Can't find the company" });
         }
 
-        const users = await Undergraduate.find().session(session);
+        const users = await Undergraduate.find().select('-password').session(session);
+        // users.forEach(async (user) => {
+        //     // check company selections
+        //     const companySelection = user.companySelection;
+        //     const choices = Object.keys(companySelection);
+        //     let isCompanySelected = false;
+
+        //     choices.forEach((choice) => {
+        //         const choiceNumber = parseInt(choice.replace('choice', ''));
+        //         const companyInChoice = companySelection[choice].company && companySelection[choice].company.toString();
+
+        //         // Check if the company exists in the undergraduate's choices
+        //         console.log(companyInChoice, companyId);
+        //         const companyExists = companyInChoice === companyId;
+
+        //         if (companyExists && !isCompanySelected) {
+        //             user.isListed = {
+        //                 choice: {
+        //                     isSelected: true,
+        //                     choiceNumber: choiceNumber
+        //                 }
+        //             };
+        //             isCompanySelected = true;
+        //         console.log(isCompanySelected);
+        //         return;
+        //         }
+        //          else {
+        //             user.isListed = {
+        //                 choice: {
+        //                     isSelected: false,
+        //                     choiceNumber: null
+        //                 }
+        //             };
+        //         }
+
+        //         // user.markModified('isListed');
+        //     });
+
+        //     const recommended = company.internApplications.recommendations.find((rec) => rec.candidate.toString() === user._id.toString());
+        //     if(recommended){
+        //         user.isRecommend =  true
+        //     }
+        //     else{
+        //         user.isRecommend = false
+        //     }
+
+        //     console.log(user.name, user.isRecommend);
+
+        // });
+
         users.forEach(async (user) => {
             // check company selections
             const companySelection = user.companySelection;
             const choices = Object.keys(companySelection);
             let isCompanySelected = false;
 
-            choices.forEach((choice) => {
+            choicesLoop: // Label for the loop
+            for (const choice of choices) {
                 const choiceNumber = parseInt(choice.replace('choice', ''));
                 const companyInChoice = companySelection[choice].company && companySelection[choice].company.toString();
 
                 // Check if the company exists in the undergraduate's choices
+                console.log(companyInChoice, companyId);
                 const companyExists = companyInChoice === companyId;
 
                 if (companyExists && !isCompanySelected) {
@@ -566,6 +612,8 @@ module.exports.internProcessCompany = catchAsync(async (req, res) => {
                         }
                     };
                     isCompanySelected = true;
+                    console.log(isCompanySelected);
+                    break choicesLoop; // Exit the labeled loop
                 } else {
                     user.isListed = {
                         choice: {
@@ -576,12 +624,18 @@ module.exports.internProcessCompany = catchAsync(async (req, res) => {
                 }
 
                 // user.markModified('isListed');
-            });
+            }
 
-            internApplications.recommendations.find()
-            
+            const recommended = company.internApplications.recommendations.find((rec) => rec.candidate.toString() === user._id.toString());
+            if (recommended) {
+                user.isRecommend = true;
+            } else {
+                user.isRecommend = false;
+            }
 
+            console.log(user.name, user.isRecommend);
         });
+
 
         // await Promise.all(users.map((user) => user.save({ session })));
 
@@ -652,7 +706,7 @@ module.exports.addCandidateToApplicationList = catchAsync(async (req, res) => {
             return res.status(404).json({ error: 'Company not found!' });
         }
 
-        const candidate = await Undergraduate.findById(candidateId);
+        const candidate = await Undergraduate.findById(candidateId).select('-password');
         if (!candidate) {
             return res.status(404).json({ error: "candidate not found" });
         }

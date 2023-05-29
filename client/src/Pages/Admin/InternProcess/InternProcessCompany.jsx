@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import useFetch from "../../../Hooks/useFetch";
-import { Button, Grid, Typography, Alert, AlertTitle, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
+import { Button, Grid, Typography, Alert, AlertTitle, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Icon } from "@mui/material";
 import { Tile } from "../../../components/card/Tile";
 import { useTheme } from "@emotion/react";
 import * as assets from '../../../assets'
@@ -10,6 +10,7 @@ import InternDataGridMini from "../../../components/InternProcess/ViewTable/Inte
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from "axios";
+import StarIcon from '@mui/icons-material/Star';
 
 
 const InternProcessCompany = () => {
@@ -30,7 +31,7 @@ const InternProcessCompany = () => {
 
 
   useEffect(() => {
-    if (data && data.company  && data.users) {
+    if (data && data.company && data.users) {
       setCompany(data.company);
 
       const updatedApplicationList = data.company.internApplications.applicationList.map(item => ({
@@ -39,7 +40,7 @@ const InternProcessCompany = () => {
 
       const filteredStudents = data.users.filter(student => !updatedApplicationList.some(selected => selected.regNo === student.regNo));
       const filteredSelectedStudents = data.users.filter(student => updatedApplicationList.some(selected => selected.regNo === student.regNo));
-      
+
       setSelectedStudents(filteredSelectedStudents);
       setStudents(filteredStudents);
     }
@@ -89,10 +90,17 @@ const InternProcessCompany = () => {
   }
 
   const columnsLeft = [
+    {
+      field: 'action',
+      headerName: 'Action',
+      width: 60,
+      headerClassName: 'data-grid-header',
+      // renderCell: (params) => (<Button onClick={() => handleAddStudent(params.row)} startIcon={<AddIcon />}>Add</Button>)
+      renderCell: (params) => (<Button onClick={() => handleAddStudent(params.row)} startIcon={<AddIcon />} />)
+
+    },
     { field: 'regNo', headerName: 'Registration No.', width: 130, headerClassName: 'data-grid-header' },
     { field: 'name', headerName: 'Name', width: 180, headerClassName: 'data-grid-header' },
-    { field: 'gpa', headerName: 'GPA', type: 'number', width: 50, headerClassName: 'data-grid-header' },
-    { field: 'weightedGPA', headerName: 'WGPA', type: 'number', width: 60, headerClassName: 'data-grid-header' },
     {
       field: 'choice',
       headerName: 'Choice',
@@ -110,18 +118,26 @@ const InternProcessCompany = () => {
       ),
     },
     { field: 'choiceNo', headerName: 'Priority', width: 70, headerClassName: 'data-grid-header' },
-
-    // { field: 'selection', headerName: 'Choice', width: 70, headerClassName: 'data-grid-header' },
-
     {
-      field: 'action',
-      headerName: 'Action',
-      width: 100,
+      field: 'recommend',
+      headerName: 'Recommend',
+      width: 70,
       headerClassName: 'data-grid-header',
-      // renderCell: (params) => (<Button onClick={() => handleAddStudent(params.row)} startIcon={<AddIcon />}>Add</Button>)
-      renderCell: (params) => (<Button onClick={() => handleAddStudent(params.row)} startIcon={<AddIcon />} />)
-
+      renderCell: (params) => (
+        <Typography variant="body1">
+          {params.row.recommend === 'Yes' ? (
+            <Typography variant="body1" color={'#FFD700'}>
+              <StarIcon color="#FFD700" />
+            </Typography>
+          ) : (
+            <Typography variant="body1">-</Typography>
+          )}
+        </Typography>
+      ),
     },
+    { field: 'gpa', headerName: 'GPA', type: 'number', width: 50, headerClassName: 'data-grid-header' },
+    { field: 'weightedGPA', headerName: 'WGPA', type: 'number', width: 60, headerClassName: 'data-grid-header' },
+    // { field: 'selection', headerName: 'Choice', width: 70, headerClassName: 'data-grid-header' },
   ];
 
   const rowsLeft =
@@ -136,14 +152,22 @@ const InternProcessCompany = () => {
         weightedGPA: user.weightedGPA,
         choice: user.isListed.choice.isSelected ? 'Yes' : 'No',
         choiceNo: user.isListed.choice.choiceNumber || '-',
+        recommend: user.isRecommend ? 'Yes' : 'No',
       };
     });
 
   const columnsRight = [
+    {
+      field: 'action',
+      headerName: 'Action',
+      width: 60,
+      headerClassName: 'data-grid-header',
+      // renderCell: (params) => (<Button type='close' onClick={() => handleRemoveStudent(params.row)} startIcon={<DeleteIcon />}>Remove</Button>)
+      renderCell: (params) => (<Button type='close' onClick={() => handleRemoveStudent(params.row)} startIcon={<DeleteIcon />} />)
+
+    },
     { field: 'regNo', headerName: 'Registration No.', width: 130, headerClassName: 'data-grid-header' },
     { field: 'name', headerName: 'Name', width: 180, headerClassName: 'data-grid-header' },
-    { field: 'gpa', headerName: 'GPA', type: 'number', width: 50, headerClassName: 'data-grid-header' },
-    { field: 'weightedGPA', headerName: 'WGPA', type: 'number', width: 60, headerClassName: 'data-grid-header' },
     {
       field: 'choice',
       headerName: 'Choice',
@@ -162,14 +186,24 @@ const InternProcessCompany = () => {
     },
     { field: 'choiceNo', headerName: 'Priority', width: 70, headerClassName: 'data-grid-header' },
     {
-      field: 'action',
-      headerName: 'Action',
-      width: 100,
+      field: 'recommend',
+      headerName: 'Recommend',
+      width: 70,
       headerClassName: 'data-grid-header',
-      // renderCell: (params) => (<Button type='close' onClick={() => handleRemoveStudent(params.row)} startIcon={<DeleteIcon />}>Remove</Button>)
-      renderCell: (params) => (<Button type='close' onClick={() => handleRemoveStudent(params.row)} startIcon={<DeleteIcon />} />)
-
+      renderCell: (params) => (
+        <Typography variant="body1">
+          {params.row.recommend === 'Yes' ? (
+            <Typography variant="body1" color={'#FFD700'}>
+              <StarIcon color="#FFD700" />
+            </Typography>
+          ) : (
+            <Typography variant="body1">-</Typography>
+          )}
+        </Typography>
+      ),
     },
+    { field: 'gpa', headerName: 'GPA', type: 'number', width: 50, headerClassName: 'data-grid-header' },
+    { field: 'weightedGPA', headerName: 'WGPA', type: 'number', width: 60, headerClassName: 'data-grid-header' },
   ];
 
   const rowsRight =
@@ -184,6 +218,7 @@ const InternProcessCompany = () => {
         weightedGPA: user.weightedGPA,
         choice: user.isListed && user.isListed.choice.isSelected ? 'Yes' : 'No',
         choiceNo: user.isListed && user.isListed.choice.choiceNumber || '-',
+        recommend: user.isRecommend ? 'Yes' : 'No',
       };
     });
 

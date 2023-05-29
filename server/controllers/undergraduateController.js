@@ -41,7 +41,7 @@ module.exports.createUndergraduate = catchAsync(async (req, res) => {
 // User: admin
 module.exports.viewAll = catchAsync(async (req, res) => {
     try {
-        const users = await Undergraduate.find();
+        const users = await Undergraduate.find().select('-password');
 
         res.status(200).json({ users });
     } catch (err) {
@@ -357,7 +357,7 @@ module.exports.getNote = catchAsync(async (req, res) => {
 // User: admin
 module.exports.viewInternList = catchAsync(async (req, res) => {
     try {
-        const users = await Undergraduate.find().select('name regNo gpa weightedGPA internStatus');
+        const users = await Undergraduate.find().select('name regNo gpa weightedGPA internStatus -password');
 
         res.status(200).json({ users });
     } catch (err) {
@@ -373,7 +373,7 @@ module.exports.viewInternList = catchAsync(async (req, res) => {
 module.exports.getCompanySelection = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
-        const companySelection = await Undergraduate.findById(userId).select('companySelection');
+        const companySelection = await Undergraduate.findById(userId).select('companySelection -password');
 
         if (!companySelection) {
             return res.status(400).json({ error: "user company selection not found" });
@@ -569,7 +569,7 @@ module.exports.updateCompanySelection = catchAsync(async (req, res) => {
                 { 'companySelection.choice04.company': { $in: nonEmptyCompanyIds } },
                 { 'companySelection.choice05.company': { $in: nonEmptyCompanyIds } },
             ],
-        }).session(session);
+        }).select('-password').session(session);
 
         if (duplicateCompanyChoices) {
             await session.abortTransaction();
@@ -641,7 +641,7 @@ module.exports.updateCompanySelection = catchAsync(async (req, res) => {
 // User: admin
 module.exports.setWeightedGPA = catchAsync(async (req, res) => {
     try {
-        const users = await Undergraduate.find({ results: { $exists: true } }, { results: 1 })
+        const users = await Undergraduate.find({ results: { $exists: true } }, { results: 1 }).select('-password')
             .populate('results');
 
         for (const user of users) {
@@ -679,7 +679,7 @@ module.exports.addInternStatus = catchAsync(async (req, res) => {
         const userId = req.user.id; // 🛑 user id must get from jwt in future 🛑
         const { companyId, newStatus } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
 
         if (!user) {
             return res.status(404).json({ message: "user not found!" });
@@ -728,7 +728,7 @@ module.exports.updateInternStatus = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { companyId, newStatus } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -857,7 +857,7 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
 
         console.log(internshipStart, internshipEnd);
 
-        const user = await Undergraduate.findById(userId).session(session);
+        const user = await Undergraduate.findById(userId).session(session).select('-password');
         const company = await Company.findById(companyId).session(session);
         if (!user) {
             await session.abortTransaction();
@@ -1003,7 +1003,7 @@ module.exports.updateInternship = catchAsync(async (req, res) => {
 module.exports.viewAllDailyReports = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1027,7 +1027,7 @@ module.exports.viewDailyReport = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
         const weekNo = parseInt(req.params.weekNo);
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1056,7 +1056,7 @@ module.exports.editDailyReport = catchAsync(async (req, res) => {
         const { weekNo, dayNo, reportContent } = req.body;
         // const dayNo = parseInt(req.body.dayNumber);
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1096,7 +1096,7 @@ module.exports.editDailyReportProblemSection = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { weekNo, problemContent } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password')
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1130,7 +1130,7 @@ module.exports.submitDailyReport = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { weekNo } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1161,7 +1161,7 @@ module.exports.submitDailyReport = catchAsync(async (req, res) => {
 module.exports.getAllDailyReports = catchAsync(async (req, res) => {
     try {
         const undergraduateId = req.params.undergraduateId;
-        const undergraduate = await Undergraduate.findById(undergraduateId);
+        const undergraduate = await Undergraduate.findById(undergraduateId).select('-password');
         if (!undergraduate) {
             return res.status(404).json({ error: "undergraduate not found" });
         }
@@ -1186,7 +1186,7 @@ module.exports.getDailyReport = catchAsync(async (req, res) => {
         const undergraduateId = req.params.undergraduateId;
         const weekNo = parseInt(req.params.weekNo);
 
-        const undergraduate = await Undergraduate.findById(undergraduateId);
+        const undergraduate = await Undergraduate.findById(undergraduateId).select('-password');
         if (!undergraduate) {
             return res.status(404).json({ error: "undergraduate not found" });
         }
@@ -1219,7 +1219,7 @@ module.exports.getDailyReport = catchAsync(async (req, res) => {
 module.exports.viewAllMonthlyReports = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1243,7 +1243,7 @@ module.exports.viewMonthlyReport = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
         const monthNo = parseInt(req.params.monthNo);
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1270,7 +1270,7 @@ module.exports.editMonthlyReportWeek = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { weekNo, monthNo, reportContent } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1310,7 +1310,7 @@ module.exports.editMonthlyProblemSection = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { monthNo, problemContent } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(401).json({ error: "user not found" });
         }
@@ -1344,7 +1344,7 @@ module.exports.editMonthlyLeaveRecord = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { monthNo, absentDays } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1378,7 +1378,7 @@ module.exports.submitMonthlyReport = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { monthNo } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1409,7 +1409,7 @@ module.exports.submitMonthlyReport = catchAsync(async (req, res) => {
 module.exports.getAllMonthlyReports = catchAsync(async (req, res) => {
     try {
         const undergraduateId = req.params.undergraduateId;
-        const undergraduate = await Undergraduate.findById(undergraduateId);
+        const undergraduate = await Undergraduate.findById(undergraduateId).select('-password');
         if (!undergraduate) {
             return res.status(404).json({ error: "undergraduate not found" });
         }
@@ -1434,7 +1434,7 @@ module.exports.getMonthlyReport = catchAsync(async (req, res) => {
         const undergraduateId = req.params.undergraduateId;
         const monthNo = parseInt(req.params.monthNo);
 
-        const undergraduate = await Undergraduate.findById(undergraduateId);
+        const undergraduate = await Undergraduate.findById(undergraduateId).select('-password');
         if (!undergraduate) {
             return res.status(404).json({ error: "undergraduate not found" });
         }
@@ -1503,7 +1503,7 @@ module.exports.addSoftSkill = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { skill } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId.select('-password'));
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1537,7 +1537,7 @@ module.exports.deleteSoftSkill = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { skill } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1568,7 +1568,7 @@ module.exports.addTechnologySkill = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { name, level } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1596,7 +1596,7 @@ module.exports.deleteTechnologySkill = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { name } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1627,7 +1627,7 @@ module.exports.addCertifications = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { name, issuedBy } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1655,7 +1655,7 @@ module.exports.deleteCertifications = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { name } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1686,7 +1686,7 @@ module.exports.addExtraActivities = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { name, year, description } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1714,7 +1714,7 @@ module.exports.deleteExtraActivities = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { name } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1745,7 +1745,7 @@ module.exports.addProject = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { name, year, description, languages, links } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1773,7 +1773,7 @@ module.exports.deleteProject = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { name } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1804,7 +1804,7 @@ module.exports.addEnglishSkill = catchAsync(async (req, res) => {
         const userId = req.user.id;
         const { odinaryLevel, advancedLevel, level01, level02, courses } = req.body;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1834,7 +1834,7 @@ module.exports.getAdditionalInformation = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
 
-        const user = await Undergraduate.findById(userId);
+        const user = await Undergraduate.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1856,7 +1856,7 @@ module.exports.getAdditionalInformation = catchAsync(async (req, res) => {
 module.exports.addProgressReport = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
-        const user = await Supervisor.findById(userId);
+        const user = await Supervisor.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1867,7 +1867,7 @@ module.exports.addProgressReport = catchAsync(async (req, res) => {
         // leaves = {total, authorized, unauthorized}
         // status = 'saved' or 'submitted'
 
-        const intern = await Undergraduate.findById(internId);
+        const intern = await Undergraduate.findById(internId).select('-password');
         if (!intern) {
             return res.status(404).json({ error: "intern not found" });
         }
@@ -1907,7 +1907,7 @@ module.exports.getProgressReport = catchAsync(async (req, res) => {
     try {
         const internId = req.params.internId;
 
-        const intern = await Undergraduate.findById(internId);
+        const intern = await Undergraduate.findById(internId).select('-password');
         if (!intern) {
             return res.status(404).json({ error: "intern not found" });
         }
@@ -1928,7 +1928,7 @@ module.exports.getProgressReport = catchAsync(async (req, res) => {
 module.exports.addFinalFeedback = catchAsync(async (req, res) => {
     try {
         const userId = req.user.id;
-        const user = await Supervisor.findById(userId);
+        const user = await Supervisor.findById(userId).select('-password');
         if (!user) {
             return res.status(404).json({ error: "user not found" });
         }
@@ -1950,7 +1950,7 @@ module.exports.addFinalFeedback = catchAsync(async (req, res) => {
         // all rating values must be 1, 2, 3 or 4
         // feedback must be a String
 
-        const intern = await Undergraduate.findById(internId);
+        const intern = await Undergraduate.findById(internId).select('-password');
         if (!intern) {
             return res.status(404).json({ error: "intern not found" });
         }
@@ -1992,7 +1992,7 @@ module.exports.getFinalFeedback = catchAsync(async (req, res) => {
     try {
         const internId = req.params.internId;
 
-        const intern = await Undergraduate.findById(internId);
+        const intern = await Undergraduate.findById(internId).select('-password');
         if (!intern) {
             return res.status(400).json({ error: "intern not found" });
         }

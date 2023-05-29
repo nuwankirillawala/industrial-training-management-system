@@ -196,6 +196,9 @@ const undergraduateSchema = new mongoose.Schema({
             }
         }
     },
+    isRecommend: {
+        type: Boolean
+    },
     //for update the status of intern application process
     // about companies that sent cv by department
     internStatus: [{

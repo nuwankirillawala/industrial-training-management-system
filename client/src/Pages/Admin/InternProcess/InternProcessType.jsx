@@ -6,6 +6,10 @@ import TypeSelectionCard from '../../../components/InternProcess/TypeSelectionCa
 import MiniCard from '../../../components/InternProcess/MiniCard';
 
 const InternProcessType = () => {
+
+  const generateRecommendations = () => {
+    // const res = await axios
+  }
   return (
     <Grid container direction='column' sx={{ margin: '5px 10px' }}>
       <Typography variant="pageTitle">
@@ -19,6 +23,13 @@ const InternProcessType = () => {
               <Tile>
                 {/* <Typography variant="h6" color="initial">Welcome to Intern Selection Process</Typography> */}
                 <Typography variant="body1" color="secondary">To continue with intern selection process please select one of following options.</Typography>
+                <br />
+                <Button variant="itms"
+                  fontWeight="bold"
+                  onClick={generateRecommendations}
+                >
+                  Generate Recommendations
+                </Button >
               </Tile>
             </Grid>
 

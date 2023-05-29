@@ -7,8 +7,8 @@ const catchAsync = require("../utils/catchAsync");
 // Description: Create a notice
 module.exports.createNotice = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id; // 🛑 user id must get from jwt in future 🛑
-        const user = await Admin.findById(userId);
+        const userId = req.user.id; // 🛑 user id must get from jwt in future 🛑
+        const user = await Admin.findById(userId).select('-password');
 
         if (!user) {
             return res.status(400).json({ message: "user not found!" });
@@ -42,8 +42,8 @@ module.exports.createNotice = catchAsync(async (req, res) => {
 // Description: Edit a notice
 module.exports.editNotice = catchAsync(async (req, res) => {
     try {
-        const userId = req.body.id; // 🛑 user id must get from jwt in future 🛑
-        const user = await Admin.findById(userId);
+        const userId = req.user.id; // 🛑 user id must get from jwt in future 🛑
+        const user = await Admin.findById(userId).select('-password');
 
         if (!user) {
             return res.status(400).json({ message: "user not found!" });
