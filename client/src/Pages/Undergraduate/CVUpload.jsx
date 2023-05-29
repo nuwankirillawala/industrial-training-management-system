@@ -126,6 +126,8 @@ export const CVUpload = () => {
       formData,
       headers
     );
+    if (res.status === 201) {
+    }
     console.log(res);
     setOpenBackdrop(false);
   };
