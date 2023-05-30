@@ -21,32 +21,39 @@ import { Tile } from "../../card/Tile";
 import { Formik } from "formik";
 import axios from "axios";
 
-const studentStatus = {
+const companyStatus = {
   companyId: "",
   internStatus: "",
 };
 
 export const StudentCompanyStatus = () => {
-  const [studentData, setStudentData] = useState();
+  const studentData = [
+    // { Company: "Wso2" },
+    { Company: "99x" },
+    { Company: "Creative Software" },
+    { Company: "IFS" },
+  ];
+
+  // const [studentData, setStudentData] = useState();
 
   //fetch data
-  const getStudentData = async () => {
-    try {
-      const res = await axios.get(
-        "http://localhost:5000/api/v1/undergraduate/profile"
-      );
-      console.log("student data : ", res.data);
-      if (res.status === 200) {
-        setStudentData(res.data.internStatus);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getStudentData = async () => {
+  //   try {
+  //     const res = await axios.get(
+  //       "http://localhost:5000/api/v1/undergraduate/profile"
+  //     );
+  //     console.log("student data : ", res.data);
+  //     if (res.status === 200) {
+  //       setStudentData(res.data.internStatus);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    getStudentData();
-  }, []);
+  // useEffect(() => {
+  //   getStudentData();
+  // }, []);
   //End of fetch data
 
   //   const handleOnSubmit = async (values) => {
@@ -56,7 +63,7 @@ export const StudentCompanyStatus = () => {
   //   };
 
   return (
-    <Stack direction={"column"} spacing={2}>
+    <Stack direction={"column"} spacing={2} height={"75vh"}>
       <Stack>
         <Typography variant="head6">Update Internship Status</Typography>
       </Stack>
@@ -67,109 +74,104 @@ export const StudentCompanyStatus = () => {
             <Paper variant="outlined" sx={{ bgcolor: "#fff", padding: 2 }}>
               <Box>
                 {/* university intern status */}
-                <Formik
-                // initialValues={companyState}
-                // onSubmit={handleOnSubmit}
-                >
-                  {({ values, handleChange, handleSubmit, handleReset }) => (
-                    <form onSubmit={handleSubmit}>
-                      <Stack direction={"column"} spacing={2}>
-                        <Stack alignItems={"center"}>
-                          <Stack width={"80%"}>
-                            <TableContainer>
-                              <Table size="small" stickyHeader>
-                                <TableHead>
-                                  <TableRow>
-                                    <TableCell>
-                                      <Typography
-                                        variant="h6"
-                                        fontWeight={"bold"}
-                                      >
-                                        Company
-                                      </Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                      <Typography
-                                        variant="h6"
-                                        fontWeight={"bold"}
-                                      >
-                                        Status
-                                      </Typography>
-                                    </TableCell>
-                                  </TableRow>
-                                </TableHead>
+                {/* <Formik initialValues={companyStatus} onSubmit={handleOnSubmit}> */}
+                {/* {({ values, handleChange, handleSubmit, handleReset }) => ( */}
+                <form onSubmit>
+                  <Stack direction={"column"} spacing={2}>
+                    <Stack alignItems={"center"}>
+                      <Stack width={"80%"}>
+                        <TableContainer>
+                          <Table size="small" stickyHeader>
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>
+                                  <Typography variant="h6" fontWeight={"bold"}>
+                                    Company
+                                  </Typography>
+                                </TableCell>
+                                <TableCell>
+                                  <Typography variant="h6" fontWeight={"bold"}>
+                                    Status
+                                  </Typography>
+                                </TableCell>
+                              </TableRow>
+                            </TableHead>
 
-                                <TableBody>
-                                  {/* {studentData.map((row, index) => (
-                                    <TableRow>
-                                      <TableCell>WSO2</TableCell>
-                                      <TableCell>
-                                        <FormControl
-                                          variant="standard"
-                                          fullWidth
-                                          size="small"
-                                        >
-                                          <Select
-                                            size="small"
-                                            variant="outlined"
-                                            labelId="companyStatusId"
-                                            id="companyStatus"
-                                            name="companyStatus"
-                                            // value={values.companyState}
-                                            onChange={handleChange}
-                                            placeholder="company"
-                                            fullWidth
-                                          >
-                                            <MenuItem value={"cv-sent"}>
-                                              CV Sent
-                                            </MenuItem>
-                                            <MenuItem value={"called"}>
-                                              Called
-                                            </MenuItem>
-                                            <MenuItem value={"selected"}>
-                                              Selected
-                                            </MenuItem>
-                                            <MenuItem value={"not-selected"}>
-                                              Not Sselected
-                                            </MenuItem>
-                                          </Select>
-                                        </FormControl>
-                                      </TableCell>
-                                    </TableRow>
-                                  ))} */}
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-                          </Stack>
+                            <TableBody>
+                              {studentData.map((row, index) => (
+                                <TableRow>
+                                  <TableCell>
+                                    <Typography fontWeight={"bold"}>
+                                      {row.Company}
+                                    </Typography>
+                                  </TableCell>
+                                  <TableCell>
+                                    <FormControl
+                                      variant="standard"
+                                      fullWidth
+                                      size="small"
+                                    >
+                                      <Select
+                                        size="small"
+                                        variant="outlined"
+                                        // labelId="companyStatusId"
+                                        // id="companyStatus"
+                                        // name="companyStatus"
+                                        // value={values.companyState}
+                                        // onChange={handleChange}
+                                        // placeholder="company"
+                                        fullWidth
+                                      >
+                                        <MenuItem value={"cv-sent"}>
+                                          CV Sent
+                                        </MenuItem>
+                                        <MenuItem value={"called"}>
+                                          Called
+                                        </MenuItem>
+                                        <MenuItem value={"selected"}>
+                                          Selected
+                                        </MenuItem>
+                                        <MenuItem value={"not-selected"}>
+                                          Not Sselected
+                                        </MenuItem>
+                                      </Select>
+                                    </FormControl>
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      </Stack>
+                    </Stack>
+
+                    <Stack>
+                      <Stack justifyContent="flex-end" direction={"row"}>
+                        <Stack>
+                          <Button
+                            variant="itms"
+                            size="itms-small"
+                            // onClick={handleReset}
+                          >
+                            reset
+                          </Button>
                         </Stack>
 
                         <Stack>
-                          <Stack justifyContent="flex-end" direction={"row"}>
-                            <Stack>
-                              <Button
-                                variant="itms"
-                                size="itms-small"
-                                onClick={handleReset}
-                              >
-                                reset
-                              </Button>
-                            </Stack>
-
-                            <Stack>
-                              <Button
-                                variant="itms"
-                                size="itms-small"
-                                type="submit"
-                              >
-                                save
-                              </Button>
-                            </Stack>
-                          </Stack>
+                          <Button
+                            variant="itms"
+                            size="itms-small"
+                            type="submit"
+                          >
+                            save
+                          </Button>
                         </Stack>
                       </Stack>
-                    </form>
-                  )}
-                </Formik>
+                    </Stack>
+                  </Stack>
+                </form>
+                {/* )} */}
+                {/* </Formik> */}
               </Box>
             </Paper>
           </Box>
