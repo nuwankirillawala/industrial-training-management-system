@@ -6,7 +6,7 @@ const catchAsync = require("../utils/catchAsync");
 const quickSortByWGPA = require('../utils/quickSortByWGPA');
 const Admin = require("../models/Admin");
 const Alumni = require("../models/Alumni");
-
+const fs = require('fs');
 
 // Method: POST
 // Endpoint: "/create"
@@ -36,6 +36,41 @@ module.exports.updateCompanyProfile = catchAsync(async (req, res) => {
         const company = await Company.findByIdAndUpdate(
             companyId,
             { name, email, contactNo, address, internSeats, description, connectedForIntern }
+        );
+
+        if (!company) {
+            return res.status(404).json({ error: "company not found" });
+        }
+
+        res.status(201).json({
+            message: "company updated successfully",
+            company
+        });
+    } catch (err) {
+        const errors = handleErrors(err);
+        console.log(errors);
+        res.status(400).json({ errors });
+    }
+});
+
+// Method: PATCH
+// Endpoint: "/:companyId/profile"
+// Description: update a company
+// User: Admin
+module.exports.updateCompanyProfileImage = catchAsync(async (req, res) => {
+    try {
+        const companyId = req.params.companyId;
+
+        const filePath = `files/images/${req.file.filename}`;
+        fs.renameSync(req.file.path, filePath);
+
+        if (!filePath) {
+            console.log('image not uploaded');
+        }
+
+        const company = await Company.findByIdAndUpdate(
+            companyId,
+            { profileImage: filePath }
         );
 
         if (!company) {

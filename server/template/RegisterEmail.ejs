@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        display: inline-block;
+        position: relative;
+      }
+      .container {
+        display: inline-block;
+        width: 50%;
+      }
+      .section {
+        display: inline-block;
+        margin: 3%;
+      }
+      .pwd {
+        text-align: left;
+        margin: 3% 0;
+        font-weight: 700;
+      }
+      p {
+        font-size: 18px;
+        font-weight: 500;
+        margin: 0;
+        line-height: 25px;
+      }
+      .warning {
+        margin-bottom: 5%;
+        color: red;
+        text-align: left;
+        position: relative;
+        left: 25%;
+      }
+      .subheading {
+        text-align: center;
+        font-weight: 700;
+      }
+      .button {
+        width: 150px;
+        height: 50px;
+        margin-bottom: 5%;
+        position: relative;
+        left: 40%;
+      }
+      .button button {
+        width: 150px;
+        height: 40px;
+        background: linear-gradient(#febf10, #b26c29);
+        color: #fff;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+      }
+      .button a {
+        text-decoration: none;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="section">
+        <p class="subheading">You successfully registerd to our system.</p>
+        <br />
+        <p>
+          Your initial password is given below. Click the button in below to go
+          to the system and change the inital password with your own one.
+        </p>
+        <p class="pwd">Initial Password - test1234</p>
+        <p>Thank you.</p>
+      </div>
+      <div class="button">
+        <button><a href="http://localhost:5173/login">Click Hear</a></button>
+      </div>
+      <div class="warning">
+        <p>*Please change your initial password as soon as possible.</p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -14,7 +14,7 @@ const CompanyListCard = ({ company, select, profile }) => {
             <CardMedia
                 component="img"
                 sx={{ width: 100 }}
-                image={company.image}
+                image={`http://localhost:5000/${company.profileImage}`}
                 alt="company logo"
             />
             <CardContent>

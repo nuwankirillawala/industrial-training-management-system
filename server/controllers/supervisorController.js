@@ -121,12 +121,12 @@ module.exports.getSupervisor = catchAsync(async (req, res) => {
             path: 'company',
             model: 'company',
 
-        },
-        {
-            path: 'interns',
-            model: 'Undergraduate',
-            
         }
+        // {
+        //     path: 'interns',
+        //     model: 'Undergraduate',
+            
+        // }
         ).select('-password');
 
         if (!user) {

@@ -1,5 +1,7 @@
 const { Router } = require('express');
 const companyController = require('../controllers/companyController');
+const { deleteExistingImage } = require('../middleware/deleteMiddleware');
+const { imageUpload } = require('../middleware/uploadMiddleware');
 
 const router = Router();
 
@@ -9,6 +11,9 @@ router.route('/create')
 router.route('/profile/:companyId')
     .get(companyController.getCompanyProfile)
     .patch(companyController.updateCompanyProfile)
+
+router.route('/profile/:companyId/image')
+    .patch(imageUpload, companyController.updateCompanyProfileImage)
 
 router.route('/all')
     .get(companyController.getAllCompanies)

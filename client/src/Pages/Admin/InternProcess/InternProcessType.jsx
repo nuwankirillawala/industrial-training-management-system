@@ -1,22 +1,36 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Divider, Grid, LinearProgress, Paper, Stack, Typography } from '@mui/material'
+import { Alert, Button, Card, CardActions, CardContent, CardMedia, Divider, Grid, LinearProgress, Paper, Snackbar, Stack, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { Tile } from '../../../components/card/Tile';
 import * as assets from '../../../assets';
 import TypeSelectionCard from '../../../components/InternProcess/TypeSelectionCard/TypeSelectionCard';
 import MiniCard from '../../../components/InternProcess/MiniCard';
+import axios from 'axios';
 
 const InternProcessType = () => {
-  const [showProgress, setShowProgress] = useState(false);
+  const [showProgress, setShowProgress] = useState(false); // State to control the visibility of the progress bar
+  const [showSnackbar, setShowSnackbar] = useState(false); // State to control the visibility of the snackbar
+  const [snackbarMessage, setSnackbarMessage] = useState(''); // State to store the snackbar message
 
   const generateRecommendations = async () => {
-    setShowProgress(true);
+    setShowProgress(true); // Show the progress bar when the button is clicked
     try {
-      const res = await axios.patch('http://localhost:5000/api/v1/intern-process/recommendations', { withCredentials: true });
+      const res = await axios.patch('http://localhost:5000/api/v1/company/intern-process/recommendations', { withCredentials: true });
+      // Process the response from the backend
 
-      setShowProgress(false);
+      setShowProgress(false); // Hide the progress bar when the response is received
+      setShowSnackbar(true); // Show the snackbar
+      setSnackbarMessage('Recommendations generated successfully'); // Set the success message
     } catch (error) {
-      console.log(error);
+      // Handle any error that occurred during the API call
+
+      setShowProgress(false); // Hide the progress bar in case of an error
+      setShowSnackbar(true); // Show the snackbar
+      setSnackbarMessage('Failed to generate recommendations. Please try again.'); // Set the error message
     }
+  }
+
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(false); // Hide the snackbar
   }
   return (
     <Grid container direction='column' sx={{ margin: '5px 10px' }}>
@@ -91,6 +105,11 @@ const InternProcessType = () => {
 
         </Grid>
       </Grid>
+      <Snackbar open={showSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal:'right' }}>
+        <Alert onClose={handleCloseSnackbar} severity={snackbarMessage.includes('successfully') ? 'success' : 'error'} variant='filled' elevation={6}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Grid>
   )
 }
