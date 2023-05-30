@@ -197,7 +197,7 @@ const getTheme = (theme) => ({
             background: color_red,
             color: "#FFF",
             "&:hover": {
-              background: "#8CE28C",
+              background: "#DC143C",
             },
             "&.Mui-disabled": {
               background: color_gray,
