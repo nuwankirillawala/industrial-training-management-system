@@ -38,10 +38,10 @@ const SelectCompany = () => {
                             {companies && companies.map((company) => (
                                 <CompanyListCard company={company} key={company._id} />
                             ))}
+                            {/* <CompanyListCard company={demo} />
                             <CompanyListCard company={demo} />
                             <CompanyListCard company={demo} />
-                            <CompanyListCard company={demo} />
-                            <CompanyListCard company={demo} />
+                            <CompanyListCard company={demo} /> */}
 
 
 

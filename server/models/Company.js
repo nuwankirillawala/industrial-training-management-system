@@ -31,6 +31,9 @@ const companySchema = new mongoose.Schema({
     description: {
         type: String
     },
+    profileImage: {
+        type: String
+    },
     contactPerson: [{
         contactPersonName: {
             type: String,
