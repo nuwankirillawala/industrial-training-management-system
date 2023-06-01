@@ -59,7 +59,7 @@ export const ViewStudent = () => {
       <Grid item md={12} sm={12}>
         <Typography variant="body2" paddingLeft={"20px"}>
           Click the row for get undergraduate wise details in right side
-        </Typography>{" "}
+        </Typography>
       </Grid>
       <Grid item md={8} sm={12}>
         <Tile>

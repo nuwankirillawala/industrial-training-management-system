@@ -52,15 +52,15 @@ const ViewDepartmentCoordinator = () => {
     <Grid spacing={1} container>
       <Grid item md={12} sm={12}>
         <Typography variant="pageTitle">
-          {" "}
+
           View Department Coordinator Details
-        </Typography>{" "}
+        </Typography>
       </Grid>
       <Grid item md={12} sm={12}>
         <Typography variant="body2" paddingLeft={"20px"}>
-          {" "}
+
           Click the row for get administrator wise details in right side
-        </Typography>{" "}
+        </Typography>
       </Grid>
       <Grid item md={8} sm={12} style={{ maxHeight: 500, overflowY: "scroll" }}>
         <Tile>
@@ -89,7 +89,6 @@ const ViewDepartmentCoordinator = () => {
       </Grid>
 
       <Grid item md={4} sm={12}>
-        {" "}
         <Tile>
           <Stack direction={"column"}>
             <Typography
@@ -103,9 +102,7 @@ const ViewDepartmentCoordinator = () => {
             {singleUser && (
               <Stack direction={"column"} spacing={2}>
                 <Stack direction={"row"}>
-                  {" "}
                   <Stack flex={1} minWidth={"160px"}>
-                    {" "}
                     <Typography> Name </Typography>
                   </Stack>
                   <Stack flex={1}>
@@ -113,7 +110,6 @@ const ViewDepartmentCoordinator = () => {
                   </Stack>
                 </Stack>
                 <Stack direction={"row"}>
-                  {" "}
                   <Stack flex={1} minWidth={"160px"}>
                     <Typography> Staff ID </Typography>
                   </Stack>
@@ -122,7 +118,7 @@ const ViewDepartmentCoordinator = () => {
                   </Stack>
                 </Stack>
                 <Stack direction={"row"}>
-                  {" "}
+
                   <Stack flex={1} minWidth={"160px"}>
                     <Typography> E-mail</Typography>
                   </Stack>
@@ -131,7 +127,6 @@ const ViewDepartmentCoordinator = () => {
                   </Stack>
                 </Stack>
                 <Stack direction={"row"}>
-                  {" "}
                   <Stack flex={1} minWidth={"160px"}>
                     <Typography> Contact Number</Typography>
                   </Stack>
