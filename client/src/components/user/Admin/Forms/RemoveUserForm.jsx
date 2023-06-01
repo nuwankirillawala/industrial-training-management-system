@@ -126,7 +126,7 @@ export const RemoveUserForm = ({ userId, userRole }) => {
         <Tile width={"450px"}>
 
             <Typography>
-                Are you sure you want to remove user {userId}?
+                Are you sure you want to remove user ?
             </Typography>
             <Stack direction="row" justifyContent="flex-end" paddingRight={'0px'}>
                 <Button variant="itms" type="submit" onClick={() => (RedirectRemoveuser(userRole))}>
