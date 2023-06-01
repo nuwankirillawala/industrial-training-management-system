@@ -26,9 +26,7 @@ const ViewAdmin = () => {
         "http://localhost:5000/api/v1/admin/users/admin",
         { withCredentials: true }
       );
-      // console.log(res);
       if (res.status === 200) {
-        // console.log(res.data.users);
         const filteredRecords = res.data.users.filter(
           (record) => record.role === "system-admin"
         );
@@ -43,21 +41,6 @@ const ViewAdmin = () => {
     getAdminData();
   }, []);
 
-  // const fetchUser = async () => {
-  //   try {
-  //     const res = await axios.get(
-  //       "http://localhost:5000/api/v1/admin/users/admin"
-  //     );
-  //     if (res.status) {
-  //       setSingleUser(JSON.stringify(res.data));
-  //     }
-  //     // console.log(res);
-  //   } catch (err) {
-  //     // console.log(err);
-  //   }
-  // };
-
-  // useEffect(() => fetchUser, []);
   const Column = [
     { columnName: "Admin Name" },
     { columnName: "  Email" },
@@ -80,8 +63,7 @@ const ViewAdmin = () => {
           <Box>
             <TableContainer
               sx={{ maxHeight: "70vh", minHeight: "65vh" }}
-              style={{ cursor: "pointer" }}
-            >
+              style={{ cursor: "pointer" }}            >
               <Table stickyHeader sx={{ border: "1px solid #4665D2" }}>
                 <TableHead>
                   <TableRow>
