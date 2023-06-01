@@ -88,42 +88,25 @@ const ViewAdmin = () => {
                 {singleAdmin && (
                   <Stack direction={"column"} spacing={3}>
                     <Stack direction={"row"}>
-                      <Stack flex={1} minWidth={"160px"}>
-                        <Typography> Name </Typography>
-                      </Stack>
-                      <Stack flex={4}>
-                        <Typography> {singleAdmin.name} </Typography>
-                      </Stack>
+                      <Stack flex={1} minWidth={"160px"}> <Typography> Name </Typography> </Stack>
+                      <Stack flex={4}> <Typography> {singleAdmin.name} </Typography> </Stack>
                     </Stack>
                     <Stack direction={"row"}>
-                      <Stack flex={1} minWidth={"160px"}>
-                        <Typography> Staff ID </Typography>
-                      </Stack>
-                      <Stack flex={4}>
-                        <Typography>{singleAdmin.staffId} </Typography>
-                      </Stack>
+                      <Stack flex={1} minWidth={"160px"}><Typography> Staff ID </Typography> </Stack>
+                      <Stack flex={4}> <Typography>{singleAdmin.staffId} </Typography> </Stack>
                     </Stack>
                     <Stack direction={"row"}>
-                      <Stack flex={1} minWidth={"160px"}>
-                        <Typography> E-mail</Typography>
-                      </Stack>
-                      <Stack flex={4}>
-                        <Typography> {singleAdmin.email} </Typography>
-                      </Stack>
+                      <Stack flex={1} minWidth={"160px"}><Typography> E-mail</Typography></Stack>
+                      <Stack flex={4}><Typography> {singleAdmin.email} </Typography> </Stack>
                     </Stack>
                     <Stack direction={"row"}>
-                      <Stack flex={1} minWidth={"160px"}>
-                        <Typography> Contact Number</Typography>
-                      </Stack>
-                      <Stack flex={4}>
-                        <Typography>{singleAdmin.contactNo} </Typography>
-                      </Stack>
+                      <Stack flex={1} minWidth={"160px"}> <Typography> Contact Number</Typography> </Stack>
+                      <Stack flex={4}> <Typography>{singleAdmin.contactNo} </Typography> </Stack>
                     </Stack>
                   </Stack>
                 )}
               </Paper>
-            </Stack>
-          </Stack>
+            </Stack>   </Stack>
         </Tile>
       </Grid>
     </Grid >
