@@ -44,7 +44,7 @@ export const RemoveCompanyForm = ({ companyId }) => {
         <Tile width={'450px'} >
 
             <Typography>
-                Are you sure to remove this company {companyId} ?
+                Are you sure to remove this company ?
             </Typography>
             <Stack direction={"row"} justifyContent="flex-end" paddingRight={'0px'}>
                 <Button variant="itms" type='submit'

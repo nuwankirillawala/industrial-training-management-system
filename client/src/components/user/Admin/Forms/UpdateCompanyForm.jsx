@@ -23,10 +23,10 @@ export const UpdateCompanyForm = ({ companyId }) => {
     const getCompanyData = async () => {
         try {
             // console.log(companyId)
-            const res = await axios.get(`http://localhost:5000/api/v1/company/${companyId}/profile`,
+            const res = await axios.get(`http://localhost:5000/api/v1/company/profile/${companyId}`,
                 { withCredentials: true });
             console.log(res.data)
-            if (res.status === 201) {
+            if (res.status === 200) {
                 setCompanyData({
                     name: res.data.company.name,
                     email: res.data.company.email,
@@ -99,7 +99,7 @@ export const UpdateCompanyForm = ({ companyId }) => {
         console.log(values);  // working
         console.log(companyId)
         try {
-            const res = await axios.patch(`http://localhost:5000/api/v1/company/${companyId}/profile`,
+            const res = await axios.patch(`http://localhost:5000/api/v1/company/profile/${companyId}`,
                 {
                     id: companyId,
                     name: values.CompanyName === "" ? companyData.name : values.CompanyName,
