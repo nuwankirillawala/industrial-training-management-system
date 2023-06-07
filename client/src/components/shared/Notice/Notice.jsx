@@ -97,7 +97,6 @@ export default function Notice() {
   const [filteredNotices, setFilteredNotices] = useState(notices);
   const [selectedNotice, setSelectedNotice] = useState(null);
   const navigate = useNavigate();
-  const currentDate = new Date().toLocaleDateString();
 
   const handleSearch = (event) => {
     event.preventDefault();
