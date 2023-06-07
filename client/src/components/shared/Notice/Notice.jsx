@@ -254,7 +254,7 @@ export default function Notice() {
               </Box>
             </Stack>
 
-            <Stack width={300} direction={"row"} justifyContent={"center"} paddingLeft={2} position={"relative"} left={30}>
+            <Stack width={300} direction={"row"} justifyContent={"space-between"} paddingLeft={2} position={"relative"} left={30}>
               <Button
                 variant="outlined"
                 sx={{ textTransform: "capitalize" }}
