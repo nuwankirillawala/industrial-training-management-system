@@ -33,7 +33,7 @@ export const RemoveUserForm = ({ userId, userRole }) => {
                 removeAdminNCoordinator();
                 break;
             case 'supervisor':
-
+                removeSupervisor();
                 break;
             case 'alumni':
                 removeAlumni();
@@ -82,24 +82,24 @@ export const RemoveUserForm = ({ userId, userRole }) => {
     };
 
     // remove supervisor function
-    // const removeSupervisor = async () => {
-    //     try {
-    //         const res = await axios.delete(
-    //             `http://localhost:5000/api/v1/undergraduate/delete/${userId}`,
-    //             { withCredentials: true }
-    //         );
-    //         console.log(res.data); // Log the response message
+    const removeSupervisor = async () => {
+        try {
+            const res = await axios.delete(
+                `http://localhost:5000/api/v1/supervisor/delete/${userId}`,
+                { withCredentials: true }
+            );
+            console.log(res.data); // Log the response message
 
-    //         if (res.status === 202) {
-    //             handleSnackBar("success");
-    //         }
-    //         window.location.reload(false);
+            if (res.status === 202) {
+                handleSnackBar("success");
+            }
+            window.location.reload(false);
 
-    //     } catch (error) {
-    //         console.log(error);
-    //         handleSnackBar("error");
-    //     }
-    // };
+        } catch (error) {
+            console.log(error);
+            handleSnackBar("error");
+        }
+    };
 
     // remove Alumni function
     const removeAlumni = async () => {

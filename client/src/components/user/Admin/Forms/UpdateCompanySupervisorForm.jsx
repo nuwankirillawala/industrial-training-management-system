@@ -5,6 +5,7 @@ import { Tile } from "../../../card/Tile"
 import { Formik } from "formik"
 import * as yup from "yup"
 import { StatusSnackBar } from "../../../StatusSnackBar/StatusSnackBar"
+import axios from "axios"
 
 
 export const UpdateCompanySupervisorForm = ({ userId }) => {
@@ -26,16 +27,16 @@ export const UpdateCompanySupervisorForm = ({ userId }) => {
     const getUserData = async () => {
         try {
             console.log(userId)
-            const res = await axios.get(`http://localhost:5000/api/v1/admin/profile/${userId}`,
+            const res = await axios.get(`http://localhost:5000/api/v1/supervisor/${userId}`,
                 { withCredentials: true });
             console.log(res.data)
             if (res.status === 200) {
                 setUserData({
-                    name: res.data.user.name,
-                    email: res.data.user.email,
-                    contactNo: res.data.user.contactNo,
-                    company: res.data.user.company,
-                    jobRole: res.data.user.jobRole
+                    name: res.data.name,
+                    email: res.data.email,
+                    contactNo: res.data.contactNo,
+                    company: res.data.company,
+                    jobRole: res.data.jobRole
                 });
 
             }
@@ -79,7 +80,7 @@ export const UpdateCompanySupervisorForm = ({ userId }) => {
         console.log(values);  // working
         console.log(userId)
         try {
-            const res = await axios.patch(`http://localhost:5000/api/v1/supervisor/user/${userId}`,
+            const res = await axios.patch(`http://localhost:5000/api/v1/supervisor/${userId}`,
                 {
                     id: userId,
                     name: values.supervisorName === "" ? userData.name : values.supervisorName,
@@ -90,9 +91,10 @@ export const UpdateCompanySupervisorForm = ({ userId }) => {
                 },
                 { withCredentials: true }
             );
+            window.location.reload(false);
             console.log(res.status);
 
-            if (res.status === 200) {
+            if (res.status === 201) {
                 handleSnackBar("success");
             } else {
                 handleSnackBar("error");

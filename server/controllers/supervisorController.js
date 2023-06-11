@@ -180,6 +180,37 @@ module.exports.viewSupervisor = catchAsync(async (req, res) => {
     }
 });
 
+// Method: PATCH
+// Endpoint: "/userId"
+// Description: Update a supervisor
+module.exports.updateSupervisorUser = catchAsync(async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const {  name, email, contactNo, company , jobRole } = req.body;
+
+        const user = await Supervisor.findByIdAndUpdate(
+            userId,
+            {
+                name,
+                email,
+                contactNo,
+                company,
+                jobRole
+            },
+            { new: true }  //json includes new values
+        );
+
+        if (!user) {
+            return res.status(404).json({ error: "user not found" });
+        }
+
+        res.status(201).json(user);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
 // Method: DELETE
 // Endpoint: "/delete"
 // Description: Delete an Supervisor
