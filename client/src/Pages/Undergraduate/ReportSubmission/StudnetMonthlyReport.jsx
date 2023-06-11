@@ -21,6 +21,7 @@ export const StudnetMonthlyReport = ({ reportData }) => {
   const [dailyReportData, setDailyReportData] = useState(reportData);
   const [reportUpdateValues, setReportUpdateValues] = useState(reportValues);
   const [edit, setEdit] = useState(false);
+  const [editField, setEditField] = useState(false);
   const [weekNumber, setWeekNumber] = useState(null);
 
   //statusSnackBar state
@@ -41,6 +42,7 @@ export const StudnetMonthlyReport = ({ reportData }) => {
 
   const handleOnSubmit = async (e) => {
     // e.priventDefault();
+    console.log("report data  : ", reportData);
     console.log("run", reportUpdateValues);
     console.log("run1", weekNumber);
     console.log("run2", reportData.monthNumber);
@@ -57,9 +59,35 @@ export const StudnetMonthlyReport = ({ reportData }) => {
       console.log(res);
 
       if (res.status === 200) {
-        // handleSnackBar("update_success");
+        handleSnackBar("success");
       } else {
-        // handleSnackBar("update_error");
+        handleSnackBar("error");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    setEdit(false);
+    setWeekNumber(null);
+  };
+  const handleOnSubmiproblemSection = async (e) => {
+    // e.priventDefault();
+
+    try {
+      const res = await axios.post(
+        " http://localhost:5000/api/v1/undergraduate/monthly-problem-section",
+        {
+          monthNo: reportData.monthNumber,
+          problemContent: { reportUpdateValues },
+        },
+        { withCredentials: true }
+      );
+      console.log(res);
+
+      if (res.status === 200) {
+        handleSnackBar("success");
+      } else {
+        handleSnackBar("error");
       }
     } catch (error) {
       console.log(error);
@@ -102,14 +130,6 @@ export const StudnetMonthlyReport = ({ reportData }) => {
 
               {/* Data */}
               <Stack>
-                {/* <Formik initialValues={reportValues} onSubmit={hanldeOnSubmit}>
-                  {({
-                    values,
-                    handleBlur,
-                    handleChange,
-                    handleSubmit,
-                    handleReset, //this gives initialvalues not clear fields
-                  }) => ( */}
                 <form onSubmit={handleOnSubmit}>
                   <Stack>
                     {reportData.weeklyReports.map((report, index) => (
@@ -136,8 +156,9 @@ export const StudnetMonthlyReport = ({ reportData }) => {
                                   // onBlur={handleBlur}
                                   onChange={(e) => {
                                     setReportUpdateValues(e.target.value);
+                                    setWeekNumber(report.weekNumber);
                                   }}
-                                  // name="reportContent"
+                                  name="reportContent"
                                 />
                               )}
                           </Stack>
@@ -162,7 +183,9 @@ export const StudnetMonthlyReport = ({ reportData }) => {
                                     variant="contained"
                                     size="small"
                                     color="warning"
-                                    // onClick={handleReset}
+                                    onClick={() => {
+                                      setEdit(false);
+                                    }}
                                   >
                                     cancel
                                   </Button>
@@ -183,12 +206,9 @@ export const StudnetMonthlyReport = ({ reportData }) => {
                     ))}
                   </Stack>
                 </form>
-                {/* )}
-                </Formik> */}
               </Stack>
             </Stack>
             <Divider />
-            <Stack></Stack>
           </Paper>
 
           {/* Problems Encounted and Solution Found        */}
@@ -204,7 +224,72 @@ export const StudnetMonthlyReport = ({ reportData }) => {
                     </Stack>
                     <Divider />
                     <Stack minHeight={"10vh"}>
-                      <Typography></Typography>
+                      {editField === false && (
+                        <Stack>
+                          <Stack minHeight={"9vh"}>
+                            <Typography>{reportData.problemSection}</Typography>
+                          </Stack>
+                          <Stack alignItems={"flex-end"}>
+                            <Box>
+                              <Button
+                                variant="itms"
+                                size="itms-small"
+                                onClick={() => {
+                                  setEditField(true);
+                                }}
+                              >
+                                Edit
+                              </Button>
+                            </Box>
+                          </Stack>
+                        </Stack>
+                      )}
+                      {editField === true && (
+                        <Stack>
+                          <Stack minHeight={"9vh"}>
+                            <TextField
+                              variant="outlined"
+                              multiline
+                              fullWidth
+                              type="text"
+                              // placeholder={report.content}
+                              // value={values.reportContent}
+                              defaultValue={reportData.problemSection}
+                              // onBlur={handleBlur}
+                              onChange={(e) => {
+                                setReportUpdateValues(e.target.value);
+                              }}
+                              name="reportContent"
+                            />
+                          </Stack>
+
+                          <Stack alignItems={"flex-end"}>
+                            <Stack direction={"row"}>
+                              <Box>
+                                <Button
+                                  variant="itms"
+                                  size="itms-small"
+                                  onClick={() => {
+                                    setEditField(true);
+                                  }}
+                                >
+                                  cancel
+                                </Button>
+                                <Button
+                                  variant="itms"
+                                  size="itms-small"
+                                  onClick={() => {
+                                    setEditField(true);
+                                    handleOnSubmiproblemSection();
+                                  }}
+                                >
+                                  save
+                                </Button>
+                              </Box>
+                            </Stack>
+                          </Stack>
+                        </Stack>
+                      )}
                     </Stack>
                   </Stack>
                 </Box>

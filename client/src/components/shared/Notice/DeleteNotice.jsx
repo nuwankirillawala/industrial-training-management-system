@@ -1,4 +1,4 @@
-import { Button, Stack, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Box, Button, Stack, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import React, { useState } from 'react'
 
 export default function DeleteNotice() {
@@ -61,9 +61,11 @@ export default function DeleteNotice() {
                 ))}
             </TableBody>
         </Table>
-        <Button variant='contained' color='primary' onClick={handleDeleteNotices}>
-            Delete Selected Notices
-        </Button>
+        <Box display={'flex'} justifyContent={'center'}>
+            <Button variant='contained' color='primary' onClick={handleDeleteNotices} sx={{ width: 200, textTransform: 'capitalize'}}>
+                Delete Selected Notices
+            </Button>
+        </Box>
     </Stack>
   );
 };

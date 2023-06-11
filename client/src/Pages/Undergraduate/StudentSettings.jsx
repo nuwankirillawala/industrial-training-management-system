@@ -185,7 +185,7 @@ export const StudentSettings = () => {
           <Box padding={"20px"} height={"74vh"}>
             <Stack spacing={2} direction="column">
               <Stack>
-                <Typography variant="head3">Update Your Profile</Typography>
+                <Typography variant="head6">Update Your Profile</Typography>
               </Stack>
               <Divider />
               <Stack alignItems={"center"}>
