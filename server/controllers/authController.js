@@ -205,3 +205,28 @@ module.exports.updatePassword = catchAsync(async (req, res) => {
 
     }
 })
+
+module.exports.verifyEmail = catchAsync(async (req, res) => {
+    try {
+        const { token } = req.query;
+        // Find the user in the database based on the verification token
+        const user = await Admin.findOne({ verificationToken: token });
+
+        if (!user) {
+            return res.status(404).json({
+                status: 'error',
+                message: 'Invalid verification token'
+            });
+        }
+
+        // Mark the user as verified
+        user.isVerified = true;
+        user.verificationToken = undefined; // Clear the verification token
+        await user.save();
+
+        // Redirect the user to the login page or any other appropriate page
+        res.redirect('http://localhost:5173/login');
+    } catch (err) {
+        console.log(err);
+    }
+})

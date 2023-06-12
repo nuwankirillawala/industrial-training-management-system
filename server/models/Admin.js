@@ -32,6 +32,13 @@ const adminSchema = new mongoose.Schema({
     },
     profileImage: {
         type: String
+    },
+    verificationToken: {
+        type: String
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
     }
 });
 

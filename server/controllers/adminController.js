@@ -15,6 +15,8 @@ const searchUsers = require('../utils/searchUsers');
 const setCreditValue = require('../utils/setCreditValue');
 const gradeValue = require('../utils/gradeValue');
 const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
+const { sendVerificationEmail } = require('../utils/sendVerificationEmail');
 
 
 // Method: POST
@@ -24,7 +26,19 @@ const fs = require('fs');
 module.exports.createAdmin = catchAsync(async (req, res) => {
     try {
         const { role, name, email, contactNo, staffId, password } = req.body;
-        const user = await Admin.create({ role, name, email, contactNo, staffId, password });
+
+        // Generate a unique verification token
+        const verificationToken = uuidv4();
+
+        const user = await Admin.create({
+            role,
+            name,
+            email,
+            contactNo,
+            staffId,
+            password,
+            verificationToken
+        });
 
         if (!user) {
             return res.status(400).json({
@@ -32,6 +46,9 @@ module.exports.createAdmin = catchAsync(async (req, res) => {
                 message: "error! can't create the user!"
             });
         }
+
+        // Send the verification email
+        sendVerificationEmail(email, verificationToken);
 
         res.status(201).json({
             user: user._id,

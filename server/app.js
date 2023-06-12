@@ -29,7 +29,7 @@ app.use('/files/images', express.static('files/images'));
 app.use('/files/pdf', express.static('files/pdf'));
 
 // routes
-app.get('*', checkUser);
+// app.get('*', checkUser);
 // app.get('/', (req, res) => { });
 app.get("/test", (req, res) => {
     res.send("Success");
