@@ -31,6 +31,9 @@ export default function Navbar() {
       case 'system-admin':
         return ('/admin-dashboard');
         break;
+      case 'department-coordinator':
+        return ('/admin-dashboard');
+        break;
       case 'supervisor':
         return ('/supervisor-dashboard');
         break;
