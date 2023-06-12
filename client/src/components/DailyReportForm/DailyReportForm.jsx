@@ -93,10 +93,6 @@ export const DailyReportForm = () => {
         }
     }
 
-    // useEffect(() => {
-    //     getDailyReportData();
-    // }, [])
-
     return (
         <Tile width={'1000px'}>
 

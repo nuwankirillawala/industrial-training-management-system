@@ -39,8 +39,6 @@ const SelectCompany = () => {
                                 <CompanyListCard company={company} key={company._id} />
                             ))}
                             {/* <CompanyListCard company={demo} />
-                            <CompanyListCard company={demo} />
-                            <CompanyListCard company={demo} />
                             <CompanyListCard company={demo} /> */}
 
 
@@ -49,13 +47,6 @@ const SelectCompany = () => {
                     </Grid>
                 </Grid>
             </Grid>
-            {/* <Grid item xs={2}>
-                <Tile>
-                    <Button variant='contained'>
-                        Add New Company
-                    </Button>
-                </Tile>
-            </Grid> */}
         </Grid>
     )
 }

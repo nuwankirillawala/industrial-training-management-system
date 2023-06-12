@@ -77,19 +77,15 @@ export const UndergraduateCreateForm = () => {
       if (res.status === 201) {
         setMessage("User created successfullly");
         handleSnackBar("success");
-        // alert('You data submited')
       } else {
         setMessage("User not created");
         handleSnackBar("error");
-        // alert('fail to post')
       }
     } catch (err) {
       if (err.response.data.errors.email !== "") {
-        // setMessage(err.response.data.errors.email);
         setMessage("User already craeted");
         handleSnackBar("error");
       } else if (err.response.data.errors.regNo !== "") {
-        // setMessage(err.response.data.errors.regNo);
         setMessage("User already created");
         handleSnackBar("error");
       }
