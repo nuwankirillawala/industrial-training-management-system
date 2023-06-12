@@ -65,12 +65,6 @@ export const ChangeAvatar = ({ sumbitProfileImage, profileImage }) => {
   };
   //End of assign fileinput reference
 
-  //handle onchange in input
-  // const handleFileInputChange = (e) => {
-  //   console.log(typeof e.target.files[0]);
-  // };
-  //End of handle onchange in input
-
   return (
 
     <Stack direction={'column'} spacing={2}>

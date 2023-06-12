@@ -1,7 +1,7 @@
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import React from "react";
 import MiniCardType2 from "../../../components/InternProcess/MiniCardType2";
-import resumeImage from "../../../../public/images/resume.svg";
+// import resumeImage from "../../../../public/images/resume.svg";
 
 const InternApplicationMenu = () => {
   return (
@@ -43,7 +43,7 @@ const InternApplicationMenu = () => {
 
         <Grid item xs={6} alignItems="center">
           <Box alignItems="center">
-            <img src={resumeImage} alt="Resume" />
+            {/* <img src={resumeImage} alt="Resume" /> */}
           </Box>
         </Grid>
       </Grid>

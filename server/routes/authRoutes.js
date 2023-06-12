@@ -25,5 +25,8 @@ router.route('/update-reset-password')
 router.route('/update-password')
     .patch(authController.updatePassword)
 
+router.route('/verify')
+    .get(authController.verifyEmail)
+
 
 module.exports = router;

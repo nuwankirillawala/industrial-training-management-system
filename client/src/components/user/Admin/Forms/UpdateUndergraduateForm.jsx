@@ -136,25 +136,6 @@ export const UpdateUndergraduateForm = ({ userId }) => {
                         onSubmit={(e) => { e.preventDefault(); handleSubmit; handleFormSubmit(values); }} >
                         <>
                             <Stack spacing={1}>
-                                {/* <Stack direction="row" spacing={2}>
-                                <Stack width='150px'>
-                                    <Typography variant="body1">Name</Typography>
-                                </Stack>
-                                <Stack width='300px'>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        placeholder={userData.name}
-                                        value={values.studnetName}
-                                        name="studnetName"
-                                        error={!!touched.studnetName && !!errors.studnetName}
-                                        helperText={touched.studnetName && errors.studnetName}
-                                    />
-                                </Stack>
-                            </Stack> */}
                                 <Typography fontWeight={'bold'}>SC Number : {userData.regNo}</Typography>
                                 <Typography fontWeight={'bold'} paddingBottom={'10px'}>Name : {userData.name}</Typography>
 

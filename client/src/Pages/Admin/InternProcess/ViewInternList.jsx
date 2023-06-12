@@ -2,7 +2,7 @@ import useFetch from '../../../Hooks/useFetch';
 import { useEffect, useState } from 'react';
 import InternDataGrid from '../../../components/InternProcess/ViewTable/InternDataGrid';
 
-const ViewInternListRemain = () => {
+const ViewInternList = () => {
   const { data } = useFetch('GET', 'http://localhost:5000/api/v1/undergraduate/intern/list', null);
   const users = data.users;
 
@@ -38,4 +38,4 @@ const ViewInternListRemain = () => {
   );
 };
 
-export default ViewInternListRemain;
+export default ViewInternList;

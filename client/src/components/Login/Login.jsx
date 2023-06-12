@@ -147,44 +147,6 @@ const Login = () => {
                                     error={(!!emailError)}
                                     helperText={emailError && emailError}
                                 />
-                                {/* <TextField
-                                    id="password"
-                                    name="password"
-                                    label="Password"
-                                    variant="outlined"
-                                    type="password"
-                                    placeholder="Enter Your Password"
-                                    fullWidth
-                                    onChange={e => setPassword(e.target.value)}
-                                    required
-                                    error={(!!passwordError)}
-                                    helperText={passwordError && passwordError}
-                                /> */}
-                                {/* <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
-                                    <InputLabel htmlFor="password">Password</InputLabel>
-                                    <OutlinedInput
-                                        id="password"
-                                        type={showPassword ? 'text' : 'password'}
-                                        required
-                                        placeholder='Enter your password'
-                                        onChange={e => setPassword(e.target.value)}
-                                        error={(!!passwordError)}
-                                        helperText={passwordError && passwordError}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    // onMouseDown={handleMouseDownPassword}
-                                                    edge="end"
-                                                >
-                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        label="Password"
-                                    />
-                                </FormControl> */}
                                 <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
                                     <InputLabel htmlFor="password" required>Password</InputLabel>
                                     <OutlinedInput

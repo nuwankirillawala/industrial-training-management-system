@@ -77,14 +77,6 @@ export const NoticeBoard = () => {
                         console.log({ noticeId });
                       }}
                     >
-                      {/* <ListItemAvatar>
-                      { notice.read === true && 
-                      <MarkEmailReadOutlinedIcon color='disabled' />
-                      }
-                      { notice.read === false && 
-                        <MarkEmailUnreadOutlinedIcon  color='info' />
-                      }
-                    </ListItemAvatar> */}
                       <Box maxHeight={70} sx={{ overflow: "hidden" }}>
                         <ListItemText primary={notice.title} />
                       </Box>

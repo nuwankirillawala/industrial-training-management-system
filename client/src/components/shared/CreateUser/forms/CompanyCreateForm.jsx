@@ -9,8 +9,6 @@ import {
   Paper,
   Select,
   MenuItem,
-  InputAdornment,
-  IconButton,
 } from "@mui/material";
 import React, { useState } from "react";
 import { Tile } from "../../../card/Tile";
@@ -26,14 +24,7 @@ const User = {
   companyAddress: "",
   companyIntenSeats: "",
   companyDescription: "",
-  //   companyRating: "",
   companyConnectedForInterns: "",
-
-  // contact person details
-  //   companyContactPersonName: "",
-  //   companyContactPersonContactNo: "",
-  //   companyContactPersonEmail: "",
-  //   companyContactPersonPosition: "",
 };
 
 export const CompanyCreateForm = () => {
@@ -54,7 +45,6 @@ export const CompanyCreateForm = () => {
   };
 
   const handleFormSubmit = async (values) => {
-    // console.log(values);
     try {
       const res = await axios.post(
         "http://localhost:5000/api/v1/company/create",
@@ -69,20 +59,15 @@ export const CompanyCreateForm = () => {
         },
         { withCredentials: true }
       );
-      // console.log(res);
       if (res.status === 201) {
         setMessage("Company created successfullly");
         handleSnackBar("success");
-        // alert('You data submited')
       } else {
         setMessage("Company not created");
         handleSnackBar("error");
-        // alert('fail to post')
       }
     } catch (error) {
-      //   setMessage(error.response.data.errors.email);
       setMessage("Company already created");
-      //   console.log(error.response.data.errors.email);
       handleSnackBar("error");
     }
   };
@@ -100,15 +85,7 @@ export const CompanyCreateForm = () => {
     companyAddress: yup.string().required("required Field"),
     companyIntenSeats: yup.number(),
     companyDescription: yup.string(),
-    // companyRating: yup.number(),
     companyConnectedForInterns: yup.boolean(),
-
-    // companyContactPersonName: yup.string(),
-    // companyContactPersonContactNo: yup
-    //   .string()
-    //   .length(10, "must contain 10 digits"),
-    // companyContactPersonEmail: yup.string().email("Invalid Email"),
-    // companyContactPersonPosition: yup.string(),
   });
 
   return (
@@ -289,24 +266,6 @@ export const CompanyCreateForm = () => {
                                   </Typography>
                                 </Stack>
                                 <Stack flex={3} maxWidth={"30vw"}>
-                                  {/* <TextField
-                                    fullWidth
-                                    size="small"
-                                    variant="outlined"
-                                    type="number"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.companyConnectedForInterns}
-                                    name="companyConnectedForInterns"
-                                    error={
-                                      !!touched.companyConnectedForInterns &&
-                                      !!errors.companyConnectedForInterns
-                                    }
-                                    helperText={
-                                      touched.companyConnectedForInterns &&
-                                      errors.companyConnectedForInterns
-                                    }
-                                  /> */}
 
                                   <Select
                                     variant="outlined"
@@ -351,161 +310,6 @@ export const CompanyCreateForm = () => {
                                   />
                                 </Stack>
                               </Stack>
-
-                              {/* <Stack direction={"row"}>
-                                  <Stack minWidth={"220px"} flex={1}>
-                                    <Typography fontWeight={"bold"}>
-                                      Company Rating
-                                    </Typography>
-                                  </Stack>
-                                  <Stack flex={3} maxWidth={"30vw"}>
-                                    <TextField
-                                      fullWidth
-                                      size="small"
-                                      variant="outlined"
-                                      type="number"
-                                      onBlur={handleBlur}
-                                      onChange={handleChange}
-                                      value={values.companyRating}
-                                      name="companyRating"
-                                      error={
-                                        !!touched.companyRating &&
-                                        !!errors.companyRating
-                                      }
-                                      helperText={
-                                        touched.companyRating &&
-                                        errors.companyRating
-                                      }
-                                    />
-                                  </Stack>
-                                </Stack> */}
-                              {/* </Stack> */}
-
-                              {/* company contact person details */}
-                              {/* <Divider /> */}
-                              {/* <Divider orientation="vertical" flexItem /> */}
-                              {/* <Stack>
-                                  <Typography vatiant="h6" fontWeight={"bold"}>
-                                    Company Contact Person Details
-                                  </Typography>
-                                </Stack> */}
-                              {/* <Stack direction={"column"} spacing={1}>
-                                <Stack direction={"row"}>
-                                  <Stack minWidth={"200px"} flex={1}>
-                                    <Typography fontWeight={"bold"}>
-                                      Name
-                                    </Typography>
-                                  </Stack>
-                                  <Stack flex={3} maxWidth={"30vw"}>
-                                    <TextField
-                                      fullWidth
-                                      size="small"
-                                      variant="outlined"
-                                      type="text"
-                                      onBlur={handleBlur}
-                                      onChange={handleChange}
-                                      value={values.companyContactPersonName}
-                                      name="companyContactPersonName"
-                                      error={
-                                        !!touched.companyContactPersonName &&
-                                        !!errors.companyContactPersonName
-                                      }
-                                      helperText={
-                                        touched.companyContactPersonName &&
-                                        errors.companyContactPersonName
-                                      }
-                                    />
-                                  </Stack>
-                                </Stack>
-
-                                <Stack direction={"row"}>
-                                  <Stack minWidth={"200px"} flex={1}>
-                                    <Typography fontWeight={"bold"}>
-                                      Contact Number
-                                    </Typography>
-                                  </Stack>
-                                  <Stack flex={3} maxWidth={"30vw"}>
-                                    <TextField
-                                      fullWidth
-                                      size="small"
-                                      variant="outlined"
-                                      type="text"
-                                      onBlur={handleBlur}
-                                      onChange={handleChange}
-                                      value={
-                                        values.companyContactPersonContactNo
-                                      }
-                                      name="companyContactPersonContactNo"
-                                      error={
-                                        !!touched.companyContactPersonContactNo &&
-                                        !!errors.companyContactPersonContactNo
-                                      }
-                                      helperText={
-                                        touched.companyContactPersonContactNo &&
-                                        errors.companyContactPersonContactNo
-                                      }
-                                    />
-                                  </Stack>
-                                </Stack>
-
-                                <Stack direction={"row"}>
-                                  <Stack minWidth={"200px"} flex={1}>
-                                    <Typography fontWeight={"bold"}>
-                                      Email
-                                    </Typography>
-                                  </Stack>
-                                  <Stack flex={3} maxWidth={"30vw"}>
-                                    <TextField
-                                      fullWidth
-                                      size="small"
-                                      variant="outlined"
-                                      type="text"
-                                      onBlur={handleBlur}
-                                      onChange={handleChange}
-                                      value={values.companyContactPersonEmail}
-                                      name="companyContactPersonEmail"
-                                      error={
-                                        !!touched.companyContactPersonEmail &&
-                                        !!errors.companyContactPersonEmail
-                                      }
-                                      helperText={
-                                        touched.companyContactPersonEmail &&
-                                        errors.companyContactPersonEmail
-                                      }
-                                    />
-                                  </Stack>
-                                </Stack>
-
-                                <Stack direction={"row"}>
-                                  <Stack minWidth={"200px"} flex={1}>
-                                    <Typography fontWeight={"bold"}>
-                                      Position
-                                    </Typography>
-                                  </Stack>
-                                  <Stack flex={3} maxWidth={"30vw"}>
-                                    <TextField
-                                      fullWidth
-                                      size="small"
-                                      variant="outlined"
-                                      type="text"
-                                      onBlur={handleBlur}
-                                      onChange={handleChange}
-                                      value={
-                                        values.companyContactPersonPosition
-                                      }
-                                      name="companyContactPersonPosition"
-                                      error={
-                                        !!touched.companyContactPersonPosition &&
-                                        !!errors.companyContactPersonPosition
-                                      }
-                                      helperText={
-                                        touched.companyContactPersonPosition &&
-                                        errors.companyContactPersonPosition
-                                      }
-                                    />
-                                  </Stack>
-                                </Stack>
-                              </Stack> */}
                               <Stack alignItems={"flex-end"}>
                                 <Stack direction={"row"}>
                                   <Button

@@ -4,14 +4,28 @@ const app = require('./app');
 
 dotenv.config();
 
-// mongodb database connection
-mongoose.set("strictQuery", false);
-try {
-    mongoose.connect(process.env.MONGODB_CONNECTION_URL);
-    console.log("Connect mongodb successfully.");
-} catch (err) {
-    console.log(err.message);
+class Database {
+    constructor() {
+        this.isConnected = false;
+        this.connect();
+    }
+
+    connect() {
+        if (!this.isConnected) {
+            mongoose.set("strictQuery", false);
+            try {
+                mongoose.connect(process.env.MONGODB_CONNECTION_URL);
+                console.log("Connect mongodb successfully.");
+                this.isConnected = true;
+            } catch (err) {
+                console.log(err.message);
+            }
+        }
+    }
 }
+
+// Singleton instance of the Database class
+const database = new Database();
 
 const port = '5000';
 const server = app.listen(port, (req, res) => {
