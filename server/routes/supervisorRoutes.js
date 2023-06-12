@@ -21,6 +21,7 @@ router.route('/users')
 
 router.route('/:userId')
     .get(restrictedTo('system-admin', 'department-coordinator'), supervisorController.viewSupervisor)
+    .patch(restrictedTo('system-admin', 'department-coordinator'), supervisorController.updateSupervisorUser)
 
 router.route('/delete/:userId')
     .delete(restrictedTo('system-admin', 'department-coordinator'), supervisorController.deleteSupervisor)
