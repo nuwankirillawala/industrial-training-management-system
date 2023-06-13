@@ -29,5 +29,4 @@ router.route('/delete/:userId')
     .delete(adminController.deleteAdmin)
 
 
-
 module.exports = router;

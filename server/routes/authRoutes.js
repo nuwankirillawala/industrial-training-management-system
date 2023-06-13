@@ -8,10 +8,10 @@ router.route('/login')
     .post(authController.login)
 
 router.route('/profile')
-    .get(authController.getProfile)
+    .get(checkUser, authController.getProfile)
 
 router.route('/logout')
-    .get(authController.logout)
+    .get(checkUser, authController.logout)
 
 router.route('/reset-password')
     .post(authController.resetPassword)
