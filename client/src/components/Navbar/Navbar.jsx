@@ -17,11 +17,7 @@ const drawerWidth = "auto";
 export default function Navbar() {
   const navigate = useNavigate()
   const { user } = useAuth();
-  // console.log(user);
 
-  // const [Name, setName] = useState('');
-  // setName(user.role)  //needs user.name while integrate
-  // const [Image, setImage] = useState('');
 
   function RedirectDashboardPage(text) {
     switch (text) {
@@ -29,6 +25,9 @@ export default function Navbar() {
         return ('/student-dashboard');
         break;
       case 'system-admin':
+        return ('/admin-dashboard');
+        break;
+      case 'department-coordinator':
         return ('/admin-dashboard');
         break;
       case 'supervisor':
@@ -61,18 +60,6 @@ export default function Navbar() {
   const handleClose = () => {
     setProfileMenu(false);
   }
-
-
-  // useEffect(() => {      /*next define usestate to a button and work ahead*/
-  //   fetch('G:\test\test\client\src\dummylogin.json')
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       setName(data.name)//setName(data.Name),
-  //       setisNotifications(data.notification)
-  //     })   //setImage
-  //     .catch(error => console.error(error));
-  // }, []);
-  //sx={{ width: `calc(100% - ${200}px)`}  
 
 
   return (
@@ -165,6 +152,3 @@ export default function Navbar() {
 /*In general, you should use AppBar if you want a standard navigation bar
  with Material-UI styles, and use Toolbar if you want more control over 
  the layout and content of your navigation bar.*/
-
-/* if u export default => import Name
-if u export without default => import {Name}   */
